@@ -1,0 +1,3 @@
+version: '3.9'
+
+#create a redis container fore cache stuff

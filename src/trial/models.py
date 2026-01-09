@@ -8,10 +8,10 @@ def image_file_upload_handler(instance, filepath):
     if not instance.id:
         instance_id  = "0"
     filepath = pathlib.Path(filepath).resolve()
-    fname = str(uuid.uuid1())
+    fname = str(uuid.uuid4())
     ext = filepath.suffix
     print(instance, filepath)
-    return f"blog/{instance_id}/{fname}{ext}"
+    return f"trial/{instance_id}/{fname}{ext}"
 
 # Create your models here.
 class BlogPost(models.Model):

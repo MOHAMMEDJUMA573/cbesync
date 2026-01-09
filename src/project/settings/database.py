@@ -1,4 +1,3 @@
-import os
 from dotenv import load_dotenv
 from urllib.parse import urlparse, parse_qsl
 
@@ -6,7 +5,7 @@ load_dotenv()
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-tmpPostgres = urlparse(os.getenv("DATABASE_URL"))
+tmpPostgres = urlparse(os.getenv("DATABASE_URL")) # type:ignore
 
 DATABASES = {
     'default': {

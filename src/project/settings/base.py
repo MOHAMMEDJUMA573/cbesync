@@ -1,5 +1,8 @@
+import os
+from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 from decouple import config
+
 
 try:
     from decouple import config
@@ -11,7 +14,7 @@ except ImportError:
 BASE_DIR2 = Path(__file__).resolve().parent.parent.parent
 
 DEBUG = config("DJANGO_DEBUG", cast=bool, default=False)
-SECRET_KEY = config("DJANGO_SECRET_KEY", default=NotImplemented)
+SECRET_KEY = config("DJANGO_SECRET_KEY", default=get_random_secret_key())
 
 ALLOWED_HOSTS = []
 
@@ -93,17 +96,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images) and caching for faster send and retrieval
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-CBESYNCSET_CLOUDFLARE_R2_BUCKET=config("CBESYNCSET_CLOUDFLARE_R2_BUCKET", cast=str)
-CBESYNCSET_CLOUDFLARE_R2_ACCESS_KEY=config("CBESYNCSET_CLOUDFLARE_R2_ACCESS_KEY", cast=str)
-CBESYNCSET_CLOUDFLARE_R2_SECRET_KEY=config("CBESYNCSET_CLOUDFLARE_R2_SECRET_KEY", cast=str)
-CBESYNCSET_CLOUDFLARE_R2_BUCKET_ENDPOINT=config("CBESYNCSET_CLOUDFLARE_R2_BUCKET_ENDPOINT", cast=str)
+CLOUDFLARE_R2_BUCKET=config("CLOUDFLARE_R2_BUCKET", cast=str)
+CLOUDFLARE_R2_ACCESS_KEY=config("CLOUDFLARE_R2_ACCESS_KEY", cast=str)
+CLOUDFLARE_R2_SECRET_KEY=config("CLOUDFLARE_R2_SECRET_KEY", cast=str)
+CLOUDFLARE_R2_BUCKET_ENDPOINT=config("CLOUDFLARE_R2_BUCKET_ENDPOINT", cast=str)
 
 
 CLOUD_FLARE_R2_CONFIG_OPTIONS = {
-    "bucket_name": CBESYNCSET_CLOUDFLARE_R2_BUCKET,
-    "access_key": CBESYNCSET_CLOUDFLARE_R2_ACCESS_KEY,
-    "secret_key": CBESYNCSET_CLOUDFLARE_R2_SECRET_KEY,
-    "endpoint_url": CBESYNCSET_CLOUDFLARE_R2_BUCKET_ENDPOINT,
+    "bucket_name": CLOUDFLARE_R2_BUCKET,
+    "access_key": CLOUDFLARE_R2_ACCESS_KEY,
+    "secret_key": CLOUDFLARE_R2_SECRET_KEY,
+    "endpoint_url": CLOUDFLARE_R2_BUCKET_ENDPOINT,
     "default_acl": "private", #public read is also an option
     "signature_version": "s3v4",
 }

@@ -31,6 +31,10 @@ if DEBUG:
     ]
 
 if not DEBUG:
+    ALLOWED_HOSTS += [
+        "cbesync-production.up.railway.app",
+        ".cbesync.com",
+    ]
     #csrf forms setup to avoid csrf token erros
     CSRF_TRUSTED_ORIGINS = [
         'https://cbesync-production.up.railway.app',

@@ -14,9 +14,21 @@ except ImportError:
 BASE_DIR2 = Path(__file__).resolve().parent.parent.parent
 
 DEBUG = config("DJANGO_DEBUG", cast=bool, default=False)
-SECRET_KEY = config("DJANGO_SECRET_KEY", default=get_random_secret_key())
+SECRET_KEY = config("DJANGO_SECRET_KEY", cast=str, default=get_random_secret_key())
 
-ALLOWED_HOSTS = []
+print(DEBUG)
+print(SECRET_KEY)
+
+ALLOWED_HOSTS = [
+    '.example.com',
+    '.onrender.com',
+    "localhost",
+]
+if DEBUG:
+    ALLOWED_HOSTS+=[
+        "localhost",
+        "127.0.0.1",
+    ]
 
 
 # Application definition

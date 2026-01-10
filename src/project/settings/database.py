@@ -1,20 +1,12 @@
-from dotenv import load_dotenv
-from urllib.parse import urlparse, parse_qsl
 
-load_dotenv()
-
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-tmpPostgres = urlparse(os.getenv("DATABASE_URL")) # type:ignore
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': tmpPostgres.path.replace('/', ''),
-        'USER': tmpPostgres.username,
-        'PASSWORD': tmpPostgres.password,
-        'HOST': tmpPostgres.hostname,
-        'PORT': 5432,
-        'OPTIONS': dict(parse_qsl(tmpPostgres.query)),
+CONN_MAX_AGE = config("CONN_MAX_AGE", cast=int, default=30) # type:ignore
+DATABASE_URL = config("DATABASE_URL",cast=str) # type:ignore
+if DATABASE_URL is not None:
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=30,
+            conn_health_checks=True,
+        )
     }
-}

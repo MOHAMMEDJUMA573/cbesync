@@ -21,19 +21,16 @@ ENV CSYNCSET_IN_DOCKER=true
 # Install os dependencies for our mini vm
 RUN set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends; \
+    apt-get install -y --no-install-recommends \
         # for postgres
-        #libpq-dev \
+        libpq-dev \
         # for Pillow
-        #libjpeg-dev \
+        libjpeg-dev \
         # for CairoSVG
-        #libcairo2-dev \
+        libcairo2-dev \
         # build tools
-        #gcc \
-        #build-essential; \
-    pip install \
-        #poetry==1.4.2 \
-        virtualenvwrapper; \
+        gcc \
+        build-essential; \
     apt-get clean; \
     rm -rf /var/lib/apt/lists/*
 
@@ -53,20 +50,10 @@ RUN pip install -r /tmp/requirements.txt
 
 # copy the project code into the container's working directory
 COPY ./src /code
-COPY ./local /code
 
 #variable required during buildtime
-ARG DJANGO_SECRET_KEY
-ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
-
 ARG DJANGO_DEBUG=0
 ENV DJANGO_DEBUG=${DJANGO_DEBUG}
-
-ENV DATABASE_URL=${DATABASE_URL}
-ENV CLOUDFLARE_R2_BUCKET=${CLOUDFLARE_R2_BUCKET}
-ENV CLOUDFLARE_R2_ACCESS_KEY=${CLOUDFLARE_R2_ACCESS_KEY}
-ENV CLOUDFLARE_R2_SECRET_KEY=${CLOUDFLARE_R2_SECRET_KEY}
-ENV CLOUDFLARE_R2_BUCKET_ENDPOINT=${CLOUDFLARE_R2_BUCKET_ENDPOINT}
 
 #RUN python manage.py collectstatic --noinput
 

@@ -22,7 +22,6 @@ print(SECRET_KEY)
 ALLOWED_HOSTS = [
     '.example.com',
     '.onrender.com',
-    "localhost",
 ]
 if DEBUG:
     ALLOWED_HOSTS+=[

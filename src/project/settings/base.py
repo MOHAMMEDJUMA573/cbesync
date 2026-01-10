@@ -22,6 +22,7 @@ print(SECRET_KEY)
 ALLOWED_HOSTS = [
     '.example.com',
     '.onrender.com',
+    'cbesync-production.up.railway.app',
 ]
 if DEBUG:
     ALLOWED_HOSTS+=[

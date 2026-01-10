@@ -19,18 +19,34 @@ SECRET_KEY = config("DJANGO_SECRET_KEY", cast=str, default=get_random_secret_key
 print(DEBUG)
 print(SECRET_KEY)
 
-ALLOWED_HOSTS = [
-    '.example.com',
-    '.onrender.com',
-    'cbesync-production.up.railway.app',
-]
+ALLOWED_HOSTS=[]
+
 if DEBUG:
-    ALLOWED_HOSTS+=[
-        "localhost",
+    ALLOWED_HOSTS += [
         "127.0.0.1",
+        "localhost",
+    ]
+    CSRF_TRUSTED_ORIGINS = [
+        'http://localhost', 'http://127.0.0.1',  # local host management
     ]
 
+if not DEBUG:
+    #csrf forms setup to avoid csrf token erros
+    CSRF_TRUSTED_ORIGINS = [
+        'https://cbesync-production.up.railway.app',
+        'https://cbesync.onrender.com',  # or your custom domain if any
+    ]
+    # Ensure cookies are only sent over HTTPS
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
 
+    # Prevent client-side JS access to cookies
+    CSRF_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_HTTPONLY = True
+
+    # Optional but helps with modern browsers
+    CSRF_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SAMESITE = 'Lax'
 # Application definition
 
 INSTALLED_APPS = [

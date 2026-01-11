@@ -1,0 +1,61 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard-MNG</title>
+    <!--Box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'project/index.css'%}">
+		<!--Google font icons-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+<body>
+	<!--main body-->
+	<main>
+        <div class="top-level-grid">
+            <div class="subtop-grid">
+                <div class="inc-name">
+					<h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
+                </div>
+				<div class="inc-line">
+					“Anyone who tries to make everyone happy is admirable”---CbeSync
+				</div>
+				<div class="inc-line">
+					“That which he is I know not, But that which is not I know”
+				</div>
+                <div class="inc-logo">
+                    <img class="main-image" src="{% static 'project/images/logo.png'%}" alt="">
+                </div>
+            </div>
+            <div class="subtop-grid">
+				<div class="main-role">
+					Syncing
+				</div>
+				<div style="display: flex;">
+					<div style="flex: 1;">
+						<div class="theme-toggle-btn">
+							<span class="material-symbols-outlined">light_mode</span>
+							<span class="material-symbols-outlined active">dark_mode</span>
+						</div>
+					</div>
+					<div class="main-buttons">
+						<div class="main-b-divs">
+							Login
+						</div>
+						<div class="main-b-divs">
+							Sign up
+						</div>
+						<div class="main-b-divs">
+							Patner
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+	</main>
+  </div>
+  <script src="{% static 'project/index.js'%}"></script>
+</body>
+</html>

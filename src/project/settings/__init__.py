@@ -20,5 +20,7 @@ include(
     optional(LOCAL_SETTINGS_PATH),
     'docker.py',
     'logging.py',
+    'templates.py',
     'database.py',
+    'staticf.py'
 )

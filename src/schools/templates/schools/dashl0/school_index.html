@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard-MNG</title>
-    <!--Box icons-->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-	<link rel="stylesheet" href="common.css">
-    <link rel="stylesheet" href="school_index.css">
-		<!--Google font icons-->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-</head>
-<body>
+{% extends 'schools/base/base.html' %}
+
+{% load static%}
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'schools/css/dashl0/school_index.css'%}">
+{% endblock head_css %}
+{% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
+{% block content %}
   <div class="top-level-box">
 		<!--Side bar menu-->
     <aside>
 			<div class="top">
 				<div class="logo">
-					<img src="images/logo.png" alt="INC-LOGO">
+					<img src="{% static 'schools/images/logo.png'%}" alt="INC-LOGO">
 					<h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
 				</div>
 				<div class="close" id="close-btn">
@@ -225,7 +219,7 @@
 					<small class="text-muted">Admin</small>
 				</div>
 				<div class="profile-photo">
-					<img src="images/profile-1.jpg" alt="Profile pic">
+					<img src="{% static 'schools/images/profile-1.jpg'%}" alt="Profile pic">
 				</div>
 			</div>
 		</div>
@@ -235,7 +229,7 @@
 			<div class="updates">
 				<div class="update">
 					<div class="profile-photo">
-							<img src="images/logo.png" alt="Admin Image">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
 					</div>
 					<div class="message">
 							<p><b>Admin</b> <br>Removed : Juma Mohammed</p>
@@ -244,7 +238,7 @@
 				</div>
 				<div class="update">
 					<div class="profile-photo">
-							<img src="images/logo.png" alt="Admin Image">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
 					</div>
 					<div class="message">
 							<p><b>Admin</b> <br>Removed : Joel Dawa</p>
@@ -253,7 +247,7 @@
 				</div>
 				<div class="update">
 					<div class="profile-photo">
-							<img src="images/logo.png" alt="Admin images">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
 					</div>
 					<div class="message">
 							<p><b>Admin</b> <br>Added "Mwangani 2026"</p>
@@ -262,7 +256,7 @@
 				</div>
 				<div class="update">
 					<div class="profile-photo">
-							<img src="images/logo.png" alt="Admin images">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
 					</div>
 					<div class="message">
 							<p><b>Admin</b> <br>Modified "All day voom"</p>
@@ -271,7 +265,7 @@
 				</div>
 				<div class="update">
 					<div class="profile-photo">
-							<img src="images/logo.png" alt="Admin Image">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
 					</div>
 					<div class="message">
 							<p><b>Admin</b> <br>Welcome to the Library</p>
@@ -326,7 +320,7 @@
 	</div>
   </div>
 
-  <script src="common.js"></script>
-  <script src="school_index.js"></script>
-</body>
-</html>
+  {% block head_js %}
+  	<script src="{% static 'schools/js/dashl0/school_index.js'%}"></script>
+  {% endblock head_js %}
+{% endblock content %}

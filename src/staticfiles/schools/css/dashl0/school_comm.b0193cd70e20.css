@@ -1,0 +1,114 @@
+/*custom page for table fit*/
+.main-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+    justify-content: space-between;
+    margin-top: 5rem;
+    margin-left: 1rem;
+} 
+.main-grid-fieldset{
+    border: 1px solid var(--color-success);
+    border-radius: var(--card-border-radius);
+    margin-bottom: 1rem;
+}
+.main-grid-legend{
+    font-weight: bold;
+    text-align: center;
+}
+.subgrid1{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+}
+.subgrid1-part1{
+    border: 1px solid var(--color-primary);
+    margin: 0.4rem;
+    align-items: center;
+    padding: var(--card-padding);
+    background: var(--color-white);
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--box-shadow);
+    transition: all 300ms ease;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+.subgrid1-part1:hover{
+    font-size: 1.5rem;
+    box-shadow: none;
+    border: 1px solid blue;
+}
+.subgrid-p1-p{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+}
+.secondary-grid{
+    display: flex;
+    flex-direction: column;
+}
+.secondary-grid-title{
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    background-color: #04AA6D;
+}
+.communication-grid{
+    display: flex;
+    flex-direction: column;
+}
+.cgrid-header-row{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    margin-top: 1rem;
+}
+.cgrid-h-data{
+    display: flex;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--color-success);
+    border: 1px solid var(--color-cbesync-p1);
+    margin: 0.3rem;
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    background: darkslategray;
+}
+.cgrid-data-row{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+.cgrid-d-row{
+    display: flex;
+    border: 1px solid var(--color-cbesync-p1);
+    padding: 0.3rem;
+    border-radius: 0.3rem;
+    margin: 0.3rem;
+    font-weight: bold;
+}
+/*Media Queries*/
+@media screen and (max-width:1200px) {
+    .main-grid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .subgrid1{
+        grid-template-columns: 1fr;
+    }
+}
+@media screen and (max-width:795px) {
+    .main-grid{
+        grid-template-columns: 1fr;
+    }
+    .subgrid1{
+        grid-template-columns: 1fr;
+    }
+    .secondary-grid{
+        display: none;
+    }
+
+
+}

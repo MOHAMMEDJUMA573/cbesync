@@ -2,8 +2,6 @@
 venv/
 local/
 
-#collectstatic files since its duplication
-src/staticfiles
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

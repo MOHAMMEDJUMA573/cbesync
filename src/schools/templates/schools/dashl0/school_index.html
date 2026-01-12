@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard-MNG</title>
+    <!--Box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="school_index.css">
+		<!--Google font icons-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+<body>
+  <div class="top-level-box">
+		<!--Side bar menu-->
+    <aside>
+			<div class="top">
+				<div class="logo">
+					<img src="images/logo.png" alt="INC-LOGO">
+					<h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
+				</div>
+				<div class="close" id="close-btn">
+					<span class="material-symbols-outlined">cancel_presentation</span>
+				</div>
+			</div>
+			<div class="sidebar">
+				<a href="#" class="active">
+					<span class="material-symbols-outlined">dashboard</span>
+					<h3>Dashboard</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_usermng.html">
+					<span class="material-symbols-outlined">groups_3</span>
+					<h3>User-Management</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_classmng.html">
+					<span class="material-symbols-outlined">cast_for_education</span>
+					<h3>Class-Management</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_assess.html">
+					<span class="material-symbols-outlined">quiz</span>
+					<h3>Assessments</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_admtools.html">
+					<span class="material-symbols-outlined">admin_panel_settings</span>
+					<h3>Administrative Tools</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_comm.html">
+					<span class="material-symbols-outlined">communication</span>
+					<h3>Communication</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_lib.html">
+					<span class="material-symbols-outlined">books_movies_and_music</span>
+					<h3>Library</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_reports.html">
+					<span class="material-symbols-outlined">report</span>
+					<h3>Reports</h3>
+					<span class="report-count">10</span>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_analytics.html">
+					<span class="material-symbols-outlined">table_chart_view</span>
+					<h3>Analytics</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_sett.html">
+					<span class="material-symbols-outlined">settings</span>
+					<h3>settings</h3>
+				</a>
+				<a href="#">
+					<span class="material-symbols-outlined">logout</span>
+					<h3>logout</h3>
+				</a>
+			</div>
+    </aside> 
+	<!--main body-->
+	<main>
+		<h1 class="main-header">Dashboard</h1>
+		<div class="school-data">
+			<div class="school-name">
+				<p>School Name: <span class="school-rez">Mwangani</span></p>
+			</div>
+			<div class="school-code">
+				<p>School Code: <span class="school-rez">02109301</span></p>
+			</div>
+			<div class="school-country">
+				<p>Country: <span class="school-rez">Kenya</span></p>
+			</div>
+			<div class="school-county">
+				<p>County: <span class="school-rez">Kenya</span></p>
+			</div>
+			<div class="school-type">
+				<p>School Type: <span class="school-rez">Hybrid</span></p>
+			</div>
+			<div class="school-rating">
+				<p>School Rating: <span class="school-rez">⭐⭐⭐(60%)</span></p>
+			</div>
+		</div>
+		<div class="insights">
+			<!--Students census-->
+			<div class="census-std" id="studentblob">
+				<span class="material-symbols-outlined">person_4</span>
+				<div class="middle">
+					<div class="left">
+						<h3>Students</h3>
+						<h1>0000</h1>
+					</div>
+					<div class="progress">
+						<canvas class="canvas0">
+
+						</canvas>
+						<div class="number">
+							<p class="percentNo">33.3%</p>
+						</div>
+					</div>
+				</div>
+				<small class="text-muted">Last 24hrs</small>
+			</div>
+			<!--Teachers census-->
+			<div class="census-tch" id="teacherblob">
+				<span class="material-symbols-outlined">person_4</span>
+				<div class="middle">
+					<div class="left">
+						<h3>Teachers</h3>
+						<h1>0000</h1>
+					</div>
+					<div class="progress">
+						<canvas class="canvas1">
+
+						</canvas>
+						<div class="number">
+							<p>33.3%</p>
+						</div>
+					</div>
+				</div>
+				<small class="text-muted">Last 24hrs</small>
+			</div>
+			<!--Staff census-->
+			<div class="census-nts" id="ntsblob">
+				<span class="material-symbols-outlined">person_4</span>
+				<div class="middle">
+					<div class="left">
+						<h3>NT-Staff</h3>
+						<h1>0000</h1>
+					</div>
+					<div class="progress">
+						<canvas class="canvas2">
+
+						</canvas>
+						<div class="number">
+							<p>33.3%</p>
+						</div>
+					</div>
+				</div>
+				<small class="text-muted">Last 24hrs</small>
+			</div>
+		</div>
+		<!--Recent activities table-->
+		<div class="recent-activities">
+			<h2>Recent Programmes</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Programme Name</th>
+						<th>Programme ID</th>
+						<th>Supervisor</th>
+						<th>Status</th>
+						<th>Data</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Parents Meeting</td>
+						<td>P59RWX</td>
+						<td>Mr. Mohammed</td>
+						<td class="warning">Pending</td>
+						<td class="primary">Details</td>
+					</tr>
+					<tr>
+						<td>Parents Meeting</td>
+						<td>P5O9RWX</td>
+						<td>Mr. Mohammed</td>
+						<td class="warning">Pending</td>
+						<td class="primary">Details</td>
+					</tr>
+					<tr>
+						<td>Parents Meeting</td>
+						<td>P5O7YX</td>
+						<td>Mr. Mohammed</td>
+						<td class="warning">Pending</td>
+						<td class="primary">Details</td>
+					</tr>
+					<tr>
+						<td>Parents Meeting</td>
+						<td>P5O7YX</td>
+						<td>Mr. Mohammed</td>
+						<td class="warning">Pending</td>
+						<td class="primary">Details</td>
+					</tr>
+					<tr>
+						<td>Parents Meeting</td>
+						<td>YW9RWX</td>
+						<td>Mr. Mohammed</td>
+						<td class="warning">Pending</td>
+						<td class="primary">Details</td>
+					</tr>
+				</tbody>
+			</table>
+			<a href="#">show all</a>
+		</div>
+	</main>
+	<!--The 3rd section of the page-->
+	<div class="aside-right">
+		<!--Part one third row-->
+		<div class="top">
+			<button id="menu-btn">
+				<span class="material-symbols-outlined">menu</span>
+			</button>
+			<div class="theme-toggle-btn">
+				<span class="material-symbols-outlined active">light_mode</span>
+				<span class="material-symbols-outlined">dark_mode</span>
+			</div>
+			<div class="profile">
+				<div class="info">
+					<p>Hey, <b>Mohammed</b></p>
+					<small class="text-muted">Admin</small>
+				</div>
+				<div class="profile-photo">
+					<img src="images/profile-1.jpg" alt="Profile pic">
+				</div>
+			</div>
+		</div>
+		<!--recent updates-->
+		<div class="recent-updates">
+			<h2>Recent updates</h2>
+			<div class="updates">
+				<div class="update">
+					<div class="profile-photo">
+							<img src="images/logo.png" alt="Admin Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Removed : Juma Mohammed</p>
+							<small class="text-muted"><b>@Students</b>&nbsp; 2 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="images/logo.png" alt="Admin Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Removed : Joel Dawa</p>
+							<small class="text-muted"><b>@teachers</b>&nbsp; 7 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="images/logo.png" alt="Admin images">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Added "Mwangani 2026"</p>
+							<small class="text-muted"><b>@books</b>&nbsp; 9 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="images/logo.png" alt="Admin images">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Modified "All day voom"</p>
+							<small class="text-muted"><b>@cbesync.com</b>&nbsp; 9 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="images/logo.png" alt="Admin Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Welcome to the Library</p>
+							<small class="text-muted"><b>@cbesync.com</b>&nbsp; 2 minutes ago</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--student analytics part-->
+		<div class="school-analytics">
+			<h2>School analytics</h2>
+			<div class="online- courses">
+				<div class="icon">
+					<span class="material-symbols-outlined">podcasts</span>
+				</div>
+				<div class="right">
+					<div class="info">
+						<h3>Online Since</h3>
+						<small class="text-muted">Last 24hrs</small>
+					</div>
+					<h5 class="success">18/7/2025</h5>
+					<h3>200days</h3>
+				</div>
+			</div>
+			<div class="online- courses">
+				<div class="icon">
+					<span class="material-symbols-outlined">portable_wifi_off</span>
+				</div>
+				<div class="right">
+					<div class="info">
+						<h3>Account level</h3>
+						<small class="text-muted">Last 24hrs</small>
+					</div>
+					<h5 class="success">Premium</h5>
+					<h3>700/1000</h3>
+				</div>
+			</div>
+			<div class="online- courses">
+				<div class="icon">
+					<span class="material-symbols-outlined">groups_2</span>
+				</div>
+				<div class="right">
+					<div class="info">
+						<h3>Users</h3>
+						<small class="text-muted">Last 24hrs</small>
+					</div>
+					<h5 class="success">+20%</h5>
+					<h3>1003</h3>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+
+  <script src="common.js"></script>
+  <script src="school_index.js"></script>
+</body>
+</html>

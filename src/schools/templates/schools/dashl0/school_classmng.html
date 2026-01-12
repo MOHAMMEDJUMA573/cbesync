@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard-USRMNG</title>
+    <!--Box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="usrmng/reg.css">
+	<link rel="stylesheet" href="dashl1/school_index_bledger.css">
+		<!--Google font icons-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+<body>
+  <div class="top-level-box">
+		<!--Side bar menu-->
+    <aside>
+			<div class="top">
+				<div class="logo">
+					<img src="images/logo.png" alt="INC-LOGO">
+					<h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
+				</div>
+				<div class="close" id="close-btn">
+					<span class="material-symbols-outlined">cancel_presentation</span>
+				</div>
+			</div>
+			<div class="sidebar">
+				<a href="http://127.0.0.1:5500/front_end/dash/school_index.html">
+					<span class="material-symbols-outlined">dashboard</span>
+					<h3>Dashboard</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_usermng.html">
+					<span class="material-symbols-outlined">groups_3</span>
+					<h3>User-Management</h3>
+				</a>
+				<a href="#" class="active">
+					<span class="material-symbols-outlined">cast_for_education</span>
+					<h3>Class-Management</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_assess.html">
+					<span class="material-symbols-outlined">quiz</span>
+					<h3>Assessments</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_admtools.html">
+					<span class="material-symbols-outlined">admin_panel_settings</span>
+					<h3>Administrative Tools</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_comm.html">
+					<span class="material-symbols-outlined">communication</span>
+					<h3>Communication</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_lib.html">
+					<span class="material-symbols-outlined">books_movies_and_music</span>
+					<h3>Library</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_reports.html">
+					<span class="material-symbols-outlined">report</span>
+					<h3>Reports</h3>
+					<span class="report-count">10</span>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_analytics.html">
+					<span class="material-symbols-outlined">table_chart_view</span>
+					<h3>Analytics</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_sett.html">
+					<span class="material-symbols-outlined">settings</span>
+					<h3>settings</h3>
+				</a>
+				<a href="#">
+					<span class="material-symbols-outlined">logout</span>
+					<h3>logout</h3>
+				</a>
+			</div>
+    </aside> 
+	<!--main body-->
+	<main>
+		<h1 class="main-header">Class Management</h1>
+		<div class="main-grid">
+			<div class="class-section" style="margin-bottom: 1rem;">
+				<form action="https://httpbin.org/post" method="post" class="reg-form" id="classRegForm">
+					<div class="form-header">
+						<div class="form-guide-text"> 
+							<p>Please fill the form below to create a class</p>
+							<p class="error-message"></p>
+						</div>
+					</div>
+					<div class="form-body">
+						<div class="form-field1">
+							<label for="c-title">Class title: </label>
+							<select name="c-title" id="c-title">
+								<option value="north">North</option>
+								<option value="south">South</option>
+							</select>
+						</div>
+						<div class="form-field1">
+							<label for="c-level">Class level: </label>
+							<select name="c-level" id="c-level">
+									<option value="grade_5">Grade 5</option>
+									<option value="grade_6">Grade 6</option>
+									<option value="grade_7">Grade 7</option>
+									<option value="grade_8">Grade 8</option>
+									<option value="grade_9">Grade 9</option>
+							</select>
+						</div>
+						<div class="form-field1">
+							<label for="c-capacity">Class capacity: </label>
+							<input type="number" name="c-capacity" id="c-capacity" min="20" max="99" value="0">
+						</div>
+						<div class="form-field1">
+							<label for="c-teacher">Class Teacher: </label>
+							<select name="c-teacher" id="c-teacher">
+								<option value="cristiano">Mr. Cristiano R</option>
+								<option value="messi">Mr. Messi L</option>
+								<option value="lewandoski">Mr. Robert L</option>
+							</select>
+						</div>
+						<div class="form-field1">
+							<label for="c-curriculum">Curriculum: </label>
+							<select name="c-curriculum" id="c-curriculum">
+								<option value="cbe">CBE</option>
+								<option value="other">OTHER</option>
+							</select>
+						</div>
+						<div class="opt-buttons">
+							<button type="submit">Submit</button> 
+							<button type="reset">Clear</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="class-section" style="margin-bottom: 1rem;">
+				<form action="https://httpbin.org/post" method="post" class="reg-form" id="classDeleteForm">
+					<div class="form-header">
+						<div class="form-guide-text"> 
+							<p>Please fill the form below to delete a class</p>
+							<p class="error-message"></p>
+						</div>
+					</div>
+					<div class="form-body">
+						<div class="form-field1">
+							<label for="classid-no">Class ID: </label>
+							<input type="text" name="classid-no" id="classid-no">
+						</div>
+						<div class="opt-buttons">
+							<button type="submit">Submit</button> 
+							<button type="reset">Clear</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="class-section">
+				<div class="maing-data-grid">
+					<div class="maing-data-header">
+						North Classes
+					</div>
+					<div class="maing-data-table">
+						<div class="maingt-header-row">
+							<div class="maingth-data">Class ID</div>
+							<div class="maingth-data">Class Level</div>
+							<div class="maingth-data">Class Title</div>
+							<div class="maingth-data">Total Students</div>
+							<div class="maingth-data">Class Status</div>
+							<div class="maingth-data">Class Program</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 8</div>
+							<div class="maingtr-data">North</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">JSE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 7</div>
+							<div class="maingtr-data">North</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">JSE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 6</div>
+							<div class="maingtr-data">North</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">UPE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 5</div>
+							<div class="maingtr-data">North</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">UPE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 4</div>
+							<div class="maingtr-data">North</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">UPE</div>
+						</div>
+					</div>
+            	</div>
+				<div class="maing-data-grid">
+					<div class="maing-data-header">
+						South Classes
+					</div>
+					<div class="maing-data-table">
+						<div class="maingt-header-row">
+							<div class="maingth-data">Class ID</div>
+							<div class="maingth-data">Class Level</div>
+							<div class="maingth-data">Class Title</div>
+							<div class="maingth-data">Total Students</div>
+							<div class="maingth-data">Class Status</div>
+							<div class="maingth-data">Class Program</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 8</div>
+							<div class="maingtr-data">South</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">JSE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 7</div>
+							<div class="maingtr-data">South</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">JSE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 6</div>
+							<div class="maingtr-data">South</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">UPE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 5</div>
+							<div class="maingtr-data">South</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">UPE</div>
+						</div>
+						<div class="maingt-data-row">
+							<div class="maingtr-data">CLR-234323</div>
+							<div class="maingtr-data">Grade 4</div>
+							<div class="maingtr-data">South</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">Active</div>
+							<div class="maingtr-data">UPE</div>
+						</div>
+					</div>
+            	</div>
+			</div>
+		</div>
+	</main>
+	<!--The 3rd section of the page-->
+	<div class="aside-right">
+		<!--Part one third row-->
+		<div class="top top2">
+			<button id="menu-btn">
+				<span class="material-symbols-outlined">menu</span>
+			</button>
+			<div class="theme-toggle-btn">
+				<span class="material-symbols-outlined active">light_mode</span>
+				<span class="material-symbols-outlined">dark_mode</span>
+			</div>
+			<div class="profile">
+				<div class="info">
+					<p>Hey, <b>Mohammed</b></p>
+					<small class="text-muted">Admin</small>
+				</div>
+				<div class="profile-photo">
+					<img src="images/profile-1.jpg" alt="Profile pic">
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+
+  <script src="common.js"></script>
+  <script src="school_classmng.js"></script>
+</body>
+</html>

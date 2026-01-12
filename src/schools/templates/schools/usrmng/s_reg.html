@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dash-Students</title>
+    <!--Box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="..//common.css">
+    <link rel="stylesheet" href="reg.css">
+		<!--Google font icons-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+</head>
+<body>
+  <div class="top-level-box">
+		<!--Side bar menu-->
+    <aside class="sidebar-menu">
+			<div class="top">
+				<div class="logo">
+					<img src="..//images/logo.png">
+					<h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
+				</div>
+				<div class="close" id="close-btn">
+					<span class="material-symbols-outlined">cancel_presentation</span>
+				</div>
+			</div>
+			<div class="sidebar">
+				<a href="http://127.0.0.1:5500/front_end/dash/school_index.html">
+					<span class="material-symbols-outlined">dashboard</span>
+					<h3>Dashboard</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_usermng.html" class="active">
+					<span class="material-symbols-outlined">groups_3</span>
+					<h3>User-Management</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_classmng.html">
+					<span class="material-symbols-outlined">cast_for_education</span>
+					<h3>Class-Management</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_assess.html">
+					<span class="material-symbols-outlined">quiz</span>
+					<h3>Assessments </h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_admtools.html">
+					<span class="material-symbols-outlined">admin_panel_settings</span>
+					<h3>Administrative Tools</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_comm.html">
+					<span class="material-symbols-outlined">communication</span>
+					<h3>Communication</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_lib.html">
+					<span class="material-symbols-outlined">books_movies_and_music</span>
+					<h3>Library</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_reports.html">
+					<span class="material-symbols-outlined">report</span>
+					<h3>Reports</h3>
+					<span class="report-count">10</span>
+				</a>
+				<a href="#">
+					<span class="material-symbols-outlined">table_chart_view</span>
+					<h3>Analytics</h3>
+				</a>
+				<a href="http://127.0.0.1:5500/front_end/dash/school_sett.html">
+					<span class="material-symbols-outlined">settings</span>
+					<h3>settings</h3>
+				</a>
+				<a href="#">
+					<span class="material-symbols-outlined">logout</span>
+					<h3>logout</h3>
+				</a>
+			</div>
+    </aside> 
+	<!--main body-->
+	<main>
+		<h1 class="main-header">Student Registration</h1>
+		<div class="main-grid"> 
+           <form action="https://httpbin.org/post" method="post" class="reg-form">
+						<div class="form-header">
+							<div class="form-guide-text">
+								<p>Please fill the form below to register a student</p>
+								<p class="error-message"></p>
+							</div>
+						</div>
+						<div class="form-body">
+							<div class="form-field1">
+									<label for="f-name">First-Name: </label>
+									<input type="text" name="f-name" id="f-name" placeholder="first_name">
+							</div>
+							<div class="form-field1">
+									<label for="m-name">Middle-Name: </label>
+									<input type="text" name="m-name" id="m-name" placeholder="middle_name">
+							</div>
+							<div class="form-field1">
+									<label for="l-name">Last-Name: </label>
+									<input type="text" name="l-name" id="l-name" placeholder="last_name">
+							</div>
+							<div class="form-field1">
+									<label for="gender">Gender: </label>
+									<div>
+										<label for="male">M: </label>
+										<input type="radio" id="male" value="MALE" name="gender">
+										<label for="female">F: </label>
+										<input type="radio" id="female" value="FEMALE" name="gender">
+									</div>
+							</div>
+							<div class="form-field1">
+									<label for="dob">Date of Birth: </label>
+									<input type="date" name="dob" id="dob">
+							</div>
+							<div class="form-field1">
+									<label for="phone">Phone Number: </label>
+									<input type="text" name="phone" id="phone" placeholder="e.g 254-72345678" minlength="13" maxlength="13" list="defaultTels" pattern="[0-9]{3}-[0-9]{9}">
+									<datalist id="defaultTels">
+											<option value="254-12345678"></option>
+											<option value="254-72345678"></option>
+									</datalist>
+							</div>
+							<div class="form-field1">
+									<label for="e-contact">Emergency Contact: </label>
+									<input type="text" name="e-contact" id="e-contact" placeholder="e.g 254-72345678" minlength="13" maxlength="13" list="defaultTels" pattern="[0-9]{3}-[0-9]{9}">
+									<datalist id="defaultTels">
+											<option value="254-12345678"></option>
+											<option value="254-72345678"></option>
+									</datalist>
+							</div>
+							<div class="form-field1">
+									<label for="email">Email: </label>
+									<input type="email" name="email" id="email" placeholder="e.g moh@cbesyn.com">
+							</div>
+							<div class="form-field1">
+									<label for="h-address">Home address: </label>
+									<input type="text" name="h-address" id="h-address" placeholder="e.g Maweni-Likoni">
+							</div>
+							<div class="form-field1">
+									<label for="adm-number">Admission Number: </label>
+									<input type="text" name="adm-number" id="adm-number" placeholder="e.g 10554">
+							</div>
+							<div class="form-field1">
+									<label for="std-class">Student class: </label>
+									<select name="std-class" id="std-class">
+											<option value="grade_5_A">Grade 5</option>
+											<option value="grade_6_A">Grade 6</option>
+											<option value="grade_7_A">Grade 7</option>
+											<option value="grade_8_A">Grade 8</option>
+											<option value="grade_9_A">Grade 9</option>
+									</select>
+							</div>
+							<div class="form-field1">
+									<label for="nationality">Nationality</label>
+									<select name="nationality" id="nationality">
+											<option value="kenyan">Kenyan</option>
+											<option value="alien">Alien</option>
+									</select>
+							</div>
+							<div class="form-field1">
+									<label for="doa">Date of Admission </label>
+									<input type="date" name="doa" id="doa">
+							</div>
+							<div class="form-field1">
+									<label for="sp-needs">Special Needs: </label>
+									<div>
+										<label for="yes">Yes: </label>
+										<input type="radio" id="yes" value="1" name="sp-needs">
+										<label for="no">No: </label>
+										<input type="radio" id="no" value="0" name="sp-needs">
+									</div>
+							</div>
+							<div class="form-field1">
+									<label for="blood-group">Blood-group: </label>
+									<select name="blood-group" id="blood-group">
+											<option value="A">A</option>
+											<option value="B">B</option>
+											<option value="AB">AB</option>
+											<option value="O">O</option>
+									</select>
+							</div>
+							<div class="form-field1">
+									<label for="e-notes">Emergency Notes</label>
+									<textarea name="e-notes" id="e-notes" rows="3" cols="5"></textarea> 
+							</div>
+							<div class="form-field1">
+									<label for="std-allergies[]">Allergies:</label>
+									<div style="display: grid; grid-template-columns: repeat(2, 1fr);">
+										<div>
+											<input type="checkbox" id="environment" name="std-allergies[]" value="environment">
+											<label for="environment">Environment</label><br> 
+										</div>
+										<div>
+											<input type="checkbox" id="food" name="std-allergies[]" value="food">
+											<label for="food">Food </label><br>
+										</div>
+										<div>
+											<input type="checkbox" id="latex" name="std-allergies[]" value="latex">
+											<label for="latex">Latex </label><br> 
+										</div>
+										<div>
+											<input type="checkbox" id="insects" name="std-allergies[]" value="insects">
+											<label for="insects">Insects</label><br> 
+										</div>										
+									</div>
+							</div> 
+							<div class="form-field1">
+									<label for="avatar">Upload a passport photo:</label>
+									<input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
+							</div>
+							<div class="form-field1">
+								<label for="sform">Upload signed form:</label>
+								<input type="file" id="sform" name="sform" accept="image/png, image/jpeg" />
+							</div>
+							<div class="opt-buttons">
+								<button type="submit">Submit</button> 
+								<button type="reset">Clear</button>
+							</div>
+						</div>     
+                
+            </form>           
+		</div>
+	</main>
+	<!--The 3rd section of the page-->
+	<div class="aside-right">
+		<!--Part one third row-->
+		<div class="top top2">
+			<button id="menu-btn">
+				<span class="material-symbols-outlined">menu</span>
+			</button>
+			<div class="theme-toggle-btn">
+				<span class="material-symbols-outlined active">light_mode</span>
+				<span class="material-symbols-outlined">dark_mode</span>
+			</div>
+			<div class="profile">
+				<div class="info">
+					<p>Hey, <b>Mohammed</b></p>
+					<small class="text-muted">Admin</small>
+				</div>
+				<div class="profile-photo">
+					<img src="..//images/profile-1.jpg" alt="Profile pic">
+				</div>
+			</div>
+		</div>
+	</div>
+  </div> 
+
+  <script src="..//common.js"></script>
+  <script src="s_reg.js"></script>
+</body>
+</html>

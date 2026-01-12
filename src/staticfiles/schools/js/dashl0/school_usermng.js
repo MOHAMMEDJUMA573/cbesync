@@ -46,3 +46,10 @@ const parentMngButton = document.getElementById("parentMng");
 parentMngButton.addEventListener("click", ()=>{
     window.location.href = "usrmng/p_manage.html"
 })
+//link active toggle
+function T2(){
+    /*activate the classlist*/
+    document.querySelector(".sidebar a.active")?.classList.remove("active");
+    document.querySelectorAll(".sidebar a")[1].classList.add("active");
+}
+T2();

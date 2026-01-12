@@ -3,9 +3,9 @@ from django.shortcuts import render
 import uuid
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
+school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 
-
-def dashboard(request, school_uuid):
+def dashboard(request):
     if school_uuid == valid_school_uuid:
         template_name = "schools/dashl0/school_index.html"
         page_title = "Dashboard"
@@ -18,7 +18,7 @@ def dashboard(request, school_uuid):
     
     return render(request, template_name, context)
 
-def user_management(request, school_uuid):
+def user_management(request):
     if school_uuid == valid_school_uuid:
         template_name = "schools/dashl0/school_usermng.html"
         page_title = "Management"
@@ -31,7 +31,7 @@ def user_management(request, school_uuid):
     
     return render(request, template_name, context)
 
-def class_management(request, school_uuid):
+def class_management(request):
     if school_uuid == valid_school_uuid:
         return HttpResponse(f"<h1>Right guy {school_uuid} class management</h1>")
     else:

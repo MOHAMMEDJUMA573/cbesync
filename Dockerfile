@@ -50,12 +50,12 @@ RUN pip install -r /tmp/requirements.txt
 
 # copy the project code into the container's working directory
 COPY ./src /code
+COPY ./src/staticfiles /code/staticfiles
+
 
 #variable required during buildtime
 ARG DJANGO_DEBUG=0
 ENV DJANGO_DEBUG=${DJANGO_DEBUG}
-
-RUN python manage.py collectstatic --noinput --verbosity 2
 
 # set the Django default project name
 ARG PROJ_NAME="project"

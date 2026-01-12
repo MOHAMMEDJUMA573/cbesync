@@ -66,7 +66,7 @@ ARG PROJ_NAME="project"
 RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
     printf "RUN_PORT=\"\${PORT:-8000}\"\n\n" >> ./paracord_runner.sh && \
     printf "python manage.py migrate --no-input\n" >> ./paracord_runner.sh && \
-    printf "daphne -b 0.0.0.0 -p 8001 ${PROJ_NAME}.asgi:application \n" >> ./paracord_runner.sh
+    printf "daphne -b 0.0.0.0 -p 8000 ${PROJ_NAME}.asgi:application \n" >> ./paracord_runner.sh
 
 # make the bash script executable
 RUN chmod +x ./paracord_runner.sh

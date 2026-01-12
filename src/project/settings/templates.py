@@ -2,7 +2,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            f"{BASE_DIR}/src/templates/", # type:ignore
+            f"{BASE_DIR2}/templates/", # type:ignore
             "./templates/", # type:ignore i.e for docker deploy
         ], 
         'APP_DIRS': True,

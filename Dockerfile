@@ -55,7 +55,7 @@ COPY ./src /code
 ARG DJANGO_DEBUG=0
 ENV DJANGO_DEBUG=${DJANGO_DEBUG}
 
-#RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput --verbosity 2
 
 # set the Django default project name
 ARG PROJ_NAME="project"

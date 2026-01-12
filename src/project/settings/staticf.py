@@ -16,11 +16,17 @@ CLOUD_FLARE_R2_CONFIG_OPTIONS = {
     "signature_version": "s3v4",
 }
 
-
+# Source - https://stackoverflow.com/a
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR2 / "staticfiles" # type:ignore
+STATICFILES_DIRS = [
+    f"{BASE_DIR2}/staticfilesdev/",
+
+]
+print(f"{BASE_DIR2}/staticfilesdev/")
+
 if not DEBUG: # type:ignore
-    STATIC_ROOT="./staticfiles" #for the docker container wkdir
+    STATIC_ROOT=f"{BASE_DIR2}/staticfiles"  # type:ignore
+
 STORAGES = {
     "default": {
         "BACKEND": "helpers.cloudr2.storages.MediaFileStorage", #django-storages s[3]

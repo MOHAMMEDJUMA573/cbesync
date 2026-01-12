@@ -10,14 +10,12 @@ except ImportError:
     import os
     config = os.environ.get
 
-
 BASE_DIR2 = Path(__file__).resolve().parent.parent.parent
 
 DEBUG = config("DJANGO_DEBUG", cast=bool, default=False)
 SECRET_KEY = config("DJANGO_SECRET_KEY", cast=str, default=get_random_secret_key())
 
 print(DEBUG)
-print(SECRET_KEY)
 
 ALLOWED_HOSTS=[]
 
@@ -34,6 +32,7 @@ if not DEBUG:
     ALLOWED_HOSTS += [
         "cbesync-production.up.railway.app",
         ".cbesync.com",
+        "localhost",
     ]
     #csrf forms setup to avoid csrf token erros
     CSRF_TRUSTED_ORIGINS = [

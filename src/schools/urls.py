@@ -18,6 +18,7 @@ urlpatterns+=[
         include(
             [
                 path("teacher_reg/", views.teacher_registration, name="school_teacher_registration"),
+                path("student_reg/", views.student_registration, name="school_student_registration"),
             ]
         ),
     ),

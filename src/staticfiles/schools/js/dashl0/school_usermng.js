@@ -12,7 +12,7 @@ parentRegButton.addEventListener("click", ()=>{
 })
 const ntstaffRegButton = document.getElementById("ntstaffReg");
 ntstaffRegButton.addEventListener("click", ()=>{
-    window.location.href = "usrmng/nt_reg.html";
+    window.location.href = "./ntstaff_reg";
 })
 const teacherEnrollButton = document.getElementById("teacherEnroll");
 teacherEnrollButton.addEventListener("click", ()=>{

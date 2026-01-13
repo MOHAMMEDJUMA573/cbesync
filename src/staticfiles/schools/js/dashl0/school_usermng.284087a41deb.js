@@ -1,18 +1,18 @@
 const teacherRegButton = document.getElementById("teacherReg");
 teacherRegButton.addEventListener("click", ()=>{
-    window.location.href = "usrmng/t_reg.html";
+    window.location.href = "./teacher_reg/";
 })
 const studentRegButton = document.getElementById("studentReg");
 studentRegButton.addEventListener("click", ()=>{
-    window.location.href = "usrmng/s_reg.html";
+    window.location.href = "./student_reg";
 })
 const parentRegButton = document.getElementById("parentReg");
 parentRegButton.addEventListener("click", ()=>{
-    window.location.href = "usrmng/p_reg.html";
+    window.location.href = "./parent_reg";
 })
 const ntstaffRegButton = document.getElementById("ntstaffReg");
 ntstaffRegButton.addEventListener("click", ()=>{
-    window.location.href = "usrmng/nt_reg.html";
+    window.location.href = "./ntstaff_reg";
 })
 const teacherEnrollButton = document.getElementById("teacherEnroll");
 teacherEnrollButton.addEventListener("click", ()=>{

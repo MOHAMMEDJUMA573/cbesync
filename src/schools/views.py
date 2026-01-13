@@ -58,6 +58,18 @@ def student_registration(request):
         return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
     
     return render(request, template_name, context)
+def parent_registration(request):
+    if school_uuid == valid_school_uuid:
+        template_name = "schools/usrmng/p_reg.html"
+        page_title = "P-Management"
+
+        context = {
+            "page_title":page_title
+        }
+    else:
+        return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
+    
+    return render(request, template_name, context)
 #class management and subs
 def class_management(request):
     if school_uuid == valid_school_uuid:

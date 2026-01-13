@@ -19,6 +19,7 @@ urlpatterns+=[
             [
                 path("teacher_reg/", views.teacher_registration, name="school_teacher_registration"),
                 path("student_reg/", views.student_registration, name="school_student_registration"),
+                path("parent_reg/", views.parent_registration, name="school_parent_registration"),
             ]
         ),
     ),

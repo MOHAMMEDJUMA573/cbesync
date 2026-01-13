@@ -10,15 +10,15 @@
         </div>
     </div>
     <div class="sidebar">
-        <a href="../" class="active">
+        <a href="{% url 'schools:school_app_dashboard'%}" class="active">
             <span class="material-symbols-outlined">dashboard</span>
             <h3>Dashboard</h3>
         </a>
-        <a href="./user_management">
+        <a href="{% url 'schools:school_usr_management'%}">
             <span class="material-symbols-outlined">groups_3</span>
             <h3>User-Management</h3>
         </a>
-        <a href="./class_management">
+        <a href="{%url 'schools:school_cls_management'%}">
             <span class="material-symbols-outlined">cast_for_education</span>
             <h3>Class-Management</h3>
         </a>
@@ -51,7 +51,7 @@
             <span class="material-symbols-outlined">settings</span>
             <h3>settings</h3>
         </a>
-        <a href="#">
+        <a href="{% url 'account_logout'%}">
             <span class="material-symbols-outlined">logout</span>
             <h3>logout</h3>
         </a>

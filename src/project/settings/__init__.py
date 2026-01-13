@@ -22,5 +22,7 @@ include(
     'logging.py',
     'templates.py',
     'database.py',
-    'staticf.py'
+    'staticf.py',
+    'emails.py',
+    'allauths.py',
 )

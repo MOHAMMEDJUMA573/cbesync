@@ -27,12 +27,13 @@ class School(models.Model):
     OWNERSHIP_CHOICES = [('Government', 'Government'), ('Private', 'Private'), ('Community', 'Community'), ('Mission', 'Mission'), ('International', 'International')]
     school_ownership = models.CharField(max_length=20, choices=OWNERSHIP_CHOICES, help_text="School ownership i.e Mission, Private")
     #7.Location fields
+    school_country = models.CharField(max_length=20, default="Kenya", help_text="Nationality of the institution")
     school_county = models.CharField(max_length=50,default='Multi', help_text="County where the school is located.")
     school_subcounty = models.CharField(max_length=50, null=True, help_text="Sub-county for finer location granularity.")
     school_ward = models.CharField(max_length=50, blank=True, null=True, help_text="Optional ward fill for zonal exams management")
     school_location = models.CharField(max_length=255,null=True, help_text="Location of school.")
     #8. Contact fields
-    school_email = models.EmailField(max_length=100, help_text="Official school email")
+    school_email = models.EmailField(max_length=100, unique=True, help_text="Official school email")
     school_phone = models.CharField(max_length=20, help_text="Official  School tell NO.")
     #9. School status in the site
     STATUS_CHOICES = [ ('Pending', 'Pending Validation'), ('Active', 'Verified'), ('Suspended', 'Suspended')]
@@ -42,3 +43,5 @@ class School(models.Model):
     school_updated_date = models.DateTimeField(auto_now=True, help_text="Last Modification timestamp")
     def __str__(self):
         return f"{self.school_name} {self.school_email}"
+    
+    

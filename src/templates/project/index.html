@@ -46,15 +46,28 @@
 						</div>
 					</div>
 					<div class="main-buttons">
-						<div class="main-b-divs">
-							Login
-						</div>
-						<div class="main-b-divs">
-							Sign up
-						</div>
-						<div class="main-b-divs">
-							Patner
-						</div>
+						{% if user.is_authenticated %}
+							<div class="main-b-divs">
+								<a href="{%url 'account_logout'%}">Logout</a>
+							</div>
+							<div class="main-b-divs">
+								<a href="{%url 'schools:school_app_dashboard'%}">Home</a>
+							</div>
+							<div class="main-b-divs">
+								<a href="#">Chat World</a>
+							</div>
+						{% else %}
+							<div class="main-b-divs">
+								<a href="{%url 'account_login'%}">Login</a>
+							</div>
+							<div class="main-b-divs">
+								<a href="{%url 'account_signup'%}">Sign Up</a>
+							</div>
+							<div class="main-b-divs">
+								<a href="#">Patner</a>
+							</div>
+						{% endif %}
+												
 					</div>
 				</div>
 			</div>

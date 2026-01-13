@@ -7,4 +7,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.homepage, name="main_app_home"),
     path('school/', include("schools.urls")),
+    #allauth urls
+    path('accounts/', include('allauth.urls')),
 ]

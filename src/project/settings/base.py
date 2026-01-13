@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     "whitenoise.runserver_nostatic", #to prevent runserver default staticfiles serving
     'django.contrib.staticfiles',
+    "accounts",
     "trial",
     "schools",
 ]
@@ -110,3 +111,4 @@ USE_I18N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = "accounts.CustomUser"

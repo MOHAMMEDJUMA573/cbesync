@@ -5,6 +5,7 @@ import uuid
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 
+#man_dashbordand subs
 def dashboard(request):
     if school_uuid == valid_school_uuid:
         template_name = "schools/dashl0/school_index.html"
@@ -18,6 +19,7 @@ def dashboard(request):
     
     return render(request, template_name, context)
 
+#usermanagement and subs
 def user_management(request):
     if school_uuid == valid_school_uuid:
         template_name = "schools/dashl0/school_usermng.html"
@@ -31,6 +33,20 @@ def user_management(request):
     
     return render(request, template_name, context)
 
+def teacher_registration(request):
+    if school_uuid == valid_school_uuid:
+        template_name = "schools/usrmng/t_reg.html"
+        page_title = "T-Management"
+
+        context = {
+            "page_title":page_title
+        }
+    else:
+        return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
+    
+    return render(request, template_name, context)
+
+#class management and subs
 def class_management(request):
     if school_uuid == valid_school_uuid:
         return HttpResponse(f"<h1>Right guy {school_uuid} class management</h1>")

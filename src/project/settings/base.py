@@ -98,6 +98,7 @@ SECURE_CSP = {
         CSP.SELF,
         "https://fonts.googleapis.com",
         "https://unpkg.com",
+         CSP.UNSAFE_INLINE,
     ],
     "font-src": [
         CSP.SELF,

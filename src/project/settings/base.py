@@ -2,6 +2,7 @@ import os
 from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 from decouple import config
+from django.utils.csp import CSP
 
 
 try:
@@ -78,11 +79,36 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    "django.contrib.auth.middleware.LoginRequiredMiddleware", #login required everywhere
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
+    "django.middleware.csp.ContentSecurityPolicyMiddleware", #for csp
+
 ]
+
+SECURE_CSP = {
+    "default-src": [CSP.SELF],
+    "script-src": [
+        CSP.SELF,
+        CSP.NONCE
+    ],
+    "style-src": [
+        CSP.SELF,
+        "https://fonts.googleapis.com",
+        "https://unpkg.com",
+    ],
+    "font-src": [
+        CSP.SELF,
+        "https://fonts.gstatic.com",
+        "https://unpkg.com",   
+    ],
+    "img-src": [
+        CSP.SELF,
+
+    ]
+}
 
 ROOT_URLCONF = 'project.urls'
 

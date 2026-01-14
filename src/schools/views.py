@@ -7,15 +7,17 @@ school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 
 #man_dashbordand subs
 def dashboard(request):
-    if school_uuid == valid_school_uuid:
-        template_name = "schools/dashl0/school_index.html"
-        page_title = "Dashboard"
+    if request.user.user_type == "school":
+        if school_uuid == valid_school_uuid:
+            template_name = "schools/dashl0/school_index.html"
+            page_title = "S-Dashboard"
 
-        context = {
-            "page_title":page_title
-        }
+            context = {
+                "page_title":page_title
+            }   
     else:
-        return HttpResponse(f"<h1>Wrong guy {school_uuid} user dashbord page</h1>")
+        return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")
+        
     
     return render(request, template_name, context)
 

@@ -34,7 +34,7 @@ if not DEBUG:
         "cbesync-production.up.railway.app",
         ".cbesync.com",
         "localhost",
-        "https://cbesync-zpm9.onrender.com",
+        "cbesync-zpm9.onrender.com",
     ]
     #csrf forms setup to avoid csrf token erros
     CSRF_TRUSTED_ORIGINS = [

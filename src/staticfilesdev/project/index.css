@@ -230,7 +230,7 @@ main{
     cursor: pointer;
 }
 .main-buttons > div:hover{
-    opacity: 0.8;
+    opacity: 0.9;
     border: 1px solid green;
 }
 @media screen and (max-width:1200px) {

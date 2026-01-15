@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from allauth.account.decorators import verified_email_required
 import uuid
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 
 #man_dashbordand subs
+@verified_email_required
 def dashboard(request):
     if request.user.user_type == "school":
         if school_uuid == valid_school_uuid:

@@ -1,9 +1,9 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from .models import School
+from .models import SchoolProfile
 
-@receiver(post_save, sender=School)
+@receiver(post_save, sender=SchoolProfile)
 def set_username_from_school_id(sender, instance, created, **kwargs):
     if created:
         user = instance.user

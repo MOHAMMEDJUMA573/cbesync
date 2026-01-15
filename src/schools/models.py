@@ -7,7 +7,7 @@ from accounts.models import CustomUser
 def generate_unique_school_id():
     while True:
         new_id = f"SCH-{uuid.uuid4().hex[:12].upper()}"
-        if not School.objects.filter(school_id=new_id).exists():
+        if not SchoolProfile.objects.filter(school_id=new_id).exists():
             return new_id
 
 
@@ -15,8 +15,8 @@ def generate_unique_school_id():
 # ======================================
 # 1. School Model
 # ======================================
-class School(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+class SchoolProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="school_profile")
     school_id = models.CharField(default=generate_unique_school_id, unique=True, db_index=True, editable=False)
     school_code = models.CharField(max_length=20, unique=True, help_text="Official MOE school code.")
     school_name = models.CharField(max_length=150, help_text="Official school name.")

@@ -1,13 +1,13 @@
 from allauth.account.forms import SignupForm
 from django import forms
-from .models import School
+from .models import SchoolProfile
 
 class SchoolSignupForm(SignupForm):
     # --- School fields ---
     school_code = forms.CharField(max_length=20, label="School Code")
     school_name = forms.CharField(max_length=150, label="School Name")
-    school_type = forms.ChoiceField(choices=School.SCHOOL_TYPES_CHOICES)
-    school_ownership = forms.ChoiceField(choices=School.OWNERSHIP_CHOICES)
+    school_type = forms.ChoiceField(choices=SchoolProfile.SCHOOL_TYPES_CHOICES)
+    school_ownership = forms.ChoiceField(choices=SchoolProfile.OWNERSHIP_CHOICES)
 
     school_country = forms.CharField(max_length=20, initial="Kenya")
     school_county = forms.CharField(max_length=50)
@@ -18,14 +18,14 @@ class SchoolSignupForm(SignupForm):
     school_phone = forms.CharField(max_length=20)
 
     def save(self, request):
-        # 1️⃣ Create the user first
+        # Create the user first
         user = super().save(request)
-        # ✅ Assign role
+        # Assign role
         user.user_type = 'school'
         user.save(update_fields=['user_type'])
 
-        # 2️⃣ Create the School linked to the user
-        School.objects.create(
+        # Create the School linked to the user
+        SchoolProfile.objects.create(
             user=user,
             school_code=self.cleaned_data['school_code'],
             school_name=self.cleaned_data['school_name'],

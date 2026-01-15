@@ -1,4 +1,4 @@
-import os
+import os, ast
 from django.core.management.utils import get_random_secret_key
 from pathlib import Path
 from decouple import config
@@ -30,17 +30,12 @@ if DEBUG:
     ]
 
 if not DEBUG:
-    ALLOWED_HOSTS += [
-        "cbesync-production.up.railway.app",
-        ".cbesync.com",
-        "localhost",
-        "cbesync-2k2o.onrender.com",
-    ]
+    allowed_hosts_env = config("DJANGO_ALLOWED_HOSTS", default=[])
+    ALLOWED_HOSTS = ast.literal_eval(allowed_hosts_env)
     #csrf forms setup to avoid csrf token erros
-    CSRF_TRUSTED_ORIGINS = [
-        'https://cbesync-production.up.railway.app',
-        'https://cbesync.onrender.com',  # or your custom domain if any
-    ]
+    allowed_csrf_origin = [f"https://{domain}" for domain in ALLOWED_HOSTS]
+    CSRF_TRUSTED_ORIGINS = allowed_csrf_origin
+    print(f"{ALLOWED_HOSTS}\n{allowed_csrf_origin}")
     # Ensure cookies are only sent over HTTPS
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True

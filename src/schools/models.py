@@ -1,7 +1,14 @@
 from django.db import models
+from pathlib import Path
 from django.contrib.auth.hashers import make_password
 import uuid
 from accounts.models import CustomUser
+
+#function to generate a path
+def image_file_upload_handler(instance, filename):
+    fname = uuid.uuid4().hex
+    ext = Path(filename).suffix
+    return f"scprf/{fname}{ext}"
 
 #function to generate random school id
 def generate_unique_school_id():
@@ -16,16 +23,41 @@ def generate_unique_school_id():
 # 1. School Model
 # ======================================
 class SchoolProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="school_profile")
-    school_id = models.CharField(default=generate_unique_school_id, unique=True, db_index=True, editable=False)
+    user = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name="school_profile"
+    )
+    school_id = models.CharField(
+        default=generate_unique_school_id,
+        unique=True,
+        db_index=True,
+        editable=False
+    )
     school_code = models.CharField(max_length=20, unique=True, help_text="Official MOE school code.")
     school_name = models.CharField(max_length=150, help_text="Official school name.")
+    school_badge = models.ImageField(
+        upload_to=image_file_upload_handler,
+        blank=True,
+        null=True
+    )
     #category
-    SCHOOL_TYPES_CHOICES = [ ('Day', 'Day'), ('Boarding', 'Boarding'), ('Hybrid', 'Hybrid'), ('Other', 'Other')]
-    school_type = models.CharField(max_length=20, choices=SCHOOL_TYPES_CHOICES, help_text="Type of school i.e Day school")
+    SCHOOL_TYPES_CHOICES = [
+        ('D', 'Day'),
+        ('B', 'Boarding'),
+        ('H', 'Hybrid'),
+        ('O', 'Other')
+    ]
+    school_type = models.CharField(max_length=20, default='D', choices=SCHOOL_TYPES_CHOICES, help_text="Type of school i.e Day school")
     # 5. Ownership (enum)
-    OWNERSHIP_CHOICES = [('Government', 'Government'), ('Private', 'Private'), ('Community', 'Community'), ('Mission', 'Mission'), ('International', 'International')]
-    school_ownership = models.CharField(max_length=20, choices=OWNERSHIP_CHOICES, help_text="School ownership i.e Mission, Private")
+    OWNERSHIP_CHOICES = [
+        ('GOVT', 'Government'),
+        ('PRVT', 'Private'),
+        ('CMTY', 'Community'),
+        ('MSSN', 'Mission'),
+        ('INTL', 'International')
+    ]
+    school_ownership = models.CharField(max_length=20,default='GOVT', choices=OWNERSHIP_CHOICES, help_text="School ownership i.e Mission, Private")
     #7.Location fields
     school_country = models.CharField(max_length=20, default="Kenya", help_text="Nationality of the institution")
     school_county = models.CharField(max_length=50,default='Multi', help_text="County where the school is located.")
@@ -36,12 +68,17 @@ class SchoolProfile(models.Model):
     school_email = models.EmailField(max_length=100, unique=True, help_text="Official school email")
     school_phone = models.CharField(max_length=20, help_text="Official  School tell NO.")
     #9. School status in the site
-    STATUS_CHOICES = [ ('Pending', 'Pending Validation'), ('Active', 'Verified'), ('Suspended', 'Suspended')]
+    STATUS_CHOICES = [
+        ('P', 'Pending Validation'),
+        ('V', 'Verified'),
+        ('S', 'Suspended')
+    ]
     school_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', help_text="School_status on the platform e.g Verified")
     #12. Timestamps
-    school_creation_date = models.DateTimeField(auto_now_add=True, help_text="Creation date/time stamp")
+    school_creation_date = models.DateTimeField(auto_now_add=True, help_text="Creation date/time stamp", editable=False)
     school_updated_date = models.DateTimeField(auto_now=True, help_text="Last Modification timestamp")
+    #return string
     def __str__(self):
-        return f"{self.school_name} {self.school_email}"
+        return f"{self.school_name} --- {self.school_email}"
     
     

@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 
 from .models import SchoolProfile
@@ -13,3 +13,8 @@ def set_username_from_school_id(sender, instance, created, **kwargs):
         # Set school_email from user's email
         instance.school_email = user.email
         instance.save(update_fields=["school_email"])
+
+@receiver(post_delete, sender=SchoolProfile)
+def delete_user_when_school_deleted(sender, instance, **kwargs):
+    if instance.user:
+        instance.user.delete()

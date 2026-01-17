@@ -59,12 +59,92 @@ class SchoolProfile(models.Model):
     ]
     school_ownership = models.CharField(max_length=20,default='GOVT', choices=OWNERSHIP_CHOICES, help_text="School ownership i.e Mission, Private")
     #7.Location fields
-    school_country = models.CharField(max_length=20, default="Kenya", help_text="Nationality of the institution")
-    school_county = models.CharField(max_length=50,default='Multi', help_text="County where the school is located.")
-    school_subcounty = models.CharField(max_length=50, null=True, help_text="Sub-county for finer location granularity.")
-    school_ward = models.CharField(max_length=50, blank=True, null=True, help_text="Optional ward fill for zonal exams management")
-    school_location = models.CharField(max_length=255,null=True, help_text="Location of school.")
-    #8. Contact fields
+    KENYA_PRV_CBESYNC = [
+        ("CST", "Coast"),
+        ("CEN", "Central"),
+        ("EAS", "Eastern"),
+        ("NBO", "Nairobi"),
+        ("NEA", "North Eastern"),
+        ("NYA", "Nyanza"),
+        ("RVT", "Rift Valley"),
+        ("WES", "Western")
+    ]
+    school_admin_level_1 = models.CharField(
+        max_length=50,
+        choices=KENYA_PRV_CBESYNC,
+        blank=False,
+        default="CST",
+        help_text="State / Province / Region"
+    )
+    KENYA_CNT_CBESYNC = [
+        ("EMB", "Embu"),
+        ("BNG", "Bungoma"),
+        ("BMT", "Bomet"),
+        ("BRG", "Baringo"),
+        ("BUS", "Busia"),
+        ("GRS", "Garissa"),
+        ("HBY", "Homa Bay"),
+        ("ISL", "Isiolo"),
+        ("KJD", "Kajiado"),
+        ("KMB", "Kiambu"),
+        ("KSI", "Kisii"),
+        ("KSM", "Kisumu"),
+        ("KKG", "Kakamega"),
+        ("KIT", "Kitui"),
+        ("KLF", "Kilifi"),
+        ("KRC", "Kericho"),
+        ("LKP", "Laikipia"),
+        ("LMU", "Lamu"),
+        ("MBS", "Mombasa"),
+        ("MCH", "Machakos"),
+        ("MDR", "Mandera"),
+        ("MKU", "Makueni"),
+        ("MER", "Meru"),
+        ("MSB", "Marsabit"),
+        ("MGR", "Migori"),
+        ("MUG", "Murang'a"),
+        ("NKU", "Nakuru"),
+        ("NEA", "North Eastern"),
+        ("NRK", "Narok"),
+        ("NYD", "Nyandarua"),
+        ("NYM", "Nyamira"),
+        ("NYR", "Nyeri"),
+        ("SMB", "Samburu"),
+        ("SIA", "Siaya"),
+        ("TNR", "Tana River"),
+        ("TNZ", "Trans-Nzoia"),
+        ("TNT", "Tharaka-Nithi"),
+        ("TRK", "Turkana"),
+        ("TTV", "Taita-Taveta"),
+        ("UAS", "Uasin Gishu"),
+        ("VHG", "Vihiga"),
+        ("WAJ", "Wajir"),
+        ("WPK", "West Pokot"),
+        ("NBO", "Nairobi")
+    ]
+
+    school_admin_level_2 = models.CharField(
+        max_length=50,
+        choices=KENYA_CNT_CBESYNC,
+        null=False,
+        blank=False,
+        default="MBS",
+        help_text="County / District / Prefecture"
+    )
+    school_admin_level_3 = models.CharField(
+        max_length=100,
+        null=False,
+        blank=False,
+        default="Likoni",
+        help_text="Ward / Municipality / Commune"
+    )
+    school_locality = models.CharField(
+        max_length=255,
+        null=False,
+        blank=False,
+        default="Maweni",
+        help_text="Village / Town / Neighborhood"
+    )    #8. Contact fields
     school_email = models.EmailField(max_length=100, unique=True, help_text="Official school email")
     school_phone = models.CharField(max_length=20, help_text="Official  School tell NO.")
     #9. School status in the site
@@ -78,6 +158,7 @@ class SchoolProfile(models.Model):
     school_creation_date = models.DateTimeField(auto_now_add=True, help_text="Creation date/time stamp", editable=False)
     school_updated_date = models.DateTimeField(auto_now=True, help_text="Last Modification timestamp")
     #return string
+
     def __str__(self):
         return f"{self.school_name} --- {self.school_email}"
     

@@ -56,6 +56,12 @@ class StudentProfile(models.Model):
         null=True,
         blank=True
     )
+    student_home_address = models.CharField(
+        max_length=50,
+        null=True,
+        blank=True,
+        help_text="Student address of residence"
+    )
 
     STATUS_CHOICES = [
         ('A', 'Active'),

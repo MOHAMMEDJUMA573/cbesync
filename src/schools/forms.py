@@ -73,6 +73,7 @@ class SchoolSignupForm(SignupForm):
         user.user_type = 'school'
         user.user_country = self.cleaned_data['school_country']
         user.save(update_fields=['user_type', 'user_country'])
+        print(request.FILES)
         #actual school obj creation
         SchoolProfile.objects.create(
             user=user,

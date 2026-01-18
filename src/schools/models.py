@@ -3,6 +3,7 @@ from pathlib import Path
 from django.contrib.auth.hashers import make_password
 import uuid
 from accounts.models import CustomUser
+from phonenumber_field.modelfields import PhoneNumberField
 
 #function to generate a path
 def image_file_upload_handler(instance, filename):
@@ -34,8 +35,15 @@ class SchoolProfile(models.Model):
         db_index=True,
         editable=False
     )
-    school_code = models.CharField(max_length=20, unique=True, help_text="Official MOE school code.")
-    school_name = models.CharField(max_length=150, help_text="Official school name.")
+    school_code = models.CharField(
+        max_length=20,
+        unique=True,
+        help_text="Official MOE school code."
+    )
+    school_name = models.CharField(
+        max_length=150,
+        help_text="Official school name."
+    )
     school_badge = models.ImageField(
         upload_to=image_file_upload_handler,
         blank=True,
@@ -48,7 +56,11 @@ class SchoolProfile(models.Model):
         ('H', 'Hybrid'),
         ('O', 'Other')
     ]
-    school_type = models.CharField(max_length=20, default='D', choices=SCHOOL_TYPES_CHOICES, help_text="Type of school i.e Day school")
+    school_type = models.CharField(
+        max_length=20, default='D',
+        choices=SCHOOL_TYPES_CHOICES,
+        help_text="Type of school i.e Day school"
+    )
     # 5. Ownership (enum)
     OWNERSHIP_CHOICES = [
         ('GOVT', 'Government'),
@@ -57,7 +69,11 @@ class SchoolProfile(models.Model):
         ('MSSN', 'Mission'),
         ('INTL', 'International')
     ]
-    school_ownership = models.CharField(max_length=20,default='GOVT', choices=OWNERSHIP_CHOICES, help_text="School ownership i.e Mission, Private")
+    school_ownership = models.CharField(
+        max_length=20,default='GOVT',
+        choices=OWNERSHIP_CHOICES,
+        help_text="School ownership i.e Mission, Private"
+    )
     #7.Location fields
     KENYA_PRV_CBESYNC = [
         ("CST", "Coast"),
@@ -145,18 +161,36 @@ class SchoolProfile(models.Model):
         default="Maweni",
         help_text="Village / Town / Neighborhood"
     )    #8. Contact fields
-    school_email = models.EmailField(max_length=100, unique=True, help_text="Official school email")
-    school_phone = models.CharField(max_length=20, help_text="Official  School tell NO.")
+    school_email = models.EmailField(
+        max_length=100,
+        unique=True,
+        help_text="Official school email"
+    )
+    school_phone = PhoneNumberField(
+        blank=True
+    )
     #9. School status in the site
     STATUS_CHOICES = [
         ('P', 'Pending Validation'),
         ('V', 'Verified'),
         ('S', 'Suspended')
     ]
-    school_status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending', help_text="School_status on the platform e.g Verified")
+    school_status = models.CharField(
+        max_length=1,
+        choices=STATUS_CHOICES,
+        default='P',
+        help_text="School_status on the platform e.g Verified"
+    )
     #12. Timestamps
-    school_creation_date = models.DateTimeField(auto_now_add=True, help_text="Creation date/time stamp", editable=False)
-    school_updated_date = models.DateTimeField(auto_now=True, help_text="Last Modification timestamp")
+    school_creation_date = models.DateTimeField(
+        auto_now_add=True,
+        help_text="Creation date/time stamp",
+        editable=False
+    )
+    school_updated_date = models.DateTimeField(
+        auto_now=True,
+        help_text="Last Modification timestamp"
+    )
     #return string
 
     def __str__(self):

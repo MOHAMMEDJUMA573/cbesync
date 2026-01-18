@@ -57,11 +57,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     "whitenoise.runserver_nostatic", #to prevent runserver default staticfiles serving
     'django.contrib.staticfiles',
-    #allauth apps
+    #thirdparty
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    "phonenumber_field",
     #custom project apps
     "accounts",
     "trial",
@@ -143,3 +144,5 @@ USE_I18N = True
 USE_TZ = True
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+PHONENUMBER_DB_FORMAT = "INTERNATIONAL"
+PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"

@@ -2,6 +2,8 @@ from allauth.account.forms import SignupForm
 from django import forms
 from accounts.models import CustomUser
 from .models import SchoolProfile
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.formfields import SplitPhoneNumberField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
@@ -17,6 +19,7 @@ class SchoolSignupForm(SignupForm):
     # --- School Form fields ---
     school_code = forms.CharField(
         max_length=20,
+        required=True,
         label="School Code",
         validators=[alphanumeric_validator],
         error_messages={
@@ -26,13 +29,22 @@ class SchoolSignupForm(SignupForm):
         }
     )
     school_name = forms.CharField(
+        required=True,
         max_length=150,
         label="School Name"
     )
-    school_badge = forms.ImageField(required=False)
+    school_badge = forms.ImageField(
+        required=False
+    )
 
-    school_type = forms.ChoiceField(choices=SchoolProfile.SCHOOL_TYPES_CHOICES)
-    school_ownership = forms.ChoiceField(choices=SchoolProfile.OWNERSHIP_CHOICES)
+    school_type = forms.ChoiceField(
+        initial='D',
+        choices=SchoolProfile.SCHOOL_TYPES_CHOICES
+    )
+    school_ownership = forms.ChoiceField(
+        initial='GOVT',
+        choices=SchoolProfile.OWNERSHIP_CHOICES
+    )
 
     school_country = forms.ChoiceField(
         choices=CustomUser.CBESYNC_COUNTRIES,
@@ -40,6 +52,7 @@ class SchoolSignupForm(SignupForm):
         disabled=True,
     )
     school_admin_level_1 = forms.ChoiceField(
+        initial="CST",
         choices=SchoolProfile.KENYA_PRV_CBESYNC,
         label="State / Province / Region",
     )
@@ -55,18 +68,46 @@ class SchoolSignupForm(SignupForm):
     school_locality = forms.CharField(
         max_length=255,
         label="Village / Town / Neighborhood",
+        required=True
     )
 
-    school_phone = forms.CharField(max_length=20)
-
-    #clean school_code
-    def clean_school_code(self):
-        code = self.cleaned_data.get("school_code")
-        if SchoolProfile.objects.filter(school_code=code).exists():
-            raise forms.ValidationError(
-                _("This school code is already in use. Please contact your administrator.")
+    school_phone = SplitPhoneNumberField(
+        required=True,
+        region="KE",
+        label="Mobile No"
+    )
+    def clean(self):
+        cleaned_data = super().clean()
+        if not cleaned_data.get("school_country"):
+            cleaned_data["school_country"] = "KEN"
+        school_fields = [
+            "school_code", "school_name", "school_type", "school_ownership",
+            "school_country", "school_admin_level_1", "school_admin_level_2",
+            "school_admin_level_3", "school_locality", "school_phone"
+        ]        
+        for school_field in school_fields:
+            if not cleaned_data.get(school_field):
+                return cleaned_data           
+            
+        school_code = cleaned_data.get("school_code")
+        if SchoolProfile.objects.filter(school_code__iexact=school_code).exists():
+            self.add_error(
+                "school_code",
+                _("This school code is already in use. Please contact CbeSync.")
             )
-        return code
+        
+        return cleaned_data
+            
+
+
+    #shown full form error no specifics
+    # def clean_school_code(self):
+    #     code = self.cleaned_data.get("school_code")
+    #     if SchoolProfile.objects.filter(school_code=code).exists():
+    #         raise forms.ValidationError(
+    #             _("This school code is already in use. Please contact your administrator.")
+    #         )
+    #     return code
 
     def save(self, request):
         user = super().save(request)
@@ -77,17 +118,18 @@ class SchoolSignupForm(SignupForm):
         #actual school obj creation
         SchoolProfile.objects.create(
             user=user,
-            school_code=self.cleaned_data['school_code'],
-            school_name=self.cleaned_data['school_name'],
+            school_code=self.cleaned_data['school_code'].upper(),
+            school_name=self.cleaned_data['school_name'].upper(),
             school_badge=self.cleaned_data['school_badge'],
             school_type=self.cleaned_data['school_type'],
             school_ownership=self.cleaned_data['school_ownership'],
             school_admin_level_1=self.cleaned_data['school_admin_level_1'],
             school_admin_level_2=self.cleaned_data.get('school_admin_level_2'),
-            school_admin_level_3=self.cleaned_data.get('school_admin_level_3'),
-            school_locality=self.cleaned_data.get('school_locality'),
+            school_admin_level_3=self.cleaned_data.get('school_admin_level_3').upper(),
+            school_locality=self.cleaned_data.get('school_locality').upper(),
             school_phone=self.cleaned_data['school_phone'],
             school_status='P',  # default
         )
+        print(self.cleaned_data['school_phone'])
 
         return user

@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from allauth.account.decorators import verified_email_required
 import uuid
+from students.forms import StudentRegistrationForm
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -51,15 +52,26 @@ def teacher_registration(request):
     return render(request, template_name, context)
 
 def student_registration(request):
-    if school_uuid == valid_school_uuid:
-        template_name = "schools/usrmng/s_reg.html"
-        page_title = "S-Management"
+    #independent tags
+    template_name = "schools/usrmng/s_reg.html"
+    page_title = "S-Management"
+    form = StudentRegistrationForm()
+    if request.method == "POST":
+    # if school_uuid == valid_school_uuid:
+        form = StudentRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            return HttpResponse("Valid form")
 
         context = {
-            "page_title":page_title
+            "page_title":page_title,
+            "form":form
         }
     else:
-        return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
+        context = {
+            "page_title":"page_title",
+            "form": form
+        }
+
     
     return render(request, template_name, context)
 def parent_registration(request):

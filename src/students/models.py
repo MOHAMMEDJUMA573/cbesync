@@ -68,10 +68,10 @@ class StudentProfile(models.Model):
         max_length=100
     )
 
-    GENDER_CHOICES = [
-        ('M', 'Male'),
-        ('F', 'Female')
-    ]
+    GENDER_CHOICES = (
+        ("M", "Male"),
+        ("F", "Female"),
+    )
     student_gender = models.CharField(
         max_length=1,
         choices=GENDER_CHOICES,
@@ -83,18 +83,26 @@ class StudentProfile(models.Model):
 
     student_allergies = ArrayField(
         models.CharField(max_length=200),
-        blank=True
+        blank=True,
     )
-    BLOOD_GROUPS=[
-        "A","B","AB","O"
-    ]
+    BLOOD_GROUPS=(
+        ("A", "A"),
+        ("B","B"),
+        ("AB", "AB"),
+        ("O","O")
+    )
     student_blood_group = models.CharField(
-        max_length=1,
+        max_length=2,
         null=True,
         blank=True,
     ) 
+    SP_NEEDS_OPTS=(
+        ("T", "Yes"),
+        ("F", "No")
+    )
     student_s_needs= models.CharField(
-        max_length=200,
+        choices=SP_NEEDS_OPTS,
+        max_length=1,
         blank=True,
         null=True
     )

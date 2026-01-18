@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     "whitenoise.runserver_nostatic", #to prevent runserver default staticfiles serving
     'django.contrib.staticfiles',
+    'django.contrib.postgres',
     #thirdparty
     "allauth",
     "allauth.account",
@@ -67,6 +68,7 @@ INSTALLED_APPS = [
     "accounts",
     "trial",
     "schools",
+    "students",
 ]
 
 MIDDLEWARE = [

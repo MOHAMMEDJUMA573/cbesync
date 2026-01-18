@@ -5,7 +5,7 @@ from accounts.models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.postgres.forms import SimpleArrayField
 
-class StudentRegistrationForm:
+class StudentRegistrationForm(forms.Form):
     student_first_name = forms.CharField(
         max_length=30,
         required=True,
@@ -23,7 +23,6 @@ class StudentRegistrationForm:
     )
     student_gender = forms.ChoiceField(
         choices=StudentProfile.GENDER_CHOICES,
-        max_length=1
     )
     student_dob = forms.DateField(
         initial=date(2006, 6, 9),
@@ -58,12 +57,12 @@ class StudentRegistrationForm:
         initial=date.today(),
         required=True
     )
-    student_s_needs= forms.BooleanField(
+    student_s_needs= forms.ChoiceField(
+        choices=StudentProfile.SP_NEEDS_OPTS,
         required=True
     )
     student_blood_group = forms.ChoiceField(
         choices=StudentProfile.BLOOD_GROUPS,
-        max_length=1,
         required=True
     ) 
     student_e_notes = forms.CharField(
@@ -71,7 +70,8 @@ class StudentRegistrationForm:
         required=False
     )
     student_allergies = SimpleArrayField(
-        forms.CharField(max_length=100)
+        forms.CharField(max_length=100),
+        required=False        
     )
     student_pic = forms.ImageField(
         required=False,

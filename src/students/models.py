@@ -85,6 +85,9 @@ class StudentProfile(models.Model):
         models.CharField(max_length=200),
         blank=True
     )
+    BLOOD_GROUPS=[
+        "A","B","AB","O"
+    ]
     student_blood_group = models.CharField(
         max_length=1,
         null=True,
@@ -129,7 +132,7 @@ class StudentProfile(models.Model):
         default='A'
     )
 
-    student_creation_date = models.DateTimeField(auto_now_add=True)
+    student_admission_date = models.DateTimeField(auto_now_add=True)
     student_update = models.DateTimeField(auto_now=True)
     student_enrollment_date = models.DateTimeField(auto_now_add=True)
 

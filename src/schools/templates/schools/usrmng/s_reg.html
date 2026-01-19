@@ -15,29 +15,31 @@
 	<main>
 		<h1 class="main-header">Student Registration</h1>
 		<div class="main-grid"> 
-			<form action="{% url 'schools:school_student_registration' %}" method="post" class="reg-form">
+			<form action="{% url 'schools:school_student_registration' %}" enctype="multipart/form-data" method="post" class="reg-form">
 				{% csrf_token %}
 				<div class="form-header">
 					<div class="form-guide-text">
 						<p>Please fill the form below to register a student</p>
-						<p class="error-message"></p>
+						<p class="error-message">
+							{{ form.non_field_errors }}
+						</p>
 					</div>
 				</div>
 				<div class="form-body">
 					<div class="form-field1">
-							<label for="f-name">First-Name: <p>{{ form.student_first_name.errors }}</p> </label>
-							<input type="text" name="student_first_name" id="f-name" placeholder="first_name" value="{{ form.student_first_name.value }}">
+							<label for="id_student_first_name">First-Name: <p>{{ form.student_first_name.errors }}</p> </label>
+							{{form.student_first_name}}
 					</div>
 					<div class="form-field1">
-							<label for="m-name">Middle-Name: <p>{{ form.student_middle_name.errors }}</p> </label>
-							<input type="text" name="student_middle_name" id="m-name" placeholder="middle_name" value="{{ form.student_middle_name.value }}">
+							<label for="id_student_middle_name">Middle-Name: <p>{{ form.student_middle_name.errors }}</p> </label>
+							{{form.student_middle_name}}
 					</div>
 					<div class="form-field1">
-							<label for="l-name">Last-Name: <p>{{ form.student_last_name.errors }}</p> </label>
-							<input type="text" name="student_last_name" id="l-name" placeholder="last_name" value="{{ form.student_last_name.value }}">
+							<label for="id_student_last_name">Last-Name: <p>{{ form.student_last_name.errors }}</p> </label>
+							{{form.student_last_name}}
 					</div>
 					<div class="form-field1">
-						<label>
+						<label for="gender_M">
 							Gender:
 							<p>{{ form.student_gender.errors }}</p>
 						</label>
@@ -55,27 +57,27 @@
 						</div>
 					</div>
 					<div class="form-field1">
-							<label for="dob">Date of Birth: <p>{{ form.student_dob.errors }}</p> </label>
-							<input type="date" name="student_dob" id="dob" value="{{ form.student_dob.value }}">
+							<label for="id_student_dob">Date of Birth: <p>{{ form.student_dob.errors }}</p> </label>
+							{{form.student_dob}}
 					</div>
 					<div class="form-field1">
-							<label for="e-contact">Emergency Contact: <p>{{ form.student_e_contact.errors }}</p> </label>
-							<input type="text" name="student_e_contact" id="e-contact" placeholder="e.g +25472345678" minlength="9" maxlength="15" value="{{ form.student_e_contact.value }}">
+							<label for="id_student_e_contact">Emergency Contact: <p>{{ form.student_e_contact.errors }}</p> </label>
+							{{form.student_e_contact}}
 					</div>
 					<div class="form-field1">
-							<label for="email">Email: <p>{{ form.student_email.errors }}</p> </label>
-							<input type="email" name="student_email" id="email" placeholder="e.g moh@cbesyn.com" value="{{ form.student_email.value }}">
+							<label for="id_student_email">Email: <p>{{ form.student_email.errors }}</p> </label>
+							{{form.student_email}}
 					</div>
 					<div class="form-field1">
-							<label for="h-address">Home address: <p>{{ form.student_home_address.errors }}</p> </label>
-							<input type="text" name="student_home_address" id="h-address" placeholder="e.g Maweni-Likoni" value="{{ student.student_home_address.value }}">
+							<label for="id_student_home_address">Home address: <p>{{ form.student_home_address.errors }}</p> </label>
+							{{form.student_home_address}}
 					</div>
 					<div class="form-field1">
-							<label for="adm-number">Admission Number: <p>{{ form.student_admission_number.errors }}</p> </label>
-							<input type="text" name="student_admission_number" id="adm-number" placeholder="e.g 10554" value="{{ form.student_admission_number.value}}">
+							<label for="id_student_admission_number">Admission Number: <p>{{ form.student_admission_number.errors }}</p> </label>
+							{{form.student_admission_number}}
 					</div>
 					<div class="form-field1">
-							<label>
+							<label for="std-class">
 								Student class: 
 								<p>{{ form.student_class.errors }}</p>
 							</label>
@@ -99,11 +101,11 @@
 							</select>
 					</div>
 					<div class="form-field1">
-							<label for="doa">Date of Admission: <p>{{ form.student_admission_date.errors }}</p> </label>
-							<input type="date" name="student_admission_date" id="doa" value="{{ form.student_admission_date.value }}">
+							<label for="id_student_admission_date">Date of Admission: <p>{{ form.student_admission_date.errors }}</p> </label>
+							{{form.student_admission_date}}
 					</div>
 					<div class="form-field1">
-							<label>
+							<label for="T">
 								Special Needs: 
 								<p>{{ form.student_s_needs.errors }}</p> 
 							</label>
@@ -121,15 +123,11 @@
 							</div>
 					</div>
 					<div class="form-field1">
-							<label>
+							<label for="id_student_blood_group">
 								Blood-group: 
 								<p>{{ form.student_blood_group.errors }}</p> 
 							</label>
-							<select name="student_blood_group" id="blood-group">
-								{% for value, label in form.student_blood_group.field.choices %}
-									<option value={{value}} {% if form.student_blood_group.value == value %}selected{% endif %}>{{label}}</option>
-								{% endfor %}
-							</select>
+							{{form.student_blood_group}}
 					</div>
 					<div class="form-field1">
 							<label for="e-notes">Emergency Notes: <p>{{ form.student_e_notes.errors }}</p> </label>

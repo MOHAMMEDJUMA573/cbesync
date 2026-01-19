@@ -23,14 +23,15 @@ class StudentRegistrationForm(forms.Form):
     )
     student_gender = forms.ChoiceField(
         choices=StudentProfile.GENDER_CHOICES,
+        widget=forms.RadioSelect
     )
     student_dob = forms.DateField(
-        initial=date(2006, 6, 9),
+        initial=date(2006, 6, 9).strftime('%Y-%m-%d'),
         required=True
     )
     student_e_contact = PhoneNumberField(
         required=True,
-        region="KE",
+        initial="+254",
         label="Mobile No"
     )
     student_email = forms.EmailField(
@@ -54,7 +55,7 @@ class StudentRegistrationForm(forms.Form):
         disabled=True,
     )
     student_admission_date = forms.DateField(
-        initial=date.today(),
+        initial=date.today().strftime('%Y-%m-%d'),
         required=True
     )
     student_s_needs= forms.ChoiceField(

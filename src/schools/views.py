@@ -67,6 +67,7 @@ def student_registration(request):
             "form":form
         }
     else:
+        
         context = {
             "page_title":"page_title",
             "form": form

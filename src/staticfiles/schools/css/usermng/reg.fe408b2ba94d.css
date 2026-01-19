@@ -1,0 +1,122 @@
+/*custom page for table fit*/
+.top-level-box{
+    grid-template-columns: 1fr;
+}
+/*hide analytics and recent*/
+.recent-updates{
+    display: none;
+}
+.school-analytics{
+    display: none;
+}
+/*page context formating*/
+.reg-form{
+    display: flex;
+    flex-direction: column;
+}
+.form-header{
+    display: flex;
+    margin-bottom: 1rem;
+    border: 1px solid green;
+    background-color: var(--color-white);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.form-guide-text{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+.error-message{
+    color: var(--color-warning);
+}
+.form-body{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid green;
+    background-color: var(--color-white);
+    border-radius: 1rem;
+}
+.form-field1{
+    display: flex;
+    flex-direction: column;
+    margin: 0.4rem;
+    padding: 0.5rem;
+    appearance: auto;
+    overflow: hidden;
+}
+.form-field1 > label{
+    display: block;
+    padding: 0.5rem;
+    padding-left: 0;
+    font-weight: bold;
+    text-align: left;
+    color: var(--color-cbesync-p1);
+}
+
+input[type="text"], input[type="email"],input[type="date"], select, input[type="number"], input[type="tel"], textarea{
+    display: flex;
+    flex: 1;
+    border: none;
+    background: #e3e3e3;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.3rem;
+    color: darkblue;
+    max-width: 30ch;
+}
+.opt-buttons{
+    display: flex;
+}
+.opt-buttons > button{
+    display: flex;
+    flex: 1;
+    margin: 0.4rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    font-weight: bolder;
+    color: white;
+    background: green;
+    max-width:6.5rem;
+    padding: 0.7rem;
+    height:3rem;
+    transition: all 300ms ease;
+}
+.opt-buttons > button:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+.opt-buttons > button:nth-child(2){
+    background: red;
+}
+/*Media Queries*/
+@media screen and (max-width:1200px) {
+    main{
+        margin-left: 8rem;
+    }
+    .reg-form{
+        margin-top: 2rem;
+    }
+    .form-body{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media screen and (max-width:768px) {
+    main{
+        margin-left: 0;
+    }
+    .reg-form{
+        margin-top: 0;
+    }
+    .form-body{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .aside-right .top{
+        top: 0;
+    }  
+
+    
+}

@@ -1,5 +1,7 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from accounts.models import CustomUser
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
 from allauth.account.decorators import verified_email_required
 import uuid
 from students.forms import StudentRegistrationForm
@@ -11,6 +13,7 @@ school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 @verified_email_required
 def dashboard(request):
     if request.user.user_type == "school":
+        current_school_id = request.user.username
         if school_uuid == valid_school_uuid:
             template_name = "schools/dashl0/school_index.html"
             page_title = "S-Dashboard"
@@ -52,28 +55,29 @@ def teacher_registration(request):
     return render(request, template_name, context)
 
 def student_registration(request):
-    #independent tags
-    template_name = "schools/usrmng/s_reg.html"
-    page_title = "S-Management"
-    form = StudentRegistrationForm()
-    if request.method == "POST":
-    # if school_uuid == valid_school_uuid:
-        form = StudentRegistrationForm(request.POST, request.FILES)
-        if form.is_valid():
-            return HttpResponse("Valid form")
+    if request.user.user_type == "school":
+        template_name = "schools/usrmng/s_reg.html"
+        page_title = "S-Management"
+        form = StudentRegistrationForm()
+        if request.method == "POST":
+        # if school_uuid == valid_school_uuid:
+            form = StudentRegistrationForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save(student_school=request.user.school_profile)         
 
-        context = {
-            "page_title":page_title,
-            "form":form
-        }
-    else:
-        
-        context = {
-            "page_title":"page_title",
-            "form": form
-        }
 
-    
+                return HttpResponse(f"Student saved:\n {form.cleaned_data}")
+
+            context = {
+                "page_title":page_title,
+                "form":form
+            }
+        else:
+            
+            context = {
+                "page_title":"page_title",
+                "form": form
+            }        
     return render(request, template_name, context)
 def parent_registration(request):
     if school_uuid == valid_school_uuid:

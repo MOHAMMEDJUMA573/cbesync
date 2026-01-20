@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password
 from datetime import date
 import uuid
+from schools.models import SchoolProfile
 from pathlib import Path
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.postgres.fields import ArrayField
@@ -32,8 +32,8 @@ class StudentProfile(models.Model):
     student_id = models.CharField(
         max_length=25,
         unique=True,
-        db_index=True,
         default=generate_unique_student_id,
+        db_index=True,
         editable=False
     )
 
@@ -45,7 +45,8 @@ class StudentProfile(models.Model):
     student_school = models.ForeignKey(
         SchoolProfile,
         on_delete=models.CASCADE,
-        related_name="students"
+        related_name="students",
+        null=True
     )
 
     student_admission_number = models.CharField(
@@ -80,10 +81,16 @@ class StudentProfile(models.Model):
     student_dob = models.DateField(
         default=date(2000, 1, 1)
     )
-
+    ALLERGY_CHOICES = (
+        ("ENV","Environment"),
+        ("FOD","Food"),
+        ("LTX", "Latex"),
+        ("IST", "Insects")
+    )
     student_allergies = ArrayField(
-        models.CharField(max_length=200),
+        models.CharField(max_length=3, choices=ALLERGY_CHOICES),
         blank=True,
+        default=list
     )
     BLOOD_GROUPS=(
         ("A", "A"),
@@ -146,18 +153,6 @@ class StudentProfile(models.Model):
 
     def student_age(self):
         f_status = "sometimelater"
-
-    def save(self, *args, **kwargs):
-        new_user = CustomUser.objects.create_user(
-            username=self.student_id,
-            email=self.student_email,
-            user_type='student'
-        )
-        new_user.set_password(self.student_id)
-        new_user.save()
-        self.user = new_user
-
-        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.student_first_name} {self.student_last_name} ({self.student_admission_number})"

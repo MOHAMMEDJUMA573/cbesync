@@ -3,7 +3,16 @@ from datetime import date
 from .models import StudentProfile
 from accounts.models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
-from django.contrib.postgres.forms import SimpleArrayField
+import uuid
+#from django.contrib.postgres.forms import SimpleArrayField
+
+def generate_unique_student_id():
+    while True:
+        new_id = f"STD-{uuid.uuid4().hex[:16].upper()}"
+        if not StudentProfile.objects.filter(student_id=new_id).exists():
+            return new_id
+
+
 
 class StudentRegistrationForm(forms.Form):
     student_first_name = forms.CharField(
@@ -70,16 +79,47 @@ class StudentRegistrationForm(forms.Form):
         max_length=200,
         required=False
     )
-    student_allergies = SimpleArrayField(
-        forms.CharField(max_length=100),
-        required=False        
+    student_allergies = forms.MultipleChoiceField(
+        choices=StudentProfile.ALLERGY_CHOICES,
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
     )
     student_pic = forms.ImageField(
         required=False,
     )
 
 
-
-
-
+    def save(self, *args, **kwargs):
+            user = CustomUser.objects.create_user(
+                username=generate_unique_student_id(),
+                email=self.cleaned_data['student_email'],
+                user_type='student',
+                user_country = self.cleaned_data['student_country']
+            )
+            user.set_password(str(user.username))
+            user.save()
+            #create the studenr
+            student_school = kwargs.get('student_school')
+            StudentProfile.objects.create(
+                user = user,
+                student_id = user.username,
+                student_school = student_school,
+                student_first_name = self.cleaned_data['student_first_name'],
+                student_middle_name = self.cleaned_data['student_middle_name'],
+                student_last_name = self.cleaned_data['student_last_name'],
+                student_gender = self.cleaned_data['student_gender'],
+                student_dob = self.cleaned_data['student_dob'],
+                student_e_contact = self.cleaned_data['student_e_contact'],
+                student_email = self.cleaned_data['student_email'],
+                student_home_address = self.cleaned_data['student_home_address'],
+                student_admission_number = self.cleaned_data['student_admission_number'],
+                student_admission_date = self.cleaned_data['student_admission_date'],
+                student_s_needs = self.cleaned_data['student_s_needs'],
+                student_blood_group = self.cleaned_data['student_blood_group'],
+                student_e_notes = self.cleaned_data['student_e_notes'],
+                student_allergies = self.cleaned_data['student_allergies'],
+                student_pic = self.cleaned_data['student_pic'],
+                student_status = 'A' #student status default field
+            )
+            print(self.cleaned_data)
 

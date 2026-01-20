@@ -136,22 +136,17 @@
 					<div class="form-field1">
 							<label for="environment">Allergies: <p>{{ form.student_allergies.errors }}</p></label>
 							<div style="display: grid; grid-template-columns: repeat(2, 1fr);">
-								<div>
-									<input type="checkbox" id="environment" name="student_allergies[]" value="environment">
-									<label for="environment">Environment</label><br> 
-								</div>
-								<div>
-									<input type="checkbox" id="food" name="student_allergies[]" value="food">
-									<label for="food">Food </label><br>
-								</div>
-								<div>
-									<input type="checkbox" id="latex" name="student_allergies[]" value="latex">
-									<label for="latex">Latex </label><br> 
-								</div>
-								<div>
-									<input type="checkbox" id="insects" name="student_allergies[]" value="insects">
-									<label for="insects">Insects</label><br> 
-								</div>										
+								{% for value, label in form.student_allergies.field.choices %}
+									<div>
+										<input
+											type="checkbox"
+											id="{{value}}"
+											name="student_allergies"
+											value="{{value}}"
+										>
+										<label for="{{value}}">{{label}}</label><br> 
+									</div>
+								{% endfor %}									
 							</div>
 					</div> 
 					<div class="form-field1">

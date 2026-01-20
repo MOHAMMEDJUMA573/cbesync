@@ -5,6 +5,7 @@ from accounts.models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 import uuid
 from django.utils.translation import gettext_lazy as _
+from better_profanity import profanity
 #from django.contrib.postgres.forms import SimpleArrayField
 
 def generate_unique_student_id():
@@ -96,13 +97,12 @@ class StudentRegistrationForm(forms.Form):
             "student_email"
         ]
         for student_field in student_fields:
-             value = cleaned_data.get(student_field).lower()
-             for banned_w in CustomUser.BANNED_WORDS:
-                if banned_w in value:
-                    self.add_error(
-                        student_field,
-                        _(f"value cant contain '{banned_w}'")
-                    )
+            value = cleaned_data.get(student_field).lower()
+            if profanity.contains_profanity(value):
+                self.add_error(
+                    student_field,
+                    _(f"{value} is unallowed!")
+                )
 
 
 

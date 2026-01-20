@@ -155,4 +155,4 @@ class StudentProfile(models.Model):
         f_status = "sometimelater"
 
     def __str__(self):
-        return f"{self.student_first_name} {self.student_last_name} ({self.student_admission_number})"
+        return f"{self.student_first_name} {self.student_last_name} ({self.student_id})"

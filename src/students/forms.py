@@ -4,6 +4,7 @@ from .models import StudentProfile
 from accounts.models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 import uuid
+from django.utils.translation import gettext_lazy as _
 #from django.contrib.postgres.forms import SimpleArrayField
 
 def generate_unique_student_id():
@@ -88,6 +89,24 @@ class StudentRegistrationForm(forms.Form):
         required=False,
     )
 
+    def clean(self):
+        cleaned_data =  super().clean()
+        student_fields = [
+            "student_first_name", "student_middle_name", "student_last_name",
+            "student_email"
+        ]
+        for student_field in student_fields:
+             value = cleaned_data.get(student_field).lower()
+             for banned_w in CustomUser.BANNED_WORDS:
+                if banned_w in value:
+                    self.add_error(
+                        student_field,
+                        _(f"value cant contain '{banned_w}'")
+                    )
+
+
+
+        return cleaned_data
 
     def save(self, *args, **kwargs):
             user = CustomUser.objects.create_user(

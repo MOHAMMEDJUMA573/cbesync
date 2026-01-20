@@ -28,8 +28,10 @@ def dashboard(request):
     return render(request, template_name, context)
 
 #usermanagement and subs
+@verified_email_required
 def user_management(request):
-    if school_uuid == valid_school_uuid:
+    if request.user.user_type == "school":
+    # if school_uuid == valid_school_uuid:
         template_name = "schools/dashl0/school_usermng.html"
         page_title = "Management"
 
@@ -37,7 +39,7 @@ def user_management(request):
             "page_title":page_title
         }
     else:
-        return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
+        return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")
     
     return render(request, template_name, context)
 
@@ -54,6 +56,7 @@ def teacher_registration(request):
     
     return render(request, template_name, context)
 
+@verified_email_required
 def student_registration(request):
     if request.user.user_type == "school":
         template_name = "schools/usrmng/s_reg.html"

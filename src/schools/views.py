@@ -18,8 +18,9 @@ def dashboard(request):
         school_name = current_school.school_name
         school_id = current_school.school_id
         school_country = current_school.user.get_user_country_display()
+        school_type = current_school.get_school_type_display()
         print(school_country)
-        school_county = current_school.school_admin_level_2
+        school_county = current_school.get_school_admin_level_2_display()
         print(school_county)
         if school_uuid == valid_school_uuid:
             template_name = "schools/dashl0/school_index.html"
@@ -31,7 +32,8 @@ def dashboard(request):
                 "school_id":school_id,
                 "school_country":school_country,
                 "school_county":school_county,
-                "student_count": school_students_polpulation
+                "school_type":school_type,
+                "student_count": school_students_polpulation,
             }   
     else:
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")

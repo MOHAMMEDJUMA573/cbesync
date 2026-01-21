@@ -1,5 +1,6 @@
 from django.db import models
 from pathlib import Path
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.hashers import make_password
 import uuid
 from accounts.models import CustomUser
@@ -184,14 +185,17 @@ class SchoolProfile(models.Model):
     #school_polpulation
     school_students_polpulation = models.IntegerField(
         default=0,
+        validators=[MaxValueValidator(5000), MinValueValidator(0)],
         help_text="Number of students"
     )
     school_teachers_polpulation = models.IntegerField(
         default=0,
+        validators=[MaxValueValidator(500), MinValueValidator(0)],
         help_text="Number of teachers"
     )
-    school_ntstaff_polpulation = models.IntegerField(
+    school_ntstaffs_polpulation = models.IntegerField(
         default=0,
+        validators=[MaxValueValidator(600), MinValueValidator(0)],
         help_text="Number of ntstaffs"
     )
     #12. Timestamps

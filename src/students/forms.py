@@ -89,7 +89,6 @@ class StudentRegistrationForm(forms.Form):
         required=False,
     )
     student_pic = forms.ImageField(
-        required=False,
     )
 
     def clean(self):

@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "trial",
     "schools",
     "students",
+    "teachers",
 ]
 
 MIDDLEWARE = [

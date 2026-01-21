@@ -111,7 +111,7 @@ class SchoolProfile(models.Model):
         ("KRC", "Kericho"),
         ("LKP", "Laikipia"),
         ("LMU", "Lamu"),
-        ("MBS", "Mombasa"),
+        ("MSA", "Mombasa"),
         ("MCH", "Machakos"),
         ("MDR", "Mandera"),
         ("MKU", "Makueni"),
@@ -136,7 +136,7 @@ class SchoolProfile(models.Model):
         ("VHG", "Vihiga"),
         ("WAJ", "Wajir"),
         ("WPK", "West Pokot"),
-        ("NBO", "Nairobi")
+        ("NRB", "Nairobi")
     ]
 
     school_admin_level_2 = models.CharField(
@@ -181,6 +181,19 @@ class SchoolProfile(models.Model):
         default='P',
         help_text="School_status on the platform e.g Verified"
     )
+    #school_polpulation
+    school_students_polpulation = models.IntegerField(
+        default=0,
+        help_text="Number of students"
+    )
+    school_teachers_polpulation = models.IntegerField(
+        default=0,
+        help_text="Number of teachers"
+    )
+    school_ntstaff_polpulation = models.IntegerField(
+        default=0,
+        help_text="Number of ntstaffs"
+    )
     #12. Timestamps
     school_creation_date = models.DateTimeField(
         auto_now_add=True,
@@ -192,6 +205,10 @@ class SchoolProfile(models.Model):
         help_text="Last Modification timestamp"
     )
     #return string
+
+    # @property
+    # def student_count(self):
+
 
     def __str__(self):
         return f"{self.school_name} --- {self.school_email}"

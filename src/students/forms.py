@@ -1,5 +1,7 @@
 from django import forms
 from datetime import date
+from django.db import transaction
+from django.db.models import F
 from .models import StudentProfile
 from accounts.models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
@@ -108,20 +110,20 @@ class StudentRegistrationForm(forms.Form):
 
         return cleaned_data
 
-    def save(self, *args, **kwargs):
+    def save(self, student_school, commit=True):
+        with transaction.atomic():
+            username = generate_unique_student_id()
             user = CustomUser.objects.create_user(
-                username=generate_unique_student_id(),
+                username=username,
                 email=self.cleaned_data['student_email'],
+                password=str(username),
                 user_type='student',
-                user_country = self.cleaned_data['student_country']
+                user_country = self.cleaned_data['student_country'],
             )
-            user.set_password(str(user.username))
-            user.save()
-            #create the studenr
-            student_school = kwargs.get('student_school')
+            #create the student
             StudentProfile.objects.create(
                 user = user,
-                student_id = user.username,
+                student_id = username,
                 student_school = student_school,
                 student_first_name = self.cleaned_data['student_first_name'],
                 student_middle_name = self.cleaned_data['student_middle_name'],
@@ -140,5 +142,10 @@ class StudentRegistrationForm(forms.Form):
                 student_pic = self.cleaned_data['student_pic'],
                 student_status = 'A' #student status default field
             )
+            #increment the nuber of students in the school
+            student_school.school_students_polpulation = F(
+                'school_students_polpulation'
+            ) + 1
+            student_school.save(update_fields=['school_students_polpulation'])
             print(self.cleaned_data)
 

@@ -16,16 +16,16 @@
 		<h1 class="main-header">Dashboard</h1>
 		<div class="school-data">
 			<div class="school-name">
-				<p>School Name: <span class="school-rez">Mwangani</span></p>
+				<p>School Name: <span class="school-rez">{{ school_name }}</span></p>
 			</div>
 			<div class="school-code">
-				<p>School Code: <span class="school-rez">02109301</span></p>
+				<p>School ID: <span class="school-rez">{{ school_id }}</span></p>
 			</div>
 			<div class="school-country">
-				<p>Country: <span class="school-rez">Kenya</span></p>
+				<p>Country: <span class="school-rez">{{ school_country }}</span></p>
 			</div>
 			<div class="school-county">
-				<p>County: <span class="school-rez">Kenya</span></p>
+				<p>County: <span class="school-rez">{{ school_county }}</span></p>
 			</div>
 			<div class="school-type">
 				<p>School Type: <span class="school-rez">Hybrid</span></p>
@@ -41,7 +41,7 @@
 				<div class="middle">
 					<div class="left">
 						<h3>Students</h3>
-						<h1>0000</h1>
+						<h1>{{ student_count|stringformat:"04d" }}</h1>
 					</div>
 					<div class="progress">
 						<canvas class="canvas0">

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
-from accounts.models import CustomUser
-from django.contrib.auth.models import User
+from schools.models import SchoolProfile
+from students.models import StudentProfile
 from django.shortcuts import render, redirect
 from allauth.account.decorators import verified_email_required
 import uuid
@@ -13,13 +13,25 @@ school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 @verified_email_required
 def dashboard(request):
     if request.user.user_type == "school":
-        current_school_id = request.user.username
+        current_school = request.user.school_profile
+        school_students_polpulation = current_school.school_students_polpulation
+        school_name = current_school.school_name
+        school_id = current_school.school_id
+        school_country = current_school.user.get_user_country_display()
+        print(school_country)
+        school_county = current_school.school_admin_level_2
+        print(school_county)
         if school_uuid == valid_school_uuid:
             template_name = "schools/dashl0/school_index.html"
             page_title = "S-Dashboard"
 
             context = {
-                "page_title":page_title
+                "page_title":page_title,
+                "school_name":school_name,
+                "school_id":school_id,
+                "school_country":school_country,
+                "school_county":school_county,
+                "student_count": school_students_polpulation
             }   
     else:
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")

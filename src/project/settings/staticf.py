@@ -19,16 +19,16 @@ CLOUD_FLARE_R2_CONFIG_OPTIONS = {
 # Source - https://stackoverflow.com/a
 STATIC_URL = 'static/'
 
-print(f"{BASE_DIR2}/staticfilesdev/")
+print(f"{BASE_DIR2}/staticfilesdev/") # type:ignore
 
 if not DEBUG: # type:ignore
     STATICFILES_DIRS = [
-        f"{BASE_DIR2}/staticfilesdev",
+        f"{BASE_DIR2}/staticfilesdev", # type:ignore
     ]
     STATIC_ROOT=f"{BASE_DIR2}/staticfiles"  # type:ignore
-if DEBUG:
+if DEBUG: # type:ignore
     STATICFILES_DIRS = [
-        f"{BASE_DIR2}/staticfilesdev",
+        f"{BASE_DIR2}/staticfilesdev", # type:ignore
     ]
     STATIC_ROOT=f"{BASE_DIR2}/staticfiles"  # type:ignore
 STORAGES = {

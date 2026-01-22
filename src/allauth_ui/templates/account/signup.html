@@ -3,7 +3,7 @@
 {% load allauth_ui %}
 {% load widget_tweaks %}
 {% block content %}
-    {% trans "Sign Up" as heading %}
+    {% trans "Register your School" as heading %}
     {% blocktranslate asvar subheading %}Already have an account? Then please <a href="{{ login_url }}" class="link">sign in</a>.{% endblocktranslate %}
     {% #container heading=heading subheading=subheading  %}
     {% if not SOCIALACCOUNT_ONLY %}

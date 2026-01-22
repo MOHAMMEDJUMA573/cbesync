@@ -1,11 +1,18 @@
 from allauth.account.forms import SignupForm
 from django import forms
+import uuid
 from accounts.models import CustomUser
 from .models import SchoolProfile
 from phonenumber_field.formfields import PhoneNumberField
-from phonenumber_field.formfields import SplitPhoneNumberField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
+#function to generate random school id
+def generate_unique_school_id():
+    while True:
+        new_id = f"SCH-{uuid.uuid4().hex[:12].upper()}"
+        if not SchoolProfile.objects.filter(school_id=new_id).exists():
+            return new_id
 
 # --- Reusable validator for school code format ---
 def alphanumeric_validator(value):
@@ -26,12 +33,22 @@ class SchoolSignupForm(SignupForm):
             "required": _("Please enter your school code"),
             "max_length": _("School code cannot exceed 20 characters"),
             "invalid": _("School code is not valid")
-        }
+        },
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     school_name = forms.CharField(
         required=True,
         max_length=150,
-        label="School Name"
+        label="School Name",
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     school_badge = forms.ImageField(
         required=False
@@ -55,26 +72,49 @@ class SchoolSignupForm(SignupForm):
         initial="CST",
         choices=SchoolProfile.KENYA_PRV_CBESYNC,
         label="State / Province / Region",
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     school_admin_level_2 = forms.ChoiceField(
         choices=SchoolProfile.KENYA_CNT_CBESYNC,
         label="County / District / Prefecture",
-        initial="MBS"
+        initial="MBS",
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     school_admin_level_3 = forms.CharField(
         max_length=100,
         label="Ward / Municipality / Commune",
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     school_locality = forms.CharField(
         max_length=255,
         label="Village / Town / Neighborhood",
-        required=True
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
 
-    school_phone = SplitPhoneNumberField(
-        required=True,
-        region="KE",
-        label="Mobile No"
+    school_phone = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
+        initial="+254",
+        label="Mobile No",
     )
     def clean(self):
         cleaned_data = super().clean()
@@ -111,9 +151,11 @@ class SchoolSignupForm(SignupForm):
 
     def save(self, request):
         user = super().save(request)
+        username = generate_unique_school_id()
         user.user_type = 'school'
+        user.username = username
         user.user_country = self.cleaned_data['school_country']
-        user.save(update_fields=['user_type', 'user_country'])
+        user.save(update_fields=['user_type', 'username', 'user_country'])
         print(request.FILES)
         #actual school obj creation
         SchoolProfile.objects.create(

@@ -59,11 +59,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     #thirdparty
+    # "allauth_ui",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
+    # "widget_tweaks",
+    # "slippers",
     "phonenumber_field",
+    # "tailwind",
+    # "theme",
     #custom project apps
     "accounts",
     "trial",
@@ -71,6 +76,10 @@ INSTALLED_APPS = [
     "students",
     "teachers",
 ]
+# ALLAUTH_UI_THEME = "forest"
+# TAILWIND_APP_NAME = "theme"
+# ALLAUTH_UI_USE_TAILWIND = False
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

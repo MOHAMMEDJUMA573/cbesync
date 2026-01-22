@@ -69,24 +69,12 @@ class SchoolSignupForm(SignupForm):
         disabled=True,
     )
     school_admin_level_1 = forms.ChoiceField(
-        initial="Coast",
         choices=SchoolProfile.KENYA_PRV_CBESYNC,
         label="State / Province / Region",
-        widget=forms.TextInput(
-            attrs={
-                'autocomplete':'off'
-                }
-        )
     )
     school_admin_level_2 = forms.ChoiceField(
         choices=SchoolProfile.KENYA_CNT_CBESYNC,
         label="County / District / Prefecture",
-        initial="Mombasa",
-        widget=forms.TextInput(
-            attrs={
-                'autocomplete':'off'
-                }
-        )
     )
     school_admin_level_3 = forms.CharField(
         max_length=100,

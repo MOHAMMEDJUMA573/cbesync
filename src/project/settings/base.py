@@ -75,7 +75,7 @@ INSTALLED_APPS = [
     "students",
     "teachers",
 ]
-ALLAUTH_UI_THEME = "forest"
+ALLAUTH_UI_THEME = "halloween"
 # TAILWIND_APP_NAME = "theme"
 # ALLAUTH_UI_USE_TAILWIND = False
 
@@ -116,7 +116,7 @@ SECURE_CSP = {
     ],
     "img-src": [
         CSP.SELF,
-
+        "data:",
     ]
 }
 

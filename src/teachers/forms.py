@@ -6,6 +6,7 @@ from .models import TeacherProfile
 from django.core.validators import MaxValueValidator, MinValueValidator
 from accounts.models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumber
 import uuid
 from django.utils.translation import gettext_lazy as _
 from better_profanity import profanity
@@ -20,12 +21,27 @@ def generate_unique_teacher_id():
 class TeacherRegistrationForm(forms.Form):
     teacher_first_name = forms.CharField(
         max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     teacher_middle_name = forms.CharField(
         max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     teacher_last_name = forms.CharField(
         max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
 
     teacher_gender = forms.ChoiceField(
@@ -34,22 +50,47 @@ class TeacherRegistrationForm(forms.Form):
     )
     
     teacher_phone = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
         initial="+254",
-        label="Mobile No"
+        label="Mobile No",
     )
     teacher_e_contact = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
         initial="+254",
         label="Mobile No"
     )
     
     teacher_email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
         max_length=30,
     )
     teacher_home_address = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':"off"
+            }
+        ),
         max_length=50,
     )
 
     teacher_tsc_number = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':"off"
+            }
+        ),
         max_length=30,
         help_text="Teacher's tsc assigned number"
     )
@@ -84,7 +125,6 @@ class TeacherRegistrationForm(forms.Form):
     teacher_t_subjects = forms.MultipleChoiceField(
         choices=TeacherProfile.TEACHING_SUBJECTS,
         widget=forms.CheckboxSelectMultiple,
-        required=False
     )
     teacher_h_qualification = forms.ChoiceField(
         choices=TeacherProfile.QUALIFICATIONS,

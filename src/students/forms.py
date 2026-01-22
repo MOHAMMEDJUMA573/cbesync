@@ -22,18 +22,31 @@ class StudentRegistrationForm(forms.Form):
     student_first_name = forms.CharField(
         max_length=30,
         required=True,
-        initial=""
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     student_middle_name = forms.CharField(
         max_length=30,
         required=True,
-        initial=""
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
     student_last_name = forms.CharField(
         max_length=30,
         required=True,
-        initial=""
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
     )
+    
     student_gender = forms.ChoiceField(
         choices=StudentProfile.GENDER_CHOICES,
         widget=forms.RadioSelect
@@ -42,12 +55,23 @@ class StudentRegistrationForm(forms.Form):
         initial=date(2006, 6, 9).strftime('%Y-%m-%d'),
         required=True
     )
+    
     student_e_contact = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
         required=True,
         initial="+254",
         label="Mobile No"
     )
     student_email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
         max_length=30,
         required=False
     )
@@ -56,6 +80,11 @@ class StudentRegistrationForm(forms.Form):
         required=True
     )
     student_admission_number = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        ),
         max_length=20,
         initial="",
         required=True

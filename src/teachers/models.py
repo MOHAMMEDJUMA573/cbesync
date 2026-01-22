@@ -205,4 +205,4 @@ class TeacherProfile(models.Model):
     )
     
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name} {self.teacher_tsc_number}"
+        return f"{self.teacher_first_name} {self.teacher_last_name} {self.teacher_tsc_number}"

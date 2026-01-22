@@ -92,7 +92,8 @@ SECURE_CSP = {
     "default-src": [CSP.SELF],
     "script-src": [
         CSP.SELF,
-        CSP.NONCE
+        CSP.NONCE,
+        "https://static.cloudflareinsights.com/"
     ],
     "style-src": [
         CSP.SELF,

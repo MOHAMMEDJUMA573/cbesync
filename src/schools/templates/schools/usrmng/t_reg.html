@@ -162,8 +162,9 @@
 										<input 
 											type="checkbox" 
 											id="{{value}}" 
-											name="tc-subjects[]" 
+											name="{{form.teacher_t_subjects.name}}" 
 											value="{{value}}"
+											{% if value in teacher_t_subjects.value %}checked{% endif %}
 										>
 										<label for="{{value}}">{{label}}</label><br> 
 									</div>
@@ -178,8 +179,11 @@
 								{{form.teacher_h_qualification}}
 						</div>  
 						<div class="form-field1">
-							<label for="avatar">Upload a passport photo: <p>{{ form.teacher_pic.errors }}</p> </label>
-							<input type="file" id="avatar" name="teacher_pic" accept="image/png, image/jpeg" />
+							<label for="id_teacher_pic">
+								Upload a passport photo:
+								<p>{{ form.teacher_pic.errors }}</p>
+							</label>
+							{{form.teacher_pic}}
 						</div>
 						<div class="opt-buttons">
 							<button type="submit">Submit</button> 

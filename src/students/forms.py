@@ -89,6 +89,7 @@ class StudentRegistrationForm(forms.Form):
         required=False,
     )
     student_pic = forms.ImageField(
+        required=False
     )
 
     def clean(self):
@@ -106,7 +107,7 @@ class StudentRegistrationForm(forms.Form):
                 )
 
 
-
+        print("almost")
         return cleaned_data
 
     def save(self, student_school, commit=True):

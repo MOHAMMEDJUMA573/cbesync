@@ -4,6 +4,7 @@ from students.models import StudentProfile
 from django.shortcuts import render, redirect
 from allauth.account.decorators import verified_email_required
 import uuid
+from teachers.forms import TeacherRegistrationForm
 from students.forms import StudentRegistrationForm
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -57,17 +58,30 @@ def user_management(request):
     
     return render(request, template_name, context)
 
+@verified_email_required
 def teacher_registration(request):
-    if school_uuid == valid_school_uuid:
+    if request.user.user_type == "school":
+    # if school_uuid == valid_school_uuid:
         template_name = "schools/usrmng/t_reg.html"
         page_title = "T-Management"
-
+        form = TeacherRegistrationForm()
+        if request.method == "POST":
+            form = TeacherRegistrationForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save(teacher_school=request.user.school_profile)
+                return HttpResponse(f"Teacher saved:\n {form.cleaned_data}")
+            else:
+                print(form.errors)
         context = {
-            "page_title":page_title
+            "page_title":page_title,
+            "form":form
         }
     else:
-        return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
-    
+        print("Here 4")
+        context = {
+            "page_title":"Alert-Mode",
+            "form": form
+        }    
     return render(request, template_name, context)
 
 @verified_email_required
@@ -81,8 +95,6 @@ def student_registration(request):
             form = StudentRegistrationForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save(student_school=request.user.school_profile)         
-
-
                 return HttpResponse(f"Student saved:\n {form.cleaned_data}")
 
             context = {
@@ -92,7 +104,7 @@ def student_registration(request):
         else:
             
             context = {
-                "page_title":"page_title",
+                "page_title":"Alert-Mode",
                 "form": form
             }        
     return render(request, template_name, context)

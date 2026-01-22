@@ -13,25 +13,19 @@ from better_profanity import profanity
 #funtion to generate random but different teacher ids
 def generate_unique_teacher_id():
     while True:
-        new_id = f"STD-{uuid.uuid4().hex[:12].upper()}"
+        new_id = f"TCH-{uuid.uuid4().hex[:12].upper()}"
         if not TeacherProfile.objects.filter(teacher_id=new_id).exists():
             return new_id
 
 class TeacherRegistrationForm(forms.Form):
     teacher_first_name = forms.CharField(
         max_length=30,
-        required=True,
-        initial=""
     )
     teacher_middle_name = forms.CharField(
         max_length=30,
-        required=True,
-        initial=""
     )
     teacher_last_name = forms.CharField(
-        mmax_length=30,
-        required=True,
-        initial=""
+        max_length=30,
     )
 
     teacher_gender = forms.ChoiceField(
@@ -40,12 +34,10 @@ class TeacherRegistrationForm(forms.Form):
     )
     
     teacher_phone = PhoneNumberField(
-        required=True,
         initial="+254",
         label="Mobile No"
     )
     teacher_e_contact = PhoneNumberField(
-        required=True,
         initial="+254",
         label="Mobile No"
     )
@@ -55,23 +47,19 @@ class TeacherRegistrationForm(forms.Form):
     )
     teacher_home_address = forms.CharField(
         max_length=50,
-        required=True
     )
 
     teacher_tsc_number = forms.CharField(
         max_length=30,
-        null=True, 
-        blank=True, 
         help_text="Teacher's tsc assigned number"
     )
     teacher_y_experience = forms.IntegerField(
-        default=0,
-        validators=[MaxValueValidator(60), MinValueValidator(0)],
+        initial=0,
+        # validators=[MaxValueValidator(60), MinValueValidator(0)],
         help_text="teachers experience"
     )
     teacher_h_date = forms.DateField(
         initial=date.today().strftime('%Y-%m-%d'),
-        required=True
     )
     teacher_country = forms.ChoiceField(
         choices=CustomUser.CBESYNC_COUNTRIES,
@@ -96,27 +84,19 @@ class TeacherRegistrationForm(forms.Form):
     teacher_t_subjects = forms.MultipleChoiceField(
         choices=TeacherProfile.TEACHING_SUBJECTS,
         widget=forms.CheckboxSelectMultiple,
+        required=False
     )
     teacher_h_qualification = forms.ChoiceField(
         choices=TeacherProfile.QUALIFICATIONS,
         initial="UDGR"
     )
     teacher_pic = forms.ImageField(
+        required=False
     )
 
     def clean(self):
         cleaned_data =  super().clean()
-        teacher_fields = [
-            "teacher_first_name", "teacher_middle_name", "teacher_last_name",
-            "teacher_email"
-        ]
-        for teacher_field in teacher_fields:
-            value = cleaned_data.get(teacher_field).lower()
-            if profanity.contains_profanity(value):
-                self.add_error(
-                    teacher_field,
-                    _(f"{value} is unallowed!")
-                )
+        return cleaned_data
 
     def save(self, teacher_school, commit=True):
         with transaction.atomic():
@@ -147,7 +127,7 @@ class TeacherRegistrationForm(forms.Form):
                 teacher_employer = self.cleaned_data['teacher_employer'],
                 teacher_department = self.cleaned_data['teacher_department'],
                 teacher_role = self.cleaned_data['teacher_role'],
-                teacher_t_subjects = self.cleaned_data['teacher_t_subject'],
+                teacher_t_subjects = self.cleaned_data['teacher_t_subjects'],
                 teacher_e_level = self.cleaned_data['teacher_e_level'],
                 teacher_h_qualification = self.cleaned_data['teacher_h_qualification'],
                 teacher_pic = self.cleaned_data['teacher_pic'],

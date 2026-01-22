@@ -177,7 +177,7 @@ class TeacherProfile(models.Model):
         ("CASP", "C&Sports"),
         ("PRTS", "Pre-Tech")
     )
-    teacher_t_subject = ArrayField(
+    teacher_t_subjects = ArrayField(
         models.CharField(max_length=4, choices=TEACHING_SUBJECTS),
         blank=True,
         default=list

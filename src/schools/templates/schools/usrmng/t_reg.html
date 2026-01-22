@@ -17,175 +17,175 @@
 		<main>
 			<h1 class="main-header">Teacher Registration</h1>
 			<div class="main-grid"> 
-				<form action="https://httpbin.org/post" method="post" class="reg-form">
-							<div class="form-header">
-								<div class="form-guide-text">
-									<p>Please fill the form below to register a Teacher</p>
-									<p class="error-message"></p>
+				<form action="{% url 'schools:school_teacher_registration'%}" enctype="multipart/form-data" method="post" class="reg-form">
+					{% csrf_token%}
+					<div class="form-header">
+						<div class="form-guide-text">
+							<p>Please fill the form below to register a Teacher</p>
+							<p class="error-message">
+								{{ form.non_field_errors }}
+							</p>
+						</div>
+					</div>
+					<div class="form-body">
+						<div class="form-field1">
+								<label for="id_teacher_first_name">
+									First-Name: 
+									<p>{{ form.teacher_first_name.errors }}</p> 
+								</label>
+								{{form.teacher_first_name}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_middle_name">
+									Middle-Name: 
+									<p>{{ form.teacher_middle_name.errors }}</p> 
+								</label>
+								{{form.teacher_middle_name}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_last_name">
+									Last-Name: 
+									<p>{{ form.teacher_last_name.errors }}</p> 
+								</label>
+								{{form.teacher_last_name}}
+						</div>
+						<div class="form-field1">
+								<label for="gender_M">
+									Gender: 
+									<p>{{ form.teacher_gender.errors }}</p>
+								</label>
+								<div>
+									{% for value, label in form.teacher_gender.field.choices %}
+										<label for="gender_{{ value }}">{{ label }}:</label>
+										<input 
+											type="radio"
+											id="gender_{{ value }}"
+											name="{{ form.teacher_gender.name }}"
+											value="{{ value }}"
+											{% if form.teacher_gender.value == value %}checked{% endif %}
+										>
+									{% endfor %}
 								</div>
-							</div>
-							<div class="form-body">
-								<div class="form-field1">
-										<label for="f-name">First-Name: </label>
-										<input type="text" name="f-name" id="f-name" placeholder="first_name">
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_phone">
+									Phone Number: 
+									<p>{{ form.teacher_phone.errors }} </p> 
+								</label>
+								{{form.teacher_phone}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_e_contact">
+									Emergency Contact: 
+									<p>{{ form.teacher_e_contact.errors }} </p> 
+								</label>
+								{{form.teacher_e_contact}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_email">
+									Email: 
+									<p>{{ form.teacher_email.errors }} </p>
+								</label>
+								{{form.teacher_email}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_home_address">
+									Address: 
+									<p>{{ form.teacher_home_address.errors }} </p>
+								</label>
+								{{form.teacher_home_address}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_tsc_number">
+									TSC-Number: 
+									<p>{{ form.teacher_tsc_number.errors }}</p>
+								 </label>
+								{{form.teacher_tsc_number}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_y_experience">
+									Y of experience: 
+									<p>{{ form.teacher_y_experience.errors }}</p>
+								</label>
+								{{form.teacher_y_experience}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_h_date">
+									Hired date: 
+									<p>{{ form.teacher_h_date.errors }} </p>
+								</label>
+								{{form.teacher_h_date}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_country">
+									Nationality: 
+									<p>{{ form.teacher_country.errors }} </p>
+								</label>
+								{{form.teacher_country}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_employer">
+									Employer: 
+									<p>{{ form.teacher_employer.errors }} </p>
+								</label>
+								{{form.teacher_employer}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_department">
+									Department:
+									<p>{{ form.teacher_department.errors }} </p>
+								</label>
+								{{form.teacher_department}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_role">
+									Role:
+									<p>{{ form.teacher_role.errors }} </p>
+								</label>
+								{{form.teacher_role}}
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_e_level">
+									Educational Level:
+									<p>{{ form.teacher_e_level.errors }} </p>
+								</label>
+								{{form.teacher_e_level}}
+						</div>
+						<div class="form-field1">
+								<label for="ENGL">
+									Teaching Subjects:
+									<p>{{ form.teacher_t_subjects.errors }}
+								</label>
+								<div style="display: grid; grid-template-columns: repeat(3, 1fr);">
+									{% for value, label in form.teacher_t_subjects.field.choices %}
+									<div>
+										<input 
+											type="checkbox" 
+											id="{{value}}" 
+											name="tc-subjects[]" 
+											value="{{value}}"
+										>
+										<label for="{{value}}">{{label}}</label><br> 
+									</div>
+									{% endfor %}
 								</div>
-								<div class="form-field1">
-										<label for="m-name">Middle-Name: </label>
-										<input type="text" name="m-name" id="m-name" placeholder="middle_name">
-								</div>
-								<div class="form-field1">
-										<label for="l-name">Last-Name: </label>
-										<input type="text" name="l-name" id="l-name" placeholder="last_name">
-								</div>
-								<div class="form-field1">
-										<label for="gender">Gender: </label>
-										<div>
-											<label for="male">M: </label>
-											<input type="radio" id="male" value="MALE" name="gender">
-											<label for="female">F: </label>
-											<input type="radio" id="female" value="FEMALE" name="gender">
-										</div>
-								</div>
-								<div class="form-field1">
-										<label for="phone">Phone Number: </label>
-										<input type="text" name="phone" id="phone" placeholder="e.g 254-72345678" minlength="13" maxlength="13" list="defaultTels" pattern="[0-9]{3}-[0-9]{9}">
-										<datalist id="defaultTels">
-												<option value="254-12345678"></option>
-												<option value="254-72345678"></option>
-										</datalist>
-								</div>
-								<div class="form-field1">
-										<label for="e-phone">Emergency Number: </label>
-										<input type="text" name="e-phone" id="e-phone" placeholder="e.g 254-72345678" minlength="13" maxlength="13" list="defaultTels" pattern="[0-9]{3}-[0-9]{9}">
-										<datalist id="defaultTels">
-												<option value="254-12345678"></option>
-												<option value="254-72345678"></option>
-										</datalist>
-								</div>
-								<div class="form-field1">
-										<label for="email">Email: </label>
-										<input type="email" name="email" id="email" placeholder="e.g moh@cbesyn.com">
-								</div>
-								<div class="form-field1">
-										<label for="address">Address: </label>
-										<input type="text" name="address" id="address" placeholder="Magadi-Karen">
-								</div>
-								<div class="form-field1">
-										<label for="tsc-number">TSC-Number: </label>
-										<input type="text" name="tsc-number" id="tsc-number" placeholder="TSC001">
-								</div>
-								<div class="form-field1">
-										<label for="y-experience">Y of experience: </label>
-										<input type="number" name="y-experience" id="y-experience" min="0" max="40" value="0">
-								</div>
-								<div class="form-field1">
-										<label for="d-hired">Hired date: </label>
-										<input type="date" name="d-hired" id="d-hired">
-								</div>
-								<div class="form-field1">
-										<label for="nationality">Nationality</label>
-										<select name="nationality" id="nationality">
-												<option value="kenyan">Kenyan</option>
-												<option value="alien">Alien</option>
-										</select>
-								</div>
-								<div class="form-field1">
-										<label for="employer">Employer</label>
-										<select name="employer" id="employer">
-												<option value="government">Government</option>
-												<option value="institution">Institution</option>
-										</select>
-								</div>
-								<div class="form-field1">
-										<label for="department">Department</label>
-										<select name="department" id="department">
-												<option value="stdept">Science & Technology</option>
-												<option value="humsdept">Humanities Department</option>
-												<option value="phycadept">C.Arts & Physical Ed.</option>
-												<option value="mathdept" selected>Mathematics Department</option>
-												<option value="langdept">Languages Department</option>
-										</select>
-								</div>
-								<div class="form-field1">
-										<label for="role">Role</label>
-										<select name="role" id="role">
-												<option value="SBT">Subject Teacher</option>
-												<option value="HOD">Head of Department</option>
-										</select>
-								</div>
-								<div class="form-field1">
-										<label for="ed-levels">Educational Level</label>
-										<select name="ed-levels" id="ed-levels">
-												<option value="ppe">Pre-primary</option>
-												<option value="lpe">Lower-primary</option>
-												<option value="upe">Upper-primary</option>
-												<option value="jse" selected>Junior-secondary</option>
-										</select> 
-								</div>
-								<div class="form-field1">
-										<label for="tc-subjects[]">Teaching Subjects</label>
-										<div style="display: grid; grid-template-columns: repeat(3, 1fr);">
-											<div>
-												<input type="checkbox" id="eng" name="tc-subjects[]" value="english">
-												<label for="eng">English</label><br> 
-											</div>
-											<div>
-												<input type="checkbox" id="kis" name="tc-subjects[]" value="kiswahili">
-												<label for="kis">Kiswahili</label><br>
-											</div>
-											<div>
-												<input type="checkbox" id="mat" name="tc-subjects[]" value="mathematics">
-												<label for="mat">Maths</label><br> 
-											</div>
-											<div>
-												<input type="checkbox" id="re" name="tc-subjects[]" value="re_education">
-												<label for="re">R.E</label><br> 
-											</div>
-											<div>
-												<input type="checkbox" id="intsc" name="tc-subjects[]" value="intscience">
-												<label for="intsc">I.Science</label><br>
-											</div>
-											<div>
-												<input type="checkbox" id="sstudies" name="tc-subjects[]" value="sstudies">
-												<label for="sstudies">S.Studies</label><br> 
-											</div>
-											<div>
-												<input type="checkbox" id="agnutr" name="tc-subjects[]" value="agnutr">
-												<label for="agnutr">A.&Nutri</label><br> 
-											</div>
-											<div>
-												<input type="checkbox" id="csports" name="tc-subjects[]" value="csports">
-												<label for="csports">C&Sports</label><br>
-											</div>
-											<div>
-												<input type="checkbox" id="pretech" name="tc-subjects[]" value="pretech">
-												<label for="pretech">Pre-Tech</label><br> 
-											</div>
-										</div>
-								</div>
-								<div class="form-field1">
-										<label for="h-qualification">HIghest Qualification</label>
-										<select name="h-qualification" id="h-qualification">
-												<option value="phd">Doctor of Philosophy</option>
-												<option value="masters">Masters</option>
-												<option value="degree" selected>Degree</option>
-												<option value="diploma">Diploma</option>
-												<option value="certificate">Certificate</option>
-										</select>
-								</div>  
-								<div class="form-field1">
-										<label for="avatar">Upload a passport photo:</label>
-										<input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
-								</div>
-								<div class="form-field1">
-									<label for="sform">Upload signed form:</label>
-									<input type="file" id="sform" name="sform" accept="image/png, image/jpeg" />
-								</div>
-								<div class="opt-buttons">
-									<button type="submit">Submit</button> 
-									<button type="reset">Clear</button>
-								</div>
-							</div>     
+						</div>
+						<div class="form-field1">
+								<label for="id_teacher_h_qualification">
+									HIghest Qualification:
+									<p>{{ form.teacher_h_qualification.errors }} </p>
+								</label>
+								{{form.teacher_h_qualification}}
+						</div>  
+						<div class="form-field1">
+							<label for="avatar">Upload a passport photo: <p>{{ form.teacher_pic.errors }}</p> </label>
+							<input type="file" id="avatar" name="teacher_pic" accept="image/png, image/jpeg" />
+						</div>
+						<div class="opt-buttons">
+							<button type="submit">Submit</button> 
+							<button type="reset">Clear</button>
+						</div>
+					</div>     
 					
 				</form>           
 			</div>

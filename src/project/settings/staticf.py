@@ -23,11 +23,14 @@ print(f"{BASE_DIR2}/staticfilesdev/")
 
 if not DEBUG: # type:ignore
     STATICFILES_DIRS = [
-        f"{BASE_DIR2}/staticfilesdev/",
+        f"{BASE_DIR2}/staticfilesdev",
     ]
     STATIC_ROOT=f"{BASE_DIR2}/staticfiles"  # type:ignore
 if DEBUG:
-    STATIC_ROOT=f"{BASE_DIR2}/staticfilesdev"
+    STATICFILES_DIRS = [
+        f"{BASE_DIR2}/staticfilesdev",
+    ]
+    STATIC_ROOT=f"{BASE_DIR2}/staticfiles"  # type:ignore
 STORAGES = {
     "default": {
         "BACKEND": "helpers.cloudr2.storages.MediaFileStorage", #django-storages s[3]

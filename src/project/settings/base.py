@@ -16,7 +16,6 @@ BASE_DIR2 = Path(__file__).resolve().parent.parent.parent
 DEBUG = config("DJANGO_DEBUG", cast=bool, default=False)
 SECRET_KEY = config("DJANGO_SECRET_KEY", cast=str, default=get_random_secret_key())
 
-print(DEBUG)
 
 ALLOWED_HOSTS=[]
 
@@ -59,13 +58,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.postgres',
     #thirdparty
-    # "allauth_ui",
+    "allauth_ui",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-    # "widget_tweaks",
-    # "slippers",
+    "widget_tweaks",
+    "slippers",
     "phonenumber_field",
     # "tailwind",
     # "theme",
@@ -76,7 +75,7 @@ INSTALLED_APPS = [
     "students",
     "teachers",
 ]
-# ALLAUTH_UI_THEME = "forest"
+ALLAUTH_UI_THEME = "forest"
 # TAILWIND_APP_NAME = "theme"
 # ALLAUTH_UI_USE_TAILWIND = False
 

@@ -1,7 +1,9 @@
 from django.http import HttpResponse
+from django.contrib import messages
 from schools.models import SchoolProfile
 from students.models import StudentProfile
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from allauth.account.decorators import verified_email_required
 import uuid
 from teachers.forms import TeacherRegistrationForm
@@ -20,9 +22,7 @@ def dashboard(request):
         school_id = current_school.school_id
         school_country = current_school.user.get_user_country_display()
         school_type = current_school.get_school_type_display()
-        print(school_country)
         school_county = current_school.get_school_admin_level_2_display()
-        print(school_county)
         if school_uuid == valid_school_uuid:
             template_name = "schools/dashl0/school_index.html"
             page_title = "S-Dashboard"
@@ -69,20 +69,19 @@ def teacher_registration(request):
             form = TeacherRegistrationForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save(teacher_school=request.user.school_profile)
-                return HttpResponse(f"Teacher saved:\n {form.cleaned_data}")
-            else:
-                print(form.errors)
-        context = {
-            "page_title":page_title,
-            "form":form
-        }
+                messages.success(
+                    request,
+                    f"Teacher: {form.cleaned_data['teacher_first_name']} {form.cleaned_data['teacher_last_name']} saved successfully! 🥳"
+                )
+                return redirect(reverse("schools:school_teacher_registration"))
+        else:
+            context = {
+                "page_title":page_title,
+                "form":form
+            }
+            return render(request, template_name, context)
     else:
-        print("Here 4")
-        context = {
-            "page_title":"Alert-Mode",
-            "form": form
-        }    
-    return render(request, template_name, context)
+        return HttpResponse("Only schools allowed bro!")
 
 @verified_email_required
 def student_registration(request):
@@ -94,20 +93,21 @@ def student_registration(request):
         # if school_uuid == valid_school_uuid:
             form = StudentRegistrationForm(request.POST, request.FILES)
             if form.is_valid():
-                form.save(student_school=request.user.school_profile)         
-                return HttpResponse(f"Student saved:\n {form.cleaned_data}")
-
+                form.save(student_school=request.user.school_profile)     
+                messages.success(
+                    request,
+                    f"student: {form.cleaned_data['student_first_name']} {form.cleaned_data['student_last_name']} saved successfully! 🥳"
+                ) 
+                return redirect(reverse("schools:school_student_registration"))
+        else:
             context = {
                 "page_title":page_title,
-                "form":form
-            }
-        else:
-            
-            context = {
-                "page_title":"Alert-Mode",
                 "form": form
-            }        
-    return render(request, template_name, context)
+            }
+            return render(request, template_name, context)
+    else:
+        return HttpResponse("Only schools allowed bro!")
+
 def parent_registration(request):
     if school_uuid == valid_school_uuid:
         template_name = "schools/usrmng/p_reg.html"

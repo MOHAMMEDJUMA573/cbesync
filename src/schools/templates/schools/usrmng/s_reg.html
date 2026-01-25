@@ -20,6 +20,13 @@
 				<div class="form-header">
 					<div class="form-guide-text">
 						<p>Please fill the form below to register a student</p>
+						{% if messages %}
+							<ul class="messages">
+								{% for message in messages %}
+								<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
 						<p class="error-message">
 							{{ form.non_field_errors }}
 						</p>

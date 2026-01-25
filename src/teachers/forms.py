@@ -136,7 +136,19 @@ class TeacherRegistrationForm(forms.Form):
 
     def clean(self):
         cleaned_data =  super().clean()
-        return cleaned_data
+        teacher_fields = [
+            "teacher_first_name", "teacher_middle_name", "teacher_last_name",
+            "teacher_email"
+        ]
+        for teacher_field in teacher_fields:
+            value = cleaned_data.get(teacher_field).lower()
+            if profanity.contains_profanity(value):
+                self.add_error(
+                    teacher_field,
+                    _(f"{value} is unallowed!")
+                )
+
+        return cleaned_data 
 
     def save(self, teacher_school, commit=True):
         with transaction.atomic():
@@ -178,4 +190,4 @@ class TeacherRegistrationForm(forms.Form):
                 'school_teachers_polpulation'
             ) + 1
             teacher_school.save(update_fields=['school_teachers_polpulation'])
-            print(self.cleaned_data)
+            

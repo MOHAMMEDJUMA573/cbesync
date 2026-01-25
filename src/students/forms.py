@@ -136,7 +136,6 @@ class StudentRegistrationForm(forms.Form):
                 )
 
 
-        print("almost")
         return cleaned_data
 
     def save(self, student_school, commit=True):
@@ -176,5 +175,4 @@ class StudentRegistrationForm(forms.Form):
                 'school_students_polpulation'
             ) + 1
             student_school.save(update_fields=['school_students_polpulation'])
-            print(self.cleaned_data)
-
+            

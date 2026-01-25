@@ -110,6 +110,24 @@ def student_registration(request):
     else:
         return HttpResponse("Only schools allowed bro!")
 
+@verified_email_required
+def student_ledger_view(request):
+    if request.user.user_type == "school":
+        #validate if its the right school
+        template_name = "schools/dashl1/school_index_students.html"
+        page_title = "S-LedgerView"
+
+        current_school = request.user.school_profile
+        school_students = StudentProfile.objects.filter(student_school=current_school)
+        context = {
+            "page_title":page_title,
+            "school_students":school_students
+        }
+        return render(request, template_name, context)
+
+    else:
+        return HttpResponse("Only schools are allowed bro")
+#school parents views
 def parent_registration(request):
     if school_uuid == valid_school_uuid:
         template_name = "schools/usrmng/p_reg.html"

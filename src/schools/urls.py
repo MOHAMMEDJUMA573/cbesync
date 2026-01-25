@@ -24,4 +24,12 @@ urlpatterns+=[
             ]
         ),
     ),
+    path(
+        "ledger_view/",
+        include(
+            [
+                path("students/", views.student_ledger_view, name="school_student_ledgerview"),
+            ]
+        )
+    )
 ]

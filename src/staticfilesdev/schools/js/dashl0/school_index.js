@@ -1,7 +1,7 @@
 //count blobs response
 const stdBlob = document.getElementById("studentblob");
 stdBlob.addEventListener("click", ()=> {
-    window.location.href = "dashl1/school_index_students.html"
+    window.location.href = "ledger_view/students/"
 })
 const tchBlob = document.getElementById("teacherblob");
 tchBlob.addEventListener("click", ()=> {

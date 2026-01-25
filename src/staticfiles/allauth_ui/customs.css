@@ -1,5 +1,7 @@
 .main-image{
     display: flex;
+    height: 80%;
+    width: 80%;
 }
 .web-logo{
     display: flex;

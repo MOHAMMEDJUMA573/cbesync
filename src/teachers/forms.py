@@ -131,7 +131,6 @@ class TeacherRegistrationForm(forms.Form):
         initial="UDGR"
     )
     teacher_pic = forms.ImageField(
-        required=False
     )
 
     def clean(self):

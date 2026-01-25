@@ -18,6 +18,7 @@ def dashboard(request):
     if request.user.user_type == "school":
         current_school = request.user.school_profile
         school_students_polpulation = current_school.school_students_polpulation
+        school_teachers_polpulation = current_school.school_teachers_polpulation
         school_name = current_school.school_name
         school_id = current_school.school_id
         school_country = current_school.user.get_user_country_display()
@@ -35,6 +36,7 @@ def dashboard(request):
                 "school_county":school_county,
                 "school_type":school_type,
                 "student_count": school_students_polpulation,
+                "teacher_count":school_teachers_polpulation,
             }   
     else:
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")

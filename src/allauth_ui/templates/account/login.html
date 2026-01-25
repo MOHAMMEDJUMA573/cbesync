@@ -2,13 +2,17 @@
 {% load i18n %}
 {% load allauth_ui %}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
-    {% trans "Sign In" as heading %}
+    {% trans "Login" as heading %}
     {% #container heading=heading  %}
     {% if not SOCIALACCOUNT_ONLY %}
         <div class="py-3">
             {% blocktranslate %}Dont have an account? Then please
             <a class="link" href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
+        </div>
+        <div class="web-logo">
+            <img class="main-image" src="{% static 'project/images/logo.png'%}" alt="">
         </div>
         {% url 'account_login' as action_url %}
         {% #form form=form url=action_url button_text=heading %}

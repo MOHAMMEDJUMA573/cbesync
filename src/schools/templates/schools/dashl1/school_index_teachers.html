@@ -1,77 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dash-teachers</title>
-    <!--Box icons-->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-	<link rel="stylesheet" href="..//common.css">
-    <link rel="stylesheet" href="school_index_bledger.css">
-		<!--Google font icons-->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-</head>
-<body>
-  <div class="top-level-box">
-		<!--Side bar menu-->
-    <aside class="sidebar-menu">
-			<div class="top">
-				<div class="logo">
-					<img src="..//images/logo.png">
-					<h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
-				</div>
-				<div class="close" id="close-btn">
-					<span class="material-symbols-outlined">cancel_presentation</span>
-				</div>
-			</div>
-			<div class="sidebar">
-				<a href="http://127.0.0.1:5500/front_end/dash/school_index.html" class="active">
-					<span class="material-symbols-outlined">dashboard</span>
-					<h3>Dashboard</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_usermng.html">
-					<span class="material-symbols-outlined">groups_3</span>
-					<h3>User-Management</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_classmng.html">
-					<span class="material-symbols-outlined">cast_for_education</span>
-					<h3>Class-Management</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_assess.html">
-					<span class="material-symbols-outlined">quiz</span>
-					<h3>Assessments </h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_admtools.html">
-					<span class="material-symbols-outlined">admin_panel_settings</span>
-					<h3>Administrative Tools</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_comm.html">
-					<span class="material-symbols-outlined">communication</span>
-					<h3>Communication</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_lib.html">
-					<span class="material-symbols-outlined">books_movies_and_music</span>
-					<h3>Library</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_reports.html">
-					<span class="material-symbols-outlined">report</span>
-					<h3>Reports</h3>
-					<span class="report-count">10</span>
-				</a>
-				<a href="#">
-					<span class="material-symbols-outlined">table_chart_view</span>
-					<h3>Analytics</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_sett.html">
-					<span class="material-symbols-outlined">settings</span>
-					<h3>settings</h3>
-				</a>
-				<a href="#">
-					<span class="material-symbols-outlined">logout</span>
-					<h3>logout</h3>
-				</a>
-			</div>
-    </aside> 
+{% extends 'schools/base/base.html' %}
+{% load static%}
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'schools/css/dashl1/school_index_bledger.css'%}">
+{% endblock head_css %}
+{% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
+{% block content %}
+	<div class="top-level-box">
+	<!--Side bar menu-->
+	{% block sidemenu%}
+		{% include 'schools/base/navbar.html'%}
+	{% endblock sidemenu%}
 	<!--main body-->
 	<main>
 		<h1 class="main-header">Teachers</h1>
@@ -111,261 +49,57 @@
                         <div class="maingth-data">Full Name</div>
                         <div class="maingth-data">Level</div>
                         <div class="maingth-data">Role</div>
-                        <div class="maingth-data" title="Date of enrollment">DOE</div>
+                        <div class="maingth-data" title="Date of enrollment">DOC</div>
                         <div class="maingth-data">Gender</div>
                     </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
+                    {% for teacher in school_teachers %}
+                        <div class="maingt-data-row">
+                            <div class="maingtr-data">
+                                {{teacher.teacher_id|truncatechars:12}}
+                            </div>
+                            <div class="maingtr-data">
+                                <div class="maingtr-data-p1">{{teacher.teacher_first_name}}</div>
+                                <div class="maingtr-data-p1">{{teacher.teacher_middle_name}}</div>
+                                <div class="maingtr-data-p1">{{teacher.teacher_last_name}}</div>
+                            </div>
+                            <div class="maingtr-data">
+                                {% if teacher.teacher_h_qualification == "UDGR" %}
+                                    Bachelors Degree
+                                {% elif teacher.teacher_h_qualification == "MSTS" %}
+                                    Masters
+                                {% elif teacher.teacher_h_qualification == "PHDS" %}                            
+                                    Doctor of Phylosophy
+                                {% elif teacher.teacher_h_qualification == "DPLM" %}
+                                    Diploma
+                                {% elif teacher.teacher_h_qualification == "CTFC" %}
+                                    Certificate
+                                {%  else %}
+                                    ?????
+                                {% endif%}
+                            </div>
+                            <div class="maingtr-data">
+                                {% if teacher.teacher_role == "PR" %}
+                                    Principal
+                                {% elif teacher.teacher_role == "DP" %}
+                                    Deputy Principal
+                                {% elif teacher.teacher_role == "CT" %}
+                                    Class Teacher
+                                {% elif teacher.teacher_role == "ST" %}
+                                    Subject Teacher
+                                {% elif teacher.teacher_role == "PT"%}
+                                    Patron
+                                {% else%}
+                                    ?????
+                                {% endif %}
+                            </div>
+                            <div class="maingtr-data">
+                                {{teacher.teacher_creation_date.date}}
+                            </div>
+                            <div class="maingtr-data">
+                                {{teacher.teacher_gender}}
+                            </div>
                         </div>
-                        <div class="maingtr-data">Masters</div>
-                        <div class="maingtr-data">Admin</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                   <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Diploma</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                   <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Degree</div>
-                        <div class="maingtr-data">User</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             
@@ -388,109 +122,13 @@
 					<small class="text-muted">Admin</small>
 				</div>
 				<div class="profile-photo">
-					<img src="..//images/profile-1.jpg" alt="Profile pic">
-				</div>
-			</div>
-		</div>
-		<!--recent updates-->
-		<div class="recent-updates">
-			<h2>Recent updates</h2>
-			<div class="updates">
-				<div class="update">
-					<div class="profile-photo">
-							<img src="../images/logo.png" alt="Admin Image">
-					</div>
-					<div class="message">
-							<p><b>Admin</b> <br>Added a "Predictably Irrational"</p>
-							<small class="text-muted"><b>@books</b>&nbsp; 2 minutes ago</small>
-					</div>
-				</div>
-				<div class="update">
-					<div class="profile-photo">
-							<img src="../images/logo.png" alt="Admin Image">
-					</div>
-					<div class="message">
-							<p><b>Admin</b> <br>Removed "All day voom"</p>
-							<small class="text-muted"><b>@books</b>&nbsp; 7 minutes ago</small>
-					</div>
-				</div>
-				<div class="update">
-					<div class="profile-photo">
-							<img src="../images/logo.png" alt="Admin images">
-					</div>
-					<div class="message">
-							<p><b>Admin</b> <br>Added "Mwangani 2026"</p>
-							<small class="text-muted"><b>@allstudents</b>&nbsp; 9 minutes ago</small>
-					</div>
-				</div>
-				<div class="update">
-					<div class="profile-photo">
-							<img src="../images/logo.png" alt="Admin images">
-					</div>
-					<div class="message">
-							<p><b>Admin</b> <br>Modified "All day voom"</p>
-							<small class="text-muted"><b>@cbesync.com</b>&nbsp; 9 minutes ago</small>
-					</div>
-				</div>
-				<div class="update">
-					<div class="profile-photo">
-							<img src="../images/logo.png" alt="Admin Image">
-					</div>
-					<div class="message">
-							<p><b>Admin</b> <br>Welcome to the Library</p>
-							<small class="text-muted"><b>@cbesync.com</b>&nbsp; 2 minutes ago</small>
-					</div>
-				</div>
-
-			</div>
-		</div>
-		<!--student analytics part-->
-		<div class="school-analytics">
-			<h2>Library analytics</h2>
-			<div class="online- courses">
-				<div class="icon">
-					<span class="material-symbols-outlined">print</span>
-				</div>
-				<div class="right">
-					<div class="info">
-						<h3>Print Materials</h3>
-						<small class="text-muted">Last 24hrs</small>
-					</div>
-					<h5 class="success">50%</h5>
-					<h3>0</h3>
-				</div>
-			</div>
-			<div class="online- courses">
-				<div class="icon">
-					<span class="material-symbols-outlined">autoplay</span>
-				</div>
-				<div class="right">
-					<div class="info">
-						<h3>Non print materials</h3>
-						<small class="text-muted">Last 24hrs</small>
-					</div>
-					<h5 class="success">50%</h5>
-					<h3>0</h3>
-				</div>
-			</div>
-			<div class="online- courses">
-				<div class="icon">
-					<span class="material-symbols-outlined">newsstand</span>
-				</div>
-				<div class="right">
-					<div class="info">
-						<h3>All materials</h3>
-						<small class="text-muted">Last 24hrs</small>
-					</div>
-					<h5 class="success">100%</h5>
-					<h3>0</h3>
+					<img src="{% static 'schools/images/profile-1.jpg'%}" alt="Profile pic">
 				</div>
 			</div>
 		</div>
 	</div>
   </div> 
-
-  <script src="..//common.js"></script>
-  <script src="school_index_teachers.js"></script>
-</body>
-</html>
+{% block head_js %}
+  	<script src="{% static 'schools/js/dashl1/school_index_teachers.js'%}"></script>
+  {% endblock head_js %}
+{% endblock content %}

@@ -5,11 +5,11 @@ stdBlob.addEventListener("click", ()=> {
 })
 const tchBlob = document.getElementById("teacherblob");
 tchBlob.addEventListener("click", ()=> {
-    window.location.href = "dashl1/school_index_teachers.html"
+    window.location.href = "ledger_view/teachers/"
 })
 const ntsBlob = document.getElementById("ntsblob");
 ntsBlob.addEventListener("click", ()=> {
-    window.location.href = "dashl1/school_index_ntstaff.html"
+    window.location.href = "ledger_view/ntstaff/"
 })
 
 

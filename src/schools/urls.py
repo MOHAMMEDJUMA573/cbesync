@@ -29,6 +29,7 @@ urlpatterns+=[
         include(
             [
                 path("students/", views.student_ledger_view, name="school_student_ledgerview"),
+                path("teachers/", views.teacher_ledger_view, name="school_teacher_ledgerview"),
             ]
         )
     )

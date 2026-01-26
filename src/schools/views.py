@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.contrib import messages
 from schools.models import SchoolProfile
 from students.models import StudentProfile
+from teachers.models import TeacherProfile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -84,6 +85,24 @@ def teacher_registration(request):
             return render(request, template_name, context)
     else:
         return HttpResponse("Only schools allowed bro!")
+
+@verified_email_required
+def teacher_ledger_view(request):
+    if request.user.user_type == "school":
+        #validate if its the right school
+        template_name = "schools/dashl1/school_index_teachers.html"
+        page_title = "T-LedgerView"
+
+        current_school = request.user.school_profile
+        school_teachers = TeacherProfile.objects.filter(teacher_school=current_school)
+        context = {
+            "page_title":page_title,
+            "school_teachers":school_teachers
+        }
+        return render(request, template_name, context)
+
+    else:
+        return HttpResponse("Only schools are allowed bro")
 
 @verified_email_required
 def student_registration(request):

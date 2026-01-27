@@ -9,7 +9,7 @@ tchBlob.addEventListener("click", ()=> {
 })
 const ntsBlob = document.getElementById("ntsblob");
 ntsBlob.addEventListener("click", ()=> {
-    window.location.href = "ledger_view/ntstaff/"
+    window.location.href = "ledger_view/ntstaffs/"
 })
 
 

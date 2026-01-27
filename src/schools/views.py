@@ -160,6 +160,7 @@ def parent_registration(request):
     
     return render(request, template_name, context)
 
+@verified_email_required
 def ntstaff_registration(request):
     if school_uuid == valid_school_uuid:
         template_name = "schools/usrmng/nt_reg.html"
@@ -172,6 +173,25 @@ def ntstaff_registration(request):
         return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
     
     return render(request, template_name, context)
+
+@verified_email_required
+def ntstaff_ledger_view(request):
+    if request.user.user_type == "school":
+        #validate if its the right school
+        template_name = "schools/dashl1/school_index_ntstaff.html"
+        page_title = "NT-LedgerView"
+
+        current_school = request.user.school_profile
+        school_ntstaffs = TeacherProfile.objects.filter(teacher_school=current_school)
+        context = {
+            "page_title":page_title,
+            "school_teachers":school_ntstaffs
+        }
+        return render(request, template_name, context)
+
+    else:
+        return HttpResponse("Only schools are allowed bro")
+
 #class management and subs
 def class_management(request):
     if school_uuid == valid_school_uuid:

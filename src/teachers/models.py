@@ -86,7 +86,7 @@ class TeacherProfile(models.Model):
         null=True
     )
     teacher_phone = PhoneNumberField(
-        help_text="emergency contact"
+        help_text="contact"
     )
     teacher_e_contact = PhoneNumberField(
         blank=True,
@@ -122,8 +122,10 @@ class TeacherProfile(models.Model):
         help_text="The title of the teacher in the school"
     )
     STATUS_CHOICES = (
-        ('A', 'Active'),
+        ('E', 'Employed'),
         ('S', 'Suspended'),
+        ('T', 'Transferred'),
+        ('T', 'Transferred'),
         ('R', 'Retired'),
     )
     teacher_status = models.CharField(

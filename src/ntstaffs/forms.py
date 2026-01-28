@@ -1,4 +1,4 @@
-from django.forms import forms
+from django import forms
 from .models import NtStaffProfile
 from datetime import date
 from phonenumber_field.formfields import PhoneNumberField
@@ -170,7 +170,7 @@ class NtStaffRegistrationForm(forms.Form):
                 ntstaff_h_qualification = self.cleaned_data['ntstaff_h_qualification'],
                 ntstaff_s_field = self.cleaned_data['ntstaff_s_field'],
                 ntstaff_y_experience = self.cleaned_data['ntstaff_y_experience'],
-                ntstaff_role = self.cleaned_data['ntstaff_role'],
+                ntstaff_j_title = self.cleaned_data['ntstaff_j_title'],
 
                 ntstaff_e_notes = self.cleaned_data['ntstaff_e_notes'],
                 ntstaff_allergies = self.cleaned_data['ntstaff_allergies'],

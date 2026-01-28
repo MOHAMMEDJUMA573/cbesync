@@ -9,6 +9,7 @@ from allauth.account.decorators import verified_email_required
 import uuid
 from teachers.forms import TeacherRegistrationForm
 from students.forms import StudentRegistrationForm
+from ntstaffs.forms import NtStaffRegistrationForm
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -20,6 +21,7 @@ def dashboard(request):
         current_school = request.user.school_profile
         school_students_polpulation = current_school.school_students_polpulation
         school_teachers_polpulation = current_school.school_teachers_polpulation
+        school_ntstaffs_polpulation = current_school.school_ntstaffs_polpulation
         school_name = current_school.school_name
         school_id = current_school.school_id
         school_country = current_school.user.get_user_country_display()
@@ -36,8 +38,9 @@ def dashboard(request):
                 "school_country":school_country,
                 "school_county":school_county,
                 "school_type":school_type,
-                "student_count": school_students_polpulation,
+                "student_count":school_students_polpulation,
                 "teacher_count":school_teachers_polpulation,
+                "ntstaff_count":school_ntstaffs_polpulation,
             }   
     else:
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")
@@ -162,18 +165,29 @@ def parent_registration(request):
 
 @verified_email_required
 def ntstaff_registration(request):
-    if school_uuid == valid_school_uuid:
+    if request.user.user_type == "school":
+    # if school_uuid == valid_school_uuid:
         template_name = "schools/usrmng/nt_reg.html"
         page_title = "NT-Management"
-
-        context = {
-            "page_title":page_title
-        }
+        form = NtStaffRegistrationForm()
+        if request.method == "POST":
+            form = NtStaffRegistrationForm(request.POST, request.FILES)
+            if form.is_valid():
+                    form.save(ntstaff_school=request.user.school_profile)     
+                    messages.success(
+                        request,
+                        f"Non T Staff: {form.cleaned_data['ntstaff_first_name']} {form.cleaned_data['ntstaff_last_name']} saved successfully! 🥳"
+                    ) 
+                    return redirect(reverse("schools:school_ntstaff_registration"))
+        else:
+            context = {
+                "page_title":page_title,
+                "form":form
+            }
+            return render(request, template_name, context)
     else:
-        return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
+        return HttpResponse("Only schools allowed bro!")
     
-    return render(request, template_name, context)
-
 @verified_email_required
 def ntstaff_ledger_view(request):
     if request.user.user_type == "school":

@@ -34,15 +34,23 @@
 				</div>
 				<div class="form-body">
 					<div class="form-field1">
-							<label for="id_student_first_name">First-Name: <p>{{ form.student_first_name.errors }}</p> </label>
+							<label for="id_student_first_name">
+								First-Name: 
+								<p>{{ form.student_first_name.errors }}</p> 
+							</label>
 							{{form.student_first_name}}
 					</div>
 					<div class="form-field1">
-							<label for="id_student_middle_name">Middle-Name: <p>{{ form.student_middle_name.errors }}</p> </label>
+							<label for="id_student_middle_name">
+								Middle-Name: 
+								<p>{{ form.student_middle_name.errors }}</p> 
+							</label>
 							{{form.student_middle_name}}
 					</div>
 					<div class="form-field1">
-							<label for="id_student_last_name">Last-Name: <p>{{ form.student_last_name.errors }}</p> </label>
+							<label for="id_student_last_name">Last-Name: 
+								<p>{{ form.student_last_name.errors }}</p> 
+							</label>
 							{{form.student_last_name}}
 					</div>
 					<div class="form-field1">
@@ -64,23 +72,38 @@
 						</div>
 					</div>
 					<div class="form-field1">
-							<label for="id_student_dob">Date of Birth: <p>{{ form.student_dob.errors }}</p> </label>
+							<label for="id_student_dob">
+								Date of Birth: 
+								<p>{{ form.student_dob.errors }}</p> 
+							</label>
 							{{form.student_dob}}
 					</div>
 					<div class="form-field1">
-							<label for="id_student_e_contact">Emergency Contact: <p>{{ form.student_e_contact.errors }}</p> </label>
+							<label for="id_student_e_contact">
+								Emergency Contact: 
+								<p>{{ form.student_e_contact.errors }}</p> 
+							</label>
 							{{form.student_e_contact}}
 					</div>
 					<div class="form-field1">
-							<label for="id_student_email">Email: <p>{{ form.student_email.errors }}</p> </label>
+							<label for="id_student_email">
+								Email: 
+								<p>{{ form.student_email.errors }}</p> 
+							</label>
 							{{form.student_email}}
 					</div>
 					<div class="form-field1">
-							<label for="id_student_home_address">Home address: <p>{{ form.student_home_address.errors }}</p> </label>
+							<label for="id_student_home_address">
+								Home address: 
+								<p>{{ form.student_home_address.errors }}</p> 
+							</label>
 							{{form.student_home_address}}
 					</div>
 					<div class="form-field1">
-							<label for="id_student_admission_number">Admission Number: <p>{{ form.student_admission_number.errors }}</p> </label>
+							<label for="id_student_admission_number">
+								Admission Number: 
+								<p>{{ form.student_admission_number.errors }}</p> 
+							</label>
 							{{form.student_admission_number}}
 					</div>
 					<div class="form-field1">
@@ -108,7 +131,10 @@
 							</select>
 					</div>
 					<div class="form-field1">
-							<label for="id_student_admission_date">Date of Admission: <p>{{ form.student_admission_date.errors }}</p> </label>
+							<label for="id_student_admission_date">
+								Date of Admission: 
+								<p>{{ form.student_admission_date.errors }}</p> 
+							</label>
 							{{form.student_admission_date}}
 					</div>
 					<div class="form-field1">
@@ -137,11 +163,17 @@
 							{{form.student_blood_group}}
 					</div>
 					<div class="form-field1">
-							<label for="e-notes">Emergency Notes: <p>{{ form.student_e_notes.errors }}</p> </label>
+							<label for="e-notes">
+								Emergency Notes: 
+								<p>{{ form.student_e_notes.errors }}</p> 
+							</label>
 							<textarea name="student_e_notes" id="e-notes" rows="3" cols="5"></textarea> 
 					</div>
 					<div class="form-field1">
-							<label for="environment">Allergies: <p>{{ form.student_allergies.errors }}</p></label>
+							<label for="ENV">
+								Allergies: 
+								<p>{{ form.student_allergies.errors }}</p>
+							</label>
 							<div style="display: grid; grid-template-columns: repeat(2, 1fr);">
 								{% for value, label in form.student_allergies.field.choices %}
 									<div>
@@ -157,7 +189,10 @@
 							</div>
 					</div> 
 					<div class="form-field1">
-							<label for="avatar">Upload a passport photo: <p>{{ form.student_pic.errors }}</p> </label>
+							<label for="avatar">
+								Upload a passport photo: 
+								<p>{{ form.student_pic.errors }}</p> 
+							</label>
 							<input type="file" id="avatar" name="student_pic" accept="image/png, image/jpeg" />
 					</div>
 					<div class="opt-buttons">

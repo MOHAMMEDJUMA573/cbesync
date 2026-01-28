@@ -133,7 +133,7 @@ class NtStaffProfile(models.Model):
         ('SSOF', 'Security Officer'), 
         ('SOJT', 'Other'),
     )
-    ntstaff_role = models.CharField(
+    ntstaff_j_title = models.CharField(
         max_length=4,
         choices=JOB_TITLE,
         help_text="The title of the teacher in the school"

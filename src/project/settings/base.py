@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     "schools",
     "students",
     "teachers",
+    "ntstaffs",
 ]
 ALLAUTH_UI_THEME = "halloween"
 # TAILWIND_APP_NAME = "theme"

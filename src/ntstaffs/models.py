@@ -6,6 +6,7 @@ import uuid
 from pathlib import Path
 from datetime import date
 from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.postgres.fields import ArrayField
 
 
 
@@ -36,15 +37,15 @@ class NtStaffProfile(models.Model):
         editable=False
     )
 
-    nststaff_pic = models.ImageField(
+    ntstaff_pic = models.ImageField(
         upload_to=image_file_upload_handler,
         null=True,
         blank=True
     )
-    nststaff_school = models.ForeignKey(
+    ntstaff_school = models.ForeignKey(
         SchoolProfile,
         on_delete=models.CASCADE,
-        related_name="nststaffs",
+        related_name="ntstaffs",
         null=True
     )
 
@@ -113,7 +114,7 @@ class NtStaffProfile(models.Model):
         ("PBAD", "Public Administration"),
         ("OTHS", "Others")
     )
-    ntstaff_study_field = models.CharField(
+    ntstaff_s_field = models.CharField(
         choices=NT_STUDY_FIELD,
         max_length=4,
         help_text="Study field of the worker"
@@ -142,6 +143,17 @@ class NtStaffProfile(models.Model):
         max_length=200,
         blank=True,
         null=True
+    )
+    ALLERGY_CHOICES = (
+        ("ENV","Environment"),
+        ("FOD","Food"),
+        ("LTX", "Latex"),
+        ("IST", "Insects")
+    )
+    ntstaff_allergies = ArrayField(
+        models.CharField(max_length=3, choices=ALLERGY_CHOICES),
+        blank=True,
+        default=list
     )
 
     STATUS_CHOICES = [

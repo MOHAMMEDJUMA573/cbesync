@@ -39,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="maing-data-grid">
                 <div class="maing-data-header">
                     Administrative Staff
@@ -52,78 +53,22 @@
                         <div class="maingth-data">Role</div>
                         <div class="maingth-data">Age</div>
                     </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Institution</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Admin</div>
-                        <div class="maingtr-data">53</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Accountant</div>
-                        <div class="maingtr-data">30</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Secretary</div>
-                        <div class="maingtr-data">34</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Clerk</div>
-                        <div class="maingtr-data">36</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Bursar</div>
-                        <div class="maingtr-data">45</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Accountant</div>
-                        <div class="maingtr-data">49</div>
-                    </div>
+                    {% for ntstaff in school_ntstaffs %}
+                        {% if ntstaff.ntstaff_s_field in "PBAD,ACAF" %}
+                        <div class="maingt-data-row">
+                            <div class="maingtr-data">{{ ntstaff.ntstaff_id }}</div>
+                            <div class="maingtr-data">
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
+                            </div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
+                        </div> 
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="maing-data-grid">
@@ -139,78 +84,22 @@
                         <div class="maingth-data">Role</div>
                         <div class="maingth-data">Age</div>
                     </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Institution</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Janitor</div>
-                        <div class="maingtr-data">53</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Guard</div>
-                        <div class="maingtr-data">30</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Gardener</div>
-                        <div class="maingtr-data">34</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Cleaner</div>
-                        <div class="maingtr-data">36</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Guard</div>
-                        <div class="maingtr-data">45</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Guard</div>
-                        <div class="maingtr-data">49</div>
-                    </div>
+                    {% for ntstaff in school_ntstaffs %}
+                        {% if ntstaff.ntstaff_s_field in "OTHS," %}
+                        <div class="maingt-data-row">
+                            <div class="maingtr-data">{{ ntstaff.ntstaff_id }}</div>
+                            <div class="maingtr-data">
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
+                            </div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
+                        </div> 
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="maing-data-grid">
@@ -223,83 +112,28 @@
                         <div class="maingth-data">Full Name</div>
                         <div class="maingth-data">Employer</div>
                         <div class="maingth-data">Gender</div>
-                        <div class="maingth-data">Role</div>
+                        <div class="maingth-data">Title</div>
                         <div class="maingth-data">Age</div>
                     </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Institution</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Nurse</div>
-                        <div class="maingtr-data">53</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Librarian</div>
-                        <div class="maingtr-data">30</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Counsellor</div>
-                        <div class="maingtr-data">34</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Technician</div>
-                        <div class="maingtr-data">36</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">L. Assistant</div>
-                        <div class="maingtr-data">45</div>
-                    </div>
-                    <div class="maingt-data-row">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">J-Secondary</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Technician</div>
-                        <div class="maingtr-data">49</div>
-                    </div>
+                    {% for ntstaff in school_ntstaffs %}
+                        {% if ntstaff.ntstaff_s_field in "INFT,LAIS,MDHS" %}
+                        <div class="maingt-data-row">
+                            <div class="maingtr-data">{{ ntstaff.ntstaff_id }}</div>
+                            <div class="maingtr-data">
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
+                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
+                            </div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
+                            <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
+                        </div>  
+                        {% endif %}
+                    {% endfor %}                  
                 </div>
             </div>
+            {{school_ntstaffs}}
             
 		</div>
 	</main>

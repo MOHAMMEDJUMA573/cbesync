@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.contrib import messages
-from schools.models import SchoolProfile
 from students.models import StudentProfile
 from teachers.models import TeacherProfile
+from ntstaffs.models import NtStaffProfile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -80,6 +80,12 @@ def teacher_registration(request):
                     f"Teacher: {form.cleaned_data['teacher_first_name']} {form.cleaned_data['teacher_last_name']} saved successfully! 🥳"
                 )
                 return redirect(reverse("schools:school_teacher_registration"))
+            else:
+                messages.warning(
+                        request,
+                        f"Malformation Detected!"
+                ) 
+                return redirect(reverse("schools:school_student_registration"))
         else:
             context = {
                 "page_title":page_title,
@@ -123,6 +129,12 @@ def student_registration(request):
                     f"student: {form.cleaned_data['student_first_name']} {form.cleaned_data['student_last_name']} saved successfully! 🥳"
                 ) 
                 return redirect(reverse("schools:school_student_registration"))
+            else:
+                messages.warning(
+                        request,
+                        f"Malformation Detected!"
+                )
+                return redirect(reverse("schools:school_student_registration"))
         else:
             context = {
                 "page_title":page_title,
@@ -163,6 +175,7 @@ def parent_registration(request):
     
     return render(request, template_name, context)
 
+#ntstaff views
 @verified_email_required
 def ntstaff_registration(request):
     if request.user.user_type == "school":
@@ -179,6 +192,12 @@ def ntstaff_registration(request):
                         f"Non T Staff: {form.cleaned_data['ntstaff_first_name']} {form.cleaned_data['ntstaff_last_name']} saved successfully! 🥳"
                     ) 
                     return redirect(reverse("schools:school_ntstaff_registration"))
+            else: 
+                messages.warning(
+                        request,
+                        f"Malformation Detected!"
+                ) 
+                return redirect(reverse("schools:school_ntstaff_registration"))
         else:
             context = {
                 "page_title":page_title,
@@ -196,10 +215,10 @@ def ntstaff_ledger_view(request):
         page_title = "NT-LedgerView"
 
         current_school = request.user.school_profile
-        school_ntstaffs = TeacherProfile.objects.filter(teacher_school=current_school)
+        school_ntstaffs = NtStaffProfile.objects.filter(ntstaff_school=current_school)
         context = {
             "page_title":page_title,
-            "school_teachers":school_ntstaffs
+            "school_ntstaffs":school_ntstaffs,
         }
         return render(request, template_name, context)
 

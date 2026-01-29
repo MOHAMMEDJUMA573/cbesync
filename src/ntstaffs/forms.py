@@ -31,7 +31,6 @@ class NtStaffRegistrationForm(forms.Form):
     )
     ntstaff_middle_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -44,13 +43,13 @@ class NtStaffRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
-                }
+            }
         )
     )
 
     ntstaff_gender = forms.ChoiceField(
         choices=NtStaffProfile.GENDER_CHOICES,
-        widget=forms.RadioSelect
+        widget=forms.RadioSelect,
     )
     ntstaff_dob = forms.DateField(
         initial=date(2001, 1, 1).strftime('%Y-%m-%d'),
@@ -82,7 +81,6 @@ class NtStaffRegistrationForm(forms.Form):
     )
     ntstaff_home_address = forms.CharField(
         max_length=50,
-        required=True
     )
 
     ntstaff_h_qualification = forms.ChoiceField(
@@ -100,8 +98,13 @@ class NtStaffRegistrationForm(forms.Form):
 
     ntstaff_y_experience = forms.IntegerField(
         initial=0,
-        # validators=[MaxValueValidator(60), MinValueValidator(0)],
-        help_text="years of experience"
+        help_text="years of experience",
+        widget=forms.NumberInput(
+            attrs={
+                'min':0,
+                'max':60,
+            }
+        )
     )
     ntstaff_j_title = forms.ChoiceField(
         choices=NtStaffProfile.JOB_TITLE,
@@ -134,6 +137,37 @@ class NtStaffRegistrationForm(forms.Form):
                     ntstaff_field,
                     _(f"{value} is unallowed!")
                 )
+        #check for none fields
+        nn_fields = [
+            "ntstaff_first_name", "ntstaff_middle_name", "ntstaff_last_name",
+            "ntstaff_gender", "ntstaff_dob", "ntstaff_phone", 
+            "ntstaff_e_contact", "ntstaff_email", "ntstaff_home_address", 
+            "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
+            "ntstaff_y_experience", "ntstaff_j_title"
+        ]
+        for nn_field in nn_fields:
+            if cleaned_data.get(nn_field) is not None:
+                print(f"{cleaned_data.get(nn_field)}\t")
+                # self.add_error(
+                #     nn_field,
+                #     _(f"A value is required")
+                # )
+            else:
+                self.add_error(
+                    nn_field,
+                    _("A value is required")
+                )
+        #lowercase the email
+        r_email = cleaned_data.get("ntstaff_email")
+        if r_email:
+            cleaned_data["ntstaff_email"] = r_email.lower()
+        #reasonable exp
+        xp = cleaned_data.get("ntstaff_y_experience")
+        if xp > 60:
+            self.add_error(
+                "ntstaff_y_experience",
+                _("Value not accepted")
+            )
 
 
         return cleaned_data

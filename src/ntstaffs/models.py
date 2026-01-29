@@ -7,7 +7,8 @@ from pathlib import Path
 from datetime import date
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.postgres.fields import ArrayField
-
+from datetime import date
+from dateutil.relativedelta import relativedelta
 
 
 def generate_unique_ntstaff_id():
@@ -176,8 +177,31 @@ class NtStaffProfile(models.Model):
         auto_now=True
     )
 
+    @property
     def ntstaff_age(self):
-        f_status = "sometimelater"
+        today = date.today()
+        dob = self.ntstaff_dob
+        age = relativedelta(today, dob)
+        years = age.years
+
+        return years
+    
+    @property
+    def ntstaff_title(self):
+        JOB_TITLES = (
+            ('SLBT', 'Lab Technician'),
+            ('SSCR', 'Secretary'),
+            ('SBSR', 'Bursar'),
+            ('SGOF', 'Guidance Officer'),
+            ('SNSR', 'School Nurse'),
+            ('SSOF', 'Security Officer'), 
+            ('SOJT', 'Other'),
+        )
+        saved_t = self.ntstaff_j_title
+        for value, label in JOB_TITLES:
+            if saved_t == value:
+                return label
+
 
     def __str__(self):
         return f"{self.ntstaff_first_name} {self.ntstaff_last_name} ({self.ntstaff_id})"

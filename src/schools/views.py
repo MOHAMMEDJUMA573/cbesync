@@ -81,11 +81,11 @@ def teacher_registration(request):
                 )
                 return redirect(reverse("schools:school_teacher_registration"))
             else:
-                messages.warning(
-                        request,
-                        f"Malformation Detected!"
-                ) 
-                return redirect(reverse("schools:school_student_registration"))
+                context = {
+                    'page_title':page_title,
+                    'form':form
+                }
+                return render( request, template_name, context )
         else:
             context = {
                 "page_title":page_title,
@@ -130,11 +130,11 @@ def student_registration(request):
                 ) 
                 return redirect(reverse("schools:school_student_registration"))
             else:
-                messages.warning(
-                        request,
-                        f"Malformation Detected!"
-                )
-                return redirect(reverse("schools:school_student_registration"))
+                context = {
+                    'page_title':page_title,
+                    'form':form
+                }
+                return render( request, template_name, context )
         else:
             context = {
                 "page_title":page_title,
@@ -193,11 +193,11 @@ def ntstaff_registration(request):
                     ) 
                     return redirect(reverse("schools:school_ntstaff_registration"))
             else: 
-                messages.warning(
-                        request,
-                        f"Malformation Detected!"
-                ) 
-                return redirect(reverse("schools:school_ntstaff_registration"))
+                context = {
+                    "page_title":page_title,
+                    "form":form
+                }
+                return render(request, template_name, context)
         else:
             context = {
                 "page_title":page_title,

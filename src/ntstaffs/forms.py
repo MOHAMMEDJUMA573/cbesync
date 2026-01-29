@@ -31,6 +31,7 @@ class NtStaffRegistrationForm(forms.Form):
     )
     ntstaff_middle_name = forms.CharField(
         max_length=35,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -99,12 +100,12 @@ class NtStaffRegistrationForm(forms.Form):
     ntstaff_y_experience = forms.IntegerField(
         initial=0,
         help_text="years of experience",
-        widget=forms.NumberInput(
-            attrs={
-                'min':0,
-                'max':60,
-            }
-        )
+        # widget=forms.NumberInput(
+        #     attrs={
+        #         'min':0,
+        #         'max':60,
+        #     }
+        # )
     )
     ntstaff_j_title = forms.ChoiceField(
         choices=NtStaffProfile.JOB_TITLE,
@@ -135,11 +136,11 @@ class NtStaffRegistrationForm(forms.Form):
             if profanity.contains_profanity(value):
                 self.add_error(
                     ntstaff_field,
-                    _(f"{value} is unallowed!")
+                    _(f"{value} is abusive!")
                 )
         #check for none fields
         nn_fields = [
-            "ntstaff_first_name", "ntstaff_middle_name", "ntstaff_last_name",
+            "ntstaff_first_name", "ntstaff_last_name",
             "ntstaff_gender", "ntstaff_dob", "ntstaff_phone", 
             "ntstaff_e_contact", "ntstaff_email", "ntstaff_home_address", 
             "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
@@ -147,15 +148,11 @@ class NtStaffRegistrationForm(forms.Form):
         ]
         for nn_field in nn_fields:
             if cleaned_data.get(nn_field) is not None:
-                print(f"{cleaned_data.get(nn_field)}\t")
-                # self.add_error(
-                #     nn_field,
-                #     _(f"A value is required")
-                # )
+                pass
             else:
                 self.add_error(
                     nn_field,
-                    _("A value is required")
+                    _("Can't be empty!")
                 )
         #lowercase the email
         r_email = cleaned_data.get("ntstaff_email")
@@ -163,12 +160,11 @@ class NtStaffRegistrationForm(forms.Form):
             cleaned_data["ntstaff_email"] = r_email.lower()
         #reasonable exp
         xp = cleaned_data.get("ntstaff_y_experience")
-        if xp > 60:
+        if xp and (xp > 60 or xp < 0) :
             self.add_error(
                 "ntstaff_y_experience",
-                _("Value not accepted")
+                _("> 0 and <60 ? ")
             )
-
 
         return cleaned_data
 

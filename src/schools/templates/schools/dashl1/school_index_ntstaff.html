@@ -56,7 +56,7 @@
                     {% for ntstaff in school_ntstaffs %}
                         {% if ntstaff.ntstaff_s_field in "PBAD,ACAF" %}
                         <div class="maingt-data-row">
-                            <div class="maingtr-data">{{ ntstaff.ntstaff_id }}</div>
+                            <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
                             <div class="maingtr-data">
                                 <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
                                 <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
@@ -87,7 +87,7 @@
                     {% for ntstaff in school_ntstaffs %}
                         {% if ntstaff.ntstaff_s_field in "OTHS," %}
                         <div class="maingt-data-row">
-                            <div class="maingtr-data">{{ ntstaff.ntstaff_id }}</div>
+                            <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
                             <div class="maingtr-data">
                                 <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
                                 <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
@@ -118,7 +118,7 @@
                     {% for ntstaff in school_ntstaffs %}
                         {% if ntstaff.ntstaff_s_field in "INFT,LAIS,MDHS" %}
                         <div class="maingt-data-row">
-                            <div class="maingtr-data">{{ ntstaff.ntstaff_id }}</div>
+                            <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
                             <div class="maingtr-data">
                                 <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
                                 <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
@@ -132,9 +132,7 @@
                         {% endif %}
                     {% endfor %}                  
                 </div>
-            </div>
-            {{school_ntstaffs}}
-            
+            </div>           
 		</div>
 	</main>
 	<!--The 3rd section of the page-->

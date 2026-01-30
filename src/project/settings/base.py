@@ -77,7 +77,7 @@ INSTALLED_APPS = [
     "ntstaffs",
     "parents",
 ]
-ALLAUTH_UI_THEME = "halloween"
+ALLAUTH_UI_THEME = "emerald"
 # TAILWIND_APP_NAME = "theme"
 # ALLAUTH_UI_USE_TAILWIND = False
 

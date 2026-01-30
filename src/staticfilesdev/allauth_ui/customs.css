@@ -9,3 +9,7 @@
 .bg-base-100{
     margin-top: 1rem;
 }
+#id_code{
+    border: 1px solid orange;
+    padding: 0.5rem;
+}

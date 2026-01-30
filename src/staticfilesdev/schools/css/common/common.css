@@ -455,7 +455,6 @@ main h1{
     }
     aside .sidebar a:last-child{
         position: absolute;
-        bottom: 0rem;
     }
     aside .close{
         display: inline-block;

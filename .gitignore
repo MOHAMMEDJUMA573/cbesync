@@ -1,6 +1,8 @@
 #ignore venvs
 venv/
 local/
+#ignore local static files
+src/staticfiles
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

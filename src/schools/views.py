@@ -53,10 +53,12 @@ def dashboard(request):
 def user_management(request):
     if request.user.user_type == "school":
     # if school_uuid == valid_school_uuid:
+        school_name = request.user.school_profile.school_name
         template_name = "schools/dashl0/school_usermng.html"
         page_title = "Management"
 
         context = {
+            "school_name":school_name,
             "page_title":page_title
         }
     else:
@@ -68,6 +70,7 @@ def user_management(request):
 def teacher_registration(request):
     if request.user.user_type == "school":
     # if school_uuid == valid_school_uuid:
+        school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/t_reg.html"
         page_title = "T-Management"
         form = TeacherRegistrationForm()
@@ -82,12 +85,14 @@ def teacher_registration(request):
                 return redirect(reverse("schools:school_teacher_registration"))
             else:
                 context = {
-                    'page_title':page_title,
-                    'form':form
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
                 }
                 return render( request, template_name, context )
         else:
             context = {
+                "school_name":school_name,
                 "page_title":page_title,
                 "form":form
             }
@@ -99,12 +104,14 @@ def teacher_registration(request):
 def teacher_ledger_view(request):
     if request.user.user_type == "school":
         #validate if its the right school
+        school_name = request.user.school_profile.school_name
         template_name = "schools/dashl1/school_index_teachers.html"
         page_title = "T-LedgerView"
 
         current_school = request.user.school_profile
         school_teachers = TeacherProfile.objects.filter(teacher_school=current_school)
         context = {
+            "school_name":school_name,
             "page_title":page_title,
             "school_teachers":school_teachers
         }
@@ -116,6 +123,7 @@ def teacher_ledger_view(request):
 @verified_email_required
 def student_registration(request):
     if request.user.user_type == "school":
+        school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/s_reg.html"
         page_title = "S-Management"
         form = StudentRegistrationForm()
@@ -131,12 +139,14 @@ def student_registration(request):
                 return redirect(reverse("schools:school_student_registration"))
             else:
                 context = {
-                    'page_title':page_title,
-                    'form':form
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
                 }
                 return render( request, template_name, context )
         else:
             context = {
+                "school_name":school_name,
                 "page_title":page_title,
                 "form": form
             }
@@ -148,12 +158,14 @@ def student_registration(request):
 def student_ledger_view(request):
     if request.user.user_type == "school":
         #validate if its the right school
+        school_name = request.user.school_profile.school_name
         template_name = "schools/dashl1/school_index_students.html"
         page_title = "S-LedgerView"
 
         current_school = request.user.school_profile
         school_students = StudentProfile.objects.filter(student_school=current_school)
         context = {
+            "school_name":school_name,
             "page_title":page_title,
             "school_students":school_students
         }
@@ -164,10 +176,12 @@ def student_ledger_view(request):
 #school parents views
 def parent_registration(request):
     if school_uuid == valid_school_uuid:
+        school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/p_reg.html"
         page_title = "P-Management"
 
         context = {
+            "school_name":school_name,
             "page_title":page_title
         }
     else:
@@ -180,6 +194,7 @@ def parent_registration(request):
 def ntstaff_registration(request):
     if request.user.user_type == "school":
     # if school_uuid == valid_school_uuid:
+        school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/nt_reg.html"
         page_title = "NT-Management"
         form = NtStaffRegistrationForm()
@@ -200,6 +215,7 @@ def ntstaff_registration(request):
                 return render(request, template_name, context)
         else:
             context = {
+                "school_name":school_name,
                 "page_title":page_title,
                 "form":form
             }
@@ -211,12 +227,14 @@ def ntstaff_registration(request):
 def ntstaff_ledger_view(request):
     if request.user.user_type == "school":
         #validate if its the right school
+        school_name = request.user.school_profile.school_name
         template_name = "schools/dashl1/school_index_ntstaff.html"
         page_title = "NT-LedgerView"
 
         current_school = request.user.school_profile
         school_ntstaffs = NtStaffProfile.objects.filter(ntstaff_school=current_school)
         context = {
+            "school_name":school_name,
             "page_title":page_title,
             "school_ntstaffs":school_ntstaffs,
         }

@@ -1,0 +1,117 @@
+{% load static %}
+<!--The 3rd section of the page-->
+<div class="aside-right">
+		<!--Part one third row-->
+		<div class="top">
+			<button id="menu-btn">
+				<span class="material-symbols-outlined">menu</span>
+			</button>
+			<div class="theme-toggle-btn">
+				<span class="material-symbols-outlined active">light_mode</span>
+				<span class="material-symbols-outlined">dark_mode</span>
+			</div>
+			<div class="profile">
+				<div class="info">
+					<p>Hey, <b>{{school_name.title}}</b></p>
+					<small class="text-muted">Admin</small>
+				</div>
+				<div class="profile-photo">
+					<img src="{% static 'schools/images/profile-1.jpg'%}" alt="Profile pic">
+				</div>
+			</div>
+		</div>
+		<!--recent updates-->
+		<div class="recent-updates">
+			<h2>Recent updates</h2>
+			<div class="updates">
+				<div class="update">
+					<div class="profile-photo">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Removed : Juma Mohammed</p>
+							<small class="text-muted"><b>@Students</b>&nbsp; 2 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Removed : Joel Dawa</p>
+							<small class="text-muted"><b>@teachers</b>&nbsp; 7 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Added "Mwangani 2026"</p>
+							<small class="text-muted"><b>@books</b>&nbsp; 9 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Modified "All day voom"</p>
+							<small class="text-muted"><b>@cbesync.com</b>&nbsp; 9 minutes ago</small>
+					</div>
+				</div>
+				<div class="update">
+					<div class="profile-photo">
+							<img src="{% static 'schools/images/logo.png'%}" alt="Inc Image">
+					</div>
+					<div class="message">
+							<p><b>Admin</b> <br>Welcome to the Library</p>
+							<small class="text-muted"><b>@cbesync.com</b>&nbsp; 2 minutes ago</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--student analytics part-->
+		<div class="school-analytics">
+			<h2>School analytics</h2>
+			<div class="online- courses">
+				<div class="icon">
+					<span class="material-symbols-outlined">podcasts</span>
+				</div>
+				<div class="right">
+					<div class="info">
+						<h3>Online Since</h3>
+						<small class="text-muted">Last 24hrs</small>
+					</div>
+					<h5 class="success">18/7/2025</h5>
+					<h3>200days</h3>
+				</div>
+			</div>
+			<div class="online- courses">
+				<div class="icon">
+					<span class="material-symbols-outlined">portable_wifi_off</span>
+				</div>
+				<div class="right">
+					<div class="info">
+						<h3>Account level</h3>
+						<small class="text-muted">Last 24hrs</small>
+					</div>
+					<h5 class="success">Premium</h5>
+					<h3>700/1000</h3>
+				</div>
+			</div>
+			<div class="online- courses">
+				<div class="icon">
+					<span class="material-symbols-outlined">groups_2</span>
+				</div>
+				<div class="right">
+					<div class="info">
+						<h3>Users</h3>
+						<small class="text-muted">Last 24hrs</small>
+					</div>
+					<h5 class="success">+20%</h5>
+					<h3>1003</h3>
+				</div>
+			</div>
+		</div>
+	</div>

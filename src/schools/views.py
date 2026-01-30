@@ -10,6 +10,7 @@ import uuid
 from teachers.forms import TeacherRegistrationForm
 from students.forms import StudentRegistrationForm
 from ntstaffs.forms import NtStaffRegistrationForm
+from parents.forms import ParentRegistrationForm
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -175,17 +176,37 @@ def student_ledger_view(request):
         return HttpResponse("Only schools are allowed bro")
 #school parents views
 def parent_registration(request):
-    if school_uuid == valid_school_uuid:
+    if request.user.user_type == "school":
+    # if school_uuid == valid_school_uuid:
         school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/p_reg.html"
         page_title = "P-Management"
+        form = ParentRegistrationForm()
+        if request.method == "POST":
+            form = ParentRegistrationForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save(parent_school=request.user.school_profile)
+                messages.success(
+                    request,
+                    f"Parent: {form.cleaned_data['parent_first_name']} {form.cleaned_data['parent_last_name']} saved successfully! 🥳"
+                ) 
+                return redirect(reverse("schools:school_parent_registration"))
 
-        context = {
-            "school_name":school_name,
-            "page_title":page_title
-        }
+            else:
+                context = {
+                    "page_title":page_title,
+                    "form":form
+                }
+                return render(request, template_name, context)
+        else:          
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+                "form":form
+            }
+            return render(request, template_name, context)
     else:
-        return HttpResponse(f"<h1>Wrong guy {school_uuid} user management page</h1>")
+        return HttpResponse("Only schools allowed bro!")
     
     return render(request, template_name, context)
 

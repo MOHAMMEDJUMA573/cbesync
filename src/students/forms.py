@@ -176,3 +176,31 @@ class StudentRegistrationForm(forms.Form):
             ) + 1
             student_school.save(update_fields=['school_students_polpulation'])
             
+class StudentSearchForm(forms.Form):
+    student_data = forms.CharField(
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+            }
+        )
+    )
+    def clean(self):
+        cleaned_data = super().clean()
+        search_data = cleaned_data.get("student_data")
+        if search_data:
+            if profanity.contains_profanity(search_data.lower()):
+                    self.add_error(
+                        "student_data",
+                        _(f"{profanity.censor(search_data)} is unallowed!")
+                    )
+        else:
+            self.add_error(
+                "student_data",
+                _(f"Empty")
+            )
+
+
+        return cleaned_data
+    

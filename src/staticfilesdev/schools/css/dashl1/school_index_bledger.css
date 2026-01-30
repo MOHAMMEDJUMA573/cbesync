@@ -125,6 +125,10 @@ button{
 .search-results{
     color: #6d6dff;
 }
+.errorlist{
+    font-weight: normal;
+    color: var(--color-warning);
+}
 .maingtr-data{
     display: flex;
     font-weight: bold;

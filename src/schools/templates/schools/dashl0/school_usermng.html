@@ -172,9 +172,8 @@
 	</main>
 	<!--The 3rd section of the page-->
 	{% include 'schools/base/3divuserp.html' %}
-  </div>
-
-  {% block head_js %}
-  	<script src="{% static 'schools/js/dashl0/school_usermng.js'%}"></script>
-  {% endblock head_js %}
+  </div>  
 {% endblock content %}
+{% block head_js %}
+  	<script src="{% static 'schools/js/dashl0/school_usermng.js'%}"></script>
+{% endblock head_js %}

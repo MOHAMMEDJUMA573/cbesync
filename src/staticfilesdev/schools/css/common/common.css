@@ -262,7 +262,6 @@ main h1{
     right: 1rem;
     background: var(--color-background);
     border-radius: var(--border-radius-1);
-    padding: var(2rem);
 }
 
 .aside-right .top button{

@@ -121,6 +121,10 @@ button{
     display: grid;
     grid-template-columns: 1.5fr 2.5fr 1.5fr 1fr 1.5fr 1fr;
 }
+/*added for the search results*/
+.search-results{
+    color: #6d6dff;
+}
 .maingtr-data{
     display: flex;
     font-weight: bold;

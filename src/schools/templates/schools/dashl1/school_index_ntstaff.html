@@ -16,9 +16,11 @@
 		<div class="main-grid">
             <div class="maing-top-utils">
                 <div class="maing-topu-p">
-                    <label for="search-b">Search: </label>
-                    <input type="text" placeholder="Name or ID">
-                    <button class="sButton" type="submit">Enter</button>
+                    <form action="/" class="maing-topu-p">
+                        <label for="search-b">Search: </label>
+                        <input type="text" placeholder="Name or ID">
+                        <button class="sButton" type="submit">Enter</button>
+                    </form>
                 </div>
                 <div class="maing-topu-p">
                     <div class="maing-tpp-label">Print</div>
@@ -39,7 +41,34 @@
                     </div>
                 </div>
             </div>
-            
+            <!--DIv to display when the there is data from the serch method-->
+            <div class="main-data-grid">
+                <div class="maing-data-header search-results">
+                    Search Results
+                </div>
+                <div class="maing-data-table">
+                    <div class="maingt-header-row">
+                        <div class="maingth-data">ID</div>
+                        <div class="maingth-data">Full Name</div>
+                        <div class="maingth-data">Employer</div>
+                        <div class="maingth-data">Gender</div>
+                        <div class="maingth-data">Role</div>
+                        <div class="maingth-data">Age</div>
+                    </div>
+                    <div class="maingt-data-row search-results">
+                        <div class="maingtr-data">NTS-234323</div>
+                        <div class="maingtr-data">
+                            <div class="maingtr-data-p1">Abdullah</div>
+                            <div class="maingtr-data-p1">Hamza</div>
+                            <div class="maingtr-data-p1">Juma</div>
+                        </div>
+                        <div class="maingtr-data">Institution</div>
+                        <div class="maingtr-data">M</div>
+                        <div class="maingtr-data">Admin</div>
+                        <div class="maingtr-data">53</div>
+                    </div>
+                </div>
+            </div>             
             <div class="maing-data-grid">
                 <div class="maing-data-header">
                     Administrative Staff

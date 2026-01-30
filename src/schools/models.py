@@ -195,7 +195,12 @@ class SchoolProfile(models.Model):
     )
     school_ntstaffs_polpulation = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(600), MinValueValidator(0)],
+        validators=[MaxValueValidator(500), MinValueValidator(0)],
+        help_text="Number of ntstaffs"
+    )
+    school_parents_polpulation = models.IntegerField(
+        default=0,
+        validators=[MaxValueValidator(2500), MinValueValidator(0)],
         help_text="Number of ntstaffs"
     )
     #12. Timestamps

@@ -34,7 +34,7 @@ if not DEBUG:
     #csrf forms setup to avoid csrf token erros
     allowed_csrf_origin = [f"https://{domain}" for domain in ALLOWED_HOSTS]
     CSRF_TRUSTED_ORIGINS = allowed_csrf_origin
-    print(f"{ALLOWED_HOSTS}\n{allowed_csrf_origin}")
+    print(f" allowed hosts: {ALLOWED_HOSTS}\n csrf-origin: {allowed_csrf_origin}\n")
     # Ensure cookies are only sent over HTTPS
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     "students",
     "teachers",
     "ntstaffs",
+    "parents",
 ]
 ALLAUTH_UI_THEME = "halloween"
 # TAILWIND_APP_NAME = "theme"

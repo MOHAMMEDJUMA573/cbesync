@@ -19,8 +19,6 @@ CLOUD_FLARE_R2_CONFIG_OPTIONS = {
 # Source - https://stackoverflow.com/a
 STATIC_URL = 'static/'
 
-print(f"{BASE_DIR2}/staticfilesdev/") # type:ignore
-
 if not DEBUG: # type:ignore
     STATICFILES_DIRS = [
         f"{BASE_DIR2}/staticfilesdev", # type:ignore

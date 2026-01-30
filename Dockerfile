@@ -50,7 +50,7 @@ RUN pip install -r /tmp/requirements.txt
 
 # copy the project code into the container's working directory
 COPY ./src /code
-COPY ./src/staticfiles /code/staticfiles
+#COPY ./src/staticfiles /code/staticfiles
 
 
 #variable required during buildtime
@@ -63,10 +63,12 @@ ARG PROJ_NAME="project"
 # create a bash script to run the Django project
 # this script will execute at runtime when
 # the container starts and the database is available
-RUN printf "#!/bin/bash\n" > ./paracord_runner.sh && \
-    printf "RUN_PORT=\"\${PORT:-8000}\"\n\n" >> ./paracord_runner.sh && \
-    printf "python manage.py migrate --no-input\n" >> ./paracord_runner.sh && \
-    printf "daphne -b 0.0.0.0 -p 8080 ${PROJ_NAME}.asgi:application \n" >> ./paracord_runner.sh
+RUN printf "#!/bin/bash\n" > paracord_runner.sh && \
+    printf "set -e\n\n" >> paracord_runner.sh && \
+    printf "PORT=\"\${PORT:-8080}\"\n\n" >> paracord_runner.sh && \
+    printf "python manage.py collectstatic --noinput\n" >> paracord_runner.sh && \
+    printf "python manage.py migrate --noinput\n" >> paracord_runner.sh && \
+    printf "exec daphne -b 0.0.0.0 -p \$PORT ${PROJ_NAME}.asgi:application\n" >> paracord_runner.sh
 
 # make the bash script executable
 RUN chmod +x ./paracord_runner.sh

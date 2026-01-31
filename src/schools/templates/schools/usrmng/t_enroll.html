@@ -1,218 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dash-Students</title>
-    <!--Box icons-->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-	<link rel="stylesheet" href="..//common.css">
-    <link rel="stylesheet" href="enroll.css">
-		<!--Google font icons-->
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
-</head>
-<body>
-  <div class="top-level-box">
-		<!--Side bar menu-->
-    <aside class="sidebar-menu">
-			<div class="top">
-				<div class="logo">
-					<img src="..//images/logo.png">
-					<h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
-				</div>
-				<div class="close" id="close-btn">
-					<span class="material-symbols-outlined">cancel_presentation</span>
-				</div>
-			</div>
-			<div class="sidebar">
-				<a href="http://127.0.0.1:5500/front_end/dash/school_index.html">
-					<span class="material-symbols-outlined">dashboard</span>
-					<h3>Dashboard</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_usermng.html" class="active">
-					<span class="material-symbols-outlined">groups_3</span>
-					<h3>User-Management</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_classmng.html">
-					<span class="material-symbols-outlined">cast_for_education</span>
-					<h3>Class-Management</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_assess.html">
-					<span class="material-symbols-outlined">quiz</span>
-					<h3>Assessments </h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_admtools.html">
-					<span class="material-symbols-outlined">admin_panel_settings</span>
-					<h3>Administrative Tools</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_comm.html">
-					<span class="material-symbols-outlined">communication</span>
-					<h3>Communication</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_lib.html">
-					<span class="material-symbols-outlined">books_movies_and_music</span>
-					<h3>Library</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_reports.html">
-					<span class="material-symbols-outlined">report</span>
-					<h3>Reports</h3>
-					<span class="report-count">10</span>
-				</a>
-				<a href="#">
-					<span class="material-symbols-outlined">table_chart_view</span>
-					<h3>Analytics</h3>
-				</a>
-				<a href="http://127.0.0.1:5500/front_end/dash/school_sett.html">
-					<span class="material-symbols-outlined">settings</span>
-					<h3>settings</h3>
-				</a>
-				<a href="#">
-					<span class="material-symbols-outlined">logout</span>
-					<h3>logout</h3>
-				</a>
-			</div>
-    </aside> 
+
+{% extends 'schools/base/base.html' %}
+
+{% load static%}
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'schools/css/usermng/enroll.css'%}">
+{% endblock head_css %}
+{% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
+{% block content %}
+
+	<div class="top-level-box">
+	<!--Side bar menu-->
+	{% block sidemenu%}
+		{% include 'schools/base/navbar.html' %}
+    {% endblock sidemenu%}
 	<!--main body-->
 	<main>
 		<h1 class="main-header">Teacher Enrollment</h1>
 		<div class="main-grid"> 
-           <form action="https://httpbin.org/post" method="post" class="reg-form">
-						<div class="form-header">
-							<div class="form-guide-text">
-								<p>Please enter the required teacher's data</p>
-								<p class="error-message"></p>
-							</div>
+           <form action="{% url 'schools:school_teacher_enrollment' %}" method="post" class="reg-form">
+				{% csrf_token %}
+				<div class="form-header">
+					<div class="form-guide-text">
+						<p>Please enter the required teacher's data</p>
+						<p class="error-message"></p>
+					</div>
+				</div>
+				<div class="form-body">
+					<div class="form-field1">
+						<label for="id_teacher_first_name">
+							First-Name:
+							<p>{{form.teacher_first_name.errors}}</p>
+						</label>
+						{{form.teacher_first_name}}
+					</div>
+					<div class="form-field1">
+						<label for="id_teacher_last_name">
+							Last-Name:
+							<p>{{form.teacher_last_name.errors}}</p>
+						</label>
+						{{form.teacher_last_name}}
+					</div>
+					<div class="form-field1">
+						<label for="gender_M">
+							Gender:
+							<p>{{ form.teacher_gender.errors }}</p>
+						</label>
+						<div>
+							{% for value, label in form.teacher_gender.field.choices %}
+								<label for="gender_{{ value }}">{{ label }}:</label>
+								<input 
+									type="radio"
+									id="gender_{{ value }}"
+									name="{{ form.teacher_gender.name }}"
+									value="{{ value }}"
+									{% if form.teacher_gender.value == value %}checked{% endif %}
+								>
+							{% endfor %}
 						</div>
-						<div class="form-body">
-							<div class="form-field1">
-									<label for="f-name">First-Name: </label>
-									<input type="text" name="f-name" id="f-name" placeholder="first_name">
+					</div>
+					<div class="form-field1">
+						<label for="id_teacher_id">
+							Teacher ID:
+							<p>{{form.teacher_id.errors}}</p>
+						</label>
+						{{form.teacher_id}}
+					</div>
+					<div class="form-field1">
+						<label for="id_teacher_employer">
+							Employer:
+							<p>{{form.teacher_employer.errors}}</p>
+						</label>
+						{{form.teacher_employer}}
+					</div>
+					<div class="form-field1">
+							<label for="id_teacher_role">
+								Role:
+								<p>{{form.teacher_role.errors}}</p>
+							</label>
+							{{form.teacher_role}}
+					</div>
+					<div class="form-field1">
+							<label for="id_teacher_e_level">
+								Educational Level:
+								<p>{{form.teacher_e_level.errors}}</p>
+							</label>
+							{{form.teacher_e_level}} 
+					</div>
+					<div class="form-field1">
+							<label for="ENGL">
+								Teaching Subjects:
+								<p>{{ form.teacher_t_subjects.errors }}
+							</label>
+							<div style="display: grid; grid-template-columns: repeat(3, 1fr);">
+								{% for value, label in form.teacher_t_subjects.field.choices %}
+								<div>
+									<input 
+										type="checkbox" 
+										id="{{value}}" 
+										name="{{form.teacher_t_subjects.name}}" 
+										value="{{value}}"
+										{% if value in teacher_t_subjects.value %}checked{% endif %}
+									>
+									<label for="{{value}}">{{label}}</label><br> 
+								</div>
+								{% endfor %}
 							</div>
-							<div class="form-field1">
-									<label for="l-name">Last-Name: </label>
-									<input type="text" name="l-name" id="l-name" placeholder="last_name">
-							</div>
-							<div class="form-field1">
-									<label for="gender">Gender: </label>
-									<div>
-										<label for="male">M: </label>
-										<input type="radio" id="male" value="MALE" name="gender">
-										<label for="female">F: </label>
-										<input type="radio" id="female" value="FEMALE" name="gender">
-									</div>
-							</div>
-							<div class="form-field1">
-									<label for="tid-no">Teacher ID:</label>
-									<input type="text" name="tid-no" id="tid-no" placeholder="e.gTCH-000001">
-							</div>
-							<div class="form-field1">
-									<label for="employer">Employer</label>
-									<select name="employer" id="employer">
-											<option value="government">Government</option>
-											<option value="institution">Institution</option>
-									</select>
-							</div>
-							<div class="form-field1">
-									<label for="role">Role</label>
-									<select name="role" id="role">
-											<option value="SBT">Subject Teacher</option>
-											<option value="HOD">Head of Department</option>
-									</select>
-							</div>
-							<div class="form-field1">
-									<label for="ed-levels">Educational Level</label>
-									<select name="ed-levels" id="ed-levels">
-											<option value="ppe">Pre-primary</option>
-											<option value="lpe">Lower-primary</option>
-											<option value="upe">Upper-primary</option>
-											<option value="jse" selected>Junior-secondary</option>
-									</select> 
-							</div>
-							<div class="form-field1">
-									<label for="tc-subjects[]">Teaching Subjects</label>
-									<div style="display: grid; grid-template-columns: repeat(3, 1fr);">
-										<div>
-											<input type="checkbox" id="eng" name="tc-subjects[]" value="english">
-											<label for="eng">English</label><br> 
-										</div>
-										<div>
-											<input type="checkbox" id="kis" name="tc-subjects[]" value="kiswahili">
-											<label for="kis">Kiswahili</label><br>
-										</div>
-										<div>
-											<input type="checkbox" id="mat" name="tc-subjects[]" value="mathematics">
-											<label for="mat">Maths</label><br> 
-										</div>
-										<div>
-											<input type="checkbox" id="re" name="tc-subjects[]" value="re_education">
-											<label for="re">R.E</label><br> 
-										</div>
-										<div>
-											<input type="checkbox" id="intsc" name="tc-subjects[]" value="intscience">
-											<label for="intsc">I.Science</label><br>
-										</div>
-										<div>
-											<input type="checkbox" id="sstudies" name="tc-subjects[]" value="sstudies">
-											<label for="sstudies">S.Studies</label><br> 
-										</div>
-										<div>
-											<input type="checkbox" id="agnutr" name="tc-subjects[]" value="agnutr">
-											<label for="agnutr">A.&Nutri</label><br> 
-										</div>
-										<div>
-											<input type="checkbox" id="csports" name="tc-subjects[]" value="csports">
-											<label for="csports">C&Sports</label><br>
-										</div>
-										<div>
-											<input type="checkbox" id="pretech" name="tc-subjects[]" value="pretech">
-											<label for="pretech">Pre-Tech</label><br> 
-										</div>
-									</div>
-							</div>
-							<div class="form-field1">
-									<label for="h-qualification">HIghest Qualification</label>
-									<select name="h-qualification" id="h-qualification">
-											<option value="phd">Doctor of Philosophy</option>
-											<option value="masters">Masters</option>
-											<option value="degree" selected>Degree</option>
-											<option value="diploma">Diploma</option>
-											<option value="certificate">Certificate</option>
-									</select>
-							</div>
-							<div class="opt-buttons">
-								<button type="submit">Submit</button> 
-								<button type="reset">Clear</button>
-							</div>
-						</div>     
-                
+					</div>
+					<div class="form-field1">
+							<label for="id_teacher_h_qualification">
+								Highest Qualification:
+								<p>{{form.teacher_h_qualification.errors}}</p>
+							</label>
+							{{form.teacher_h_qualification}}
+					</div>
+					<div class="opt-buttons">
+						<button type="submit">Submit</button> 
+						<button type="reset">Clear</button>
+					</div>
+				</div>    
             </form>           
 		</div>
 	</main>
-	<!--The 3rd section of the page-->
-	<div class="aside-right">
-		<!--Part one third row-->
-		<div class="top top2">
-			<button id="menu-btn">
-				<span class="material-symbols-outlined">menu</span>
-			</button>
-			<div class="theme-toggle-btn">
-				<span class="material-symbols-outlined active">light_mode</span>
-				<span class="material-symbols-outlined">dark_mode</span>
-			</div>
-			<div class="profile">
-				<div class="info">
-					<p>Hey, <b>Mohammed</b></p>
-					<small class="text-muted">Admin</small>
-				</div>
-				<div class="profile-photo">
-					<img src="..//images/profile-1.jpg" alt="Profile pic">
-				</div>
-			</div>
-		</div>
-	</div>
+	<!-- 3rd -->
+	{% include 'schools/base/1divuserp.html' %}
   </div> 
+  {% block head_js %}
+  	<script src="{% static 'schools/js/usermng/t_enroll.js'%}"></script>
+  {% endblock head_js %}
+{% endblock content %}
 
-  <script src="..//common.js"></script>
-  <script src="t_enroll.js"></script>
-</body>
-</html>

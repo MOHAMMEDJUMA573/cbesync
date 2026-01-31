@@ -21,6 +21,15 @@ urlpatterns+=[
                 path("student_reg/", views.student_registration, name="school_student_registration"),
                 path("parent_reg/", views.parent_registration, name="school_parent_registration"),
                 path("ntstaff_reg/", views.ntstaff_registration, name="school_ntstaff_registration"),
+                path("teacher_enrl/", views.teacher_enrollment, name="school_teacher_enrollment"),
+                path("student_enrl/", views.student_enrollment, name="school_student_enrollment"),
+                path("parent_enrl/", views.parent_enrollment, name="school_parent_enrollment"),
+                path("ntstaff_enrl/", views.ntstaff_enrollment, name="school_ntstaff_enrollment"),
+                path("teacher_enrl/", views.teacher_enrollment, name="school_teacher_management"),
+                path("student_enrl/", views.student_enrollment, name="school_student_management"),
+                path("parent_enrl/", views.parent_enrollment, name="school_parent_management"),
+                path("ntstaff_enrl/", views.ntstaff_enrollment, name="school_ntstaff_management"),
+                
             ]
         ),
     ),

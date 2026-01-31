@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
 import uuid
-from teachers.forms import TeacherRegistrationForm, TeacherSearchForm
+from teachers.forms import TeacherRegistrationForm, TeacherSearchForm, TeacherEnrollmentForm
 from students.forms import StudentRegistrationForm, StudentSearchForm
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm
 from parents.forms import ParentRegistrationForm
@@ -74,7 +74,7 @@ def teacher_registration(request):
     # if school_uuid == valid_school_uuid:
         school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/t_reg.html"
-        page_title = "T-Management"
+        page_title = "T-Registration"
         form = TeacherRegistrationForm()
         if request.method == "POST":
             form = TeacherRegistrationForm(request.POST, request.FILES)
@@ -92,6 +92,41 @@ def teacher_registration(request):
                     "form":form
                 }
                 return render( request, template_name, context )
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+                "form":form
+            }
+            return render(request, template_name, context)
+    else:
+        return HttpResponse("Only schools allowed bro!")
+
+@verified_email_required
+def teacher_enrollment(request):
+    if request.user.user_type == "school":
+        school_name = request.user.school_profile.school_name
+        template_name = "schools/usrmng/t_enroll.html"
+        page_title = "T-Enrollment"
+        form = TeacherEnrollmentForm()
+        if request.method == "POST":
+            form = TeacherEnrollmentForm(request.POST)
+            if form.is_valid():
+                #handle the form enrollment logic
+                print("Recieved a valid teacher enrollment form")
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
+                }
+                return render(request, template_name, context)
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
+                }
+                return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
@@ -187,6 +222,10 @@ def student_registration(request):
         return HttpResponse("Only schools allowed bro!")
 
 @verified_email_required
+def student_enrollment(request):
+    pass
+
+@verified_email_required
 def student_ledger_view(request):
     if request.user.user_type == "school":
         #validate if its the right school
@@ -270,6 +309,10 @@ def parent_registration(request):
     
     return render(request, template_name, context)
 
+@verified_email_required
+def parent_enrollment(request):
+    pass
+
 #ntstaff views
 @verified_email_required
 def ntstaff_registration(request):
@@ -304,6 +347,10 @@ def ntstaff_registration(request):
     else:
         return HttpResponse("Only schools allowed bro!")
     
+@verified_email_required
+def ntstaff_enrollment(request):
+    pass
+
 @verified_email_required
 def ntstaff_ledger_view(request):
     if request.user.user_type == "school":

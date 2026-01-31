@@ -237,4 +237,87 @@ class TeacherSearchForm(forms.Form):
             )
 
         return cleaned_data
+
+class TeacherEnrollmentForm(forms.Form):
+    teacher_first_name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+    teacher_last_name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+
+    teacher_gender = forms.ChoiceField(
+        choices=TeacherProfile.GENDER_CHOICES,
+        widget=forms.RadioSelect
+    )
+    teacher_id = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
     
+    teacher_employer = forms.ChoiceField(
+        choices=TeacherProfile.TEACHER_EMPLOYERS,
+        initial="GOVT",
+    )
+    teacher_role = forms.ChoiceField(
+        choices=TeacherProfile.TEACHER_ROLES,
+        initial="CT",
+    )
+    teacher_e_level = forms.ChoiceField(
+        choices=TeacherProfile.EDUCATION_LEVELS,
+        initial="JSS"
+    )
+    teacher_t_subjects = forms.MultipleChoiceField(
+        choices=TeacherProfile.TEACHING_SUBJECTS,
+        widget=forms.CheckboxSelectMultiple,
+    )
+    teacher_h_qualification = forms.ChoiceField(
+        choices=TeacherProfile.QUALIFICATIONS,
+        initial="UDGR"
+    )
+
+
+    def clean(self):
+        check_flag1 = False
+        cleaned_data = super().clean()
+        teacher_fields = [
+            "teacher_first_name", "teacher_last_name", "teacher_id",
+        ]
+        for teacher_field in teacher_fields:
+            value = cleaned_data.get(teacher_field).lower()
+            if profanity.contains_profanity(value):
+                self.add_error(
+                    teacher_field,
+                    _(f"{profanity.censor(value)} is unallowed!")
+                )
+                check_flag1 = True
+        if not check_flag1:
+            nn_fields = [
+                "teacher_gender", "teacher_employer", "teacher_role",
+                "teacher_e_level", "teacher_t_subjects", "teacher_h_qualification",
+            ]
+            for nn_field in nn_fields:
+                if cleaned_data.get(nn_field) is not None:
+                    pass
+                else:
+                    self.add_error(
+                        nn_field,
+                        _("Can't be empty!")
+                    )
+
+        return cleaned_data
+     

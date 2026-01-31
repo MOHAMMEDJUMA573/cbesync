@@ -16,9 +16,13 @@
 		<div class="main-grid">
             <div class="maing-top-utils">
                 <div class="maing-topu-p">
-                    <form action="/" class="maing-topu-p">
-                        <label for="search-b">Search: </label>
-                        <input type="text" placeholder="Name or ID">
+                    <form action="{% url 'schools:school_ntstaff_ledgerview' %}" class="maing-topu-p" method="post">
+                        {% csrf_token %}
+                        <label for="id_ntstaff_data">
+                            Search: 
+                            <!--  <p>{{form.ntstaff_data.errors}}</p>  -->
+                        </label>
+                        {{form.ntstaff_data}}
                         <button class="sButton" type="submit">Enter</button>
                     </form>
                 </div>
@@ -41,34 +45,70 @@
                     </div>
                 </div>
             </div>
-            <!--DIv to display when the there is data from the serch method-->
+            <!--DIv to display when the there is data from the serch method--> 
+            {% if search_results is None %}
+                <!--Not a post request-->
+            {% elif search_results == "empty" %}
             <div class="main-data-grid">
-                <div class="maing-data-header search-results">
-                    Search Results
+                <ul class="errorlist">
+                    <li>No such user</li>
+                </ul>
+            </div>
+            {% else %}
+                <div class="main-data-grid">
+                    {% for ntstaff in search_results %}
+                        {% if forloop.first %}
+                            <div class="maing-data-header search-results">
+                                Search Results
+                            </div>
+                            <div class="maing-data-table">
+                                <div class="maingt-header-row">
+                                    <div class="maingth-data">ID</div>
+                                    <div class="maingth-data">Full Name</div>
+                                    <div class="maingth-data">Employer</div>
+                                    <div class="maingth-data">Gender</div>
+                                    <div class="maingth-data">Role</div>
+                                    <div class="maingth-data">Age</div>
+                                </div>
+                        {% endif %}
+                            <div class="maingt-data-row search-results">
+                                <div class="maingtr-data">
+                                    {{ ntstaff.ntstaff_id|truncatechars:12 }}
+                                </div>
+                                <div class="maingtr-data">
+                                    <div class="maingtr-data-p1">
+                                        {{ntstaff.ntstaff_first_name}}
+                                    </div>
+                                    <div class="maingtr-data-p1">
+                                        {{ntstaff.ntstaff_middle_name}}
+                                    </div>
+                                    <div class="maingtr-data-p1">
+                                        {{ntstaff.ntstaff_last_name}}
+                                    </div>
+                                </div>
+                                <div class="maingtr-data">
+                                    {{ntstaff.ntstaff_school.school_name}}
+                                </div>
+                                <div class="maingtr-data">
+                                    {{ntstaff.ntstaff_gender}}
+                                </div>
+                                <div class="maingtr-data">
+                                    {{ntstaff.ntstaff_title}}
+                                </div>
+                                <div class="maingtr-data">
+                                    {{ntstaff.ntstaff_age}}
+                                </div>
+                            </div> 
+                        {% if forloop.last %} 
+                            <!--Close the open table-->
+                            </div>
+                        {% endif %}                     
+                    {% endfor %}
                 </div>
-                <div class="maing-data-table">
-                    <div class="maingt-header-row">
-                        <div class="maingth-data">ID</div>
-                        <div class="maingth-data">Full Name</div>
-                        <div class="maingth-data">Employer</div>
-                        <div class="maingth-data">Gender</div>
-                        <div class="maingth-data">Role</div>
-                        <div class="maingth-data">Age</div>
-                    </div>
-                    <div class="maingt-data-row search-results">
-                        <div class="maingtr-data">NTS-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
-                        </div>
-                        <div class="maingtr-data">Institution</div>
-                        <div class="maingtr-data">M</div>
-                        <div class="maingtr-data">Admin</div>
-                        <div class="maingtr-data">53</div>
-                    </div>
-                </div>
-            </div>             
+            {% endif %}
+            
+            
+            <!--XXXXXXX-->
             <div class="maing-data-grid">
                 <div class="maing-data-header">
                     Administrative Staff

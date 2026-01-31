@@ -213,3 +213,33 @@ class NtStaffRegistrationForm(forms.Form):
             ) + 1
             ntstaff_school.save(update_fields=['school_ntstaffs_polpulation'])
             
+
+class NtStaffSearchForm(forms.Form):
+    ntstaff_data = forms.CharField(
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete":"off",
+                "placeholder":"Name or NTID"
+            }
+        )
+    )
+    def clean(self):
+        cleaned_data = super().clean()
+        search_data = cleaned_data.get("ntstaff_data")
+        if search_data:
+            if profanity.contains_profanity(search_data.lower()):
+                    self.add_error(
+                        "ntstaff_data",
+                        _(f"{profanity.censor(search_data)} is unallowed!")
+                    )
+        else:
+            self.add_error(
+                "ntstaff_data",
+                _(f"Empty")
+            )
+
+
+        return cleaned_data
+    

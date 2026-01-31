@@ -9,7 +9,7 @@ from allauth.account.decorators import verified_email_required
 import uuid
 from teachers.forms import TeacherRegistrationForm, TeacherSearchForm
 from students.forms import StudentRegistrationForm, StudentSearchForm
-from ntstaffs.forms import NtStaffRegistrationForm
+from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm
 from parents.forms import ParentRegistrationForm
 from django.db.models import Q
 
@@ -219,6 +219,7 @@ def student_ledger_view(request):
                     "form":form,
                     "search_results":student_search_results
                 }
+                return render(request, template_name, context)
             else:
                 context = {
                     "school_name":school_name,
@@ -227,7 +228,7 @@ def student_ledger_view(request):
                     "form":form,
                     "search_results":None
                 }
-            return render(request, template_name, context)
+                return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
@@ -316,16 +317,49 @@ def ntstaff_ledger_view(request):
         school_name = request.user.school_profile.school_name
         template_name = "schools/dashl1/school_index_ntstaff.html"
         page_title = "NT-LedgerView"
-
         current_school = request.user.school_profile
         school_ntstaffs = NtStaffProfile.objects.filter(ntstaff_school=current_school)
-        context = {
-            "school_name":school_name,
-            "page_title":page_title,
-            "school_ntstaffs":school_ntstaffs,
-        }
-        return render(request, template_name, context)
-
+        form = NtStaffSearchForm()
+        if request.method == "POST":
+        # if school_uuid == valid_school_uuid:
+            form = NtStaffSearchForm(request.POST)
+            if form.is_valid():
+                search_value = form.cleaned_data["ntstaff_data"]
+                ntstaff_search_results = school_ntstaffs.filter(
+                    Q(ntstaff_first_name__iexact=search_value) |
+                    Q(ntstaff_middle_name__iexact=search_value) |
+                    Q(ntstaff_last_name__iexact=search_value) |
+                    Q(ntstaff_id__iexact=search_value)
+                )
+                #return na if no such
+                if not ntstaff_search_results.exists():
+                    ntstaff_search_results = "empty"
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "school_ntstaffs":school_ntstaffs,
+                    "form":form,
+                    "search_results":ntstaff_search_results
+                }
+                return render(request, template_name, context)
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "school_ntstaffs":school_ntstaffs,
+                    "form":form,
+                    "search_results":None
+                }
+                return render(request, template_name, context)
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+                "school_ntstaffs":school_ntstaffs,
+                "form":form,
+                "search_results":None
+            }
+            return render(request, template_name, context)      
     else:
         return HttpResponse("Only schools are allowed bro")
 

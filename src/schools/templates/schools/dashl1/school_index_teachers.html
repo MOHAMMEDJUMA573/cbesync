@@ -18,7 +18,7 @@
                 <div class="maing-topu-p">
                     <form action="{% url 'schools:school_teacher_ledgerview' %}" class="maing-topu-p" method="post">
                         {% csrf_token %}
-                        <label for="search-b">
+                        <label for="id_teacher_data">
                             Search:
                             <!--  <p>{{form.teacher_data.errors}}</p>  -->
                         </label>
@@ -58,67 +58,69 @@
                 <div class="main-data-grid">
                     {% for teacher in search_results %}
                         {% if forloop.first %}
-                        <div class="maing-data-header search-results">
-                            Search Results
-                        </div>
-                        <div class="maing-data-table">
-                            <div class="maingt-header-row">
-                                <div class="maingth-data">ID</div>
-                                <div class="maingth-data">Full Name</div>
-                                <div class="maingth-data">Level</div>
-                                <div class="maingth-data">Role</div>
-                                <div class="maingth-data" title="Date of enrollment">DOC</div>
-                                <div class="maingth-data">Gender</div>
+                            <div class="maing-data-header search-results">
+                                Search Results
                             </div>
-                        </div>
+                            <div class="maing-data-table">
+                                <div class="maingt-header-row">
+                                    <div class="maingth-data">ID</div>
+                                    <div class="maingth-data">Full Name</div>
+                                    <div class="maingth-data">Level</div>
+                                    <div class="maingth-data">Role</div>
+                                    <div class="maingth-data" title="Date of enrollment">DOC</div>
+                                    <div class="maingth-data">Gender</div>
+                                </div>
                         {% endif %}
-
-                        <div class="maingt-data-row search-results">
-                             <div class="maingtr-data">
-                                {{teacher.teacher_id|truncatechars:12}}
+                            <div class="maingt-data-row search-results">
+                                <div class="maingtr-data">
+                                    {{teacher.teacher_id|truncatechars:12}}
+                                </div>
+                                <div class="maingtr-data">
+                                    <div class="maingtr-data-p1">{{teacher.teacher_first_name}}</div>
+                                    <div class="maingtr-data-p1">{{teacher.teacher_middle_name}}</div>
+                                    <div class="maingtr-data-p1">{{teacher.teacher_last_name}}</div>
+                                </div>
+                                <div class="maingtr-data">
+                                    {% if teacher.teacher_h_qualification == "UDGR" %}
+                                        Bachelors Degree
+                                    {% elif teacher.teacher_h_qualification == "MSTS" %}
+                                        Masters
+                                    {% elif teacher.teacher_h_qualification == "PHDS" %}                            
+                                        Doctor of Phylosophy
+                                    {% elif teacher.teacher_h_qualification == "DPLM" %}
+                                        Diploma
+                                    {% elif teacher.teacher_h_qualification == "CTFC" %}
+                                        Certificate
+                                    {%  else %}
+                                        ?????
+                                    {% endif%}
+                                </div>
+                                <div class="maingtr-data">
+                                    {% if teacher.teacher_role == "PR" %}
+                                        Principal
+                                    {% elif teacher.teacher_role == "DP" %}
+                                        Deputy Principal
+                                    {% elif teacher.teacher_role == "CT" %}
+                                        Class Teacher
+                                    {% elif teacher.teacher_role == "ST" %}
+                                        Subject Teacher
+                                    {% elif teacher.teacher_role == "PT"%}
+                                        Patron
+                                    {% else%}
+                                        ?????
+                                    {% endif %}
+                                </div>
+                                <div class="maingtr-data">
+                                    {{teacher.teacher_creation_date.date}}
+                                </div>
+                                <div class="maingtr-data">
+                                    {{teacher.teacher_gender}}
+                                </div>
                             </div>
-                            <div class="maingtr-data">
-                                <div class="maingtr-data-p1">{{teacher.teacher_first_name}}</div>
-                                <div class="maingtr-data-p1">{{teacher.teacher_middle_name}}</div>
-                                <div class="maingtr-data-p1">{{teacher.teacher_last_name}}</div>
+                        {% if forloop.last %}
+                            <!--Close the open table-->
                             </div>
-                            <div class="maingtr-data">
-                                {% if teacher.teacher_h_qualification == "UDGR" %}
-                                    Bachelors Degree
-                                {% elif teacher.teacher_h_qualification == "MSTS" %}
-                                    Masters
-                                {% elif teacher.teacher_h_qualification == "PHDS" %}                            
-                                    Doctor of Phylosophy
-                                {% elif teacher.teacher_h_qualification == "DPLM" %}
-                                    Diploma
-                                {% elif teacher.teacher_h_qualification == "CTFC" %}
-                                    Certificate
-                                {%  else %}
-                                    ?????
-                                {% endif%}
-                            </div>
-                            <div class="maingtr-data">
-                                {% if teacher.teacher_role == "PR" %}
-                                    Principal
-                                {% elif teacher.teacher_role == "DP" %}
-                                    Deputy Principal
-                                {% elif teacher.teacher_role == "CT" %}
-                                    Class Teacher
-                                {% elif teacher.teacher_role == "ST" %}
-                                    Subject Teacher
-                                {% elif teacher.teacher_role == "PT"%}
-                                    Patron
-                                {% else%}
-                                    ?????
-                                {% endif %}
-                            </div>
-                            <div class="maingtr-data">
-                                {{teacher.teacher_creation_date.date}}
-                            </div>
-                            <div class="maingtr-data">
-                                {{teacher.teacher_gender}}
-                            </div>
-                        </div>                       
+                        {% endif %}                    
                     {% endfor %}
                 </div>
             {% endif %}

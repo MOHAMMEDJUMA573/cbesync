@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
 import uuid
-from teachers.forms import TeacherRegistrationForm
+from teachers.forms import TeacherRegistrationForm, TeacherSearchForm
 from students.forms import StudentRegistrationForm, StudentSearchForm
 from ntstaffs.forms import NtStaffRegistrationForm
 from parents.forms import ParentRegistrationForm
@@ -109,16 +109,48 @@ def teacher_ledger_view(request):
         school_name = request.user.school_profile.school_name
         template_name = "schools/dashl1/school_index_teachers.html"
         page_title = "T-LedgerView"
-
         current_school = request.user.school_profile
         school_teachers = TeacherProfile.objects.filter(teacher_school=current_school)
-        context = {
-            "school_name":school_name,
-            "page_title":page_title,
-            "school_teachers":school_teachers
-        }
-        return render(request, template_name, context)
-
+        form = TeacherSearchForm()
+        if request.method == "POST":
+        # if school_uuid == valid_school_uuid:
+            form = TeacherSearchForm(request.POST)
+            if form.is_valid():
+                search_value = form.cleaned_data["teacher_data"]
+                teacher_search_results = school_teachers.filter(
+                    Q(teacher_first_name__iexact=search_value) |
+                    Q(teacher_middle_name__iexact=search_value) |
+                    Q(teacher_last_name__iexact=search_value) |
+                    Q(teacher_id__iexact=search_value)
+                )
+                if not teacher_search_results.exists():
+                    teacher_search_results = "empty"
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "school_teachers":school_teachers,
+                    "form":form,
+                    "search_results":teacher_search_results
+                }
+                return render(request, template_name, context)              
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "school_teachers":school_teachers,
+                    "form":form,
+                    "search_results":None
+                }
+                return render(request, template_name, context)
+        else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "school_teachers":school_teachers,
+                    "form":form,
+                    "search_results":None
+                }
+                return render(request, template_name, context)       
     else:
         return HttpResponse("Only schools are allowed bro")
 

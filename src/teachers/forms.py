@@ -190,3 +190,31 @@ class TeacherRegistrationForm(forms.Form):
             ) + 1
             teacher_school.save(update_fields=['school_teachers_polpulation'])
             
+class TeacherSearchForm(forms.Form):
+    teacher_data = forms.CharField(
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete":"off",
+                "placeholder":"Name or TID"
+            }
+        )
+    )
+    def clean(self):
+        cleaned_data = super().clean()
+        search_data = cleaned_data.get("teacher_data")
+        if search_data:
+            if profanity.contains_profanity(search_data.lower()):
+                    self.add_error(
+                        "teacher_data",
+                        _(f"{profanity.censor(search_data)} is unallowed!")
+                    )
+        else:
+            self.add_error(
+                "teacher_data",
+                _(f"Empty")
+            )
+
+        return cleaned_data
+    

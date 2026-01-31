@@ -16,9 +16,13 @@
 		<div class="main-grid">
             <div class="maing-top-utils">
                 <div class="maing-topu-p">
-                    <form action="/" class="maing-topu-p">
-                        <label for="search-b">Search: </label>
-                        <input type="text" placeholder="Name or ID">
+                    <form action="{% url 'schools:school_teacher_ledgerview' %}" class="maing-topu-p" method="post">
+                        {% csrf_token %}
+                        <label for="search-b">
+                            Search:
+                            <!--  <p>{{form.teacher_data.errors}}</p>  -->
+                        </label>
+                        {{form.teacher_data}}
                         <button class="sButton" type="submit">Enter</button>
                     </form>
                 </div>
@@ -42,33 +46,85 @@
                 </div>
             </div>
             <!--DIv to display when the there is data from the serch method-->
+            {% if search_results is None %}
+                <!--Not a post request-->
+            {% elif search_results == "empty" %}
             <div class="main-data-grid">
-                <div class="maing-data-header search-results">
-                    Search Results
-                </div>
-                <div class="maing-data-table">
-                    <div class="maingt-header-row">
-                        <div class="maingth-data">ID</div>
-                        <div class="maingth-data">Full Name</div>
-                        <div class="maingth-data">Level</div>
-                        <div class="maingth-data">Role</div>
-                        <div class="maingth-data" title="Date of enrollment">DOE</div>
-                        <div class="maingth-data">Gender</div>
-                    </div>
-                    <div class="maingt-data-row search-results">
-                        <div class="maingtr-data">TCH-234323</div>
-                        <div class="maingtr-data">
-                            <div class="maingtr-data-p1">Abdullah</div>
-                            <div class="maingtr-data-p1">Hamza</div>
-                            <div class="maingtr-data-p1">Juma</div>
+                <ul class="errorlist">
+                    <li>No such user</li>
+                </ul>
+            </div>
+            {% else %}
+                <div class="main-data-grid">
+                    {% for teacher in search_results %}
+                        {% if forloop.first %}
+                        <div class="maing-data-header search-results">
+                            Search Results
                         </div>
-                        <div class="maingtr-data">Masters</div>
-                        <div class="maingtr-data">Admin</div>
-                        <div class="maingtr-data">7/12/2025</div>
-                        <div class="maingtr-data">M</div>
-                    </div>
+                        <div class="maing-data-table">
+                            <div class="maingt-header-row">
+                                <div class="maingth-data">ID</div>
+                                <div class="maingth-data">Full Name</div>
+                                <div class="maingth-data">Level</div>
+                                <div class="maingth-data">Role</div>
+                                <div class="maingth-data" title="Date of enrollment">DOC</div>
+                                <div class="maingth-data">Gender</div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <div class="maingt-data-row search-results">
+                             <div class="maingtr-data">
+                                {{teacher.teacher_id|truncatechars:12}}
+                            </div>
+                            <div class="maingtr-data">
+                                <div class="maingtr-data-p1">{{teacher.teacher_first_name}}</div>
+                                <div class="maingtr-data-p1">{{teacher.teacher_middle_name}}</div>
+                                <div class="maingtr-data-p1">{{teacher.teacher_last_name}}</div>
+                            </div>
+                            <div class="maingtr-data">
+                                {% if teacher.teacher_h_qualification == "UDGR" %}
+                                    Bachelors Degree
+                                {% elif teacher.teacher_h_qualification == "MSTS" %}
+                                    Masters
+                                {% elif teacher.teacher_h_qualification == "PHDS" %}                            
+                                    Doctor of Phylosophy
+                                {% elif teacher.teacher_h_qualification == "DPLM" %}
+                                    Diploma
+                                {% elif teacher.teacher_h_qualification == "CTFC" %}
+                                    Certificate
+                                {%  else %}
+                                    ?????
+                                {% endif%}
+                            </div>
+                            <div class="maingtr-data">
+                                {% if teacher.teacher_role == "PR" %}
+                                    Principal
+                                {% elif teacher.teacher_role == "DP" %}
+                                    Deputy Principal
+                                {% elif teacher.teacher_role == "CT" %}
+                                    Class Teacher
+                                {% elif teacher.teacher_role == "ST" %}
+                                    Subject Teacher
+                                {% elif teacher.teacher_role == "PT"%}
+                                    Patron
+                                {% else%}
+                                    ?????
+                                {% endif %}
+                            </div>
+                            <div class="maingtr-data">
+                                {{teacher.teacher_creation_date.date}}
+                            </div>
+                            <div class="maingtr-data">
+                                {{teacher.teacher_gender}}
+                            </div>
+                        </div>                       
+                    {% endfor %}
                 </div>
-            </div> 
+            {% endif %}
+
+
+            <!--XXXXXXX-->
             <div class="maing-data-grid">
                 <div class="maing-data-header">
                     Teachers Table

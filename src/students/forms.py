@@ -182,7 +182,8 @@ class StudentSearchForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                "autocomplete":"off",
+                "placeholder":"Name or SID"
             }
         )
     )

@@ -18,7 +18,8 @@
                 <div class="maing-topu-p">
                     <form action="{% url 'schools:school_student_ledgerview' %}" class="maing-topu-p" method="post">
                         {% csrf_token %}
-                        <label for="id_student_data">Search: 
+                        <label for="id_student_data">
+                            Search: 
                            <!--  <p>{{form.student_data.errors}}</p>  -->
                         </label>
                         {{form.student_data}}

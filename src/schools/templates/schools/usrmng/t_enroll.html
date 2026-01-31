@@ -22,7 +22,16 @@
 				<div class="form-header">
 					<div class="form-guide-text">
 						<p>Please enter the required teacher's data</p>
-						<p class="error-message"></p>
+						{% if messages %}
+							<ul class="messages">
+								{% for message in messages %}
+								<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+						<p class="error-message">
+							{{ form.non_field_errors }}
+						</p>
 					</div>
 				</div>
 				<div class="form-body">
@@ -89,7 +98,7 @@
 					<div class="form-field1">
 							<label for="ENGL">
 								Teaching Subjects:
-								<p>{{ form.teacher_t_subjects.errors }}
+								<p>{{ form.teacher_t_subjects.errors }}</p>
 							</label>
 							<div style="display: grid; grid-template-columns: repeat(3, 1fr);">
 								{% for value, label in form.teacher_t_subjects.field.choices %}

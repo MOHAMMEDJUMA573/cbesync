@@ -308,7 +308,7 @@ class TeacherEnrollmentForm(forms.Form):
         if not check_flag1:
             nn_fields = [
                 "teacher_gender", "teacher_employer", "teacher_role",
-                "teacher_e_level", "teacher_t_subjects", "teacher_h_qualification",
+                "teacher_e_level", "teacher_h_qualification"
             ]
             for nn_field in nn_fields:
                 if cleaned_data.get(nn_field) is not None:

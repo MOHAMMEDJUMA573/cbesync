@@ -66,6 +66,10 @@ input[type="text"], input[type="email"],input[type="date"], select, input[type="
     color: darkblue;
     max-width: 30ch;
 }
+.errorlist{
+    font-weight: normal;
+    color: var(--color-warning);
+}
 .opt-buttons{
     display: flex;
 }

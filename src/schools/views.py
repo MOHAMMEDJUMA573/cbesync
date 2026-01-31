@@ -112,14 +112,48 @@ def teacher_enrollment(request):
         if request.method == "POST":
             form = TeacherEnrollmentForm(request.POST)
             if form.is_valid():
-                #handle the form enrollment logic
-                print("Recieved a valid teacher enrollment form")
-                context = {
-                    "school_name":school_name,
-                    "page_title":page_title,
-                    "form":form
-                }
-                return render(request, template_name, context)
+                print("valid form")
+                passed_teacher_id = form.cleaned_data["teacher_id"]
+                passed_first_name = form.cleaned_data["teacher_first_name"]
+                passed_last_name = form.cleaned_data["teacher_last_name"]
+                try:
+                    enrolled_teacher = TeacherProfile.objects.get(teacher_id=passed_teacher_id)
+                    teacher_first_name = enrolled_teacher.teacher_first_name
+                    teacher_last_name = enrolled_teacher.teacher_last_name
+                    #check if passed values matter
+                    if teacher_first_name == passed_first_name and teacher_last_name == passed_last_name:
+                        messages.success(
+                            request,
+                            (f"Teacher {teacher_last_name} : {passed_teacher_id} enrolled successfully")
+                        )
+                        context = {
+                            "school_name":school_name,
+                            "page_title":page_title,
+                            "form":form
+                        }
+                        return render(request, template_name, context)
+                    else:
+                        messages.warning(
+                            request,
+                            (f"First name or Last name doesn't Match")
+                        )
+                        context = {
+                            "school_name":school_name,
+                            "page_title":page_title,
+                            "form":form
+                        }
+                        return render(request, template_name, context)
+                except TeacherProfile.DoesNotExist:
+                    messages.warning(
+                        request,
+                        (f"The ID {form.cleaned_data['teacher_id']} does not exist in the system")
+                    )
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form":form
+                    }
+                    return render(request, template_name, context)
             else:
                 context = {
                     "school_name":school_name,

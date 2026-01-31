@@ -36,7 +36,7 @@
 		</div>
 		<div class="insights">
 			<!--Students census-->
-			<div class="census-std" id="studentblob">
+			<div class="census-std" id="studentblob" data-url="{% url 'schools:school_student_ledgerview' %}" >
 				<span class="material-symbols-outlined">person_4</span>
 				<div class="middle">
 					<div class="left">
@@ -55,7 +55,7 @@
 				<small class="text-muted">Last 24hrs</small>
 			</div>
 			<!--Teachers census-->
-			<div class="census-tch" id="teacherblob">
+			<div class="census-tch" id="teacherblob" data-url="{% url 'schools:school_teacher_ledgerview' %}">
 				<span class="material-symbols-outlined">person_4</span>
 				<div class="middle">
 					<div class="left">
@@ -74,7 +74,7 @@
 				<small class="text-muted">Last 24hrs</small>
 			</div>
 			<!--Staff census-->
-			<div class="census-nts" id="ntsblob">
+			<div class="census-nts" id="ntsblob" data-url="{% url 'schools:school_ntstaff_ledgerview' %}">
 				<span class="material-symbols-outlined">person_4</span>
 				<div class="middle">
 					<div class="left">

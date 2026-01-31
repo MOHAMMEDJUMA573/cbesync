@@ -123,14 +123,12 @@ def teacher_ledger_view(request):
                     Q(teacher_last_name__iexact=search_value) |
                     Q(teacher_id__iexact=search_value)
                 )
-                if not teacher_search_results.exists():
-                    teacher_search_results = "empty"
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
                     "school_teachers":school_teachers,
                     "form":form,
-                    "search_results":teacher_search_results
+                    "search_results":teacher_search_results if teacher_search_results.exists() else "empty"
                 }
                 return render(request, template_name, context)              
             else:
@@ -209,15 +207,12 @@ def student_ledger_view(request):
                     Q(student_last_name__iexact=search_value) |
                     Q(student_id__iexact=search_value)
                 )
-                #return na if no such
-                if not student_search_results.exists():
-                    student_search_results = "empty"
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
                     "school_students":school_students,
                     "form":form,
-                    "search_results":student_search_results
+                    "search_results":student_search_results if student_search_results.exists() else "empty"
                 }
                 return render(request, template_name, context)
             else:
@@ -319,6 +314,20 @@ def ntstaff_ledger_view(request):
         page_title = "NT-LedgerView"
         current_school = request.user.school_profile
         school_ntstaffs = NtStaffProfile.objects.filter(ntstaff_school=current_school)
+        school_scadmin_ntstaffs = school_ntstaffs.filter(
+            ntstaff_j_title__in = ["SSCR","SBSR"]
+        )
+        school_scsupport_ntstaffs = school_ntstaffs.filter(
+            ntstaff_j_title__in = ["SSOF","SOJT","SNSR"]
+        )
+        school_stsupport_ntstaffs = school_ntstaffs.filter(
+            ntstaff_j_title__in = ["SLBT","SGOF"]
+        )
+        school_ntstaffs_dict = {
+            "scadmin_ntstaffs":school_scadmin_ntstaffs if school_scadmin_ntstaffs.exists() else None,
+            "scsupport_ntstaffs":school_scsupport_ntstaffs if school_scsupport_ntstaffs.exists() else None,
+            "scstsupport_ntstaffs":school_stsupport_ntstaffs if school_stsupport_ntstaffs.exists() else None
+        }
         form = NtStaffSearchForm()
         if request.method == "POST":
         # if school_uuid == valid_school_uuid:
@@ -331,33 +340,30 @@ def ntstaff_ledger_view(request):
                     Q(ntstaff_last_name__iexact=search_value) |
                     Q(ntstaff_id__iexact=search_value)
                 )
-                #return na if no such
-                if not ntstaff_search_results.exists():
-                    ntstaff_search_results = "empty"
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
-                    "school_ntstaffs":school_ntstaffs,
                     "form":form,
-                    "search_results":ntstaff_search_results
+                    "search_results":ntstaff_search_results if ntstaff_search_results.exists() else "empty",
+                    "school_ntstaff_dict":school_ntstaffs_dict
                 }
                 return render(request, template_name, context)
             else:
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
-                    "school_ntstaffs":school_ntstaffs,
                     "form":form,
-                    "search_results":None
+                    "search_results":None,
+                    "school_ntstaff_dict":school_ntstaffs_dict
                 }
                 return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
-                "school_ntstaffs":school_ntstaffs,
                 "form":form,
-                "search_results":None
+                "search_results":None,
+                "school_ntstaff_dict":school_ntstaffs_dict
             }
             return render(request, template_name, context)      
     else:

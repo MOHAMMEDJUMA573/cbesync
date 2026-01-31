@@ -109,99 +109,99 @@
             
             
             <!--XXXXXXX-->
-            <div class="maing-data-grid">
-                <div class="maing-data-header">
-                    Administrative Staff
-                </div>
-                <div class="maing-data-table">
-                    <div class="maingt-header-row">
-                        <div class="maingth-data">ID</div>
-                        <div class="maingth-data">Full Name</div>
-                        <div class="maingth-data">Employer</div>
-                        <div class="maingth-data">Gender</div>
-                        <div class="maingth-data">Role</div>
-                        <div class="maingth-data">Age</div>
+            {% if school_ntstaff_dict.scadmin_ntstaffs %}
+                <div class="maing-data-grid">
+                    <div class="maing-data-header">
+                        Administrative Staff
                     </div>
-                    {% for ntstaff in school_ntstaffs %}
-                        {% if ntstaff.ntstaff_s_field in "PBAD,ACAF" %}
-                        <div class="maingt-data-row">
-                            <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
-                            <div class="maingtr-data">
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
-                            </div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
-                        </div> 
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="maing-data-grid">
-                <div class="maing-data-header">
-                    Support and Maintenance
-                </div>
-                <div class="maing-data-table">
-                    <div class="maingt-header-row">
-                        <div class="maingth-data">ID</div>
-                        <div class="maingth-data">Full Name</div>
-                        <div class="maingth-data">Employer</div>
-                        <div class="maingth-data">Gender</div>
-                        <div class="maingth-data">Role</div>
-                        <div class="maingth-data">Age</div>
+                    <div class="maing-data-table">
+                        <div class="maingt-header-row">
+                            <div class="maingth-data">ID</div>
+                            <div class="maingth-data">Full Name</div>
+                            <div class="maingth-data">Employer</div>
+                            <div class="maingth-data">Gender</div>
+                            <div class="maingth-data">Role</div>
+                            <div class="maingth-data">Age</div>
+                        </div>
+                        {% for ntstaff in school_ntstaff_dict.scadmin_ntstaffs %}
+                            <div class="maingt-data-row">
+                                <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
+                                <div class="maingtr-data">
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
+                                </div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
+                            </div> 
+                        {% endfor %}
                     </div>
-                    {% for ntstaff in school_ntstaffs %}
-                        {% if ntstaff.ntstaff_s_field in "OTHS," %}
-                        <div class="maingt-data-row">
-                            <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
-                            <div class="maingtr-data">
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
-                            </div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
-                        </div> 
-                        {% endif %}
-                    {% endfor %}
                 </div>
-            </div>
-            <div class="maing-data-grid">
-                <div class="maing-data-header">
-                    Student Support Services
-                </div>
-                <div class="maing-data-table">
-                    <div class="maingt-header-row">
-                        <div class="maingth-data">ID</div>
-                        <div class="maingth-data">Full Name</div>
-                        <div class="maingth-data">Employer</div>
-                        <div class="maingth-data">Gender</div>
-                        <div class="maingth-data">Title</div>
-                        <div class="maingth-data">Age</div>
+            {% endif %}
+            {% if school_ntstaff_dict.scsupport_ntstaffs %}
+                <div class="maing-data-grid">
+                    <div class="maing-data-header">
+                        Support and Maintenance
                     </div>
-                    {% for ntstaff in school_ntstaffs %}
-                        {% if ntstaff.ntstaff_s_field in "INFT,LAIS,MDHS" %}
-                        <div class="maingt-data-row">
-                            <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
-                            <div class="maingtr-data">
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
-                                <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
-                            </div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
-                            <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
-                        </div>  
-                        {% endif %}
-                    {% endfor %}                  
+                    <div class="maing-data-table">
+                        <div class="maingt-header-row">
+                            <div class="maingth-data">ID</div>
+                            <div class="maingth-data">Full Name</div>
+                            <div class="maingth-data">Employer</div>
+                            <div class="maingth-data">Gender</div>
+                            <div class="maingth-data">Role</div>
+                            <div class="maingth-data">Age</div>
+                        </div>
+                        {% for ntstaff in school_ntstaff_dict.scsupport_ntstaffs %}
+                            <div class="maingt-data-row">
+                                <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
+                                <div class="maingtr-data">
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
+                                </div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
+                            </div> 
+                        {% endfor %}
+                    </div>
                 </div>
-            </div>           
+            {% endif %}
+            {% if school_ntstaff_dict.scstsupport_ntstaffs %}
+                <div class="maing-data-grid">
+                    <div class="maing-data-header">
+                        Student Support Services
+                    </div>
+                    <div class="maing-data-table">
+                        <div class="maingt-header-row">
+                            <div class="maingth-data">ID</div>
+                            <div class="maingth-data">Full Name</div>
+                            <div class="maingth-data">Employer</div>
+                            <div class="maingth-data">Gender</div>
+                            <div class="maingth-data">Title</div>
+                            <div class="maingth-data">Age</div>
+                        </div>
+                        {% for ntstaff in school_ntstaff_dict.scstsupport_ntstaffs %}
+                            <div class="maingt-data-row">
+                                <div class="maingtr-data">{{ ntstaff.ntstaff_id|truncatechars:12 }}</div>
+                                <div class="maingtr-data">
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_first_name}}</div>
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_middle_name}}</div>
+                                    <div class="maingtr-data-p1">{{ntstaff.ntstaff_last_name}}</div>
+                                </div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_school.school_name}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_gender}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_title}}</div>
+                                <div class="maingtr-data">{{ntstaff.ntstaff_age}}</div>
+                            </div>  
+                        {% endfor %}                  
+                    </div>
+                </div>  
+            {% endif %}         
 		</div>
 	</main>
 	<!--The 3rd section of the page-->

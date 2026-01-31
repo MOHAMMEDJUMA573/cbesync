@@ -131,9 +131,11 @@ class TeacherRegistrationForm(forms.Form):
         initial="UDGR"
     )
     teacher_pic = forms.ImageField(
+        required=False
     )
 
     def clean(self):
+        check_flag1 = False
         cleaned_data =  super().clean()
         teacher_fields = [
             "teacher_first_name", "teacher_middle_name", "teacher_last_name",
@@ -144,9 +146,27 @@ class TeacherRegistrationForm(forms.Form):
             if profanity.contains_profanity(value):
                 self.add_error(
                     teacher_field,
-                    _(f"{value} is unallowed!")
+                    _(f"{profanity.censor(value)} is unallowed!")
                 )
+                check_flag1 = True
 
+        if not check_flag1:
+            nn_fields = [
+                "teacher_gender", "teacher_y_experience", "teacher_h_date",
+                "teacher_country", "teacher_employer", "teacher_department",
+                "teacher_role", "teacher_e_level"
+            ]
+            for nn_field in nn_fields:
+                if cleaned_data.get(nn_field) is not None:
+                    pass
+                else:
+                    self.add_error(
+                        nn_field,
+                        _("Can't be empty!")
+                    )
+        r_email = cleaned_data.get("teacher_email")
+        if r_email:
+            cleaned_data["teacher_email"] = r_email.lower()
         return cleaned_data 
 
     def save(self, teacher_school, commit=True):

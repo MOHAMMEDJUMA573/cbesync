@@ -252,7 +252,6 @@ def parent_registration(request):
                     f"Parent: {form.cleaned_data['parent_first_name']} {form.cleaned_data['parent_last_name']} saved successfully! 🥳"
                 ) 
                 return redirect(reverse("schools:school_parent_registration"))
-
             else:
                 context = {
                     "page_title":page_title,

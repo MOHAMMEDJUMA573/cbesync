@@ -122,6 +122,7 @@ class StudentRegistrationForm(forms.Form):
     )
 
     def clean(self):
+        check_flag1 = False
         cleaned_data =  super().clean()
         student_fields = [
             "student_first_name", "student_middle_name", "student_last_name",
@@ -132,9 +133,28 @@ class StudentRegistrationForm(forms.Form):
             if profanity.contains_profanity(value):
                 self.add_error(
                     student_field,
-                    _(f"{value} is unallowed!")
+                    _(f"{profanity.censor(value)} is unallowed!")
                 )
-
+                check_flag1 = True
+        #check for none fields
+        if not check_flag1:
+            nn_fields = [
+                "student_gender", "student_dob", "student_country",
+                "student_admission_date", "student_s_needs",
+                "student_blood_group"
+            ]
+            for nn_field in nn_fields:
+                if cleaned_data.get(nn_field) is not None:
+                    pass
+                else:
+                    self.add_error(
+                        nn_field,
+                        _("Can't be empty!")
+                    )
+        r_email = cleaned_data.get("student_email")
+        if r_email:
+            cleaned_data["student_email"] = r_email.lower()
+        #validate date of birth later on
 
         return cleaned_data
 

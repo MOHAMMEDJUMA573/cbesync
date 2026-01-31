@@ -25,4 +25,5 @@ include(
     'staticf.py',
     'emails.py',
     'allauths.py',
+    'times.py',
 )

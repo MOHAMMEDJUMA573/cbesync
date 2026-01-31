@@ -100,12 +100,12 @@ class NtStaffRegistrationForm(forms.Form):
     ntstaff_y_experience = forms.IntegerField(
         initial=0,
         help_text="years of experience",
-        # widget=forms.NumberInput(
-        #     attrs={
-        #         'min':0,
-        #         'max':60,
-        #     }
-        # )
+        widget=forms.NumberInput(
+            attrs={
+                'min':0,
+                'max':60,
+            }
+        )
     )
     ntstaff_j_title = forms.ChoiceField(
         choices=NtStaffProfile.JOB_TITLE,
@@ -126,34 +126,36 @@ class NtStaffRegistrationForm(forms.Form):
     )
 
     def clean(self):
+        check_flag1 = False
         cleaned_data =  super().clean()
         ntstaff_fields = [
             "ntstaff_first_name", "ntstaff_middle_name", "ntstaff_last_name",
             "ntstaff_email"
         ]
         for ntstaff_field in ntstaff_fields:
-            value = cleaned_data.get(ntstaff_field).lower()
-            if profanity.contains_profanity(value):
-                self.add_error(
-                    ntstaff_field,
-                    _(f"{value} is abusive!")
-                )
+            if cleaned_data.get(ntstaff_field):
+                value = cleaned_data.get(ntstaff_field).lower()
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        ntstaff_field,
+                        _(f"{profanity.censor(value)} is abusive!")
+                    )
+                    check_flag1 = True
         #check for none fields
-        nn_fields = [
-            "ntstaff_first_name", "ntstaff_last_name",
-            "ntstaff_gender", "ntstaff_dob", "ntstaff_phone", 
-            "ntstaff_e_contact", "ntstaff_email", "ntstaff_home_address", 
-            "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
-            "ntstaff_y_experience", "ntstaff_j_title"
-        ]
-        for nn_field in nn_fields:
-            if cleaned_data.get(nn_field) is not None:
-                pass
-            else:
-                self.add_error(
-                    nn_field,
-                    _("Can't be empty!")
-                )
+        if not check_flag1:
+            nn_fields = [
+                "ntstaff_gender", "ntstaff_dob",
+                "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
+                "ntstaff_y_experience", "ntstaff_j_title"
+            ]
+            for nn_field in nn_fields:
+                if cleaned_data.get(nn_field) is not None:
+                    pass
+                else:
+                    self.add_error(
+                        nn_field,
+                        _("Can't be empty!")
+                    )
         #lowercase the email
         r_email = cleaned_data.get("ntstaff_email")
         if r_email:

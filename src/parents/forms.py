@@ -83,6 +83,7 @@ class ParentRegistrationForm(forms.Form):
     )
 
     def clean(self):
+        check_flag1 = False
         cleaned_data =  super().clean()
         parent_fields = [
             "parent_first_name", "parent_middle_name", "parent_last_name",
@@ -95,20 +96,20 @@ class ParentRegistrationForm(forms.Form):
                     parent_field,
                     _(f"{profanity.censor(value)} is abusive!")
                 )
+                check_flag1 = True
         #check for none fields
-        nn_fields = [
-            "parent_first_name", "parent_last_name",
-            "parent_gender","parent_phone","parent_email", 
-            "parent_home_address", "parent_country", 
-        ]
-        for nn_field in nn_fields:
-            if cleaned_data.get(nn_field) is not None:
-                pass
-            else:
-                self.add_error(
-                    nn_field,
-                    _("Can't be empty!")
-                )
+        if not check_flag1:
+            nn_fields = [
+                "parent_gender","parent_country"
+            ]
+            for nn_field in nn_fields:
+                if cleaned_data.get(nn_field) is not None:
+                    pass
+                else:
+                    self.add_error(
+                        nn_field,
+                        _("Can't be empty!")
+                    )
         #lowercase the email
         r_email = cleaned_data.get("parent_email")
         if r_email:

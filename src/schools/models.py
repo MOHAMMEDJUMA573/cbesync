@@ -1,10 +1,13 @@
 from django.db import models
+from datetime import date
 from pathlib import Path
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.contrib.auth.hashers import make_password
 import uuid
 from accounts.models import CustomUser
 from phonenumber_field.modelfields import PhoneNumberField
+from dateutil.relativedelta import relativedelta
+
 
 #function to generate a path
 def image_file_upload_handler(instance, filename):
@@ -219,6 +222,12 @@ class SchoolProfile(models.Model):
     def school_polpulation(self):
         return (self.school_students_polpulation + self.school_teachers_polpulation + self.school_ntstaffs_polpulation)
 
+    @property
+    def school_online_days(self):
+        today = date.today()
+        school_doc = self.school_creation_date.date()
+        days_age = relativedelta(today, school_doc).days
+        return  days_age
 
     def __str__(self):
         return f"{self.school_name} --- {self.school_email}"

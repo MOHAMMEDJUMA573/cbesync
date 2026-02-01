@@ -34,6 +34,8 @@ def dashboard(request):
         school_type = current_school.get_school_type_display()
         school_county = current_school.get_school_admin_level_2_display()
         school_polpulation = current_school.school_polpulation
+        school_creation_date = current_school.school_creation_date
+        school_online_days = current_school.school_online_days
         if school_uuid == valid_school_uuid:
             template_name = "schools/dashl0/school_index.html"
             page_title = "S-Dashboard"
@@ -49,6 +51,8 @@ def dashboard(request):
                 "teacher_count":school_teachers_polpulation,
                 "ntstaff_count":school_ntstaffs_polpulation,
                 "school_polpulation":school_polpulation,
+                "online_days":school_online_days,
+                "creation_date":school_creation_date
             }   
     else:
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")
@@ -68,11 +72,15 @@ def user_management(request):
         template_name = "schools/dashl0/school_usermng.html"
         page_title = "Management"
         school_polpulation = current_school.school_polpulation
+        school_creation_date = current_school.school_creation_date
+        school_online_days = current_school.school_online_days
 
         context = {
             "school_name":school_name,
             "page_title":page_title,
-            "school_polpulation":school_polpulation
+            "school_polpulation":school_polpulation,
+            "online_days":school_online_days,
+            "creation_date":school_creation_date
         }
     else:
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")

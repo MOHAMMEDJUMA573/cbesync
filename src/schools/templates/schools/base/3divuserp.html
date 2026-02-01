@@ -83,8 +83,8 @@
 						<h3>Online Since</h3>
 						<small class="text-muted">Last 24hrs</small>
 					</div>
-					<h5 class="success">18/7/2025</h5>
-					<h3>200days</h3>
+					<h5 class="success">{{ creation_date.date }}</h5>
+					<h3>{{ online_days|stringformat:"04d" }} Days</h3>
 				</div>
 			</div>
 			<div class="online- courses">
@@ -110,7 +110,7 @@
 						<small class="text-muted">Last 24hrs</small>
 					</div>
 					<h5 class="success">+20%</h5>
-					<h3>{{school_polpulation}}</h3>
+					<h3>{{ school_polpulation|stringformat:"04d" }}</h3>
 				</div>
 			</div>
 		</div>

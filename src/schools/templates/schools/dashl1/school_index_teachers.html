@@ -124,8 +124,6 @@
                     {% endfor %}
                 </div>
             {% endif %}
-
-
             <!--XXXXXXX-->
             <div class="maing-data-grid">
                 <div class="maing-data-header">
@@ -190,31 +188,10 @@
                     {% endfor %}
                 </div>
             </div>
-            
 		</div>
 	</main>
-	<!--The 3rd section of the page-->
-	<div class="aside-right">
-		<!--Part one third row-->
-		<div class="top top2">
-			<button id="menu-btn">
-				<span class="material-symbols-outlined">menu</span>
-			</button>
-			<div class="theme-toggle-btn">
-				<span class="material-symbols-outlined active">light_mode</span>
-				<span class="material-symbols-outlined">dark_mode</span>
-			</div>
-			<div class="profile">
-				<div class="info">
-					<p>Hey, <b>Mohammed</b></p>
-					<small class="text-muted">Admin</small>
-				</div>
-				<div class="profile-photo">
-					<img src="{% static 'schools/images/profile-1.jpg'%}" alt="Profile pic">
-				</div>
-			</div>
-		</div>
-	</div>
+	<!-- 3rd -->
+	{% include 'schools/base/1divuserp.html' %}
   </div> 
 {% block head_js %}
   	<script src="{% static 'schools/js/dashl1/school_index_teachers.js'%}"></script>

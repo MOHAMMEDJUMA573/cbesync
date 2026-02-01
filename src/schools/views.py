@@ -18,7 +18,9 @@ from django.db.models import F
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 
-#man_dashbordand subs
+#***--------------------***#***--------------------***
+#Dashboard-school views
+#***--------------------***
 @verified_email_required
 def dashboard(request):
     if request.user.user_type == "school":
@@ -52,7 +54,9 @@ def dashboard(request):
     
     return render(request, template_name, context)
 
-#usermanagement and subs
+#***--------------------***#***--------------------***
+#UserManagement views
+#***--------------------***
 @verified_email_required
 def user_management(request):
     if request.user.user_type == "school":
@@ -69,7 +73,9 @@ def user_management(request):
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")
     
     return render(request, template_name, context)
-
+#***--------------------***
+#Teacher-school views
+#***--------------------***
 @verified_email_required
 def teacher_registration(request):
     if request.user.user_type == "school":
@@ -265,7 +271,9 @@ def teacher_ledger_view(request):
                 return render(request, template_name, context)       
     else:
         return HttpResponse("Only schools are allowed bro")
-
+#***--------------------***
+#Student-school views
+#***--------------------***
 @verified_email_required
 def student_registration(request):
     if request.user.user_type == "school":
@@ -353,7 +361,9 @@ def student_ledger_view(request):
             return render(request, template_name, context)
     else:
         return HttpResponse("Only schools are allowed bro")
-#school parents views
+#***--------------------***
+#Parent-school views
+#***--------------------***
 def parent_registration(request):
     if request.user.user_type == "school":
     # if school_uuid == valid_school_uuid:
@@ -392,7 +402,9 @@ def parent_registration(request):
 def parent_enrollment(request):
     pass
 
-#ntstaff views
+#***--------------------***
+#NT-Staff-school views
+#***--------------------***
 @verified_email_required
 def ntstaff_registration(request):
     if request.user.user_type == "school":
@@ -494,7 +506,9 @@ def ntstaff_ledger_view(request):
     else:
         return HttpResponse("Only schools are allowed bro")
 
-#class management and subs
+#***--------------------***#***--------------------***
+#Class-school views
+#***--------------------***
 def class_management(request):
     if school_uuid == valid_school_uuid:
         return HttpResponse(f"<h1>Right guy {school_uuid} class management</h1>")

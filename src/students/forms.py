@@ -127,13 +127,14 @@ class StudentRegistrationForm(forms.Form):
             "student_email"
         ]
         for student_field in student_fields:
-            value = cleaned_data.get(student_field).lower()
-            if profanity.contains_profanity(value):
-                self.add_error(
-                    student_field,
-                    _(f"{profanity.censor(value)} is unallowed!")
-                )
-                check_flag1 = True
+            value = cleaned_data.get(student_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        student_field,
+                        _(f"{profanity.censor(value)} is unallowed!")
+                    )
+                    check_flag1 = True
         #check for none fields
         if not check_flag1:
             nn_fields = [
@@ -268,13 +269,14 @@ class StudentEnrollmentForm(forms.Form):
             "student_first_name", "student_last_name", "student_id",
         ]
         for student_field in student_fields:
-            value = cleaned_data.get(student_field).lower()
-            if profanity.contains_profanity(value):
-                self.add_error(
-                    student_field,
-                    _(f"{profanity.censor(value)} is unallowed!")
-                )
-                check_flag1 = True
+            value = cleaned_data.get(student_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        student_field,
+                        _(f"{profanity.censor(value)} is unallowed!")
+                    )
+                    check_flag1 = True
         if not check_flag1:
             nn_fields = [
                 "student_gender","student_s_needs"#, "student_class"

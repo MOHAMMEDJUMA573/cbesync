@@ -142,13 +142,14 @@ class TeacherRegistrationForm(forms.Form):
             "teacher_email"
         ]
         for teacher_field in teacher_fields:
-            value = cleaned_data.get(teacher_field).lower()
-            if profanity.contains_profanity(value):
-                self.add_error(
-                    teacher_field,
-                    _(f"{profanity.censor(value)} is unallowed!")
-                )
-                check_flag1 = True
+            value = cleaned_data.get(teacher_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        teacher_field,
+                        _(f"{profanity.censor(value)} is unallowed!")
+                    )
+                    check_flag1 = True
 
         if not check_flag1:
             nn_fields = [
@@ -298,13 +299,14 @@ class TeacherEnrollmentForm(forms.Form):
             "teacher_first_name", "teacher_last_name", "teacher_id",
         ]
         for teacher_field in teacher_fields:
-            value = cleaned_data.get(teacher_field).lower()
-            if profanity.contains_profanity(value):
-                self.add_error(
-                    teacher_field,
-                    _(f"{profanity.censor(value)} is unallowed!")
-                )
-                check_flag1 = True
+            value = cleaned_data.get(teacher_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        teacher_field,
+                        _(f"{profanity.censor(value)} is unallowed!")
+                    )
+                    check_flag1 = True
         if not check_flag1:
             nn_fields = [
                 "teacher_gender", "teacher_employer", "teacher_role",

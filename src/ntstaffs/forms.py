@@ -133,8 +133,8 @@ class NtStaffRegistrationForm(forms.Form):
             "ntstaff_email"
         ]
         for ntstaff_field in ntstaff_fields:
-            if cleaned_data.get(ntstaff_field):
-                value = cleaned_data.get(ntstaff_field).lower()
+            value = cleaned_data.get(ntstaff_field)
+            if value:
                 if profanity.contains_profanity(value):
                     self.add_error(
                         ntstaff_field,

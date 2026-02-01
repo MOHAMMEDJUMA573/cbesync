@@ -215,8 +215,9 @@ class SchoolProfile(models.Model):
     )
     #return string
 
-    # @property
-    # def student_count(self):
+    @property
+    def school_polpulation(self):
+        return (self.school_students_polpulation + self.school_teachers_polpulation + self.school_ntstaffs_polpulation)
 
 
     def __str__(self):

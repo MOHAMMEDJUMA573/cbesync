@@ -90,13 +90,14 @@ class ParentRegistrationForm(forms.Form):
             "parent_email"
         ]
         for parent_field in parent_fields:
-            value = cleaned_data.get(parent_field).lower()
-            if profanity.contains_profanity(value):
-                self.add_error(
-                    parent_field,
-                    _(f"{profanity.censor(value)} is abusive!")
-                )
-                check_flag1 = True
+            value = cleaned_data.get(parent_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        parent_field,
+                        _(f"{profanity.censor(value)} is abusive!")
+                    )
+                    check_flag1 = True
         #check for none fields
         if not check_flag1:
             nn_fields = [

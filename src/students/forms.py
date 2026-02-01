@@ -20,7 +20,7 @@ def generate_unique_student_id():
 
 class StudentRegistrationForm(forms.Form):
     student_first_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -28,8 +28,8 @@ class StudentRegistrationForm(forms.Form):
         )
     )
     student_middle_name = forms.CharField(
-        max_length=30,
-        required=True,
+        max_length=35,
+        required=False,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -37,7 +37,7 @@ class StudentRegistrationForm(forms.Form):
         )
     )
     student_last_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -60,7 +60,6 @@ class StudentRegistrationForm(forms.Form):
                 'autocomplete':"off"
                 }
         ),
-        required=True,
         initial="+254",
         label="Mobile No"
     )
@@ -70,7 +69,7 @@ class StudentRegistrationForm(forms.Form):
                 'autocomplete':"off"
                 }
         ),
-        max_length=30,
+        max_length=100,
         required=False
     )
     student_home_address = forms.CharField(
@@ -83,7 +82,7 @@ class StudentRegistrationForm(forms.Form):
                 'autocomplete':'off'
                 }
         ),
-        max_length=20,
+        max_length=35,
         initial="",
         required=True
     )

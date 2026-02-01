@@ -52,7 +52,7 @@ class TeacherProfile(models.Model):
         null=True
     )
     teacher_tsc_number = models.CharField(
-        max_length=30,
+        max_length=35,
         null=True, 
         blank=True, 
         help_text="Teacher's tsc assigned number"
@@ -60,15 +60,15 @@ class TeacherProfile(models.Model):
 
 
     teacher_first_name = models.CharField(
-        max_length=30
+        max_length=35
     )
     teacher_middle_name = models.CharField(
-        max_length=30,
+        max_length=35,
         blank=True,
         null=True
     )
     teacher_last_name = models.CharField(
-        max_length=30
+        max_length=35
     )
 
     GENDER_CHOICES = (

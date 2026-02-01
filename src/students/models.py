@@ -59,14 +59,14 @@ class StudentProfile(models.Model):
     )
 
     student_first_name = models.CharField(
-        max_length=100
+        max_length=35
     )
     student_middle_name = models.CharField(
-        max_length=100,
+        max_length=35,
         blank=True
     )
     student_last_name = models.CharField(
-        max_length=100
+        max_length=35
     )
 
     GENDER_CHOICES = (

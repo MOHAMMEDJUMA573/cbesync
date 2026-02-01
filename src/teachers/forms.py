@@ -20,7 +20,7 @@ def generate_unique_teacher_id():
 
 class TeacherRegistrationForm(forms.Form):
     teacher_first_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -28,7 +28,7 @@ class TeacherRegistrationForm(forms.Form):
         )
     )
     teacher_middle_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -36,7 +36,7 @@ class TeacherRegistrationForm(forms.Form):
         )
     )
     teacher_last_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -74,7 +74,7 @@ class TeacherRegistrationForm(forms.Form):
                 'autocomplete':"off"
                 }
         ),
-        max_length=30,
+        max_length=100,
     )
     teacher_home_address = forms.CharField(
         widget=forms.TextInput(
@@ -91,12 +91,17 @@ class TeacherRegistrationForm(forms.Form):
                 'autocomplete':"off"
             }
         ),
-        max_length=30,
+        max_length=35,
         help_text="Teacher's tsc assigned number"
     )
     teacher_y_experience = forms.IntegerField(
         initial=0,
-        # validators=[MaxValueValidator(60), MinValueValidator(0)],
+        widget=forms.NumberInput(
+            attrs={
+                "max":60,
+                "min":0
+            }
+        ),
         help_text="teachers experience"
     )
     teacher_h_date = forms.DateField(

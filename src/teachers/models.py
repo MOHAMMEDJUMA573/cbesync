@@ -125,13 +125,12 @@ class TeacherProfile(models.Model):
         ('E', 'Employed'),
         ('S', 'Suspended'),
         ('T', 'Transferred'),
-        ('T', 'Transferred'),
         ('R', 'Retired'),
     )
     teacher_status = models.CharField(
         max_length=1, 
         choices=STATUS_CHOICES, 
-        default='A', 
+        default='E', 
         help_text="Teachers employment status"
     )
     TEACHER_EMPLOYERS = (

@@ -113,6 +113,9 @@ b{
 .warning{
     color: var(--color-warning);
 }
+.info{
+    color: #ff00dd;
+}
 .standard-icon{
     display: flex;
     height: 3rem;

@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.db import transaction
 from django.contrib import messages
 from students.models import StudentProfile
 from teachers.models import TeacherProfile
@@ -12,6 +13,7 @@ from students.forms import StudentRegistrationForm, StudentSearchForm
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm
 from parents.forms import ParentRegistrationForm
 from django.db.models import Q
+from django.db.models import F
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -105,37 +107,80 @@ def teacher_registration(request):
 @verified_email_required
 def teacher_enrollment(request):
     if request.user.user_type == "school":
-        school_name = request.user.school_profile.school_name
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
         template_name = "schools/usrmng/t_enroll.html"
         page_title = "T-Enrollment"
         form = TeacherEnrollmentForm()
         if request.method == "POST":
             form = TeacherEnrollmentForm(request.POST)
             if form.is_valid():
-                print("valid form")
                 passed_teacher_id = form.cleaned_data["teacher_id"]
                 passed_first_name = form.cleaned_data["teacher_first_name"]
                 passed_last_name = form.cleaned_data["teacher_last_name"]
+                passed_teacher_gender = form.cleaned_data["teacher_gender"]
+                passed_teacher_role = form.cleaned_data["teacher_role"]
+                passed_teacher_employer = form.cleaned_data["teacher_employer"]
+                passed_e_level = form.cleaned_data["teacher_e_level"]
+                passed_t_subjects = form.cleaned_data["teacher_t_subjects"]
+                teacher_prefix = "Mr. " if form.cleaned_data["teacher_gender"] == "M" else "Mrs. "
                 try:
                     enrolled_teacher = TeacherProfile.objects.get(teacher_id=passed_teacher_id)
                     teacher_first_name = enrolled_teacher.teacher_first_name
                     teacher_last_name = enrolled_teacher.teacher_last_name
+                    teacher_gender = enrolled_teacher.teacher_gender
+                    teacher_old_school = enrolled_teacher.teacher_school
                     #check if passed values matter
-                    if teacher_first_name == passed_first_name and teacher_last_name == passed_last_name:
-                        messages.success(
-                            request,
-                            (f"Teacher {teacher_last_name} : {passed_teacher_id} enrolled successfully")
-                        )
-                        context = {
-                            "school_name":school_name,
-                            "page_title":page_title,
-                            "form":form
-                        }
-                        return render(request, template_name, context)
+                    if teacher_first_name == passed_first_name and teacher_last_name == passed_last_name and teacher_gender == passed_teacher_gender :
+                        if enrolled_teacher.teacher_status != "T" and teacher_old_school != current_school:
+                            messages.info(
+                                request,
+                                (f"Teacher {teacher_last_name} : {passed_teacher_id} is yet to be released from {teacher_old_school.school_name} ")
+                            )
+                            context = {
+                                "school_name":school_name,
+                                "page_title":page_title,
+                                "form":form
+                            }
+                            return render(request, template_name, context)
+                        else:
+                            #transfer the teacher to the new school
+                            with transaction.atomic():
+                                enrolled_teacher.teacher_school = current_school
+                                enrolled_teacher.teacher_status = "E"
+                                enrolled_teacher.teacher_role = passed_teacher_role
+                                enrolled_teacher.teacher_t_subjects = passed_t_subjects
+                                enrolled_teacher.teacher_employer = passed_teacher_employer
+                                enrolled_teacher.teacher_e_level = passed_e_level
+                                teacher_old_school.school_teachers_polpulation = F(
+                                    "school_teachers_polpulation"
+                                ) - 1
+                                current_school.school_teachers_polpulation = F(
+                                    "school_teachers_polpulation"
+                                ) + 1
+                                # update the fields
+                                enrolled_teacher.save(
+                                    update_fields=[
+                                        "teacher_school","teacher_status","teacher_role","teacher_t_subjects",
+                                        "teacher_employer", "teacher_e_level"
+                                    ]
+                                )
+                                teacher_old_school.save(update_fields=["school_teachers_polpulation"])
+                                current_school.save(update_fields=["school_teachers_polpulation"])
+                                messages.success(
+                                    request,
+                                    (f"Teacher {teacher_last_name} : {passed_teacher_id} enrolled successfully")
+                                )
+                                context = {
+                                    "school_name":school_name,
+                                    "page_title":page_title,
+                                    "form":TeacherEnrollmentForm()
+                                }
+                                return render(request, template_name, context)
                     else:
                         messages.warning(
                             request,
-                            (f"First name or Last name doesn't Match")
+                            (f"Teacher's data in inconsistent")
                         )
                         context = {
                             "school_name":school_name,
@@ -146,7 +191,7 @@ def teacher_enrollment(request):
                 except TeacherProfile.DoesNotExist:
                     messages.warning(
                         request,
-                        (f"The ID {form.cleaned_data['teacher_id']} does not exist in the system")
+                        (f"{teacher_prefix}{passed_last_name} {passed_teacher_id}:  Doesn't exist! Check your data!")
                     )
                     context = {
                         "school_name":school_name,

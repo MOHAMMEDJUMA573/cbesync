@@ -332,7 +332,48 @@ def student_enrollment(request):
                     student_old_school = enrolled_student.student_school
                     #check if passed values matter
                     if student_first_name == passed_first_name and student_last_name == passed_last_name and student_gender == passed_student_gender :
-                        pass
+                        if enrolled_student.student_status != "T" and student_old_school != current_school:
+                            messages.info(
+                                request,
+                                (f"Student {student_last_name} : {passed_student_id} is yet to be released from {student_old_school.school_name} ")
+                            )
+                            context = {
+                                "school_name":school_name,
+                                "page_title":page_title,
+                                "form":form
+                            }
+                            return render(request, template_name, context)
+                        else:
+                            #transfer the teacher to the new school
+                            with transaction.atomic():
+                                enrolled_student.student_school = current_school
+                                enrolled_student.student_status = "A"
+                                #enrolled_student.student_class
+                                enrolled_student.student_s_needs = passed_s_needs
+                                student_old_school.school_students_polpulation = F(
+                                    "school_students_polpulation"
+                                ) - 1
+                                current_school.school_students_polpulation = F(
+                                    "school_students_polpulation"
+                                ) + 1
+                                # update the fields
+                                enrolled_student.save(
+                                    update_fields=[
+                                        "student_school","student_status","student_s_needs"
+                                    ]
+                                )
+                                student_old_school.save(update_fields=["school_students_polpulation"])
+                                current_school.save(update_fields=["school_students_polpulation"])
+                                messages.success(
+                                    request,
+                                    (f"Student {student_last_name} : {passed_student_id} enrolled successfully")
+                                )
+                                context = {
+                                    "school_name":school_name,
+                                    "page_title":page_title,
+                                    "form":StudentEnrollmentForm()
+                                }
+                                return render(request, template_name, context)
                     else:
                         messages.warning(
                             request,

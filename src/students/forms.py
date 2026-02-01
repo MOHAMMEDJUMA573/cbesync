@@ -21,7 +21,6 @@ def generate_unique_student_id():
 class StudentRegistrationForm(forms.Form):
     student_first_name = forms.CharField(
         max_length=30,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -39,7 +38,6 @@ class StudentRegistrationForm(forms.Form):
     )
     student_last_name = forms.CharField(
         max_length=30,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -225,3 +223,71 @@ class StudentSearchForm(forms.Form):
 
         return cleaned_data
     
+
+class StudentEnrollmentForm(forms.Form):
+    student_first_name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+    student_last_name = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+
+    student_gender = forms.ChoiceField(
+        choices=StudentProfile.GENDER_CHOICES,
+        widget=forms.RadioSelect
+    )
+    student_id = forms.CharField(
+        max_length=30,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+    # student_class = forms.ChoiceField(
+    # )
+    student_s_needs= forms.ChoiceField(
+        choices=StudentProfile.SP_NEEDS_OPTS,
+    )
+
+
+    def clean(self):
+        check_flag1 = False
+        cleaned_data = super().clean()
+        student_fields = [
+            "student_first_name", "student_last_name", "student_id",
+        ]
+        for student_field in student_fields:
+            value = cleaned_data.get(student_field).lower()
+            if profanity.contains_profanity(value):
+                self.add_error(
+                    student_field,
+                    _(f"{profanity.censor(value)} is unallowed!")
+                )
+                check_flag1 = True
+        if not check_flag1:
+            nn_fields = [
+                "student_gender","student_s_needs"#, "student_class"
+            ]
+            for nn_field in nn_fields:
+                if cleaned_data.get(nn_field) is not None:
+                    pass
+                else:
+                    self.add_error(
+                        nn_field,
+                        _("Can't be empty!")
+                    )
+
+        return cleaned_data
+     
+

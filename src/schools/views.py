@@ -9,7 +9,7 @@ from django.urls import reverse
 from allauth.account.decorators import verified_email_required
 import uuid
 from teachers.forms import TeacherRegistrationForm, TeacherSearchForm, TeacherEnrollmentForm
-from students.forms import StudentRegistrationForm, StudentSearchForm
+from students.forms import StudentRegistrationForm, StudentSearchForm, StudentEnrollmentForm
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm
 from parents.forms import ParentRegistrationForm
 from django.db.models import Q
@@ -279,7 +279,7 @@ def student_registration(request):
     if request.user.user_type == "school":
         school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/s_reg.html"
-        page_title = "S-Management"
+        page_title = "S-Registration"
         form = StudentRegistrationForm()
         if request.method == "POST":
         # if school_uuid == valid_school_uuid:
@@ -310,7 +310,67 @@ def student_registration(request):
 
 @verified_email_required
 def student_enrollment(request):
-    pass
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/usrmng/s_enroll.html"
+        page_title = "S-Enrollment"
+        form = StudentEnrollmentForm()
+        if request.method == "POST":
+            form = StudentEnrollmentForm(request.POST)
+            if form.is_valid():
+                passed_student_id = form.cleaned_data["student_id"]
+                passed_first_name = form.cleaned_data["student_first_name"]
+                passed_last_name = form.cleaned_data["student_last_name"]
+                passed_student_gender = form.cleaned_data["student_gender"]
+                passed_s_needs = form.cleaned_data["student_s_needs"]
+                try:
+                    enrolled_student = StudentProfile.objects.get(student_id=passed_student_id)
+                    student_first_name = enrolled_student.student_first_name
+                    student_last_name = enrolled_student.student_last_name
+                    student_gender = enrolled_student.student_gender
+                    student_old_school = enrolled_student.student_school
+                    #check if passed values matter
+                    if student_first_name == passed_first_name and student_last_name == passed_last_name and student_gender == passed_student_gender :
+                        pass
+                    else:
+                        messages.warning(
+                            request,
+                            (f"Student's data in inconsistent")
+                        )
+                        context = {
+                            "school_name":school_name,
+                            "page_title":page_title,
+                            "form":form
+                        }
+                        return render(request, template_name, context)
+                except StudentProfile.DoesNotExist:
+                    messages.warning(
+                        request,
+                        (f"Student: {passed_last_name} {passed_student_id}:  Doesn't exist! Check your data!")
+                    )
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form":form
+                    }
+                    return render(request, template_name, context)
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
+                }
+                return render(request, template_name, context)
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+                "form":form
+            }
+            return render(request, template_name, context)
+    else:
+        return HttpResponse("Only schools allowed bro!")
 
 @verified_email_required
 def student_ledger_view(request):
@@ -369,7 +429,7 @@ def parent_registration(request):
     # if school_uuid == valid_school_uuid:
         school_name = request.user.school_profile.school_name
         template_name = "schools/usrmng/p_reg.html"
-        page_title = "P-Management"
+        page_title = "P-Registration"
         form = ParentRegistrationForm()
         if request.method == "POST":
             form = ParentRegistrationForm(request.POST, request.FILES)
@@ -396,8 +456,6 @@ def parent_registration(request):
     else:
         return HttpResponse("Only schools allowed bro!")
     
-    return render(request, template_name, context)
-
 @verified_email_required
 def parent_enrollment(request):
     pass

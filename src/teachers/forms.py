@@ -173,7 +173,16 @@ class TeacherRegistrationForm(forms.Form):
         r_email = cleaned_data.get("teacher_email")
         if r_email:
             cleaned_data["teacher_email"] = r_email.lower()
+        #reasonable exp
+        xp = cleaned_data.get("teacher_y_experience")
+        if xp and (xp > 60 or xp < 0) :
+            self.add_error(
+                "teacher_y_experience",
+                _("> 0 and <60 ? ")
+            )
+
         return cleaned_data 
+
 
     def save(self, teacher_school, commit=True):
         with transaction.atomic():

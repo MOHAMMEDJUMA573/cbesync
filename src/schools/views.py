@@ -624,7 +624,91 @@ def ntstaff_enrollment(request):
         page_title = "NT-Enrollment"
         form = NtStaffEnrollmentForm()
         if request.method == "POST":
-            pass
+            form = NtStaffEnrollmentForm(request.POST)
+            if form.is_valid():
+                passed_ntstaff_id = form.cleaned_data["ntstaff_id"]
+                passed_first_name = form.cleaned_data["ntstaff_first_name"]
+                passed_last_name = form.cleaned_data["ntstaff_last_name"]
+                passed_ntstaff_gender = form.cleaned_data["ntstaff_gender"]
+                passed_h_qualification = form.cleaned_data["ntstaff_h_qualification"]
+                passed_s_field = form.cleaned_data["ntstaff_s_field"]
+                passed_y_experience = form.cleaned_data["ntstaff_y_experience"]
+                passed_j_title = form.cleaned_data["ntstaff_j_title"]
+                try:
+                    enrolled_ntstaff = NtStaffProfile.objects.get(ntstaff_id=passed_ntstaff_id)
+                    ntstaff_first_name = enrolled_ntstaff.ntstaff_first_name
+                    ntstaff_last_name = enrolled_ntstaff.ntstaff_last_name
+                    ntstaff_gender = enrolled_ntstaff.ntstaff_gender
+                    ntstaff_old_school = enrolled_ntstaff.ntstaff_school
+                    #check if passed values matter
+                    if ntstaff_first_name == passed_first_name and ntstaff_last_name == passed_last_name and ntstaff_gender == passed_ntstaff_gender :
+                        if enrolled_ntstaff.ntstaff_status != "T" and ntstaff_old_school != current_school:
+                            messages.info(
+                                request,
+                                (f"Ntstaff {ntstaff_last_name} : {passed_ntstaff_id} is yet to be released from {ntstaff_old_school.school_name} ")
+                            )
+                            context = {
+                                "school_name":school_name,
+                                "page_title":page_title,
+                                "form":form
+                            }
+                        else:
+                            with transaction.atomic():
+                                enrolled_ntstaff.ntstaff_school = current_school
+                                enrolled_ntstaff.ntstaff_h_qualification = passed_h_qualification
+                                enrolled_ntstaff.ntstaff_s_field = passed_s_field
+                                enrolled_ntstaff.ntstaff_y_experience = passed_y_experience
+                                enrolled_ntstaff.ntstaff_j_title = passed_j_title
+                                ntstaff_old_school.school_ntstaffs_polpulation = F(
+                                    "school_ntstaffs_polpulation"
+                                ) - 1
+                                current_school.school_ntstaffs_polpulation = F(
+                                    "school_ntstaffs_polpulation"
+                                ) + 1
+                                #update the fields
+                                enrolled_ntstaff.save(
+                                    update_fields=[
+                                        "ntstaff_school","ntstaff_h_qualification", "ntstaff_s_field", 
+                                        "ntstaff_y_experience", "ntstaff_j_title"
+                                    ]
+                                )
+                                ntstaff_old_school.save(update_fields=["school_ntstaffs_polpulation"])
+                                current_school.save(update_fields=["school_ntstaffs_polpulation"])
+                                messages.success(
+                                    request,
+                                    (f"NTstaff {ntstaff_last_name} : {passed_ntstaff_id} enrolled successfully")
+                                )
+                                context = {
+                                    "school_name":school_name,
+                                    "page_title":page_title,
+                                    "form":form
+                                }
+                    else:
+                        messages.warning(
+                            request,
+                            (f"Ntstaff's data in inconsistent")
+                        )
+                        context = {
+                            "school_name":school_name,
+                            "page_title":page_title,
+                            "form":form
+                        }
+                except NtStaffProfile.DoesNotExist:
+                    messages.warning(
+                        request,
+                        (f"NTstaff: {passed_last_name} {passed_ntstaff_id}:  Doesn't exist! Check your data!")
+                    )
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form":form
+                    }
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
+                }
         else:
             context = {
                 "school_name":school_name,

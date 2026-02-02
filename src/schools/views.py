@@ -160,7 +160,6 @@ def teacher_enrollment(request):
                                 "page_title":page_title,
                                 "form":form
                             }
-                            return render(request, template_name, context)
                         else:
                             #transfer the teacher to the new school
                             with transaction.atomic():
@@ -194,7 +193,6 @@ def teacher_enrollment(request):
                                     "page_title":page_title,
                                     "form":TeacherEnrollmentForm()
                                 }
-                                return render(request, template_name, context)
                     else:
                         messages.warning(
                             request,
@@ -205,7 +203,6 @@ def teacher_enrollment(request):
                             "page_title":page_title,
                             "form":form
                         }
-                        return render(request, template_name, context)
                 except TeacherProfile.DoesNotExist:
                     messages.warning(
                         request,
@@ -216,24 +213,21 @@ def teacher_enrollment(request):
                         "page_title":page_title,
                         "form":form
                     }
-                    return render(request, template_name, context)
             else:
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
                     "form":form
                 }
-                return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
                 "form":form
             }
-            return render(request, template_name, context)
     else:
         return HttpResponse("Only schools allowed bro!")
-
+    return render(request, template_name, context)
 @verified_email_required
 def teacher_ledger_view(request):
     if request.user.user_type == "school":
@@ -262,7 +256,6 @@ def teacher_ledger_view(request):
                     "form":form,
                     "search_results":teacher_search_results if teacher_search_results.exists() else "empty"
                 }
-                return render(request, template_name, context)              
             else:
                 context = {
                     "school_name":school_name,
@@ -271,18 +264,17 @@ def teacher_ledger_view(request):
                     "form":form,
                     "search_results":None
                 }
-                return render(request, template_name, context)
         else:
-                context = {
-                    "school_name":school_name,
-                    "page_title":page_title,
-                    "school_teachers":school_teachers,
-                    "form":form,
-                    "search_results":None
-                }
-                return render(request, template_name, context)       
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+                "school_teachers":school_teachers,
+                "form":form,
+                "search_results":None
+            }
     else:
         return HttpResponse("Only schools are allowed bro")
+    return render(request, template_name, context)
 #***--------------------***
 #Student-school views
 #***--------------------***
@@ -309,7 +301,6 @@ def student_registration(request):
                     "page_title":page_title,
                     "form":form
                 }
-                return render( request, template_name, context )
         else:
             context = {
                 "school_name":school_name,
@@ -319,6 +310,7 @@ def student_registration(request):
             return render(request, template_name, context)
     else:
         return HttpResponse("Only schools allowed bro!")
+    return render( request, template_name, context )
 
 @verified_email_required
 def student_enrollment(request):
@@ -354,7 +346,6 @@ def student_enrollment(request):
                                 "page_title":page_title,
                                 "form":form
                             }
-                            return render(request, template_name, context)
                         else:
                             #transfer the teacher to the new school
                             with transaction.atomic():
@@ -385,7 +376,6 @@ def student_enrollment(request):
                                     "page_title":page_title,
                                     "form":StudentEnrollmentForm()
                                 }
-                                return render(request, template_name, context)
                     else:
                         messages.warning(
                             request,
@@ -396,7 +386,6 @@ def student_enrollment(request):
                             "page_title":page_title,
                             "form":form
                         }
-                        return render(request, template_name, context)
                 except StudentProfile.DoesNotExist:
                     messages.warning(
                         request,
@@ -407,23 +396,21 @@ def student_enrollment(request):
                         "page_title":page_title,
                         "form":form
                     }
-                    return render(request, template_name, context)
             else:
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
                     "form":form
                 }
-                return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
                 "form":form
             }
-            return render(request, template_name, context)
     else:
         return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
 
 @verified_email_required
 def student_ledger_view(request):
@@ -453,7 +440,6 @@ def student_ledger_view(request):
                     "form":form,
                     "search_results":student_search_results if student_search_results.exists() else "empty"
                 }
-                return render(request, template_name, context)
             else:
                 context = {
                     "school_name":school_name,
@@ -462,7 +448,6 @@ def student_ledger_view(request):
                     "form":form,
                     "search_results":None
                 }
-                return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
@@ -471,9 +456,9 @@ def student_ledger_view(request):
                 "form":form,
                 "search_results":None
             }
-            return render(request, template_name, context)
     else:
         return HttpResponse("Only schools are allowed bro")
+    return render(request, template_name, context)
 #***--------------------***
 #Parent-school views
 #***--------------------***
@@ -498,16 +483,15 @@ def parent_registration(request):
                     "page_title":page_title,
                     "form":form
                 }
-                return render(request, template_name, context)
         else:          
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
                 "form":form
             }
-            return render(request, template_name, context)
     else:
         return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
     
 @verified_email_required
 def parent_enrollment(request):
@@ -538,16 +522,15 @@ def ntstaff_registration(request):
                     "page_title":page_title,
                     "form":form
                 }
-                return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
                 "form":form
             }
-            return render(request, template_name, context)
     else:
         return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
     
 @verified_email_required
 def ntstaff_enrollment(request):
@@ -595,7 +578,6 @@ def ntstaff_ledger_view(request):
                     "search_results":ntstaff_search_results if ntstaff_search_results.exists() else "empty",
                     "school_ntstaff_dict":school_ntstaffs_dict
                 }
-                return render(request, template_name, context)
             else:
                 context = {
                     "school_name":school_name,
@@ -604,7 +586,6 @@ def ntstaff_ledger_view(request):
                     "search_results":None,
                     "school_ntstaff_dict":school_ntstaffs_dict
                 }
-                return render(request, template_name, context)
         else:
             context = {
                 "school_name":school_name,
@@ -613,9 +594,9 @@ def ntstaff_ledger_view(request):
                 "search_results":None,
                 "school_ntstaff_dict":school_ntstaffs_dict
             }
-            return render(request, template_name, context)      
     else:
         return HttpResponse("Only schools are allowed bro")
+    return render(request, template_name, context)
 
 #***--------------------***#***--------------------***
 #Class-school views

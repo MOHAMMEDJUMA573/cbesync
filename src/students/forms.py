@@ -189,7 +189,7 @@ class StudentRegistrationForm(forms.Form):
             
 class StudentSearchForm(forms.Form):
     student_data = forms.CharField(
-        max_length=20,
+        max_length=35,
         required=False,
         widget=forms.TextInput(
             attrs={
@@ -219,7 +219,7 @@ class StudentSearchForm(forms.Form):
 
 class StudentEnrollmentForm(forms.Form):
     student_first_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -227,7 +227,7 @@ class StudentEnrollmentForm(forms.Form):
         )
     )
     student_last_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -240,7 +240,7 @@ class StudentEnrollmentForm(forms.Form):
         widget=forms.RadioSelect
     )
     student_id = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'

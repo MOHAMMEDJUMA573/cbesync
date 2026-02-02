@@ -4,6 +4,7 @@ from django.contrib import messages
 from students.models import StudentProfile
 from teachers.models import TeacherProfile
 from ntstaffs.models import NtStaffProfile
+from parents.models import ParentProfile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -11,7 +12,7 @@ import uuid
 from teachers.forms import TeacherRegistrationForm, TeacherSearchForm, TeacherEnrollmentForm
 from students.forms import StudentRegistrationForm, StudentSearchForm, StudentEnrollmentForm
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm
-from parents.forms import ParentRegistrationForm
+from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
 from django.db.models import Q
 from django.db.models import F
 
@@ -462,6 +463,7 @@ def student_ledger_view(request):
 #***--------------------***
 #Parent-school views
 #***--------------------***
+@verified_email_required
 def parent_registration(request):
     if request.user.user_type == "school":
     # if school_uuid == valid_school_uuid:
@@ -495,7 +497,88 @@ def parent_registration(request):
     
 @verified_email_required
 def parent_enrollment(request):
-    pass
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/usrmng/p_enroll.html"
+        page_title = "P-Enrollment"
+        form = ParentEnrollmentForm()
+        if request.method == "POST":
+            form = ParentEnrollmentForm(request.POST)
+            if form.is_valid():
+                passed_parent_id = form.cleaned_data["parent_id"]
+                passed_first_name = form.cleaned_data["parent_first_name"]
+                passed_last_name = form.cleaned_data["parent_last_name"]
+                passed_parent_gender = form.cleaned_data["parent_gender"]
+                try:
+                    enrolled_parent = ParentProfile.objects.get(parent_id=passed_parent_id)
+                    parent_first_name = enrolled_parent.parent_first_name
+                    parent_last_name = enrolled_parent.parent_last_name
+                    parent_gender = enrolled_parent.parent_gender
+                    parent_old_school = enrolled_parent.parent_school
+                    #check if passed values matter
+                    if parent_first_name == passed_first_name and parent_last_name == passed_last_name and parent_gender == passed_parent_gender :
+                         #transfer the teacher to the new school
+                        with transaction.atomic():
+                            enrolled_parent.parent_school = current_school
+                            parent_old_school.school_parents_polpulation = F(
+                                "school_parents_polpulation"
+                            ) - 1
+                            current_school.school_parents_polpulation = F(
+                                "school_parents_polpulation"
+                            ) + 1
+                            #update the fields
+                            enrolled_parent.save(
+                                update_fields=[
+                                    "parent_school"
+                                ]
+                            )
+                            parent_old_school.save(update_fields=["school_parents_polpulation"])
+                            current_school.save(update_fields=["school_parents_polpulation"])
+                            messages.success(
+                                request,
+                                (f"Parent {parent_last_name} : {passed_parent_id} responsibility transferred from {parent_old_school.school_name} from {current_school.school_name} ")
+                            )
+                            context = {
+                                "school_name":school_name,
+                                "page_title":page_title,
+                                "form":form
+                            }
+                    else:
+                        messages.warning(
+                            request,
+                            (f"Parent's data in inconsistent")
+                        )
+                        context = {
+                            "school_name":school_name,
+                            "page_title":page_title,
+                            "form":form
+                        }
+                except ParentProfile.DoesNotExist:
+                    messages.warning(
+                        request,
+                        (f"Parent: {passed_last_name} {passed_parent_id}:  Doesn't exist! Check your data!")
+                    )
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form":form
+                    }
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
+                }
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+                "form":form
+            }
+    else:
+        return HttpResponse("Only schools allowed bro")
+    return render(request, template_name, context)
 
 #***--------------------***
 #NT-Staff-school views
@@ -601,6 +684,7 @@ def ntstaff_ledger_view(request):
 #***--------------------***#***--------------------***
 #Class-school views
 #***--------------------***
+@verified_email_required
 def class_management(request):
     if school_uuid == valid_school_uuid:
         return HttpResponse(f"<h1>Right guy {school_uuid} class management</h1>")

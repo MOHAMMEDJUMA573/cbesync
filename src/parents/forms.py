@@ -146,3 +146,61 @@ class ParentRegistrationForm(forms.Form):
             ) + 1
             parent_school.save(update_fields=['school_parents_polpulation'])
             
+
+class ParentEnrollmentForm(forms.Form):
+    parent_first_name = forms.CharField(
+        max_length=35,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+    parent_last_name = forms.CharField(
+        max_length=35,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+            }
+        )
+    )
+
+    parent_gender = forms.ChoiceField(
+        choices=ParentProfile.GENDER_CHOICES,
+        widget=forms.RadioSelect,
+    )
+    parent_id = forms.CharField(
+        max_length=35,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+            }
+        )
+    )
+
+    def clean(self):
+        check_flag1 = False
+        cleaned_data = super().clean()
+        parent_fields = [
+            "parent_first_name", "parent_last_name", "parent_id",
+        ]
+        for parent_field in parent_fields:
+            value = cleaned_data.get(parent_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        parent_field,
+                        _(f"{profanity.censor(value)} is unallowed!")
+                    )
+                    check_flag1 = True
+        if not check_flag1:
+            nn_fields = [
+                "parent_gender"
+            ]
+            #for some future validations
+
+        return cleaned_data
+   

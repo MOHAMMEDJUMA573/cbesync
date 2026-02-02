@@ -229,6 +229,7 @@ def teacher_enrollment(request):
     else:
         return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)
+
 @verified_email_required
 def teacher_ledger_view(request):
     if request.user.user_type == "school":
@@ -275,6 +276,24 @@ def teacher_ledger_view(request):
             }
     else:
         return HttpResponse("Only schools are allowed bro")
+    return render(request, template_name, context)
+
+@verified_email_required
+def teacher_management(request):
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/usrmng/t_manage.html"
+        page_title = "T-Management"
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+            }
+    else:
+        return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)
 #***--------------------***
 #Student-school views
@@ -460,6 +479,24 @@ def student_ledger_view(request):
     else:
         return HttpResponse("Only schools are allowed bro")
     return render(request, template_name, context)
+
+@verified_email_required
+def student_management(request):
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/usrmng/s_manage.html"
+        page_title = "S-Management"
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+            }
+    else:
+        return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
 #***--------------------***
 #Parent-school views
 #***--------------------***
@@ -580,6 +617,23 @@ def parent_enrollment(request):
         return HttpResponse("Only schools allowed bro")
     return render(request, template_name, context)
 
+@verified_email_required
+def parent_management(request):
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/usrmng/p_manage.html"
+        page_title = "P-Management"
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+            }
+    else:
+        return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
 #***--------------------***
 #NT-Staff-school views
 #***--------------------***
@@ -781,6 +835,23 @@ def ntstaff_ledger_view(request):
         return HttpResponse("Only schools are allowed bro")
     return render(request, template_name, context)
 
+@verified_email_required
+def ntstaff_management(request):
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/usrmng/nt_manage.html"
+        page_title = "NT-Management"
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+            }
+    else:
+        return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
 #***--------------------***#***--------------------***
 #Class-school views
 #***--------------------***

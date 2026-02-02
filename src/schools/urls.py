@@ -25,10 +25,10 @@ urlpatterns+=[
                 path("student_enrl/", views.student_enrollment, name="school_student_enrollment"),
                 path("parent_enrl/", views.parent_enrollment, name="school_parent_enrollment"),
                 path("ntstaff_enrl/", views.ntstaff_enrollment, name="school_ntstaff_enrollment"),
-                path("teacher_enrl/", views.teacher_enrollment, name="school_teacher_management"),
-                path("student_enrl/", views.student_enrollment, name="school_student_management"),
-                path("parent_enrl/", views.parent_enrollment, name="school_parent_management"),
-                path("ntstaff_enrl/", views.ntstaff_enrollment, name="school_ntstaff_management"),
+                path("teacher_mng/", views.teacher_management, name="school_teacher_management"),
+                path("student_mng/", views.student_management, name="school_student_management"),
+                path("parent_mng/", views.parent_management, name="school_parent_management"),
+                path("ntstaff_mng/", views.ntstaff_management, name="school_ntstaff_management"),
                 
             ]
         ),

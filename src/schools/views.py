@@ -11,7 +11,7 @@ from allauth.account.decorators import verified_email_required
 import uuid
 from teachers.forms import TeacherRegistrationForm, TeacherSearchForm, TeacherEnrollmentForm
 from students.forms import StudentRegistrationForm, StudentSearchForm, StudentEnrollmentForm
-from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm
+from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEnrollmentForm
 from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
 from django.db.models import Q
 from django.db.models import F
@@ -617,7 +617,23 @@ def ntstaff_registration(request):
     
 @verified_email_required
 def ntstaff_enrollment(request):
-    pass
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/usrmng/nt_enroll.html"
+        page_title = "NT-Enrollment"
+        form = NtStaffEnrollmentForm()
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+                "form":form
+            }
+    else:
+        return HttpResponse("Only schools allowed bro")
+    return render(request, template_name, context)
 
 @verified_email_required
 def ntstaff_ledger_view(request):

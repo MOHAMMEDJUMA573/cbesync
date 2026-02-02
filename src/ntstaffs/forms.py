@@ -238,3 +238,92 @@ class NtStaffSearchForm(forms.Form):
 
         return cleaned_data
     
+class NtStaffEnrollmentForm(forms.Form):
+    ntstaff_first_name = forms.CharField(
+        max_length=35,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+    ntstaff_last_name = forms.CharField(
+        max_length=35,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+            }
+        )
+    )
+    ntstaff_id = forms.CharField(
+        max_length=35,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+            }
+        )
+    )
+
+    ntstaff_gender = forms.ChoiceField(
+        choices=NtStaffProfile.GENDER_CHOICES,
+        widget=forms.RadioSelect,
+    )
+
+    ntstaff_h_qualification = forms.ChoiceField(
+        choices=NtStaffProfile.QUALIFICATIONS,
+        initial="UDGR"
+    )
+    ntstaff_s_field = forms.ChoiceField(
+        choices=NtStaffProfile.NT_STUDY_FIELD,
+        initial="INFT"
+    )
+    ntstaff_y_experience = forms.IntegerField(
+        initial=0,
+        help_text="years of experience",
+        widget=forms.NumberInput(
+            attrs={
+                'min':0,
+                'max':60,
+            }
+        )
+    )
+    ntstaff_j_title = forms.ChoiceField(
+        choices=NtStaffProfile.JOB_TITLE,
+        initial="SLBT",
+    )
+
+    def clean(self):
+        check_flag1 = False
+        cleaned_data =  super().clean()
+        ntstaff_fields = [
+            "ntstaff_first_name", "ntstaff_last_name", "ntstaff_email"
+        ]
+        for ntstaff_field in ntstaff_fields:
+            value = cleaned_data.get(ntstaff_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        ntstaff_field,
+                        _(f"{profanity.censor(value)} is abusive!")
+                    )
+                    check_flag1 = True
+        #check for none fields
+        if not check_flag1:
+            nn_fields = [
+                "ntstaff_gender", "ntstaff_dob",
+                "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
+                "ntstaff_y_experience", "ntstaff_j_title"
+            ]
+            #for some future validations
+        #reasonable exp
+        xp = cleaned_data.get("ntstaff_y_experience")
+        if xp and (xp > 60 or xp < 0) :
+            self.add_error(
+                "ntstaff_y_experience",
+                _("> 0 and <60 ? ")
+            )
+
+        return cleaned_data

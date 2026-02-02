@@ -162,14 +162,8 @@ class TeacherRegistrationForm(forms.Form):
                 "teacher_country", "teacher_employer", "teacher_department",
                 "teacher_role", "teacher_e_level"
             ]
-            for nn_field in nn_fields:
-                if cleaned_data.get(nn_field) is not None:
-                    pass
-                else:
-                    self.add_error(
-                        nn_field,
-                        _("Can't be empty!")
-                    )
+            #for future validations
+            
         r_email = cleaned_data.get("teacher_email")
         if r_email:
             cleaned_data["teacher_email"] = r_email.lower()
@@ -323,17 +317,10 @@ class TeacherEnrollmentForm(forms.Form):
                     check_flag1 = True
         if not check_flag1:
             nn_fields = [
-                "teacher_gender", "teacher_employer", "teacher_role",
+                "teacher_gender", "teacher_role",
                 "teacher_e_level", "teacher_h_qualification"
             ]
-            for nn_field in nn_fields:
-                if cleaned_data.get(nn_field) is not None:
-                    pass
-                else:
-                    self.add_error(
-                        nn_field,
-                        _("Can't be empty!")
-                    )
+            #for some future validation
 
         return cleaned_data
      

@@ -103,14 +103,7 @@ class ParentRegistrationForm(forms.Form):
             nn_fields = [
                 "parent_gender","parent_country"
             ]
-            for nn_field in nn_fields:
-                if cleaned_data.get(nn_field) is not None:
-                    pass
-                else:
-                    self.add_error(
-                        nn_field,
-                        _("Can't be empty!")
-                    )
+            #for some future validations
         #lowercase the email
         r_email = cleaned_data.get("parent_email")
         if r_email:

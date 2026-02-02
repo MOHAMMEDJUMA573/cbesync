@@ -148,14 +148,7 @@ class NtStaffRegistrationForm(forms.Form):
                 "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
                 "ntstaff_y_experience", "ntstaff_j_title"
             ]
-            for nn_field in nn_fields:
-                if cleaned_data.get(nn_field) is not None:
-                    pass
-                else:
-                    self.add_error(
-                        nn_field,
-                        _("Can't be empty!")
-                    )
+            #for some future validations
         #lowercase the email
         r_email = cleaned_data.get("ntstaff_email")
         if r_email:

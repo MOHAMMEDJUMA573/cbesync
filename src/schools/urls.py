@@ -8,7 +8,6 @@ app_name = "schools"
 #can use logging to log any ip to admins path
 urlpatterns = [
     path("",views.dashboard, name="school_app_dashboard"),
-    path("class_management/",views.class_management, name="school_cls_management"),
 ]
 #secondary urls patterns
 urlpatterns+=[
@@ -40,6 +39,14 @@ urlpatterns+=[
                 path("students/", views.student_ledger_view, name="school_student_ledgerview"),
                 path("teachers/", views.teacher_ledger_view, name="school_teacher_ledgerview"),
                 path("ntstaffs/", views.ntstaff_ledger_view, name="school_ntstaff_ledgerview"),
+            ]
+        )
+    ),
+    path(
+        "class_management/",
+        include(
+            [
+                path("students/", views.class_management, name="school_cls_management"),
             ]
         )
     )

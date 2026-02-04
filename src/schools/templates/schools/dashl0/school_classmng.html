@@ -17,11 +17,20 @@
 		<h1 class="main-header">Class Management</h1>
 		<div class="main-grid">
 			<div class="class-section" style="margin-bottom: 1rem;">
-				<form action="https://httpbin.org/post" method="post" class="reg-form" id="classRegForm">
+				<form action="{% url 'schools:school_class_management' %}" method="post" class="reg-form" id="classRegForm">
 					<div class="form-header">
 						<div class="form-guide-text"> 
 							<p>Please fill the form below to create a class</p>
-							<p class="error-message"></p>
+							{% if messages %}
+								<ul class="messages">
+									{% for message in messages %}
+									<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+							<p class="error-message">
+								{{ form.non_field_errors }}
+							</p>
 						</div>
 					</div>
 					<div class="form-body">
@@ -51,11 +60,11 @@
 							{{form.class_teacher}}
 						</div>
 						<div class="form-field1">
-							<label for="c-curriculum">Curriculum: </label>
-							<select name="c-curriculum" id="c-curriculum">
-								<option value="cbe">CBE</option>
-								<option value="other">OTHER</option>
-							</select>
+							<label for="id_class_program">
+								Curriculum:
+								{{form.class_program.errors}}
+							</label>
+							{{form.class_program}}
 						</div>
 						<div class="opt-buttons">
 							<button type="submit">Submit</button> 

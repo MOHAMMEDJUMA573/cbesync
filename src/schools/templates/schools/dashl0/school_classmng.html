@@ -26,33 +26,29 @@
 					</div>
 					<div class="form-body">
 						<div class="form-field1">
-							<label for="c-title">Class title: </label>
-							<select name="c-title" id="c-title">
-								<option value="north">North</option>
-								<option value="south">South</option>
-							</select>
+							<label for="id_class_title">
+								Class title:
+								<p>{{form.class_title.errors}}</p>
+							</label>
+							{{form.class_title}}
 						</div>
 						<div class="form-field1">
-							<label for="c-level">Class level: </label>
-							<select name="c-level" id="c-level">
-									<option value="grade_5">Grade 5</option>
-									<option value="grade_6">Grade 6</option>
-									<option value="grade_7">Grade 7</option>
-									<option value="grade_8">Grade 8</option>
-									<option value="grade_9">Grade 9</option>
-							</select>
+							<label for="id_class_level">
+								Class level:
+								<p>{{form.class_level.errors}}</p>
+							</label>
+							{{form.class_level}}
 						</div>
 						<div class="form-field1">
 							<label for="c-capacity">Class capacity: </label>
 							<input type="number" name="c-capacity" id="c-capacity" min="20" max="99" value="0">
 						</div>
 						<div class="form-field1">
-							<label for="c-teacher">Class Teacher: </label>
-							<select name="c-teacher" id="c-teacher">
-								<option value="cristiano">Mr. Cristiano R</option>
-								<option value="messi">Mr. Messi L</option>
-								<option value="lewandoski">Mr. Robert L</option>
-							</select>
+							<label for="id_class_teacher">
+								Class Teacher:
+								<p>{{form.class_teacher.errors}}</p>
+							</label>
+							{{form.class_teacher}}
 						</div>
 						<div class="form-field1">
 							<label for="c-curriculum">Curriculum: </label>

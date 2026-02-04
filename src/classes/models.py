@@ -18,21 +18,21 @@ def image_file_upload_handler(instance, filename):
     ext = Path(filename).suffix
     return f"clsprf/{fname}{ext}"
 
-def generate_unique_programme_id():
+def generate_unique_program_id():
     while True:
         new_id = f"PRG-{uuid.uuid4().hex[:16].upper()}"
-        if not ProgrammeProfile.objects.filter(programme_id=new_id).exists():
+        if not ProgramProfile.objects.filter(program_id=new_id).exists():
             return new_id
         
 
-class ProgrammeProfile(models.Model):
-    programme_id = models.CharField(
+class ProgramProfile(models.Model):
+    program_id = models.CharField(
         max_length=25,
         unique=True,
         default=generate_unique_class_id,
         editable=False
     )
-    programme_name = models.CharField(
+    program_name = models.CharField(
         max_length=50,
         help_text="The name of the class e.g -stoic-room "
     )
@@ -43,7 +43,7 @@ class ProgrammeProfile(models.Model):
         (10, "Grade 10"), (11, "Grade 11"), (12, "Grade 12"),
         (13, "Other")
     ]
-    programme_levels = ArrayField(
+    program_levels = ArrayField(
         models.CharField(max_length=3, choices=CLASS_LEVEL_CHOICES),
         blank=True,
         default=list
@@ -56,8 +56,16 @@ class ClassProfile(models.Model):
         default=generate_unique_class_id,
         editable=False
     )
-    class_name = models.CharField(
-        max_length=50,
+    CLASS_TITLES_CHOICES = [
+        ("N", "North"),
+        ("S", "South"),
+        ("W", "West"),
+        ("E", "East")
+    ]
+    class_title = models.CharField(
+        max_length=1,
+        choices=CLASS_TITLES_CHOICES,
+        default="N",
     )
     class_school = models.ForeignKey(
         SchoolProfile,
@@ -78,7 +86,7 @@ class ClassProfile(models.Model):
         help_text=""
     )
     class_program = models.ForeignKey(
-        ProgrammeProfile,
+        ProgramProfile,
         on_delete=models.CASCADE,
         related_name="class_profiles"
     )
@@ -98,6 +106,7 @@ class ClassProfile(models.Model):
         choices=CLASS_STREAM_CHOICES,
         max_length=1,
     )
+    
     CLASS_STATUS_CHOICES = [
         ('Ac', 'Active'),
         ('Ar', 'Archived'),
@@ -106,7 +115,9 @@ class ClassProfile(models.Model):
         max_length=2, choices=CLASS_STATUS_CHOICES,
         default='Ac',
     )
-    
+    class_capacity = models.IntegerField(
+
+    )
     class_creation_date = models.DateTimeField(
         auto_now_add=True,
     )

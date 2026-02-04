@@ -5,6 +5,7 @@ from students.models import StudentProfile
 from teachers.models import TeacherProfile
 from ntstaffs.models import NtStaffProfile
 from parents.models import ParentProfile
+from classes.models import ClassProfile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -13,6 +14,7 @@ from teachers.forms import TeacherRegistrationForm, TeacherSearchForm, TeacherEn
 from students.forms import StudentRegistrationForm, StudentSearchForm, StudentEnrollmentForm
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEnrollmentForm
 from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
+from classes.forms import ClassRegistrationForm
 from django.db.models import Q
 from django.db.models import F
 
@@ -862,12 +864,17 @@ def class_management(request):
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_classmng.html"
         page_title = "C-Management"
+        classes_list = current_school.school_classes_list
+        teachers_list = current_school.school_classt_list
+        form = ClassRegistrationForm(classes_list=classes_list, teachers_list=teachers_list)
         if request.method == "POST":
-            pass
+            form = ClassRegistrationForm(request.POST)
+            print(form)
         else:
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
+                "form":form
             }
     else:
         return HttpResponse("Only schools allowed bro!")

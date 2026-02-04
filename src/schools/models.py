@@ -233,7 +233,7 @@ class SchoolProfile(models.Model):
     def school_classes_list(self):
         return [
             (str(c.class_id), str(c.class_name))
-            for c in self.class_profiles
+            for c in self.class_profiles.all()
         ]
     @property
     def school_classt_list(self):

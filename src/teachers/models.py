@@ -206,8 +206,7 @@ class TeacherProfile(models.Model):
     
     @property
     def teacher_full_name(self):
-        name = self.teacher_first_name + self.teacher_middle_name + self.teacher_last_name
-        return name
+        return f"{self.teacher_first_name} {self.teacher_middle_name} {self.teacher_last_name}"
     
 
     def __str__(self):

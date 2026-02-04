@@ -67,6 +67,7 @@ RUN printf "#!/bin/bash\n" > paracord_runner.sh && \
     printf "set -e\n\n" >> paracord_runner.sh && \
     printf "PORT=\"\${PORT:-8080}\"\n\n" >> paracord_runner.sh && \
     printf "python manage.py collectstatic --noinput\n" >> paracord_runner.sh && \
+    printf "python manage.py makemigrations --noinput\n" >> paracord_runner.sh && \
     printf "python manage.py migrate --noinput\n" >> paracord_runner.sh && \
     printf "exec daphne -b 0.0.0.0 -p \$PORT ${PROJ_NAME}.asgi:application\n" >> paracord_runner.sh
 

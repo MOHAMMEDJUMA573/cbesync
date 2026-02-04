@@ -864,9 +864,10 @@ def class_management(request):
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_classmng.html"
         page_title = "C-Management"
-        classes_list = current_school.school_classes_list
+        # classes_list = current_school.school_classes_list
         teachers_list = current_school.school_classt_list
-        form = ClassRegistrationForm(classes_list=classes_list, teachers_list=teachers_list)
+        programs_list = [("JSS", "JUNIOR SECONDARY")]
+        form = ClassRegistrationForm(teachers_list=teachers_list, programs_list=programs_list) 
         if request.method == "POST":
             form = ClassRegistrationForm(request.POST)
             print(form)

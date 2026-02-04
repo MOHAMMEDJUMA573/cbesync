@@ -32,12 +32,12 @@ class ClassRegistrationForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        classes_list = kwargs.pop("classes_list", None)
+        programs_list = kwargs.pop("programs_list", None)
         teachers_list = kwargs.pop("teachers_list", None)
         super().__init__(*args, **kwargs)
 
-        if classes_list is not None:
-            self.fields["class_program"].choices = classes_list
+        if programs_list is not None:
+            self.fields["class_program"].choices = programs_list
         if teachers_list is not None:
             self.fields["class_teacher"].choices = teachers_list
 

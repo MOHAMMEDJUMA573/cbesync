@@ -44,7 +44,7 @@ class ProgramProfile(models.Model):
         (13, "Other")
     ]
     program_levels = ArrayField(
-        models.CharField(max_length=3, choices=CLASS_LEVEL_CHOICES),
+        models.IntegerField(choices=CLASS_LEVEL_CHOICES),
         blank=True,
         default=list
     )
@@ -53,7 +53,7 @@ class ClassProfile(models.Model):
     class_id = models.CharField(
         max_length=25,
         unique=True,
-        default=generate_unique_class_id,
+        default=generate_unique_program_id,
         editable=False
     )
     CLASS_TITLES_CHOICES = [

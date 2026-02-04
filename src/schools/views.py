@@ -5,7 +5,7 @@ from students.models import StudentProfile
 from teachers.models import TeacherProfile
 from ntstaffs.models import NtStaffProfile
 from parents.models import ParentProfile
-from classes.models import ClassProfile
+from classes.models import ClassProfile,ProgramProfile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -857,6 +857,12 @@ def ntstaff_management(request):
 #***--------------------***#***--------------------***
 #Class-school views
 #***--------------------***
+prog_list = []
+all_programs = ProgramProfile.objects.all()
+for prog in all_programs:
+    prog_list.append(
+        (f"{prog.program_id}", f"{prog.program_name}")
+    )
 @verified_email_required
 def class_management(request):
     if request.user.user_type == "school":
@@ -866,7 +872,8 @@ def class_management(request):
         page_title = "C-Management"
         # classes_list = current_school.school_classes_list
         teachers_list = current_school.school_classt_list
-        programs_list = [("JSS", "JUNIOR SECONDARY")]
+        programs_list = prog_list
+        print(programs_list)
         form = ClassRegistrationForm(teachers_list=teachers_list, programs_list=programs_list) 
         if request.method == "POST":
             form = ClassRegistrationForm(request.POST)

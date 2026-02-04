@@ -857,12 +857,11 @@ def ntstaff_management(request):
 #***--------------------***#***--------------------***
 #Class-school views
 #***--------------------***
-prog_list = []
-all_programs = ProgramProfile.objects.all()
-for prog in all_programs:
-    prog_list.append(
-        (f"{prog.program_id}", f"{prog.program_name}")
-    )
+prog_list = [
+    ("JSER34F4", "Junior Secondary"),
+    ("LPW3443E", "Lower Primary"),
+    ("IUP3ER4F", "Upper Primary"),
+]
 @verified_email_required
 def class_management(request):
     if request.user.user_type == "school":

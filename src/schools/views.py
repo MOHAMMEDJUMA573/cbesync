@@ -71,7 +71,7 @@ def user_management(request):
         current_school = request.user.school_profile
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_usermng.html"
-        page_title = "Management"
+        page_title = "U-Management"
         school_polpulation = current_school.school_polpulation
         school_creation_date = current_school.school_creation_date
         school_online_days = current_school.school_online_days
@@ -857,7 +857,19 @@ def ntstaff_management(request):
 #***--------------------***
 @verified_email_required
 def class_management(request):
-    if school_uuid == valid_school_uuid:
-        return HttpResponse(f"<h1>Right guy {school_uuid} class management</h1>")
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/dashl0/school_classmng.html"
+        page_title = "C-Management"
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+            }
     else:
-        return HttpResponse(f"<h1>Wrong guy {school_uuid} class management</h1>")
+        return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
+

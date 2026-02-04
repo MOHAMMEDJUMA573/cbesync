@@ -238,9 +238,10 @@ class SchoolProfile(models.Model):
     @property
     def school_classt_list(self):
         return [
-            (str(t.teacher_id), str(t.teacher_fullname))
-            for t in self.teacher_profiles
+            (str(t.teacher_id), str(t.teacher_full_name))
+            for t in self.teacher_profiles.all()
         ]
+
 
 
     def __str__(self):

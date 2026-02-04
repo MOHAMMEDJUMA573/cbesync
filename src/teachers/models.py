@@ -64,8 +64,7 @@ class TeacherProfile(models.Model):
     )
     teacher_middle_name = models.CharField(
         max_length=35,
-        blank=True,
-        null=True
+        default=""
     )
     teacher_last_name = models.CharField(
         max_length=35
@@ -205,5 +204,11 @@ class TeacherProfile(models.Model):
         auto_now=True, help_text="Last time the record was updated"
     )
     
+    @property
+    def teacher_full_name(self):
+        name = self.teacher_first_name + self.teacher_middle_name + self.teacher_last_name
+        return name
+    
+
     def __str__(self):
         return f"{self.teacher_first_name} {self.teacher_last_name} {self.teacher_tsc_number}"

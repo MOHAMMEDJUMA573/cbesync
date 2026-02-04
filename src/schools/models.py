@@ -229,6 +229,20 @@ class SchoolProfile(models.Model):
         days_age = relativedelta(today, school_doc).days
         return  days_age
 
+    @property
+    def school_classes_list(self):
+        return [
+            (str(c.class_id), str(c.class_name))
+            for c in self.class_profiles
+        ]
+    @property
+    def school_classt_list(self):
+        return [
+            (str(t.teacher_id), str(t.teacher_fullname))
+            for t in self.teacher_profiles
+        ]
+
+
     def __str__(self):
         return f"{self.school_name} --- {self.school_email}"
     

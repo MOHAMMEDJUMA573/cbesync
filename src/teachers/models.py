@@ -48,7 +48,7 @@ class TeacherProfile(models.Model):
     teacher_school = models.ForeignKey(
         SchoolProfile,
         on_delete=models.CASCADE,
-        related_name="teachers",
+        related_name="teacher_profiles",
         null=True
     )
     teacher_tsc_number = models.CharField(

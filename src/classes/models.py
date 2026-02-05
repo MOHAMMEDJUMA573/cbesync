@@ -144,6 +144,16 @@ class ClassProfile(models.Model):
             if saved_st == value:
                 return label
             
+    @property
+    def class_student_count(self):
+        count = 0
+        class_students = self.student_profiles.all()
+        for student in class_students:
+            count+=1
+
+        return count
+
+
     def __str__(self):
         return f"{self.get_class_title_display()}-{self.class_level} ({self.class_school.school_name})"
 

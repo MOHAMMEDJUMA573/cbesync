@@ -70,6 +70,13 @@
 							</label>
 							{{form.class_program}}
 						</div>
+						<div class="form-field1">
+							<label for="id_class_description">
+								Description (if other):
+								<p>{{form.class_description.errors}}</p>
+							</label>
+							{{form.class_description}}
+						</div>
 						<div class="opt-buttons">
 							<button type="submit" name="class_registration">Submit</button> 
 							<button type="reset">Clear</button>
@@ -97,12 +104,15 @@
 					</div>
 					<div class="form-body">
 						<div class="form-field1">
-							<label for="classid-no">Class ID: </label>
-							<input type="text" name="classid-no" id="classid-no">
+							<label for="id_class_id">
+								Class ID:
+								<p>{{form2.class_id.errors}}</p>
+							</label>
+							{{form2.class_id}}
 						</div>
 						<div class="opt-buttons">
-							<button type="submit" name="class_deletion">Submit</button> 
 							<button type="reset">Clear</button>
+							<button type="submit" name="class_deletion">Delete</button> 
 						</div>
 					</div>
 				</form>

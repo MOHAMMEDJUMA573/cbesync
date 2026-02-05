@@ -14,9 +14,10 @@ from teachers.forms import TeacherRegistrationForm, TeacherSearchForm, TeacherEn
 from students.forms import StudentRegistrationForm, StudentSearchForm, StudentEnrollmentForm
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEnrollmentForm
 from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
-from classes.forms import ClassRegistrationForm
+from classes.forms import ClassRegistrationForm, ClassDeletionForm
 from django.db.models import Q
 from django.db.models import F
+from django.utils.translation import gettext_lazy as _
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -867,6 +868,7 @@ def class_management(request):
         # classes_list = current_school.school_classes_list
         teachers_list = current_school.school_classt_list
         form = ClassRegistrationForm(teachers_list=teachers_list)
+        form2 = ClassDeletionForm()
         if teachers_list:
             if request.method == "POST":
                 if  "class_registration" in request.POST:
@@ -885,12 +887,49 @@ def class_management(request):
                             "form":form
                         }
                 elif  "class_deletion" in request.POST:
-                    print("deletion form recieved")
-                    context = {
-                        "school_name":school_name,
-                        "page_title":page_title,
-                        "form":form
-                    }
+                    form2 = ClassDeletionForm(request.POST)
+                    if form2.is_valid():
+                        class_id = form2.cleaned_data["class_id"]
+                        classes = current_school.school_classes_list
+                        try: 
+                            tobe_deleted_class = ClassProfile.objects.get(class_id=class_id)
+                            if tobe_deleted_class.class_school == current_school:
+                                with transaction.atomic():
+                                    tobe_deleted_class.delete()
+                                    messages.success(
+                                        request,
+                                        _(f"Class {class_id} deleted successfully")
+                                    )
+                                    return redirect(reverse("schools:school_class_management"))
+                            else:
+                                messages.warning(
+                                    request,
+                                    (f"Can't delete a class you dont own")
+                                )
+                                context = {
+                                    "school_name":school_name,
+                                    "page_title":page_title,
+                                    "form":form,
+                                    "form2":form2
+                                }
+                        except ClassProfile.DoesNotExist:
+                            messages.warning(
+                                request,
+                                (f"class {class_id} Does not exist!")
+                            )
+                            context = {
+                                "school_name":school_name,
+                                "page_title":page_title,
+                                "form":form,
+                                "form2":form2
+                            }
+                    else:
+                        context = {
+                            "school_name":school_name,
+                            "page_title":page_title,
+                            "form":form,
+                            "form2":form2
+                        }
                 else:
                     print("An unidentified form recieved")  
                     return redirect(reverse("schools:school_class_management"))          
@@ -898,8 +937,9 @@ def class_management(request):
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
-                    "form":form
-                }  
+                    "form":form,
+                    "form2":form2
+                } 
         else:
             messages.warning(
                 request,
@@ -908,7 +948,8 @@ def class_management(request):
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
-                "form":form
+                "form":form,
+                "form2":form2
             }   
     else:
         return HttpResponse("Only schools allowed bro!")

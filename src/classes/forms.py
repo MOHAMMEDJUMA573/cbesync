@@ -16,7 +16,7 @@ def generate_unique_class_id():
 class ClassRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):
         programs_list = [
-            (p.program_id, p.program_name)
+            (str(p.program_id), str(p.program_name))
             for p in ProgramProfile.objects.all()
         ]
         teachers_list = kwargs.pop("teachers_list")
@@ -30,7 +30,8 @@ class ClassRegistrationForm(forms.Form):
     )
 
     class_level = forms.ChoiceField(
-        choices=ClassProfile.CLASS_LEVEL_CHOICES
+        choices=ClassProfile.CLASS_LEVEL_CHOICES,
+        initial=13
     )
 
     class_program = forms.ChoiceField(
@@ -52,6 +53,18 @@ class ClassRegistrationForm(forms.Form):
         )
     )
 
+    class_description = forms.CharField(
+        max_length=200,
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                'autocomplete':'off',
+                "rows":2,
+                "columns":4
+            }
+        )
+    )
+    
     def clean(self):
         check_flag1 = False
         cleaned_data =  super().clean()
@@ -74,21 +87,16 @@ class ClassRegistrationForm(forms.Form):
             ]
             #for some future validations       
         #get the keyed fields
-        class_program_id = self.cleaned_data['class_program']
-        class_teacher_id = self.cleaned_data['class_teacher']
-        print(class_teacher_id)
-        try:
-            class_program = ProgramProfile.objects.get(program_id=str(class_program_id))
-            cleaned_data['class_program'] = class_program
-            print(cleaned_data['class_program'])
-            class_teacher = TeacherProfile.objects.get(teacher_id=str(class_teacher_id))
-            cleaned_data['class_teacher'] = class_teacher
-            print(cleaned_data['class_teacher'])
-            #check if the teacher is for the school
-        except ProgramProfile.DoesNotExist:
-            print("program failure")
-        except TeacherProfile.DoesNotExist:
-            print("teacher_failed")
+        teachers = cleaned_data.get('class_teacher')
+        programs = cleaned_data.get('class_program')
+        if not teachers or not programs:
+            return cleaned_data
+        cleaned_data['class_program'] = ProgramProfile.objects.get(
+            program_id=self.cleaned_data['class_program']
+        )
+        cleaned_data['class_teacher'] = TeacherProfile.objects.get(
+            teacher_id=self.cleaned_data['class_teacher']
+        )
 
         return cleaned_data
 
@@ -100,7 +108,43 @@ class ClassRegistrationForm(forms.Form):
                 class_level = self.cleaned_data["class_level"],
                 class_program = self.cleaned_data["class_program"],
                 class_teacher = self.cleaned_data["class_teacher"],
+                class_description = self.cleaned_data["class_description"],
                 class_capacity = self.cleaned_data["class_capacity"],
                 class_status = 'Ac' 
             )
             print("class created successdyfully")
+
+class ClassDeletionForm(forms.Form):
+    class_id = forms.CharField(
+        max_length=35,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off',
+                "max_length":35
+            }
+        )
+    )
+
+    def clean(self):
+        check_flag1 = False
+        cleaned_data = super().clean()
+        classes_fields = [
+            "class_id"
+        ]
+        for class_field in classes_fields:
+            value = cleaned_data.get(class_field)
+            if value:
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        class_field,
+                        _(f"{profanity.censor(value)} is unallowed!")
+                    )
+                    check_flag1 = True
+        if not check_flag1:
+            nn_fields = [
+                "class_id"
+            ]
+            #for some future validation
+
+        return cleaned_data
+     

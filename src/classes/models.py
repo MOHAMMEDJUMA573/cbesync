@@ -100,7 +100,11 @@ class ClassProfile(models.Model):
         help_text="Teache assigned to the class"
     )
 
-    
+    class_description = models.CharField(
+        null=True,
+        blank=True
+    )
+
     CLASS_STATUS_CHOICES = [
         ('Ac', 'Active'),
         ('Ar', 'Archived'),

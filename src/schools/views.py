@@ -992,3 +992,23 @@ def class_management(request):
         return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)
 
+#***--------------------***#***--------------------***
+#Settings views
+#***--------------------***
+@verified_email_required
+def school_settings(request):
+    if request.user.user_type == "school":
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
+        template_name = "schools/dashl0/school_classmng.html"
+        page_title = "S-Settings"
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title,
+            }
+    else:
+        return HttpResponse("Only schools allowed!")
+    return render(request, template_name, context)

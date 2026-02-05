@@ -2,6 +2,7 @@ from django.db import models
 from datetime import date
 import uuid
 from schools.models import SchoolProfile
+from classes.models import ClassProfile
 from pathlib import Path
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.postgres.fields import ArrayField
@@ -45,7 +46,13 @@ class StudentProfile(models.Model):
     student_school = models.ForeignKey(
         SchoolProfile,
         on_delete=models.CASCADE,
-        related_name="students",
+        related_name="student_profiles",
+        null=True
+    )
+    student_class = models.ForeignKey(
+        ClassProfile,
+        on_delete=models.CASCADE,
+        related_name="student_profiles",
         null=True
     )
 

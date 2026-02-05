@@ -107,17 +107,11 @@
 							{{form.student_admission_number}}
 					</div>
 					<div class="form-field1">
-							<label for="std-class">
+							<label for="id_student_class">
 								Student class: 
 								<p>{{ form.student_class.errors }}</p>
 							</label>
-							<select name="student_class" id="std-class">
-									<option value="grade_5_A">Grade 5</option>
-									<option value="grade_6_A">Grade 6</option>
-									<option value="grade_7_A">Grade 7</option>
-									<option value="grade_8_A">Grade 8</option>
-									<option value="grade_9_A">Grade 9</option>
-							</select>
+							{{form.student_class}}
 					</div>
 					<div class="form-field1">
 							<label for="nationality">

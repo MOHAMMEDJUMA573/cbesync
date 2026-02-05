@@ -232,9 +232,10 @@ class SchoolProfile(models.Model):
     @property
     def school_classes_list(self):
         return [
-            (str(c.class_id), str(c.class_title))
+            (str(c.class_id), str(c.class_level_str + " " + c.class_title_str))
             for c in self.class_profiles.all()
         ]
+   
     @property
     def school_classt_list(self):
         return [

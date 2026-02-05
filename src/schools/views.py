@@ -304,27 +304,41 @@ def teacher_management(request):
 @verified_email_required
 def student_registration(request):
     if request.user.user_type == "school":
-        school_name = request.user.school_profile.school_name
+        current_school = request.user.school_profile
+        school_name = current_school.school_name
         template_name = "schools/usrmng/s_reg.html"
         page_title = "S-Registration"
-        form = StudentRegistrationForm()
-        if request.method == "POST":
-        # if school_uuid == valid_school_uuid:
-            form = StudentRegistrationForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save(student_school=request.user.school_profile)     
-                messages.success(
-                    request,
-                    f"student: {form.cleaned_data['student_first_name']} {form.cleaned_data['student_last_name']} saved successfully! 🥳"
-                ) 
-                return redirect(reverse("schools:school_student_registration"))
+        classes_list = current_school.school_classes_list
+        form = StudentRegistrationForm(classes_tuple_list=classes_list)
+        if classes_list:
+            if request.method == "POST":
+            # if school_uuid == valid_school_uuid:
+                form = StudentRegistrationForm(request.POST, request.FILES, classes_tuple_list=classes_list)
+                if form.is_valid():
+                    form.save(student_school=request.user.school_profile)     
+                    messages.success(
+                        request,
+                        f"student: {form.cleaned_data['student_first_name']} {form.cleaned_data['student_last_name']} saved successfully! 🥳"
+                    ) 
+                    return redirect(reverse("schools:school_student_registration"))
+                else:
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form":form
+                    }
             else:
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
-                    "form":form
+                    "form": form
                 }
+                return render(request, template_name, context)
         else:
+            messages.warning(
+                request,
+                f"please create a class before adding students ⚠️"
+            )
             context = {
                 "school_name":school_name,
                 "page_title":page_title,

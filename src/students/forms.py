@@ -3,6 +3,7 @@ from datetime import date
 from django.db import transaction
 from django.db.models import F
 from .models import StudentProfile
+from classes.models import ClassProfile
 from accounts.models import CustomUser
 from phonenumber_field.formfields import PhoneNumberField
 import uuid
@@ -19,6 +20,11 @@ def generate_unique_student_id():
 
 
 class StudentRegistrationForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        classes_tuple_choices = kwargs.pop("classes_tuple_list")
+        super(StudentRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields["student_class"].choices = classes_tuple_choices
+
     student_first_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
@@ -86,7 +92,8 @@ class StudentRegistrationForm(forms.Form):
         initial="",
         required=True
     )
-    #class
+    student_class = forms.ChoiceField(
+    )
 
     student_country = forms.ChoiceField(
         choices=CustomUser.CBESYNC_COUNTRIES,
@@ -146,6 +153,14 @@ class StudentRegistrationForm(forms.Form):
         if r_email:
             cleaned_data["student_email"] = r_email.lower()
         #validate date of birth later on
+        #get the keyed fields
+        student_classes = cleaned_data.get('student_class')
+        if not student_classes:
+            return cleaned_data
+        cleaned_data['student_class'] = ClassProfile.objects.get(
+            class_id = self.cleaned_data['student_class']
+        )
+
 
         return cleaned_data
 
@@ -164,6 +179,7 @@ class StudentRegistrationForm(forms.Form):
                 user = user,
                 student_id = username,
                 student_school = student_school,
+                student_class = self.cleaned_data['student_class'],
                 student_first_name = self.cleaned_data['student_first_name'],
                 student_middle_name = self.cleaned_data['student_middle_name'],
                 student_last_name = self.cleaned_data['student_last_name'],
@@ -247,8 +263,9 @@ class StudentEnrollmentForm(forms.Form):
                 }
         )
     )
-    # student_class = forms.ChoiceField(
-    # )
+    student_class = forms.ChoiceField(
+
+    )
     student_s_needs= forms.ChoiceField(
         choices=StudentProfile.SP_NEEDS_OPTS,
     )

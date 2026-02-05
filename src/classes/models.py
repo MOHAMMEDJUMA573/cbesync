@@ -99,16 +99,7 @@ class ClassProfile(models.Model):
         blank=True, related_name='classt_profile',
         help_text="Teache assigned to the class"
     )
-    CLASS_STREAM_CHOICES = (
-        ("W", "W"),
-        ("X", "X"),
-        ("Y", "Y"),
-        ("Z", "Z"),
-    )
-    class_stream = models.CharField(
-        choices=CLASS_STREAM_CHOICES,
-        max_length=1,
-    )
+
     
     CLASS_STATUS_CHOICES = [
         ('Ac', 'Active'),
@@ -121,6 +112,7 @@ class ClassProfile(models.Model):
     class_capacity = models.IntegerField(
 
     )
+    
     class_creation_date = models.DateTimeField(
         auto_now_add=True,
     )
@@ -129,5 +121,5 @@ class ClassProfile(models.Model):
     )
 
     def __str__(self):
-        return f"{self.class_name}-{self.class_level} ({self.class_school.school_name})"
+        return f"{self.get_class_title_display()}-{self.class_level} ({self.class_school.school_name})"
 

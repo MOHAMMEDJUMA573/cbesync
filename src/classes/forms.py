@@ -1,6 +1,7 @@
 from django import forms
 from django.db import transaction
 from .models import ClassProfile, ProgramProfile
+from teachers.models import TeacherProfile
 import uuid
 from .models import SchoolProfile
 from better_profanity import profanity
@@ -13,6 +14,17 @@ def generate_unique_class_id():
             return new_id
 
 class ClassRegistrationForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        programs_list = [
+            (p.program_id, p.program_name)
+            for p in ProgramProfile.objects.all()
+        ]
+        teachers_list = kwargs.pop("teachers_list")
+
+        super(ClassRegistrationForm,self).__init__(*args,**kwargs)
+        self.fields['class_teacher'].choices = teachers_list
+        self.fields["class_program"].choices = programs_list
+
     class_title = forms.ChoiceField(
         choices=ClassProfile.CLASS_TITLES_CHOICES
     )
@@ -27,8 +39,6 @@ class ClassRegistrationForm(forms.Form):
     )
 
     class_teacher = forms.ChoiceField(
-        choices=(),
-        required=True
     )
 
     class_capacity = forms.IntegerField(
@@ -41,22 +51,6 @@ class ClassRegistrationForm(forms.Form):
             }
         )
     )
-
-    def __init__(self, *args, **kwargs):
-        programs_list = [
-            (p.program_id, p.program_name)
-            for p in ProgramProfile.objects.all()
-        ]
-        print(programs_list)
-        teachers_list = kwargs.pop("teachers_list", None)
-        super().__init__(*args, **kwargs)
-
-        if programs_list is not None:
-            self.fields["class_program"].choices = programs_list
-        if teachers_list is not None:
-            self.fields["class_teacher"].choices = teachers_list
-
-    
 
     def clean(self):
         check_flag1 = False
@@ -79,6 +73,22 @@ class ClassRegistrationForm(forms.Form):
                 "class_program", "class_teacher"
             ]
             #for some future validations       
+        #get the keyed fields
+        class_program_id = self.cleaned_data['class_program']
+        class_teacher_id = self.cleaned_data['class_teacher']
+        print(class_teacher_id)
+        try:
+            class_program = ProgramProfile.objects.get(program_id=str(class_program_id))
+            cleaned_data['class_program'] = class_program
+            print(cleaned_data['class_program'])
+            class_teacher = TeacherProfile.objects.get(teacher_id=str(class_teacher_id))
+            cleaned_data['class_teacher'] = class_teacher
+            print(cleaned_data['class_teacher'])
+            #check if the teacher is for the school
+        except ProgramProfile.DoesNotExist:
+            print("program failure")
+        except TeacherProfile.DoesNotExist:
+            print("teacher_failed")
 
         return cleaned_data
 
@@ -86,10 +96,11 @@ class ClassRegistrationForm(forms.Form):
         with transaction.atomic():
             ClassProfile.objects.create(
                 class_school = class_school,
-                class_title = self.cleaned_data['class_title'],
-                class_level = self.cleaned_data['class_level'],
-                class_program = self.cleaned_data['class_program'],
-                class_teacher = self.cleaned_data['class_teacher'],
+                class_title = self.cleaned_data["class_title"],
+                class_level = self.cleaned_data["class_level"],
+                class_program = self.cleaned_data["class_program"],
+                class_teacher = self.cleaned_data["class_teacher"],
+                class_capacity = self.cleaned_data["class_capacity"],
                 class_status = 'Ac' 
             )
             print("class created successdyfully")

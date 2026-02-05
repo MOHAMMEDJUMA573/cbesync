@@ -866,16 +866,50 @@ def class_management(request):
         page_title = "C-Management"
         # classes_list = current_school.school_classes_list
         teachers_list = current_school.school_classt_list
-        form = ClassRegistrationForm(teachers_list=teachers_list) 
-        if request.method == "POST":
-            form = ClassRegistrationForm(request.POST)
-            print(form)
+        form = ClassRegistrationForm(teachers_list=teachers_list)
+        if teachers_list:
+            if request.method == "POST":
+                if  "class_registration" in request.POST:
+                    form = ClassRegistrationForm(request.POST, teachers_list=teachers_list)
+                    if form.is_valid():
+                        form.save(current_school)
+                        messages.success(
+                            request,
+                            f"Class: created saved successfully! 🥳"
+                        )                        
+                        return redirect(reverse("schools:school_class_management"))
+                    else:
+                        context = {
+                            "school_name":school_name,
+                            "page_title":page_title,
+                            "form":form
+                        }
+                elif  "class_deletion" in request.POST:
+                    print("deletion form recieved")
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form":form
+                    }
+                else:
+                    print("An unidentified form recieved")  
+                    return redirect(reverse("schools:school_class_management"))          
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form":form
+                }  
         else:
+            messages.warning(
+                request,
+                f"please create a teacher to administer the class 🥳"
+            ) 
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
                 "form":form
-            }
+            }   
     else:
         return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)

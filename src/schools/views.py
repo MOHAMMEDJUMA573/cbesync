@@ -857,11 +857,6 @@ def ntstaff_management(request):
 #***--------------------***#***--------------------***
 #Class-school views
 #***--------------------***
-prog_list = [
-    ("JSER34F4", "Junior Secondary"),
-    ("LPW3443E", "Lower Primary"),
-    ("IUP3ER4F", "Upper Primary"),
-]
 @verified_email_required
 def class_management(request):
     if request.user.user_type == "school":
@@ -871,9 +866,7 @@ def class_management(request):
         page_title = "C-Management"
         # classes_list = current_school.school_classes_list
         teachers_list = current_school.school_classt_list
-        programs_list = prog_list
-        print(programs_list)
-        form = ClassRegistrationForm(teachers_list=teachers_list, programs_list=programs_list) 
+        form = ClassRegistrationForm(teachers_list=teachers_list) 
         if request.method == "POST":
             form = ClassRegistrationForm(request.POST)
             print(form)

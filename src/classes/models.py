@@ -29,7 +29,7 @@ class ProgramProfile(models.Model):
     program_id = models.CharField(
         max_length=25,
         unique=True,
-        default=generate_unique_class_id,
+        default=generate_unique_program_id,
         editable=False
     )
     program_name = models.CharField(
@@ -49,11 +49,14 @@ class ProgramProfile(models.Model):
         default=list
     )
 
+    def __str__(self):
+        return f"{self.program_id} --- {self.program_name} --- {self.program_levels}"
+
 class ClassProfile(models.Model):
     class_id = models.CharField(
         max_length=25,
         unique=True,
-        default=generate_unique_program_id,
+        default=generate_unique_class_id,
         editable=False
     )
     CLASS_TITLES_CHOICES = [

@@ -1,6 +1,6 @@
 from django import forms
 from django.db import transaction
-from .models import ClassProfile
+from .models import ClassProfile, ProgramProfile
 import uuid
 from .models import SchoolProfile
 from better_profanity import profanity
@@ -31,8 +31,23 @@ class ClassRegistrationForm(forms.Form):
         required=True
     )
 
+    class_capacity = forms.IntegerField(
+        min_value=20,
+        max_value=200,
+        widget=forms.NumberInput(
+            attrs={
+                "max":200,
+                "min":20
+            }
+        )
+    )
+
     def __init__(self, *args, **kwargs):
-        programs_list = kwargs.pop("programs_list", None)
+        programs_list = [
+            (p.program_id, p.program_name)
+            for p in ProgramProfile.objects.all()
+        ]
+        print(programs_list)
         teachers_list = kwargs.pop("teachers_list", None)
         super().__init__(*args, **kwargs)
 

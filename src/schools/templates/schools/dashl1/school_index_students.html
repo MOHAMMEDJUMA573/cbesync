@@ -78,8 +78,8 @@
                                     <div class="maingtr-data-p1">{{ student.student_middle_name }}</div>
                                     <div class="maingtr-data-p1">{{ student.student_last_name }}</div>
                                 </div>
-                                <div class="maingtr-data">J3-Secondary</div>
-                                <div class="maingtr-data">8</div>
+                                <div class="maingtr-data">{{student.student_class.class_program.program_name|truncatechars:9}}</div>
+                                <div class="maingtr-data">{{student.student_class.class_level_str}}</div>
                                 <div class="maingtr-data">{{ student.student_dob }}</div>
                                 <div class="maingtr-data">{{ student.student_gender }}</div>
                             </div>
@@ -112,8 +112,8 @@
                             <div class="maingtr-data-p1">{{student.student_last_name}}</div>
                             <div class="maingtr-data-p1">{{student.student_last_name}}</div>
                         </div>
-                        <div class="maingtr-data">J3-Secondary</div>
-                        <div class="maingtr-data">8</div>
+                        <div class="maingtr-data">{{student.student_class.class_program.program_name|truncatechars:9}}</div>
+                        <div class="maingtr-data">{{student.student_class.class_level_str}}</div>
                         <div class="maingtr-data">{{student.student_dob}}</div>
                         <div class="maingtr-data">{{student.student_gender}}</div>
                     </div>

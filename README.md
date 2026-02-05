@@ -1,11 +1,24 @@
+<a id="readme-top"></a>
+
+<div align="center">
+  <a href="#">
+    <img src="https://i.imgur.com/8PPAGM7.png" alt="Logo" height="150" style="border-radius: 10px">
+  </a>
+  <h2 align="center">CbeSync</h2>
+  <p align="center">
+      <img alt="StandWithPalestine" src="https://raw.githubusercontent.com/Safouene1/support-palestine-banner/master/StandWithPalestine.svg">
+      </a>
+  </p>
+</div>
+
+
+
 #_~~CBCSYNC~~_ ***CbeSync*** Project Setup
 =====================
 
 <mark>Project setup settings Instructions</mark>  
 
 _“Anyone who tries to make everyone happy is admirable”_
-
-![CbeSync Logo](https://i.imgur.com/8PPAGM7.png)
 
 [www.cbesync.com](www.cbesync.com)
 

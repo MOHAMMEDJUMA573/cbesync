@@ -123,7 +123,27 @@ class ClassProfile(models.Model):
     class_updated_date = models.DateTimeField(
         auto_now=True,
     )
+    @property
+    def class_title_str(self):
+        saved_t = self.class_title
+        for value, label in self.CLASS_TITLES_CHOICES:
+            if saved_t == value:
+                return label
 
+    @property
+    def class_status_str(self):
+        saved_st = self.class_status
+        for value, label in self.CLASS_STATUS_CHOICES:
+            if saved_st == value:
+                return label
+    
+    @property
+    def class_level_str(self):
+        saved_st = self.class_level
+        for value, label in self.CLASS_LEVEL_CHOICES:
+            if saved_st == value:
+                return label
+            
     def __str__(self):
         return f"{self.get_class_title_display()}-{self.class_level} ({self.class_school.school_name})"
 

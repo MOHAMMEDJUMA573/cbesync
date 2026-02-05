@@ -865,7 +865,25 @@ def class_management(request):
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_classmng.html"
         page_title = "C-Management"
-        # classes_list = current_school.school_classes_list
+        school_classes = ClassProfile.objects.filter(class_school=current_school)
+        school_north_classes = school_classes.filter(
+            class_title = "N"
+        )
+        school_south_classes = school_classes.filter(
+            class_title = "S"
+        )
+        school_west_classes = school_classes.filter(
+            class_title = "W"
+        )
+        school_east_classes = school_classes.filter(
+            class_title = "E"
+        )
+        school_classes_dict = {
+            "north_classes":school_north_classes if school_north_classes.exists() else None,
+            "south_classes":school_south_classes if school_south_classes.exists() else None,
+            "east_classes":school_east_classes if school_east_classes.exists() else None,
+            "west_classes":school_west_classes if school_west_classes.exists() else None
+        }
         teachers_list = current_school.school_classt_list
         form = ClassRegistrationForm(teachers_list=teachers_list)
         form2 = ClassDeletionForm()
@@ -910,7 +928,8 @@ def class_management(request):
                                     "school_name":school_name,
                                     "page_title":page_title,
                                     "form":form,
-                                    "form2":form2
+                                    "form2":form2,
+                                    "class_objs":school_classes_dict
                                 }
                         except ClassProfile.DoesNotExist:
                             messages.warning(
@@ -921,14 +940,16 @@ def class_management(request):
                                 "school_name":school_name,
                                 "page_title":page_title,
                                 "form":form,
-                                "form2":form2
+                                "form2":form2,
+                                "classes_dict":school_classes_dict
                             }
                     else:
                         context = {
                             "school_name":school_name,
                             "page_title":page_title,
                             "form":form,
-                            "form2":form2
+                            "form2":form2,
+                            "classes_dict":school_classes_dict
                         }
                 else:
                     print("An unidentified form recieved")  
@@ -938,18 +959,20 @@ def class_management(request):
                     "school_name":school_name,
                     "page_title":page_title,
                     "form":form,
-                    "form2":form2
-                } 
+                    "form2":form2,
+                    "classes_dict":school_classes_dict
+                }
         else:
             messages.warning(
                 request,
-                f"please create a teacher to administer the class 🥳"
+                f"please create a teacher to administer the class ⚠️"
             ) 
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
                 "form":form,
-                "form2":form2
+                "form2":form2,
+                "classes_dict":school_classes_dict
             }   
     else:
         return HttpResponse("Only schools allowed bro!")

@@ -118,116 +118,114 @@
 				</form>
 			</div>
 			<div class="class-section">
+				{% if classes_dict.north_classes %}
 				<div class="maing-data-grid">
 					<div class="maing-data-header">
 						North Classes
 					</div>
 					<div class="maing-data-table">
 						<div class="maingt-header-row">
-							<div class="maingth-data">Class ID</div>
 							<div class="maingth-data">Class Level</div>
+							<div class="maingth-data">Class ID</div>
 							<div class="maingth-data">Class Title</div>
 							<div class="maingth-data">Total Students</div>
 							<div class="maingth-data">Class Status</div>
 							<div class="maingth-data">Class Program</div>
 						</div>
+						{% for class in classes_dict.north_classes %}
 						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 8</div>
-							<div class="maingtr-data">North</div>
+							<div class="maingtr-data">{{class.class_level_str}}</div>
+							<div class="maingtr-data">{{class.class_id}}</div>
+							<div class="maingtr-data">{{class.class_title_str}}</div>
 							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">JSE</div>
+							<div class="maingtr-data">{{class.class_status_str}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name}}</div>
 						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 7</div>
-							<div class="maingtr-data">North</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">JSE</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 6</div>
-							<div class="maingtr-data">North</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">UPE</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 5</div>
-							<div class="maingtr-data">North</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">UPE</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 4</div>
-							<div class="maingtr-data">North</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">UPE</div>
-						</div>
+						{% endfor %}
 					</div>
             	</div>
+				{% endif %}
+				{% if classes_dict.east_classes %}
+				<div class="maing-data-grid">
+					<div class="maing-data-header">
+						East Classes
+					</div>
+					<div class="maing-data-table">
+						<div class="maingt-header-row">
+							<div class="maingth-data">Class Level</div>
+							<div class="maingth-data">Class ID</div>
+							<div class="maingth-data">Class Title</div>
+							<div class="maingth-data">Total Students</div>
+							<div class="maingth-data">Class Status</div>
+							<div class="maingth-data">Class Program</div>
+						</div>
+						{% for class in classes_dict.east_classes %}
+						<div class="maingt-data-row">
+							<div class="maingtr-data">{{class.class_level_str}}</div>
+							<div class="maingtr-data">{{class.class_id}}</div>
+							<div class="maingtr-data">{{class.class_title_str}}</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">{{class.class_status_str}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name}}</div>
+						</div>
+						{% endfor %}
+					</div>
+            	</div>
+				{% endif %}
+				{% if classes_dict.south_classes %}
 				<div class="maing-data-grid">
 					<div class="maing-data-header">
 						South Classes
 					</div>
 					<div class="maing-data-table">
 						<div class="maingt-header-row">
-							<div class="maingth-data">Class ID</div>
 							<div class="maingth-data">Class Level</div>
+							<div class="maingth-data">Class ID</div>
 							<div class="maingth-data">Class Title</div>
 							<div class="maingth-data">Total Students</div>
 							<div class="maingth-data">Class Status</div>
 							<div class="maingth-data">Class Program</div>
 						</div>
+						{% for class in classes_dict.south_classes %}
 						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 8</div>
-							<div class="maingtr-data">South</div>
+							<div class="maingtr-data">{{class.class_level_str}}</div>
+							<div class="maingtr-data">{{class.class_id}}</div>
+							<div class="maingtr-data">{{class.class_title_str}}</div>
 							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">JSE</div>
+							<div class="maingtr-data">{{class.class_status_str}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name}}</div>
 						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 7</div>
-							<div class="maingtr-data">South</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">JSE</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 6</div>
-							<div class="maingtr-data">South</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">UPE</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 5</div>
-							<div class="maingtr-data">South</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">UPE</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">CLR-234323</div>
-							<div class="maingtr-data">Grade 4</div>
-							<div class="maingtr-data">South</div>
-							<div class="maingtr-data">34</div>
-							<div class="maingtr-data">Active</div>
-							<div class="maingtr-data">UPE</div>
-						</div>
+						{% endfor %}
 					</div>
             	</div>
+				{% endif %}
+				{% if classes_dict.south_classes %}
+				<div class="maing-data-grid">
+					<div class="maing-data-header">
+						West Classes
+					</div>
+					<div class="maing-data-table">
+						<div class="maingt-header-row">
+							<div class="maingth-data">Class Level</div>
+							<div class="maingth-data">Class ID</div>
+							<div class="maingth-data">Class Title</div>
+							<div class="maingth-data">Total Students</div>
+							<div class="maingth-data">Class Status</div>
+							<div class="maingth-data">Class Program</div>
+						</div>
+						{% for class in classes_dict.west_classes %}
+						<div class="maingt-data-row">
+							<div class="maingtr-data">{{class.class_level_str}}</div>
+							<div class="maingtr-data">{{class.class_id}}</div>
+							<div class="maingtr-data">{{class.class_title_str}}</div>
+							<div class="maingtr-data">34</div>
+							<div class="maingtr-data">{{class.class_status_str}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name}}</div>
+						</div>
+						{% endfor %}
+					</div>
+            	</div>
+				{% endif %}
 			</div>
 		</div>
 	</main>

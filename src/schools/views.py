@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.db import transaction
 from django.contrib import messages
+from .models import SchoolProfile
 from students.models import StudentProfile
 from teachers.models import TeacherProfile
 from ntstaffs.models import NtStaffProfile
@@ -18,9 +19,84 @@ from classes.forms import ClassRegistrationForm, ClassDeletionForm
 from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
+#synchronous imports
+from asgiref.sync import sync_to_async
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
+
+#functions to get items
+def get_school_object(user_passed):
+    return user_passed.school_profile
+
+def get_student_objects(passed_school):
+    return StudentProfile.objects.filter(student_school=passed_school)
+
+def get_searched_students(students_objects, search_value):
+    found_students = students_objects.filter(
+        Q(student_first_name__iexact=search_value) |
+        Q(student_middle_name__iexact=search_value) |
+        Q(student_last_name__iexact=search_value) |
+        Q(student_id__iexact=search_value)
+    )
+    return found_students
+
+def get_specific_student(passed_student_id):
+    return StudentProfile.objects.get(student_id=passed_student_id)
+
+def get_class_objects(passed_school):
+    return ClassProfile.objects.filter(class_school=passed_school)
+
+def get_filtered_classes(passed_classes, passed_option):
+    found_classes = passed_classes.filter(
+        class_title = passed_option
+    )
+    return found_classes
+
+def set_filtered_class(passed_class):
+    return passed_class if passed_class.exists() else None
+
+def get_specific_class(passed_class_id):
+    return ClassProfile.objects.get(class_id=passed_class_id)
+    
+def get_teacher_objects(passed_school):
+    return TeacherProfile.objects.filter(teacher_school=passed_school)
+
+def get_specific_teacher(passed_teacher_id):
+    return TeacherProfile.objects.get(teacher_id=passed_teacher_id)
+
+def get_teacher_choice_tuple(passed_school):
+    return [
+        (str(t.teacher_id), str(t.teacher_full_name))
+        for t in TeacherProfile.objects.filter(teacher_school=passed_school)
+    ]
+
+def get_ntstaff_objects(passed_school):
+    return NtStaffProfile.objects.filter(ntstaff_school=passed_school)
+
+def get_filtered_ntstaff(passed_ntstaff, passed_option):
+    filtered_nstaffs = passed_ntstaff.filter(
+            ntstaff_j_title__in = passed_option
+    )
+    return filtered_nstaffs
+
+def set_filtered_ntstaff(passed_ntstaff):
+    return passed_ntstaff if passed_ntstaff.exists() else None
+
+def get_searched_ntstaffs(passed_ntstaffs, search_value):
+    found_ntstaffs = passed_ntstaffs.filter(
+        Q(ntstaff_first_name__iexact=search_value) |
+        Q(ntstaff_middle_name__iexact=search_value) |
+        Q(ntstaff_last_name__iexact=search_value) |
+        Q(ntstaff_id__iexact=search_value)
+    )
+    return found_ntstaffs
+
+def get_specific_ntstaff(passed_ntstaff_id):
+    return NtStaffProfile.objects.get(ntstaff_id=passed_ntstaff_id)
+
+def get_specific_parent(passed_parent_id):
+    return ParentProfile.objects.get(parent_id=passed_parent_id)
 
 #***--------------------***#***--------------------***
 #Dashboard-school views
@@ -28,7 +104,7 @@ school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 @verified_email_required
 def dashboard(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_students_polpulation = current_school.school_students_polpulation
         school_teachers_polpulation = current_school.school_teachers_polpulation
         school_ntstaffs_polpulation = current_school.school_ntstaffs_polpulation
@@ -284,7 +360,7 @@ def teacher_ledger_view(request):
 @verified_email_required
 def teacher_management(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/t_manage.html"
         page_title = "T-Management"
@@ -304,7 +380,7 @@ def teacher_management(request):
 @verified_email_required
 def student_registration(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/s_reg.html"
         page_title = "S-Registration"
@@ -352,7 +428,7 @@ def student_registration(request):
 @verified_email_required
 def student_enrollment(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/s_enroll.html"
         page_title = "S-Enrollment"
@@ -366,7 +442,7 @@ def student_enrollment(request):
                 passed_student_gender = form.cleaned_data["student_gender"]
                 passed_s_needs = form.cleaned_data["student_s_needs"]
                 try:
-                    enrolled_student = StudentProfile.objects.get(student_id=passed_student_id)
+                    enrolled_student = get_specific_student(passed_student_id)
                     student_first_name = enrolled_student.student_first_name
                     student_last_name = enrolled_student.student_last_name
                     student_gender = enrolled_student.student_gender
@@ -453,23 +529,18 @@ def student_enrollment(request):
 def student_ledger_view(request):
     if request.user.user_type == "school":
         #validate if its the right school
-        school_name = request.user.school_profile.school_name
+        current_school = get_school_object(request.user)
+        school_name = current_school.school_name
         template_name = "schools/dashl1/school_index_students.html"
         page_title = "S-LedgerView"
-        current_school = request.user.school_profile
-        school_students = StudentProfile.objects.filter(student_school=current_school)
+        school_students = get_student_objects(current_school)
         form = StudentSearchForm()
         if request.method == "POST":
         # if school_uuid == valid_school_uuid:
             form = StudentSearchForm(request.POST)
             if form.is_valid():
                 search_value = form.cleaned_data["student_data"]
-                student_search_results = school_students.filter(
-                    Q(student_first_name__iexact=search_value) |
-                    Q(student_middle_name__iexact=search_value) |
-                    Q(student_last_name__iexact=search_value) |
-                    Q(student_id__iexact=search_value)
-                )
+                student_search_results = get_searched_students(school_students,search_value)
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
@@ -500,7 +571,7 @@ def student_ledger_view(request):
 @verified_email_required
 def student_management(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/s_manage.html"
         page_title = "S-Management"
@@ -521,7 +592,8 @@ def student_management(request):
 def parent_registration(request):
     if request.user.user_type == "school":
     # if school_uuid == valid_school_uuid:
-        school_name = request.user.school_profile.school_name
+        current_school = get_school_object(request.user)
+        school_name = current_school.school_name
         template_name = "schools/usrmng/p_reg.html"
         page_title = "P-Registration"
         form = ParentRegistrationForm()
@@ -552,7 +624,7 @@ def parent_registration(request):
 @verified_email_required
 def parent_enrollment(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/p_enroll.html"
         page_title = "P-Enrollment"
@@ -565,7 +637,7 @@ def parent_enrollment(request):
                 passed_last_name = form.cleaned_data["parent_last_name"]
                 passed_parent_gender = form.cleaned_data["parent_gender"]
                 try:
-                    enrolled_parent = ParentProfile.objects.get(parent_id=passed_parent_id)
+                    enrolled_parent = get_specific_parent(passed_parent_id)
                     parent_first_name = enrolled_parent.parent_first_name
                     parent_last_name = enrolled_parent.parent_last_name
                     parent_gender = enrolled_parent.parent_gender
@@ -637,7 +709,7 @@ def parent_enrollment(request):
 @verified_email_required
 def parent_management(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/p_manage.html"
         page_title = "P-Management"
@@ -658,7 +730,8 @@ def parent_management(request):
 def ntstaff_registration(request):
     if request.user.user_type == "school":
     # if school_uuid == valid_school_uuid:
-        school_name = request.user.school_profile.school_name
+        current_school = get_school_object(request.user)
+        school_name = current_school.school_name
         template_name = "schools/usrmng/nt_reg.html"
         page_title = "NT-Management"
         form = NtStaffRegistrationForm()
@@ -706,7 +779,7 @@ def ntstaff_enrollment(request):
                 passed_y_experience = form.cleaned_data["ntstaff_y_experience"]
                 passed_j_title = form.cleaned_data["ntstaff_j_title"]
                 try:
-                    enrolled_ntstaff = NtStaffProfile.objects.get(ntstaff_id=passed_ntstaff_id)
+                    enrolled_ntstaff = get_specific_ntstaff(passed_ntstaff_id)
                     ntstaff_first_name = enrolled_ntstaff.ntstaff_first_name
                     ntstaff_last_name = enrolled_ntstaff.ntstaff_last_name
                     ntstaff_gender = enrolled_ntstaff.ntstaff_gender
@@ -794,24 +867,18 @@ def ntstaff_enrollment(request):
 def ntstaff_ledger_view(request):
     if request.user.user_type == "school":
         #validate if its the right school
-        school_name = request.user.school_profile.school_name
+        current_school = get_school_object(request.user)
+        school_name = current_school.school_name
         template_name = "schools/dashl1/school_index_ntstaff.html"
         page_title = "NT-LedgerView"
-        current_school = request.user.school_profile
-        school_ntstaffs = NtStaffProfile.objects.filter(ntstaff_school=current_school)
-        school_scadmin_ntstaffs = school_ntstaffs.filter(
-            ntstaff_j_title__in = ["SSCR","SBSR"]
-        )
-        school_scsupport_ntstaffs = school_ntstaffs.filter(
-            ntstaff_j_title__in = ["SSOF","SOJT","SNSR"]
-        )
-        school_stsupport_ntstaffs = school_ntstaffs.filter(
-            ntstaff_j_title__in = ["SLBT","SGOF"]
-        )
+        school_ntstaffs = get_ntstaff_objects(current_school)
+        school_scadmin_ntstaffs = get_filtered_ntstaff(school_ntstaffs,["SSCR","SBSR"])
+        school_scsupport_ntstaffs = get_filtered_ntstaff(school_ntstaffs, ["SSOF","SOJT","SNSR"])
+        school_stsupport_ntstaffs = get_filtered_ntstaff(school_ntstaffs, ["SLBT","SGOF"])
         school_ntstaffs_dict = {
-            "scadmin_ntstaffs":school_scadmin_ntstaffs if school_scadmin_ntstaffs.exists() else None,
-            "scsupport_ntstaffs":school_scsupport_ntstaffs if school_scsupport_ntstaffs.exists() else None,
-            "scstsupport_ntstaffs":school_stsupport_ntstaffs if school_stsupport_ntstaffs.exists() else None
+            "scadmin_ntstaffs":set_filtered_ntstaff(school_scadmin_ntstaffs),
+            "scsupport_ntstaffs":set_filtered_ntstaff(school_scsupport_ntstaffs),
+            "scstsupport_ntstaffs":set_filtered_ntstaff(school_stsupport_ntstaffs)
         }
         form = NtStaffSearchForm()
         if request.method == "POST":
@@ -819,12 +886,7 @@ def ntstaff_ledger_view(request):
             form = NtStaffSearchForm(request.POST)
             if form.is_valid():
                 search_value = form.cleaned_data["ntstaff_data"]
-                ntstaff_search_results = school_ntstaffs.filter(
-                    Q(ntstaff_first_name__iexact=search_value) |
-                    Q(ntstaff_middle_name__iexact=search_value) |
-                    Q(ntstaff_last_name__iexact=search_value) |
-                    Q(ntstaff_id__iexact=search_value)
-                )
+                ntstaff_search_results = get_searched_ntstaffs(school_ntstaffs,search_value)
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
@@ -875,30 +937,18 @@ def ntstaff_management(request):
 @verified_email_required
 def class_management(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_classmng.html"
         page_title = "C-Management"
-        school_classes = ClassProfile.objects.filter(class_school=current_school)
-        school_north_classes = school_classes.filter(
-            class_title = "N"
-        )
-        school_south_classes = school_classes.filter(
-            class_title = "S"
-        )
-        school_west_classes = school_classes.filter(
-            class_title = "W"
-        )
-        school_east_classes = school_classes.filter(
-            class_title = "E"
-        )
+        school_classes = get_class_objects(current_school)
         school_classes_dict = {
-            "north_classes":school_north_classes if school_north_classes.exists() else None,
-            "south_classes":school_south_classes if school_south_classes.exists() else None,
-            "east_classes":school_east_classes if school_east_classes.exists() else None,
-            "west_classes":school_west_classes if school_west_classes.exists() else None
+            "north_classes":set_filtered_class(get_filtered_classes(school_classes, "N")),
+            "south_classes":set_filtered_class(get_filtered_classes(school_classes, "S")),
+            "east_classes":set_filtered_class(get_filtered_classes(school_classes, "E")),
+            "west_classes":set_filtered_class(get_filtered_classes(school_classes, "W"))
         }
-        teachers_list = current_school.school_classt_list
+        teachers_list = get_teacher_choice_tuple(current_school)
         form = ClassRegistrationForm(teachers_list=teachers_list)
         form2 = ClassDeletionForm()
         if teachers_list:
@@ -922,9 +972,8 @@ def class_management(request):
                     form2 = ClassDeletionForm(request.POST)
                     if form2.is_valid():
                         class_id = form2.cleaned_data["class_id"]
-                        classes = current_school.school_classes_list
                         try: 
-                            tobe_deleted_class = ClassProfile.objects.get(class_id=class_id)
+                            tobe_deleted_class = get_specific_class(class_id)
                             if tobe_deleted_class.class_school == current_school:
                                 with transaction.atomic():
                                     tobe_deleted_class.delete()
@@ -998,7 +1047,7 @@ def class_management(request):
 @verified_email_required
 def school_settings(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_classmng.html"
         page_title = "S-Settings"

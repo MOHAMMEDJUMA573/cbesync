@@ -46,6 +46,11 @@ if not DEBUG:
     # Optional but helps with modern browsers
     CSRF_COOKIE_SAMESITE = 'Lax'
     SESSION_COOKIE_SAMESITE = 'Lax'
+    #secure hosts for https:
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_SECONDS = 60
+
 # Application definition
 
 INSTALLED_APPS = [

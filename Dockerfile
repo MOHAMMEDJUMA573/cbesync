@@ -68,7 +68,7 @@ RUN printf "#!/bin/bash\n" > paracord_runner.sh && \
     printf "PORT=\"\${PORT:-8080}\"\n\n" >> paracord_runner.sh && \
     printf "python manage.py collectstatic --noinput\n" >> paracord_runner.sh && \
     printf "python manage.py migrate --noinput\n" >> paracord_runner.sh && \
-    printf "exec python -m gunicorn project.asgi:application -k uvicorn_worker.UvicornWorker --bind 0.0.0.0:8080 --workers ${WORKERS:-4}" >> paracord_runner.sh 
+    printf "exec python -m gunicorn project.asgi:application -k uvicorn_worker.UvicornWorker --workers ${WORKERS:-4}" >> paracord_runner.sh 
 
 # make the bash script executable
 RUN chmod +x ./paracord_runner.sh

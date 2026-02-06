@@ -206,8 +206,21 @@ class TeacherProfile(models.Model):
     
     @property
     def teacher_full_name(self):
-        return f"{self.teacher_first_name} {self.teacher_middle_name} {self.teacher_last_name}"
+        return f"{self.teacher_first_name} {self.teacher_last_name[:4]}... {self.teacher_id[:8]}..."
     
+    @property
+    def teacher_h_qualification_str(self):
+        saved_hq = self.teacher_h_qualification
+        for value, label in self.QUALIFICATIONS:
+            if saved_hq == value:
+                return label
+
+    @property
+    def teacher_role_str(self):
+        saved_role = self.teacher_role
+        for value, label in self.TEACHER_ROLES:
+            if saved_role == value:
+                return label
 
     def __str__(self):
         return f"{self.teacher_first_name} {self.teacher_last_name} {self.teacher_tsc_number}"

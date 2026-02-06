@@ -188,17 +188,8 @@ class NtStaffProfile(models.Model):
     
     @property
     def ntstaff_title(self):
-        JOB_TITLES = (
-            ('SLBT', 'Lab Technician'),
-            ('SSCR', 'Secretary'),
-            ('SBSR', 'Bursar'),
-            ('SGOF', 'Guidance Officer'),
-            ('SNSR', 'School Nurse'),
-            ('SSOF', 'Security Officer'), 
-            ('SOJT', 'Other'),
-        )
         saved_t = self.ntstaff_j_title
-        for value, label in JOB_TITLES:
+        for value, label in self.JOB_TITLE:
             if saved_t == value:
                 return label
 

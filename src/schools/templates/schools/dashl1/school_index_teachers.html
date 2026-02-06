@@ -81,34 +81,10 @@
                                     <div class="maingtr-data-p1">{{teacher.teacher_last_name}}</div>
                                 </div>
                                 <div class="maingtr-data">
-                                    {% if teacher.teacher_h_qualification == "UDGR" %}
-                                        Bachelors Degree
-                                    {% elif teacher.teacher_h_qualification == "MSTS" %}
-                                        Masters
-                                    {% elif teacher.teacher_h_qualification == "PHDS" %}                            
-                                        Doctor of Phylosophy
-                                    {% elif teacher.teacher_h_qualification == "DPLM" %}
-                                        Diploma
-                                    {% elif teacher.teacher_h_qualification == "CTFC" %}
-                                        Certificate
-                                    {%  else %}
-                                        ?????
-                                    {% endif%}
+                                    {{teacher.teacher_h_qualification_str}}
                                 </div>
                                 <div class="maingtr-data">
-                                    {% if teacher.teacher_role == "PR" %}
-                                        Principal
-                                    {% elif teacher.teacher_role == "DP" %}
-                                        Deputy Principal
-                                    {% elif teacher.teacher_role == "CT" %}
-                                        Class Teacher
-                                    {% elif teacher.teacher_role == "ST" %}
-                                        Subject Teacher
-                                    {% elif teacher.teacher_role == "PT"%}
-                                        Patron
-                                    {% else%}
-                                        ?????
-                                    {% endif %}
+                                    {{teacher.teacher_role_str}}
                                 </div>
                                 <div class="maingtr-data">
                                     {{teacher.teacher_creation_date.date}}
@@ -149,34 +125,10 @@
                                 <div class="maingtr-data-p1">{{teacher.teacher_last_name}}</div>
                             </div>
                             <div class="maingtr-data">
-                                {% if teacher.teacher_h_qualification == "UDGR" %}
-                                    Bachelors Degree
-                                {% elif teacher.teacher_h_qualification == "MSTS" %}
-                                    Masters
-                                {% elif teacher.teacher_h_qualification == "PHDS" %}                            
-                                    Doctor of Phylosophy
-                                {% elif teacher.teacher_h_qualification == "DPLM" %}
-                                    Diploma
-                                {% elif teacher.teacher_h_qualification == "CTFC" %}
-                                    Certificate
-                                {%  else %}
-                                    ?????
-                                {% endif%}
+                                {{teacher.teacher_h_qualification_str}}
                             </div>
                             <div class="maingtr-data">
-                                {% if teacher.teacher_role == "PR" %}
-                                    Principal
-                                {% elif teacher.teacher_role == "DP" %}
-                                    Deputy Principal
-                                {% elif teacher.teacher_role == "CT" %}
-                                    Class Teacher
-                                {% elif teacher.teacher_role == "ST" %}
-                                    Subject Teacher
-                                {% elif teacher.teacher_role == "PT"%}
-                                    Patron
-                                {% else%}
-                                    ?????
-                                {% endif %}
+                                {{teacher.teacher_role_str}}
                             </div>
                             <div class="maingtr-data">
                                 {{teacher.teacher_creation_date.date}}

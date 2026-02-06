@@ -139,7 +139,7 @@
 							<div class="maingtr-data">{{class.class_title_str}}</div>
 							<div class="maingtr-data">{{class.class_student_count}}</div>
 							<div class="maingtr-data">{{class.class_status_str}}</div>
-							<div class="maingtr-data">{{class.class_program.program_name}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name|truncatechars:9}}</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -166,7 +166,7 @@
 							<div class="maingtr-data">{{class.class_title_str}}</div>
 							<div class="maingtr-data">{{class.class_student_count}}</div>
 							<div class="maingtr-data">{{class.class_status_str}}</div>
-							<div class="maingtr-data">{{class.class_program.program_name}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name|truncatechars:9}}</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -193,13 +193,13 @@
 							<div class="maingtr-data">{{class.class_title_str}}</div>
 							<div class="maingtr-data">{{class.class_student_count}}</div>
 							<div class="maingtr-data">{{class.class_status_str}}</div>
-							<div class="maingtr-data">{{class.class_program.program_name}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name|truncatechars:9}}</div>
 						</div>
 						{% endfor %}
 					</div>
             	</div>
 				{% endif %}
-				{% if classes_dict.south_classes %}
+				{% if classes_dict.west_classes %}
 				<div class="maing-data-grid">
 					<div class="maing-data-header">
 						West Classes
@@ -220,7 +220,7 @@
 							<div class="maingtr-data">{{class.class_title_str}}</div>
 							<div class="maingtr-data">{{class.class_student_count}}</div>
 							<div class="maingtr-data">{{class.class_status_str}}</div>
-							<div class="maingtr-data">{{class.class_program.program_name}}</div>
+							<div class="maingtr-data">{{class.class_program.program_name|truncatechars:9}}</div>
 						</div>
 						{% endfor %}
 					</div>

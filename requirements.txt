@@ -24,7 +24,6 @@ constantly==23.10.4
 cookiecutter==2.6.0
 crashtest==0.4.1
 cryptography==46.0.3
-daphne==4.2.1
 distlib==0.4.0
 dj-database-url==3.1.0
 Django==6.0.1
@@ -43,6 +42,7 @@ dulwich==0.24.10
 fastjsonschema==2.21.2
 filelock==3.20.2
 findpython==0.7.1
+gunicorn==25.0.3
 h11==0.16.0
 honcho==2.0.0
 httpcore==1.0.9

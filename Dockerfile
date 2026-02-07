@@ -65,10 +65,11 @@ ARG PROJ_NAME="project"
 # the container starts and the database is available
 RUN printf "#!/bin/bash\n" > paracord_runner.sh && \
     printf "set -e\n\n" >> paracord_runner.sh && \
+    printf "WORKERS=${GUNICORN_WORKERS:-2}" >> paracord_runner.sh && \
     printf "PORT=\"\${PORT:-8080}\"\n\n" >> paracord_runner.sh && \
     printf "python manage.py collectstatic --noinput\n" >> paracord_runner.sh && \
     printf "python manage.py migrate --noinput\n" >> paracord_runner.sh && \
-    printf "exec daphne -b 0.0.0.0 -p \$PORT ${PROJ_NAME}.asgi:application\n" >> paracord_runner.sh
+    printf "exec gunicorn project.wsgi --workers 2 --bind 0.0.0.0:8080 \n" >> paracord_runner.sh
 # make the bash script executable
 RUN chmod +x ./paracord_runner.sh
 

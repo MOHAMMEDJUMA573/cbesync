@@ -19,8 +19,6 @@ from classes.forms import ClassRegistrationForm, ClassDeletionForm
 from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
-#synchronous imports
-from asgiref.sync import sync_to_async
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -762,7 +760,7 @@ def ntstaff_registration(request):
 @verified_email_required
 def ntstaff_enrollment(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/nt_enroll.html"
         page_title = "NT-Enrollment"
@@ -917,7 +915,7 @@ def ntstaff_ledger_view(request):
 @verified_email_required
 def ntstaff_management(request):
     if request.user.user_type == "school":
-        current_school = request.user.school_profile
+        current_school = get_school_object(request.user)
         school_name = current_school.school_name
         template_name = "schools/usrmng/nt_manage.html"
         page_title = "NT-Management"

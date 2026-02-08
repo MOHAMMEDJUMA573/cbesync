@@ -83,6 +83,7 @@ INSTALLED_APPS = [
     "ntstaffs",
     "parents",
     "classes",
+    "subjects",
 ]
 ALLAUTH_UI_THEME = "emerald"
 # TAILWIND_APP_NAME = "theme"

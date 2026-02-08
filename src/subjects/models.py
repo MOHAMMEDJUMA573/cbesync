@@ -52,10 +52,10 @@ class SubjectProfile(models.Model):
     )
 
     subject_creation_date = models.DateTimeField(
-        auto_now=True
+        auto_now_add=True
     )
     subject_update_date = models.DateTimeField(
-        auto_now_add=True
+        auto_now=True
     )
 
     def get_students_objs(self):

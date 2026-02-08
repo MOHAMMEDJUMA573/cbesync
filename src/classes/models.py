@@ -24,6 +24,21 @@ def generate_unique_program_id():
         if not ProgramProfile.objects.filter(program_id=new_id).exists():
             return new_id
         
+def generate_program_subjects(level):
+    CBE_SUBJECTS_DICT = {
+        "pre_primary": ["Language Activities", "Mathematical Activities", "Creative Activities", "Environment Activities", "Religious Activities"],
+        "upper_primary": ["English", "Kiswahili", "Mathematics", "Intergrated Science", "C.A & Social Studies" ],
+        "junior_secondary": ["English", "Kiswahili", "Mathematics", "Religious Education", "Social Studies", "Intergrated Science", "Pretechnical Studies", "Agri. & Nutrition", "C.A & Sports"]
+    }
+    if level in [1,2,3]:
+        return list(CBE_SUBJECTS_DICT["pre_primary"])
+    elif level in [4,5,6]:
+        return list(CBE_SUBJECTS_DICT["upper_primary"])
+    elif level in [7,8,9]:
+        return list(CBE_SUBJECTS_DICT["junior_secondary"])
+
+def gen_initial():
+    generate_program_subjects(1)
 
 class ProgramProfile(models.Model):
     program_id = models.CharField(
@@ -36,19 +51,16 @@ class ProgramProfile(models.Model):
         max_length=50,
         help_text="The name of the class e.g -stoic-room "
     )
-    CLASS_LEVEL_CHOICES = [
-        ("1", "Grade 1"),("2", "Grade 2"),("3", "Grade 3"),
-        ("4", "Grade 4"), ("5", "Grade 5"), ("6", "Grade 6"),
-        ("7", "Grade 7"), ("8", "Grade 8"), ("9", " Grade 9"),
-        ("10", "Grade 10"), ("11", "Grade 11"), ("12", "Grade 12"),
-        ("13", "Other")
-    ]
     program_levels = ArrayField(
-        models.CharField(max_length=3, choices=CLASS_LEVEL_CHOICES),
+        models.CharField(max_length=25),
         blank=True,
         default=list
     )
-
+    program_subjects = ArrayField(
+        models.CharField(max_length=35),
+        blank=True,
+        default=gen_initial
+    )
     def __str__(self):
         return f"{self.program_id} --- {self.program_name} --- {self.program_levels}"
 

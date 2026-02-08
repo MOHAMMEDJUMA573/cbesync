@@ -102,6 +102,7 @@ class ClassRegistrationForm(forms.Form):
 
     def save(self, class_school, commit=True):
         with transaction.atomic():
+            #create the class object
             ClassProfile.objects.create(
                 class_school = class_school,
                 class_title = self.cleaned_data["class_title"],
@@ -112,6 +113,7 @@ class ClassRegistrationForm(forms.Form):
                 class_capacity = self.cleaned_data["class_capacity"],
                 class_status = 'Ac' 
             )
+            #create subjects for the class
             print("class created successdyfully")
 
 class ClassDeletionForm(forms.Form):

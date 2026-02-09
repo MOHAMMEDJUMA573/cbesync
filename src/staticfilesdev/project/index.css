@@ -278,6 +278,7 @@ main h1{
     border: white;
     width: 105px;
     border-radius: 10px;
+    cursor: pointer;
 }
 .copyright-div{
     margin-top: 4rem;

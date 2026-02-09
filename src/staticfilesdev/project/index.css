@@ -456,6 +456,13 @@ main h1{
     .main-capture-text{
         font-size: 2rem;
     }
+    .contact-options{
+        flex-direction: column;
+        margin-bottom: 1rem;
+    }
+    .contact-card-p{
+        margin-bottom: 1rem;
+    }
     .aside-right .top{
         position: fixed;
         top: 0;

@@ -60,21 +60,18 @@ body{
 }
 a{
     color: var(--color-dark-variant);
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
 }
 img{
     display: block;
-    margin-top: 1rem;
-    width: 70%;
-    height: 70%;
+    width: 50%;
+    height: auto;
 }
 h1{
     font-weight: 800;
     font-size: 1.8rem;
+}
+h2{
+    font-size: 1.4rem;
 }
 h3{
     font-size: 0.9rem;
@@ -87,6 +84,14 @@ h5{
 }
 small{
     font-size: 0.7rem;
+}
+.profile-photo{
+    object-fit: cover;
+    overflow: hidden;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    object-position: center;
 }
 .text-muted{
     color: var(--color-info-dark);
@@ -109,6 +114,9 @@ b{
 .warning{
     color: var(--color-warning);
 }
+.info{
+    color: #ff00dd;
+}
 .standard-icon{
     display: flex;
     height: 3rem;
@@ -120,69 +128,201 @@ b{
     width: 3rem;
     object-fit: cover;
 }
+/*context formating*/
+.top-level-box{
+    display: grid;
+    width: 97%;
+    margin: 0 auto;
+    gap: 1.8rem;
+    grid-template-columns: 1fr;
+    height: 100vh;
+    text-align: center;
+    align-items: center;
+}
+aside{
+    height: 100vh;
+    position: fixed;
+    overflow: auto;
+}
+aside .top{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+aside .logo{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
 .logop1{
     color: rgb(143, 143, 0);
 }
 .logop2{
     color: green;
 }
-/*Context formating*/
-main{
-    display: flex;
+aside .logo img{
+    width: 2rem;
+    height: 2rem;
 }
-.top-level-grid{
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    flex: 1;
-    height: 70%;
+aside .close{
+    display: none;
 }
-.subtop-grid{
+/*sidebar part*/
+aside .sidebar{
+    position: relative;
+    top: 3rem;
     display: flex;
-    flex: 1;
     flex-direction: column;
+    height: 86vh;
+}
+aside h3{
+    font-weight: 500;
+}
+aside .sidebar a{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 3.5rem;
+    position: relative;
+    gap: 1rem;
+    margin-left: 0;
+    color: var(--color-info-dark);
+    transition: all 300ms ease;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-primary);
+    background: var(--color-white);
+    border-radius: 0.5rem;
+}
+aside .sidebar a span{
+    font-size: 1.5rem;
+    transition: all 300ms ease;
+}
+aside .sidebar a.active:before{
+    content: "";
+    width: 0.4rem;
+    height: 90%;
+    background-color: var(--color-cbesync-p1);
     border-radius: 1rem;
-    padding: 1rem;
 }
-.subtop-grid:last-child{
-    justify-content: end;
+aside .sidebar a.active span{
+    color: var(--color-primary);
+    margin-left: calc(1rem - 0.2rem);
 }
-.inc-name{
-    display: flex;
-    font-size: 3rem;
-    align-items: center;
-    justify-content: center;
+aside .sidebar2 a.active span{
+    margin-left: 0;
+    color: var(--color-primary);
+    margin-right: calc(1rem - 0.2rem);
 }
-.inc-line{
-    display: flex;
-    overflow: hidden;
-    align-items: center;
-    justify-content: center;
-    font-style: italic;
-    font-weight: bold;
+aside .sidebar a:hover{
+    color: var(--color-primary);
 }
-.inc-logo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+aside .sidebar a:hover span{
+    margin-left: 1rem;
 }
-.main-image{
-    object-fit: cover;
-    object-position: center;
+aside .sidebar .report-count{
+    background-color: var(--color-warning);
+    color: var(--color-white);
+    padding: 0.13rem 0.6rem;
+    font-size: 0.7rem;
+    border-radius: var(--border-radius-1);
 }
-.main-role{
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    font-size: 3rem;
-    font-weight: 900;
+.sidebar-menu2{
+    right: 0; 
+    margin-right: 1rem;
+}
+/**/
+main{
+    margin-top: 1.5rem;
+    margin-left: 14rem;
+    margin-right: 14rem;
+}
+main h1{
     margin-bottom: 2rem;
-    border: 1px solid green;
+}
+.land-inc-logo{
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    background: var(--color-background);
+}
+.main-logo{
+    display: flex;
     border-radius: 1rem;
+    object-fit: cover;
+    object-position: left;
+    height: 40%;
+    width: 30%;
+}
+.main-capture-text{
+    font-size: 4.2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 12rem;
+    margin-bottom: 2rem;
+}
+.sub-capture-text{
+    font-size: 1rem;
+    line-height: 1.7rem;
+    text-align: center;
+    padding: 0.5rem;
+}
+.landing-buttons{
+    margin-top: 8px;
+    margin-right: 8px;
+    height: 50px;
+    background-color: var(--color-cbesync-p1);
+    color: white;
+    font-weight: bold;
+    border: white;
+    width: 105px;
+    border-radius: 10px;
+}
+.copyright-div{
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+}
+.copyright-div hr{
+    border: 1px solid var(--color-white);
+}
+.contact-options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.contact-card-p{
+    text-align: left;
+}
+.cp-image{
+    max-width: 120px;
+    margin-bottom: 1rem;
+}
+.cp-inc-text{
+    margin-bottom: 1rem;
+}
+/*Right section*/
+.aside-right{
+    margin-top: 1.5rem;
+    margin-right: 0.5rem;
+}
+.aside-right .top{
+    display: flex;
+    justify-content: end;
+    gap: 2rem;
+    position: fixed;
+    top: 1.5rem;
+    margin-bottom: 1rem;
+    right: 1rem;
+    background: var(--color-background);
+    border-radius: var(--border-radius-1);
 }
 
-.theme-toggle-btn{
+.aside-right .top button{
+    display: none;
+}
+.aside-right .theme-toggle-btn{
     background-color: var(--color-light);
     display: flex;
     justify-content: space-between;
@@ -192,7 +332,7 @@ main{
     cursor: pointer;
     border-radius: var(--border-radius-1);
 }
-.theme-toggle-btn span{
+.aside-right .theme-toggle-btn span{
     font-size: 1.3rem;
     display: flex;
     flex-direction: row;
@@ -201,46 +341,160 @@ main{
     width: 50%;
     height: 100%;
 }
-.theme-toggle-btn span.active{
+.aside-right .theme-toggle-btn span.active{
     background: var(--color-primary);
     color: white;
     border-radius: var(--border-radius-1);
 
 }
-.main-buttons{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    flex: 1;
-}
-.main-buttons > div{
-    border: 1px solid var(--color-cbesync-p1);
-    padding: 1rem;
-    display: flex;
-    margin-bottom: 1rem;
-    width: 90%;
-    align-items: center;
-    justify-content: center;
-    background: var(--color-cbesync-p1);
-    border-radius: 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-}
-.main-buttons > div:hover{
-    opacity: 0.9;
-    border: 1px solid green;
-}
+/*Tablet responsiveness*/
 @media screen and (max-width:1200px) {
-    .top-level-grid{
-        flex-direction: column-reverse;
+    .top-level-box{
+        width: 97%;
+        grid-template-columns: 1fr;
+    }
+    /*Top left profile*/
+    .aside-right .top{
+        position: fixed;
+        top: 1.5rem;
+        margin-bottom: 1rem;
+        right: 1rem;
+        background: var(--color-background);
+        border-radius: var(--border-radius-1);
+        padding: var(2rem);
+    }
+    /*below top*/
+    aside .logo h2{
+        display: none;
+    }
+    aside .sidebar h3{
+        display: none;
+    }
+    aside .sidebar a{
+        width: 5.5rem;
+    }
+    aside{
+        position: fixed;
+    }
+    main{
+        margin-left: 8rem;
+    }
+    .main-grid{
+        margin-top: 3rem;
+    }
+    /*Page title*/
+    main{
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .main-capture-text{
+        font-size: 4.5rem;
+        font-weight: 600;
+        text-align: center;
+    }
+    .sub-capture-text{
+        font-size: 1.3rem;
+        line-height: 1.7rem;
+        text-align: center;
+        padding: 0.5rem;
     }
 }
-
 @media screen and (max-width:768px) {
-    .main-buttons > div{
-        font-size: 1rem;
+    .top-level-box{
+        width: 100%;
+        grid-template-columns: 1fr;
+    }
+    aside{
+        position: fixed;
+        left: -100%;
+        display: none;
+        background-color: var(--color-white);
+        width: 18rem;
+        z-index: 3;
+        box-shadow: 1rem 3rem 4rem var(--color-light);
+        height: 100vh;
+        padding: var(--card-padding);
+        animation: showMenu 400ms ease forwards;
+    }
+    @keyframes showMenu {
+        to {
+            left: 0;
+        }
+    }
+    aside .logo{
+        margin-left: 1rem;
+    }
+    aside .logo h2{
+        display: inline;
+    }
+    aside .sidebar{
+        top: 1rem;
+    }
+    aside .top{
+        margin-top: 0.5rem;
+    }
+    aside .sidebar h3{
+        display: inline;
+    }
+    aside .sidebar a{
+        width: 100%;
+        height: 3.5rem;
+        margin-bottom: 0;
+        border: none;
+    }
+    aside .sidebar a:last-child{
+        width: auto;
+    }
+    aside .close{
+        display: inline-block;
+        cursor: pointer;
+    }
+    main{
+        margin-left: 0;
+        padding: 1rem;
+    }
+    .main-capture-text{
+        font-size: 2rem;
+    }
+    .aside-right .top{
+        position: fixed;
+        top: 0;
+        left: 0;
+        align-items: center;
+        padding: 0 0.8rem;
+        height: 3.6rem;
+        background: var(--color-background);
+        width: 100%;
+        margin: 0;
+        z-index: 2;
+        box-shadow: 0 1rem 1rem rgba(60, 85, 58, 0.4);
+    }
+    .aside-right{
+        width: 94%;
+        margin: 0 auto 4rem;
+    }
+    .aside-right .top .theme-toggle-btn{
+        width: 4.5rem;
+        position: absolute;
+        left: 60%;
+    }
+    .aside-right .profile .info{
+        display: none;
+    }
+
+    .aside-right .top button{
+        display: inline-block;
+        background-color: transparent;
+        cursor: pointer;
+        position: absolute;
+        left: 1rem;
+        color: var(--color-dark);
+        padding: 0;
+        border: none;
+        border-radius: 0;
+        font-size: 0.7rem;
+    }
+    .aside-right .top button span{
+        font-size: 2rem;
     }
 }

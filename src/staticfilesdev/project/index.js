@@ -1,4 +1,16 @@
+const sideMenu = document.querySelector("aside");
+const menuButton = document.querySelector("#menu-btn");
+const closeButton = document.querySelector("#close-btn");
 const themeButton = document.querySelector(".theme-toggle-btn");
+
+/*Menu show*/
+menuButton.addEventListener('click', ()=> {
+    sideMenu.style.display = 'block';
+})
+/*menu hide*/
+closeButton.addEventListener('click', ()=> {
+    sideMenu.style.display = 'none';
+})
 //
 function T1(){
     document.body.classList.toggle('dark-theme-variables');
@@ -9,4 +21,13 @@ function T1(){
 /*theme changer*/
 themeButton.addEventListener('click', ()=> {
     T1();
+})
+/*for data urls */
+const login = document.getElementById("loginbutton");
+login.addEventListener("click", ()=> {
+    window.location.href = login.dataset.url;
+})
+const signin = document.getElementById("signinbutton");
+signin.addEventListener("click", ()=> {
+    window.location.href = signin.dataset.url
 })

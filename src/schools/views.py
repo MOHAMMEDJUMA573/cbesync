@@ -7,6 +7,7 @@ from teachers.models import TeacherProfile
 from ntstaffs.models import NtStaffProfile
 from parents.models import ParentProfile
 from classes.models import ClassProfile,ProgramProfile
+from results.models import ResultsProfile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -1050,7 +1051,8 @@ def assessment_management(request):
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_assess.html"
         page_title = "A-Management"
-        school_classes = get_class_objects(current_school)
+        school_results = current_school.school_result_objects
+        print(school_results)
         if request.method == "POST":
             pass
         else:

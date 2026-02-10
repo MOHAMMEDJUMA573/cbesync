@@ -242,7 +242,10 @@ class SchoolProfile(models.Model):
             (str(t.teacher_id), str(t.teacher_full_name))
             for t in self.teacher_profiles.all()
         ]
-
+    
+    @property
+    def school_result_objects(self):
+        return self.result_profiles.all()
 
 
     def __str__(self):

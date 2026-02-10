@@ -26,23 +26,23 @@ class ResultsProfile(models.Model):
     result_student = models.ForeignKey(
         StudentProfile,
         on_delete=models.CASCADE,
-        related_name="results_profile"
+        related_name="result_profiles"
     )
     result_class = models.ForeignKey(
         ClassProfile,
         on_delete=models.CASCADE,
-        related_name="results_profile"
+        related_name="result_profiles"
     )
     result_teacher = models.ForeignKey(
         TeacherProfile,
         on_delete=models.SET_NULL,
-        related_name="results_profile",
+        related_name="result_profiles",
         null=True
     )
     result_school = models.ForeignKey(
         SchoolProfile,
         on_delete=models.CASCADE,
-        related_name="results_profile"
+        related_name="result_profiles"
     )
     result_subject = models.ForeignKey(
         SubjectProfile,

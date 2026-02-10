@@ -1,6 +1,7 @@
 from django import forms
 from django.db import transaction
 from .models import ClassProfile, ProgramProfile
+from results.models import SubjectProfile
 from teachers.models import TeacherProfile
 import uuid
 from .models import SchoolProfile
@@ -110,7 +111,7 @@ class ClassRegistrationForm(forms.Form):
     def save(self, class_school, commit=True):
         with transaction.atomic():
             #create the class object
-            ClassProfile.objects.create(
+            class_saved = ClassProfile.objects.create(
                 class_school = class_school,
                 class_title = self.cleaned_data["class_title"],
                 class_level = self.cleaned_data["class_level"],
@@ -121,8 +122,17 @@ class ClassRegistrationForm(forms.Form):
                 class_status = 'Ac' 
             )
             #create subjects for the class
-            print("class created successdyfully")
-
+            class_program = self.cleaned_data["class_program"]
+            if class_program.program_name :
+                class_subjects_tuples = CLASS_SUBJECTS_DICT.get(class_program.program_name)
+                print(class_subjects_tuples)
+                for subject in class_subjects_tuples:
+                    SubjectProfile.objects.create(
+                        subject_class = class_saved,
+                        subject_code = subject[0],
+                        subject_name = subject[1],
+                        subject_program = class_program,
+                    )
 class ClassDeletionForm(forms.Form):
     class_id = forms.CharField(
         max_length=35,

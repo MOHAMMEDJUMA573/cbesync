@@ -2,7 +2,7 @@
 
 <div align="center">
   <a href="#">
-    <img src="https://i.imgur.com/8PPAGM7.png" alt="Logo" height="150" style="border-radius: 10px">
+    <img src="https://i.imgur.com/T29gwIr.png" alt="Logo" height="150" style="border-radius: 10px">
   </a>
   <h2 align="center">CbeSync</h2>
   <p align="center">

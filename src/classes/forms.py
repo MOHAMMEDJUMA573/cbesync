@@ -13,10 +13,17 @@ def generate_unique_class_id():
         if not ClassProfile.objects.filter(class_id=new_id).exists():
             return new_id
 
+CLASS_SUBJECTS_DICT = {
+    'JSS': [('ENGL','English'), ('KISW','Kiswahili'), ('MATS','Mathematics'), ('RLED','Religious E.'), ('SSTD','Social Studies'), ('INTS','Intergrated Science'), ('PRTS','Pre Technical'), ('AGNT','Agriculture & Nutr'), ('CASP','C.A & Sports')],
+    'UPE': [('ENGL','English'), ('KISW','Kiswahili'), ('MATS','Mathematics'), ('RLED','Religious E.'), ('SSTD','Social Studies'), ('SATC','Science & Technology '), ('AGNT','Agriculture & Nutr'), ('CASP','C.A & Sports')],
+    'LPE': [('ENGL','English L Activities'), ('KISW','Kiswahili L Activities'), ('MATS','Mathematics Activities'), ('RLED','Religious E. Activities'), ('ENVA','Environmental Activities'), ('CRAT','Creative Activities')],
+    'PPE': [('LGAT','Language Activities'), ('MATS','Mathematical Activities'), ('CRAT','Creative Activities'), ('EVAT','Environment Activities'), ('REAT','Religious Activities')]
+}
+
 class ClassRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):
         programs_list = [
-            (str(p.program_id), str(p.program_name))
+            (str(p.program_id), str(p.get_program_name_display()))
             for p in ProgramProfile.objects.all()
         ]
         teachers_list = kwargs.pop("teachers_list")

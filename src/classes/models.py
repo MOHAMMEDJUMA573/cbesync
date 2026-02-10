@@ -47,9 +47,15 @@ class ProgramProfile(models.Model):
         default=generate_unique_program_id,
         editable=False
     )
+    STARTING_PROGRAMS = [
+        ('JSS', 'Junior Secondary'),
+        ('UPE', 'Upper Primary'),
+        ('LPE', 'Lower Primary'),
+        ('PPE', 'Pre Primary'),
+        ('OTH', 'Other')
+    ]
     program_name = models.CharField(
-        max_length=50,
-        help_text="The name of the class e.g -stoic-room "
+        choices=STARTING_PROGRAMS
     )
     program_levels = ArrayField(
         models.CharField(max_length=25),

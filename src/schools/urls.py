@@ -46,8 +46,15 @@ urlpatterns+=[
         "class_management/",
         include(
             [
-                # path("", views.class_management, name="school_cls_management"),
                 path("", views.class_management, name="school_class_management")
+            ]
+        )
+    ),
+    path(
+        "assessment_management/",
+        include(
+            [
+                path("", views.assessment_management, name="school_assessment_management")
             ]
         )
     )

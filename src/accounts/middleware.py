@@ -33,9 +33,9 @@ class LogUserIPAddressMiddleware:
             ip_address = request.META.get('REMOTE_ADDR', '')
 
         if request.user.is_authenticated:
-            logger.info(f"Logged in user from IP: {ip_address} Device:{device_type} OS: {device_os} Browser: {device_browser} Brand:{device_brand} Model:{device_model} Bot_status:{device_bot}")
+            logger.info(f"Authenticated IP: {ip_address} Request:{request} Device:{device_type} OS: {device_os} Bot_status:{device_bot}")
         else:
-            logger.info(f"Unauthenticated user from IP: {ip_address} Device:{device_type} OS: {device_os} Browser: {device_browser} Brand:{device_brand} Model:{device_model} Bot_status:{device_bot}") 
+            logger.info(f"Unauthenticated IP: {ip_address} Request:{request} Device:{device_type} OS: {device_os} Bot_status:{device_bot}") 
 
         response = self.get_response(request)
         return response

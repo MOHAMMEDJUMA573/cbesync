@@ -929,6 +929,7 @@ def ntstaff_management(request):
     else:
         return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)
+
 #***--------------------***#***--------------------***
 #Class-school views
 #***--------------------***
@@ -1038,6 +1039,29 @@ def class_management(request):
     else:
         return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)
+
+#***--------------------***#***--------------------***
+#Assessments-school views
+#***--------------------***
+@verified_email_required
+def assessment_management(request):
+    if request.user.user_type == "school":
+        current_school = get_school_object(request.user)
+        school_name = current_school.school_name
+        template_name = "schools/dashl0/school_assess.html"
+        page_title = "A-Management"
+        school_classes = get_class_objects(current_school)
+        if request.method == "POST":
+            pass
+        else:
+            context = {
+                "school_name":school_name,
+                "page_title":page_title
+            }
+    else:
+        return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
+
 
 #***--------------------***#***--------------------***
 #Settings views

@@ -104,6 +104,8 @@ MIDDLEWARE = [
     # Add the account middleware:
     "allauth.account.middleware.AccountMiddleware",
     "django.middleware.csp.ContentSecurityPolicyMiddleware", #for csp
+    #custom middleware
+    "accounts.middleware.LogUserIPAddressMiddleware",
 
 ]
 

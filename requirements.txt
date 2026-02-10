@@ -119,8 +119,11 @@ txaio==25.12.2
 typeguard==2.13.3
 typing_extensions==4.15.0
 tzdata==2025.3
+ua-parser==1.0.1
+ua-parser-builtins==202602
 ujson==5.11.0
 urllib3==2.6.3
+user-agents==2.2.0
 virtualenv==20.36.0
 Werkzeug==3.1.5
 whitenoise==6.11.0

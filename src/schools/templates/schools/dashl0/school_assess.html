@@ -17,7 +17,7 @@
 		<h1 class="main-header">Assessments</h1>
 		<div class="main-grid">
 			<div class="class-section" style="margin-bottom: 1rem;">
-				<form action="{% url 'schools:school_assessment_management' %}" method="post" id="rez-fetch">
+				<form action="{% url 'schools:school_assessment_management' %}" method="post" id="manage_results">
 					{% csrf_token %}
 					<div class="form-header">
 						<div class="form-guide-text"> 
@@ -53,13 +53,13 @@
 							</select>
 						</div>
 						<div class="opt-buttons">
-							<button type="submit">Change</button> 
+							<button type="submit" name="manage_results">Change</button> 
 						</div>
 					</div>
 				</form>
 			</div>
 			<div class="class-section form2">
-				<form action="{% url 'schools:school_assessment_management' %}" method="post" id="rez-fetch">
+				<form action="{% url 'schools:school_assessment_management' %}" method="post" id="get_results">
 					{% csrf_token %}
 					<div class="form-header">
 						<div class="form-guide-text"> 
@@ -70,43 +70,38 @@
 					<div class="form-body">
 						<div class="form-field1">
 							<label for="c-title">School: </label>
-							<button type="button" >Eyerision Kenya</button>
+							<button type="button">{{school_name.title}}</button>
 						</div>
 						<div class="form-field1">
-							<label for="c-title">Class: </label>
-							<select name="c-title" id="c-title">
-								<option value="north">North</option>
-								<option value="south">South</option>
-							</select>
+							<label for="id_result_class">
+								Class:
+								<p>{{form2.result_class.errors}}</p>
+							</label>
+							{{form2.result_class}}
 						</div>
 						<div class="form-field1">
-							<label for="c-term">Term: </label>
-							<select name="c-term" id="c-term">
-								<option value="1">One</option>
-								<option value="2">Two</option>
-								<option value="3">Three</option>
-							</select>
+							<label for="id_result_term">
+								Term:
+								<p>{{form2.result_term.errors}}</p>
+							</label>
+							{{form2.result_term}}
 						</div>
 						<div class="form-field1">
-							<label for="e-year">Year: </label>
-							<select name="e-year" id="e-year">
-									<option value="2025">2025</option>
-									<option value="2026">2026</option>
-									<option value="2027">2027</option>
-									<option value="2028">2028</option>
-									<option value="2029">2029</option>
-							</select>
+							<label for="id_result_period">
+								Period:
+								<p>{{form2.result_period.errors}}</p>
+							</label>
+							{{form2.result_period}}
 						</div>
 						<div class="form-field1">
-							<label for="e-period">Period: </label>
-							<select name="e-period" id="e-period">
-									<option value="1">Opener</option>
-									<option value="2">Mid-Term</option>
-									<option value="3">End-Term</option>
-							</select>
+							<label for="id_result_year">
+								Year:
+								<p>{{form2.result_year.errors}}</p>
+							</label>
+							{{form2.result_year}}
 						</div>
 						<div class="opt-buttons">
-							<button type="submit">
+							<button type="submit" name="get_results">
 								View .
 								<span class="material-symbols-outlined">visibility</span>
 							</button> 

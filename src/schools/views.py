@@ -17,6 +17,7 @@ from students.forms import StudentRegistrationForm, StudentSearchForm, StudentEn
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEnrollmentForm
 from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
 from classes.forms import ClassRegistrationForm, ClassDeletionForm
+from results.forms import ResultsFilterForm
 from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
@@ -1051,14 +1052,27 @@ def assessment_management(request):
         school_name = current_school.school_name
         template_name = "schools/dashl0/school_assess.html"
         page_title = "A-Management"
+        classes_list = current_school.school_classes_list
         school_results = current_school.school_result_objects
-        print(school_results)
+        form2 = ResultsFilterForm(classes_tuple_list=classes_list)
         if request.method == "POST":
-            pass
+            if "get_results" in request.POST:
+                print("Get rez form")
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title
+                }
+            elif "manage_results" in request.POST:
+                print("Managerez form")
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title
+                }
         else:
             context = {
                 "school_name":school_name,
-                "page_title":page_title
+                "page_title":page_title,
+                "form2":form2
             }
     else:
         return HttpResponse("Only schools allowed bro!")

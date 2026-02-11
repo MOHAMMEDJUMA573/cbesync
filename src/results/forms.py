@@ -2,29 +2,33 @@ from django import forms
 from.models import ResultsProfile
 from better_profanity import profanity
 from django.utils.translation import gettext_lazy as _
+from datetime import datetime
 
 
 class ResultsSubmissionForm(forms.Form):
-    result_student = forms.CharField(
+    result_student = forms.ChoiceField(
 
     )
-    result_class = forms.CharField(
+    result_class = forms.ChoiceField(
 
     )
-    result_teacher = forms.CharField(
+    result_teacher = forms.ChoiceField(
 
     )
-    result_school = forms.CharField(
+    result_school = forms.ChoiceField(
 
     )
-    result_subject = forms.CharField(
+    result_subject = forms.ChoiceField(
 
     )
     result_score = forms.IntegerField(
         initial=0
     )
-    result_term = forms.CharField(
+    result_term = forms.ChoiceField(
         choices=ResultsProfile.RESULT_TERM_CHOICES
+    )
+    result_period = forms.ChoiceField(
+        choices=ResultsProfile.RESULT_PERIOD_CHOICES,
     )
 
     def clean(self):
@@ -50,3 +54,30 @@ class ResultsSubmissionForm(forms.Form):
             #for some future validations
         
         return cleaned_data
+    
+class ResultsFilterForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        classes_tuple_choices = kwargs.pop("classes_tuple_list")
+        super(ResultsFilterForm, self).__init__(*args, **kwargs)
+        self.fields["result_class"].choices = classes_tuple_choices
+    
+    result_class = forms.ChoiceField(
+        choices = ()
+    )
+    result_term = forms.ChoiceField(
+        choices=ResultsProfile.RESULT_TERM_CHOICES
+    )
+    result_period = forms.ChoiceField(
+        choices=ResultsProfile.RESULT_PERIOD_CHOICES,
+    )
+    current_year = int((datetime.today()).year)
+    RESULTS_YEAR_CHOICES = [
+        (str(c), c)
+        for c in range((current_year-10),(current_year+10),1)
+    ]
+    result_year = forms.ChoiceField(
+        choices=RESULTS_YEAR_CHOICES,
+        initial=int((datetime.today()).year)
+    )   
+    
+  

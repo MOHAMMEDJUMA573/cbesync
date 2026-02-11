@@ -99,6 +99,15 @@ class ResultsProfile(models.Model):
     result_term = models.CharField(
         choices=RESULT_TERM_CHOICES
     )
+    RESULT_PERIOD_CHOICES = [
+        ("Opener", "Opener"),
+        ("Mid", "Mid-Term"),
+        ("End", "End-Term")
+    ]
+    result_period = models.CharField(
+        choices=RESULT_PERIOD_CHOICES,
+        default="Opener"
+    )
     result_creation_date = models.DateTimeField(
         auto_now_add=True
     )

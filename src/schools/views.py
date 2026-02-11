@@ -1074,6 +1074,7 @@ def assessment_management(request):
                         "school_name":school_name,
                         "page_title":page_title,
                         "form2":form2,
+                        "class_fetched":class_passed,
                         "class_students":class_students,
                         "students_results_dict":students_results_dict
                     }

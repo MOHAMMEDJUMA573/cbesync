@@ -112,18 +112,21 @@
 				</form>
 			</div>
 			<div class="class-section results-grid">
-				<div class="class-data-div">
-					<div class="class-teacher">
-						Class Teacher: <button>Mr Mohammed</button>
+				{% if class_fetched %}
+					<div class="class-data-div">
+						<div class="class-teacher">
+							Class Teacher: <button>{{class_fetched.class_teacher.teacher_full_name}}</button>
+						</div>
+						<div class="class_name">
+							Class: <button>{{class_fetched}}</button>
+						</div>
+						<div class="class-description">
+							Description: <button>"{{class_fetched.class_description|truncatechars:15}}"</button>
+						</div>
 					</div>
-					<div class="class_name">
-						Class: <button>Grade 8 North</button>
-					</div>
-					<div class="class-description">
-						Description: <button>"Everything flies with time"</button>
-					</div>
-				</div>
+				{% endif %}
 				<div class="maing-data-grid">
+					{% if students_results_dict %}
 					<div class="maing-data-header">
 						Student_Results
 					</div>
@@ -151,6 +154,7 @@
 							</div>
 						{% endfor %}
 					</div>
+					{% endif %}
             	</div>
 			</div>
 		</div>

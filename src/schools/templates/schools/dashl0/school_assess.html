@@ -110,7 +110,7 @@
 					</div>
 				</form>
 			</div>
-			{{school_results}}
+			{{class_results}}
 			<div class="class-section results-grid">
 				<div class="class-data-div">
 					<div class="class-teacher">
@@ -142,8 +142,9 @@
 							<div class="maingth-data">TTL</div>
 							<div class="maingth-data">POS</div>
 						</div>
+						{% for student in class_students %}
 						<div class="maingt-data-row">
-							<div class="maingtr-data">Abdullah Hamza Juma</div>
+							<div class="maingtr-data">{{student.student_full_name}}</div>
 							<div class="maingtr-data">77%</div>
 							<div class="maingtr-data">77%</div>
 							<div class="maingtr-data">77%</div>
@@ -156,62 +157,7 @@
 							<div class="maingtr-data">693</div>
 							<div class="maingtr-data">1</div>
 						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">Abdullah Hamza Juma</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">693</div>
-							<div class="maingtr-data">1</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">Abdullah Hamza Juma</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">693</div>
-							<div class="maingtr-data">1</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">Abdullah Hamza Juma</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">693</div>
-							<div class="maingtr-data">1</div>
-						</div>
-						<div class="maingt-data-row">
-							<div class="maingtr-data">Abdullah Hamza Juma</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">693</div>
-							<div class="maingtr-data">1</div>
-						</div>
+						{% endfor %}
 					</div>
             	</div>
 			</div>

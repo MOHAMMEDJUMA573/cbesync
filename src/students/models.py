@@ -160,6 +160,10 @@ class StudentProfile(models.Model):
 
     def student_age(self):
         f_status = "sometimelater"
+        
+    @property
+    def student_full_name(self):
+        return f"{self.student_first_name} {self.student_last_name}"
 
     def __str__(self):
         return f"{self.student_first_name} {self.student_last_name} ({self.student_id})"

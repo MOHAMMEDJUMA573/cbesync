@@ -1064,12 +1064,22 @@ def assessment_management(request):
                     term_passed = form2.cleaned_data["result_term"]
                     period_passed = form2.cleaned_data["result_period"]
                     year_passed = form2.cleaned_data["result_year"]
-                    class_results = school_results.filter(result_class=class_passed).filter(result_term=term_passed).filter(result_period=period_passed).filter(result_year=year_passed)
+                    class_results = school_results.filter(result_class=class_passed)
+                    term_results = class_results.filter(result_term=term_passed)
+                    period_results = term_results.filter(result_period=period_passed)
+                    year_result = period_results.filter(result_year=year_passed)
+                    unique_result_students = year_result.values_list('result_student', flat=True).distinct()
+                    result_students =[
+                        StudentProfile.objects.get(pk=st) for st in unique_result_students
+                    ]
+                    for st in unique_result_students:
+                        print(StudentProfile.objects.get(pk=st))
                     context = {
                         "school_name":school_name,
                         "page_title":page_title,
                         "form2":form2,
-                        "school_results":class_results
+                        "class_students":result_students,
+                        "class_results":year_result
                     }
                 else:
                     context = {

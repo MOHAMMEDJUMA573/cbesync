@@ -1,6 +1,7 @@
 {% extends 'schools/base/base.html' %}
 
 {% load static%}
+{% load schoolstemplatetags %}
 {% block head_css %}
     <link rel="stylesheet" href="{% static 'schools/css/dashl1/school_index_bledger.css'%}">
 	<link rel="stylesheet" href="{% static 'schools/css/dashl0/school_assess.css'%}">
@@ -110,7 +111,6 @@
 					</div>
 				</form>
 			</div>
-			{{class_results}}
 			<div class="class-section results-grid">
 				<div class="class-data-div">
 					<div class="class-teacher">
@@ -128,35 +128,27 @@
 						Student_Results
 					</div>
 					<div class="maing-data-table">
-						<div class="maingt-header-row">
-							<div class="maingth-data">Student Name</div>
-							<div class="maingth-data">SBJ1</div>
-							<div class="maingth-data">SBJ2</div>
-							<div class="maingth-data">SBJ3</div>
-							<div class="maingth-data">SBJ4</div>
-							<div class="maingth-data">SBJ5</div>
-							<div class="maingth-data">SBJ6</div>
-							<div class="maingth-data">SBJ7</div>
-							<div class="maingth-data">SBJ8</div>
-							<div class="maingth-data">SBJ9</div>
-							<div class="maingth-data">TTL</div>
-							<div class="maingth-data">POS</div>
-						</div>
-						{% for student in class_students %}
-						<div class="maingt-data-row">
-							<div class="maingtr-data">{{student.student_full_name}}</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">77%</div>
-							<div class="maingtr-data">693</div>
-							<div class="maingtr-data">1</div>
-						</div>
+						{% for student_identifier, student_filtered_rez in students_results_dict.items %}
+							{% if forloop.first %}
+								<div class="maingt-header-row">
+									<div class="maingth-data">Student Name</div>
+									{% for result in student_filtered_rez %}
+										<div class="maingth-data">{{result.result_subject.subject_code}}</div>
+									{% endfor %}
+									<div class="maingth-data">POS</div>
+									<div class="maingth-data">TTL</div>
+								</div>
+							{% endif %}
+							<div class="maingt-data-row">
+								<div class="maingtr-data">{{student_identifier}}</div>
+								{% for item in student_filtered_rez %}
+									<div class="maingtr-data">{{item.result_score|default:0}}</div>
+								{% endfor %}
+								<div class="maingtr-data">XXXX</div>
+								<div class="maingtr-data">
+									{{student_filtered_rez|add_results}}
+								</div>
+							</div>
 						{% endfor %}
 					</div>
             	</div>

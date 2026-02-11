@@ -1064,22 +1064,18 @@ def assessment_management(request):
                     term_passed = form2.cleaned_data["result_term"]
                     period_passed = form2.cleaned_data["result_period"]
                     year_passed = form2.cleaned_data["result_year"]
-                    class_results = school_results.filter(result_class=class_passed)
-                    term_results = class_results.filter(result_term=term_passed)
-                    period_results = term_results.filter(result_period=period_passed)
-                    year_result = period_results.filter(result_year=year_passed)
-                    unique_result_students = year_result.values_list('result_student', flat=True).distinct()
-                    result_students =[
-                        StudentProfile.objects.get(pk=st) for st in unique_result_students
-                    ]
-                    for st in unique_result_students:
-                        print(StudentProfile.objects.get(pk=st))
+                    class_students = class_passed.student_profiles.all()
+                    students_results_dict = {}
+                    for student in class_students:
+                        student_identifier = f"{student.student_first_name}"
+                        student_filtered_rez = student.result_profiles.all().filter(result_class=class_passed).filter(result_term=term_passed).filter(result_period=period_passed).filter(result_year=year_passed)
+                        students_results_dict.update({student_identifier:student_filtered_rez})
                     context = {
                         "school_name":school_name,
                         "page_title":page_title,
                         "form2":form2,
-                        "class_students":result_students,
-                        "class_results":year_result
+                        "class_students":class_students,
+                        "students_results_dict":students_results_dict
                     }
                 else:
                     context = {

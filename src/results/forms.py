@@ -1,5 +1,6 @@
 from django import forms
 from.models import ResultsProfile
+from classes.models import ClassProfile
 from better_profanity import profanity
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
@@ -80,4 +81,13 @@ class ResultsFilterForm(forms.Form):
         initial=int((datetime.today()).year)
     )   
     
-  
+    def clean(self):
+        check_flag1 = False
+        cleaned_data =  super().clean()
+        #get the class
+        class_passed = cleaned_data.get("result_class")
+        if class_passed:
+            class_passed = ClassProfile.objects.get(class_id=class_passed)
+            cleaned_data["result_class"] = class_passed
+                    
+        return cleaned_data

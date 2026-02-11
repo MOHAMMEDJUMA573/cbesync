@@ -413,7 +413,7 @@ def student_registration(request):
         else:
             messages.warning(
                 request,
-                f"please create a class before adding students ⚠️"
+                _(f"please create a class before adding students ⚠️")
             )
             context = {
                 "school_name":school_name,
@@ -1057,16 +1057,32 @@ def assessment_management(request):
         form2 = ResultsFilterForm(classes_tuple_list=classes_list)
         if request.method == "POST":
             if "get_results" in request.POST:
-                print("Get rez form")
-                context = {
-                    "school_name":school_name,
-                    "page_title":page_title
-                }
+                form2 = ResultsFilterForm(request.POST, request.FILES, classes_tuple_list=classes_list)
+                if form2.is_valid():
+                    print("Get rez form")
+                    class_passed = form2.cleaned_data["result_class"]
+                    term_passed = form2.cleaned_data["result_term"]
+                    period_passed = form2.cleaned_data["result_period"]
+                    year_passed = form2.cleaned_data["result_year"]
+                    class_results = school_results.filter(result_class=class_passed).filter(result_term=term_passed).filter(result_period=period_passed).filter(result_year=year_passed)
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form2":form2,
+                        "school_results":class_results
+                    }
+                else:
+                    context = {
+                        "school_name":school_name,
+                        "page_title":page_title,
+                        "form2":form2
+                    }
             elif "manage_results" in request.POST:
                 print("Managerez form")
                 context = {
                     "school_name":school_name,
-                    "page_title":page_title
+                    "page_title":page_title,
+                    "form2":ResultsFilterForm(classes_tuple_list=classes_list)
                 }
         else:
             context = {

@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from datetime import datetime
 from classes.models import ClassProfile
 from classes.models import ProgramProfile
 from schools.models import SchoolProfile
@@ -107,6 +108,13 @@ class ResultsProfile(models.Model):
     result_period = models.CharField(
         choices=RESULT_PERIOD_CHOICES,
         default="Opener"
+    )
+    result_year = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(datetime.today().year - 10),
+            MaxValueValidator(datetime.today().year + 10)
+        ],
+        default=int(datetime.today().year)
     )
     result_creation_date = models.DateTimeField(
         auto_now_add=True

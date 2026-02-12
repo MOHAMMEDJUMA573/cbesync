@@ -23,15 +23,15 @@
 				<div class="teacher-p-data">
 					<div class="teacher-pd-row">
 						<div class="pd-title">Name :</div>
-						<div class="pd-value">Eyerision Kenya</div>
+						<div class="pd-value">{{teacher_school.school_name}}</div>
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">Country :</div>
-						<div class="pd-value">Kenya</div>
+						<div class="pd-value">{{teacher_school.user.get_user_country_display}}</div>
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">Verified Status :</div>
-						<div class="pd-value">Verified  ✅</div>
+						<div class="pd-value">{{teacher_school.get_school_status_display}}</div>						
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">Rank :</div>
@@ -39,31 +39,41 @@
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">Email :</div>
-						<div class="pd-value">eyerision254@cbesync.com</div>
+						<div class="pd-value">{{teacher_school.user.email}}</div>
 					</div>
 				</div>
 			</div>
 			<div class="main-t-p">
 				<div class="main-p-title">Teacher Profile</div>
 				<div class="teacher-p-pic">
-					<img src="{% static 'teachers/images/profile-1.jpg' %}" class="teacher-p-image" alt="Profile pic">
+					<img src={{teacher.teacher_pic.url}} class="teacher-p-image" alt="Profile pic">
 				</div>
 				<div class="teacher-p-data">
 					<div class="teacher-pd-row">
 						<div class="pd-title">Name :</div>
-						<div class="pd-value">Mark Elliot Zuckerberg</div>
+						<div class="pd-value">{{teacher.teacher_first_name}} {{teacher.teacher_middle_name}} {{teacher.teacher_last_name}}</div>
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">TID :</div>
-						<div class="pd-value">TCH-000000000000</div>
+						<div class="pd-value">{{teacher.teacher_id}}</div>
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">Employment Status :</div>
-						<div class="pd-value">Employed  ✅</div>
+						{% if teacher.teacher_status == 'E' %}
+							<div class="pd-value">Employed  ✅</div>
+						{% elif teacher.teacher_status == 'S' %}
+							<div class="pd-value">Suspended  🚟</div>
+						{% elif teacher.teacher_status == 'T' %}
+							<div class="pd-value">Transferred 🚅</div>
+						{% elif teacher.teacher_status == 'R' %}
+							<div class="pd-value">Retired 🛞</div>
+						{% else %}
+							<div class="pd-value">Unknown {{teacher.teacher_status}}</div>
+						{% endif %}
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">Current school :</div>
-						<div class="pd-value">Eyerision Kenya</div>
+						<div class="pd-value">{{teacher_school.school_name}}</div>
 					</div>
 					<div class="teacher-pd-row">
 						<div class="pd-title">Qualification :</div>
@@ -90,15 +100,15 @@
 						<div class="p1">
 							<div class="employment-d-p">
 								<div class="edp-title">School: </div>
-								<div class="edp-value">Eyerision Kenya</div>
+								<div class="edp-value">{{teacher_school.school_name}}</div>
 							</div>
 							<div class="employment-d-p">
 								<div class="edp-title">Since: </div>
-								<div class="edp-value">24<sup>th</sup> November 2026 </div>
+								<div class="edp-value">{{teacher.teacher_creation_date.date}} </div>
 							</div>
 							<div class="employment-d-p">
 								<div class="edp-title">Main Role: </div>
-								<div class="edp-value">Class Teacher</div>
+								<div class="edp-value">{{teacher.get_teacher_role_display}}</div>
 							</div>
 						</div>
 					</div>

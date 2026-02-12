@@ -175,9 +175,9 @@ class SchoolProfile(models.Model):
     )
     #9. School status in the site
     STATUS_CHOICES = [
-        ('P', 'Pending Validation'),
-        ('V', 'Verified'),
-        ('S', 'Suspended')
+        ('P', 'Pending 🛞'),
+        ('V', 'Verified ✅'),
+        ('S', 'Suspended 🚟')
     ]
     school_status = models.CharField(
         max_length=1,

@@ -211,7 +211,7 @@ class TeacherRegistrationForm(forms.Form):
                 teacher_e_level = self.cleaned_data['teacher_e_level'],
                 teacher_h_qualification = self.cleaned_data['teacher_h_qualification'],
                 teacher_pic = self.cleaned_data['teacher_pic'],
-                teacher_status = 'A' #teacher status default field
+                teacher_status = 'E' 
             )
             #increment the nuber of students in the school
             teacher_school.school_teachers_polpulation = F(

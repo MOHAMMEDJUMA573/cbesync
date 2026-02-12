@@ -19,12 +19,14 @@ def get_teacher_object(user_passed):
 def dashboard(request):
     if request.user.user_type == "teacher":
         current_teacher = get_teacher_object(request.user)
+        teacher_school = current_teacher.teacher_school
         if teacher_uuid == valid_teacher_uuid:
             template_name = "teachers/dashl0/teacher_index.html"
             page_title = "T-Dashboard"
             context = {
                 "page_title":page_title,
-                "teacher":current_teacher
+                "teacher":current_teacher,
+                "teacher_school":teacher_school
             }
         else:
             return HttpResponse("Wrong teacher trying to access the page!")

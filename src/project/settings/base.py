@@ -130,6 +130,7 @@ SECURE_CSP = {
     "img-src": [
         CSP.SELF,
         "data:",
+        config("CLOUDFLARE_R2_BUCKET_ENDPOINT", cast=str),
     ]
 }
 

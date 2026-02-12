@@ -95,6 +95,15 @@
 			</div>
 			<div class="sub-capture-text">
 				Seamlessly connecting educators, students, parents,<br> and administrators — all in one unified CBE-ready <br> platform. 
+				<p>
+					{% if messages %}
+						<ul class="messages">
+							{% for message in messages %}
+							<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</p>
 			</div>
 			<div class="action-capture-buttons" style="margin-top: 1rem;">
 				
@@ -106,6 +115,7 @@
 					<button id="signinbutton" class="landing-buttons" data-url="{% url 'account_signup' %}" >
 						Sign Up
 					</button>
+					or &nbsp;
 					<button  id="loginbutton" class="landing-buttons" data-url="{% url 'account_login' %}" >
 						Login
 					</button>

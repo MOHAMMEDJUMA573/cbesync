@@ -27,6 +27,7 @@ main .main-t-p:first-child{
     display: flex;
 }
 .teacher-p-image{
+    max-height:19rem;
     object-fit: cover;
     object-position: center;
     border-radius: 1rem;

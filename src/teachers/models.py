@@ -121,10 +121,10 @@ class TeacherProfile(models.Model):
         help_text="The title of the teacher in the school"
     )
     STATUS_CHOICES = (
-        ('E', 'Employed'),
-        ('S', 'Suspended'),
-        ('T', 'Transferred'),
-        ('R', 'Retired'),
+        ('E', 'Employed  ✅'),
+        ('S', 'Suspended  🚟'),
+        ('T', 'Transferred 🚅'),
+        ('R', 'Retired 🛞'),
     )
     teacher_status = models.CharField(
         max_length=1, 

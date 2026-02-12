@@ -1,0 +1,134 @@
+/*custom styles for the school_page*/
+main {
+    margin-left: 15rem;
+}
+main .teacher-data .teacher-rez{
+    color: var(--color-dark);
+    font-weight: normal;
+}
+main .main-t-page{
+    margin-top: 4.2rem;
+    border-left: none;
+    padding: 1rem;
+    padding-left: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    gap: 1rem;
+}
+main .main-t-p{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: rgb(103, 66, 66);
+}
+main .main-t-p:first-child{
+    background: rgb(103, 66, 66);
+}
+.teacher-p-pic{
+    display: flex;
+}
+.teacher-p-image{
+    object-fit: cover;
+    object-position: center;
+    border-radius: 1rem;
+}
+.teacher-p-data{
+    display: flex;
+    flex-direction: column;
+}
+.teacher-pd-row{
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.pd-title{
+    background: var(--color-white);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.pd-value{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-cbesync-p1);
+    display: flex;
+    flex: 1;
+    background: var(--color-white);
+}
+.bio-d-text{
+    display: flex;
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    background: var(--color-cbesync-p1);
+    padding: 1rem;
+    border-radius: 1rem;
+}
+.employement-data{
+    display: flex;
+    flex-direction: column;
+}
+.main-p-title{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    border: 1px solid green;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bolder;
+    background: var(--color-white);
+}
+.employement-d-data{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+.employment-d-p{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.edp-title{
+    background: var(--color-white);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+.edp-value{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-cbesync-p1);
+    display: flex;
+    flex: 1;
+    background: var(--color-white);
+}
+/*Media Queries*/
+@media screen and (max-width:1200px) {
+    main{
+        margin-left: 8rem;
+    }
+    main .main-t-page{
+        display: flex;
+        flex-direction: column;
+        margin-top: 3rem;
+        flex-direction: column-reverse;
+    }    
+    .employement-d-data{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+@media screen and (max-width:768px) {
+    main{
+        margin-top: 0rem;
+        margin-left: 0;
+    }
+    main .teacher-data{
+        margin-top: -1rem;
+    }
+    main .main-t-page{
+        padding: 0;
+    }
+}

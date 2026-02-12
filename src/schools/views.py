@@ -134,6 +134,8 @@ def dashboard(request):
                 "online_days":school_online_days,
                 "creation_date":school_creation_date
             }   
+        else:
+            return HttpResponse("Wrong teacher trying to access the page")
     else:
         return HttpResponse(f"<h1>Wrong guy you have to be a school for this page</h1>")
         

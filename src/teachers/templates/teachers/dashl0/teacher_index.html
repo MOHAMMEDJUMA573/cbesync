@@ -1,0 +1,116 @@
+{% extends 'teachers/base/base.html' %}
+
+{% load static%}
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'teachers/css/dashl0/teacher_index.css'%}">
+{% endblock head_css %}
+{% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
+{% block content %}
+  <div class="top-level-box">
+	<!--Side bar menu-->
+    {% block sidemenu%}
+		{% include 'teachers/base/navbar.html' %}
+    {% endblock sidemenu%}
+	<!--main body-->
+	<main>
+		<h1 class="main-header">Dashboard</h1>
+		<div class="main-t-page">
+			<div class="main-t-p">
+				<div class="main-p-title">School Profile</div>
+				<div class="teacher-p-pic">
+					<img src="{% static 'teachers/images/profile-2.jpg' %}" class="teacher-p-image" alt="Profile pic">
+				</div>
+				<div class="teacher-p-data">
+					<div class="teacher-pd-row">
+						<div class="pd-title">Name :</div>
+						<div class="pd-value">Eyerision Kenya</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Country :</div>
+						<div class="pd-value">Kenya</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Verified Status :</div>
+						<div class="pd-value">Verified  ✅</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Rank :</div>
+						<div class="pd-value">0001</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Email :</div>
+						<div class="pd-value">eyerision254@cbesync.com</div>
+					</div>
+				</div>
+			</div>
+			<div class="main-t-p">
+				<div class="main-p-title">Teacher Profile</div>
+				<div class="teacher-p-pic">
+					<img src="{% static 'teachers/images/profile-1.jpg' %}" class="teacher-p-image" alt="Profile pic">
+				</div>
+				<div class="teacher-p-data">
+					<div class="teacher-pd-row">
+						<div class="pd-title">Name :</div>
+						<div class="pd-value">Mark Elliot Zuckerberg</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">TID :</div>
+						<div class="pd-value">TCH-000000000000</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Employment Status :</div>
+						<div class="pd-value">Employed  ✅</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Current school :</div>
+						<div class="pd-value">Eyerision Kenya</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Qualification :</div>
+						<div class="pd-value">Bachelor's Degree</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Email :</div>
+						<div class="pd-value">zuckerberg@facebook.com</div>
+					</div>
+				</div>
+			</div>
+			<div class="main-t-p">
+				<div class="bio-data">
+					<div class="main-p-title">Bio</div>
+					<div class="bio-d-text">
+						How can i describe myself in my own words yet all that i do is almost wholly based on my subjective reality
+						not objective input for I'm human and the human brain automates most of the habits for simpicity of life .
+						I see that which is not there. I hear that which doesn't sound....I believe that which i can't prove.
+					</div>
+				</div>
+				<div class="employement-data">
+					<div class="main-p-title">Employement info:</div>
+					<div class="employement-d-data">
+						<div class="p1">
+							<div class="employment-d-p">
+								<div class="edp-title">School: </div>
+								<div class="edp-value">Eyerision Kenya</div>
+							</div>
+							<div class="employment-d-p">
+								<div class="edp-title">Since: </div>
+								<div class="edp-value">24<sup>th</sup> November 2026 </div>
+							</div>
+							<div class="employment-d-p">
+								<div class="edp-title">Main Role: </div>
+								<div class="edp-value">Class Teacher</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	<!--3rd-->
+	{% include 'teachers/base/userp.html' %}
+  </div>
+{% endblock content %}
+
+{% block head_js %}
+<script src="{% static 'teachers/js/dashl0/teacher_index.js'%}"></script>
+{% endblock head_js %}

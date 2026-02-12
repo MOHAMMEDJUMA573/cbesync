@@ -9,6 +9,7 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         REDIRECT_MAP = {
             "school": "schools:school_app_dashboard",
             "sysadmin": "admin:index",
+            "teacher": "teachers:teacher_app_dashboard",
         }
         user = request.user
         redirect_url = REDIRECT_MAP.get(user.user_type)

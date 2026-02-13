@@ -5,12 +5,26 @@ import uuid
 from pathlib import Path
 from django.contrib.postgres.fields import ArrayField
 from accounts.models import CustomUser
+from accounts.models import table_exists
 
+
+def generate_unique_class_pkey():
+    while True:
+        new_id = uuid.uuid4()
+        table_name = "classes_ClassProfile"
+        if table_exists(table_name):
+            if not ClassProfile.objects.filter(id=new_id).exists():
+                return new_id
+        return new_id
+              
 def generate_unique_class_id():
     while True:
         new_id = f"CLS-{uuid.uuid4().hex[:16].upper()}"
-        if not ClassProfile.objects.filter(class_id=new_id).exists():
-            return new_id
+        table_name = "classes_ClassProfile"
+        if table_exists(table_name):
+            if not ClassProfile.objects.filter(class_id=new_id).exists():
+                return new_id
+        return new_id
 
 #function to generate a path
 def image_file_upload_handler(instance, filename):
@@ -18,11 +32,24 @@ def image_file_upload_handler(instance, filename):
     ext = Path(filename).suffix
     return f"clsprf/{fname}{ext}"
 
+def generate_unique_program_pkey():
+    table_name = "classes_ProgramProfile"
+    new_id = uuid.uuid4()
+    if table_exists(table_name):
+        while True:
+            if not ProgramProfile.objects.filter(id=new_id).exists():
+                return new_id
+    return new_id
+
 def generate_unique_program_id():
-    while True:
-        new_id = f"PRG-{uuid.uuid4().hex[:16].upper()}"
-        if not ProgramProfile.objects.filter(program_id=new_id).exists():
-            return new_id
+    table_name = "classes_ProgramProfile"
+    new_id = uuid.uuid4()
+    if table_exists(table_name):
+        while True:
+            new_id = f"PRG-{uuid.uuid4().hex[:16].upper()}"
+            if not ProgramProfile.objects.filter(program_id=new_id).exists():
+                return new_id
+    return new_id
         
 def generate_program_subjects(level):
     CBE_SUBJECTS_DICT = {
@@ -41,6 +68,11 @@ def gen_initial():
     generate_program_subjects(1)
 
 class ProgramProfile(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=generate_unique_program_pkey,
+        editable=False
+    )
     program_id = models.CharField(
         max_length=25,
         unique=True,
@@ -71,6 +103,11 @@ class ProgramProfile(models.Model):
         return f"{self.program_id} --- {self.program_name} --- {self.program_levels}"
 
 class ClassProfile(models.Model):
+    id = models.UUIDField(
+        default=generate_unique_class_pkey,
+        primary_key=True,
+        editable=False
+    )
     class_id = models.CharField(
         max_length=25,
         unique=True,
@@ -164,13 +201,14 @@ class ClassProfile(models.Model):
             
     @property
     def class_student_count(self):
-        count = 0
-        class_students = self.student_profiles.all()
-        for student in class_students:
-            count+=1
+        return self.student_profiles.count()
+    @property
+    def class_subject_count(self):
+        return self.subject_profiles.count()
 
-        return count
-
+    @property
+    def class_full_str(self):
+        return f"{self.class_level_str} {self.class_title_str}"
 
     def __str__(self):
         return f"{self.get_class_title_display()}-{self.class_level} ({self.class_school.school_name})"

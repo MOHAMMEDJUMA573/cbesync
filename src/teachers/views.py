@@ -4,6 +4,7 @@ from django.urls import reverse
 from allauth.account.decorators import verified_email_required
 from django.utils.translation import gettext_lazy as _
 import uuid
+from classes.models import ClassProfile
 
 valid_teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -42,13 +43,15 @@ def class_teacher_classes(request):
     if request.user.user_type == "teacher":
         current_teacher = get_teacher_object(request.user)
         teacher_school = current_teacher.teacher_school
+        teacher_classes = ClassProfile.objects.filter(class_teacher=current_teacher)
         if teacher_uuid == valid_teacher_uuid:
             template_name = "teachers/dashl0/teacher_class.html"
             page_title = "T-Classes"
             context = {
                 "page_title":page_title,
                 "teacher":current_teacher,
-                "teacher_school":teacher_school
+                "teacher_school":teacher_school,
+                "teacher_classes":teacher_classes
             }
         else:
             return HttpResponse("Wrong teacher trying to access the page!")

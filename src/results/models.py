@@ -8,23 +8,32 @@ from teachers.models import TeacherProfile
 from students.models import StudentProfile
 from subjects.models import SubjectProfile
 from django.core.validators import MaxValueValidator, MinValueValidator
+from accounts.models import table_exists
 
 def generate_unique_subject_id():
-    while True:
-        new_id = uuid.uuid4().hex
-        if not SubjectProfile.objects.filter(subject_id=new_id).exists():
-            return new_id
+    new_id = uuid.uuid4().hex
+    table_name = "results_SubjectProfile"
+    if table_exists(table_name):
+        while True:
+            new_id = uuid.uuid4().hex
+            if not SubjectProfile.objects.filter(subject_id=new_id).exists():
+                return new_id
+    return new_id
 
 def generate_unique_result_id():
-    while True:
-        new_id = uuid.uuid4().hex
-        if not ResultsProfile.objects.filter(result_id=new_id).exists():
-            return new_id
+    table_name = "results_ResultsProfile"
+    new_id = uuid.uuid4().hex
+    if table_exists(table_name):
+        while True:
+            new_id = uuid.uuid4().hex
+            if not ResultsProfile.objects.filter(result_id=new_id).exists():
+                return new_id
+    return new_id
 
 class SubjectProfile(models.Model):
     subject_id = models.CharField(
         max_length=35,
-        unique=True,
+        primary_key=True,
         editable=False,
         default=generate_unique_subject_id
     )
@@ -58,7 +67,7 @@ class SubjectProfile(models.Model):
 class ResultsProfile(models.Model):
     result_id = models.CharField(
         max_length=35,
-        unique=True,
+        primary_key=True,
         default=generate_unique_result_id,
         editable=False
     )

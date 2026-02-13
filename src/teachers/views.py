@@ -5,6 +5,8 @@ from allauth.account.decorators import verified_email_required
 from django.utils.translation import gettext_lazy as _
 import uuid
 from classes.models import ClassProfile
+from results.models import SubjectProfile
+from teachers.models import TeacherProfile
 
 valid_teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -43,7 +45,23 @@ def class_teacher_classes(request):
     if request.user.user_type == "teacher":
         current_teacher = get_teacher_object(request.user)
         teacher_school = current_teacher.teacher_school
-        teacher_classes = ClassProfile.objects.filter(class_teacher=current_teacher)
+        t_classes_array = [
+            (c, SubjectProfile.objects.filter(subject_class=c.id).count(), SubjectProfile.objects.filter(subject_class=c.id))
+            for c in ClassProfile.objects.filter(class_teacher=current_teacher)
+        ]
+        subject_t_dict = {}
+        class_s_teacher_count = []
+        for item in t_classes_array:
+            # print(item[0],"\n\countn\n", item[1] ,"\nsubjects\n", item[2])
+            for subject in item[2]:
+                subject_teacher = subject.subject_teacher
+                if subject_teacher:
+                    if subject_t_dict.get(subject_teacher):
+                        subject_t_dict[subject_teacher] += [subject]
+                    else:
+                        subject_t_dict.update({subject_teacher: [subject]})
+        print(subject_t_dict)
+            
         if teacher_uuid == valid_teacher_uuid:
             template_name = "teachers/dashl0/teacher_class.html"
             page_title = "T-Classes"
@@ -51,7 +69,7 @@ def class_teacher_classes(request):
                 "page_title":page_title,
                 "teacher":current_teacher,
                 "teacher_school":teacher_school,
-                "teacher_classes":teacher_classes
+                "teacher_classes":t_classes_array
             }
         else:
             return HttpResponse("Wrong teacher trying to access the page!")

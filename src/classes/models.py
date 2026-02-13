@@ -9,22 +9,22 @@ from accounts.models import table_exists
 
 
 def generate_unique_class_pkey():
-    while True:
-        new_id = uuid.uuid4()
-        table_name = "classes_ClassProfile"
-        if table_exists(table_name):
+    table_name = "classes_ClassProfile"
+    if table_exists(table_name):
+        while True:
+            new_id = uuid.uuid4()
             if not ClassProfile.objects.filter(id=new_id).exists():
                 return new_id
-        return new_id
+    return uuid.uuid4()
               
 def generate_unique_class_id():
-    while True:
-        new_id = f"CLS-{uuid.uuid4().hex[:16].upper()}"
-        table_name = "classes_ClassProfile"
-        if table_exists(table_name):
+    table_name = "classes_ClassProfile"
+    if table_exists(table_name):
+        while True: 
+            new_id = f"CLS-{uuid.uuid4().hex[:16].upper()}"       
             if not ClassProfile.objects.filter(class_id=new_id).exists():
                 return new_id
-        return new_id
+    return f"CLS-{uuid.uuid4().hex[:16].upper()}"
 
 #function to generate a path
 def image_file_upload_handler(instance, filename):
@@ -34,22 +34,21 @@ def image_file_upload_handler(instance, filename):
 
 def generate_unique_program_pkey():
     table_name = "classes_ProgramProfile"
-    new_id = uuid.uuid4()
     if table_exists(table_name):
         while True:
+            new_id = uuid.uuid4()
             if not ProgramProfile.objects.filter(id=new_id).exists():
                 return new_id
-    return new_id
+    return uuid.uuid4()
 
 def generate_unique_program_id():
     table_name = "classes_ProgramProfile"
-    new_id = uuid.uuid4()
     if table_exists(table_name):
         while True:
             new_id = f"PRG-{uuid.uuid4().hex[:16].upper()}"
             if not ProgramProfile.objects.filter(program_id=new_id).exists():
                 return new_id
-    return new_id
+    return f"PRG-{uuid.uuid4().hex[:16].upper()}"
         
 def generate_program_subjects(level):
     CBE_SUBJECTS_DICT = {
@@ -203,7 +202,7 @@ class ClassProfile(models.Model):
     def class_student_count(self):
         return self.student_profiles.count()
     @property
-    def class_subject_count(self):
+    def class_teachers_count(self):
         return self.subject_profiles.count()
 
     @property

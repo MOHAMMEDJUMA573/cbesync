@@ -10,32 +10,29 @@ from subjects.models import SubjectProfile
 from django.core.validators import MaxValueValidator, MinValueValidator
 from accounts.models import table_exists
 
-def generate_unique_subject_id():
-    new_id = uuid.uuid4().hex
+def generate_unique_subject_pkey():
     table_name = "results_SubjectProfile"
     if table_exists(table_name):
         while True:
-            new_id = uuid.uuid4().hex
+            new_id = uuid.uuid4()
             if not SubjectProfile.objects.filter(subject_id=new_id).exists():
                 return new_id
-    return new_id
+    return uuid.uuid4()
 
-def generate_unique_result_id():
+def generate_unique_result_pkey():
     table_name = "results_ResultsProfile"
-    new_id = uuid.uuid4().hex
     if table_exists(table_name):
         while True:
-            new_id = uuid.uuid4().hex
+            new_id = uuid.uuid4()
             if not ResultsProfile.objects.filter(result_id=new_id).exists():
                 return new_id
-    return new_id
+    return uuid.uuid4()
 
 class SubjectProfile(models.Model):
-    subject_id = models.CharField(
-        max_length=35,
+    subject_id = models.UUIDField(
         primary_key=True,
-        editable=False,
-        default=generate_unique_subject_id
+        default=generate_unique_subject_pkey,
+        editable=False
     )
     subject_class = models.ForeignKey(
         ClassProfile,
@@ -65,10 +62,9 @@ class SubjectProfile(models.Model):
         return f"{self.subject_name} --- {self.subject_code} --- {self.subject_program}"
 
 class ResultsProfile(models.Model):
-    result_id = models.CharField(
-        max_length=35,
+    result_id = models.UUIDField(
         primary_key=True,
-        default=generate_unique_result_id,
+        default=generate_unique_result_pkey,
         editable=False
     )
     result_student = models.ForeignKey(

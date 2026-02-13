@@ -15,7 +15,7 @@
 	<main>
 		<h1 class="main-header">My classes</h1>
 		<div class="main-classes-div">
-            {% for class in teacher_classes %}
+            {% for class, class_scount, trial in teacher_classes %}
                 <div class="main-c-part">
                         <div class="class-obj">
                             <div class="class-obj-title">
@@ -56,7 +56,7 @@
                             </div>
                             <div class="class-data">
                                 <div class="c-data-title">Subjects:</div>
-                                <div class="c-data-value">{{class.class_subject_count}}</div>
+                                <div class="c-data-value">{{class_scount}}</div>
                             </div>
                             <div class="class-data">
                                 <div class="c-data-title">Teachers: </div>

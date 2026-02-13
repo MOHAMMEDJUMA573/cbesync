@@ -10,11 +10,11 @@
             </div>
         </div>
         <div class="sidebar">
-            <a href="#" class="active">
+            <a href="{% url 'teachers:teacher_app_dashboard' %}" class="active">
                 <span class="material-symbols-outlined">dashboard</span>
                 <h3>Dashboard</h3>
             </a>
-            <a href="#">
+            <a href="{% url 'teachers:teacher_classes_management' %}">
                 <span class="material-symbols-outlined">other_houses</span>
                 <h3>My classes</h3>
             </a>

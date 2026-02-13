@@ -1,0 +1,165 @@
+{% extends 'teachers/base/base.html' %}
+
+{% load static%}
+{% block head_css %}
+    <link rel="stylesheet" href="{% static 'teachers/css/dashl0/teacher_class.css'%}">
+{% endblock head_css %}
+{% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
+{% block content %}
+  <div class="top-level-box">
+	<!--Side bar menu-->
+    {% block sidemenu%}
+		{% include 'teachers/base/navbar.html' %}
+    {% endblock sidemenu%}
+	<!--main body-->
+	<main>
+		<h1 class="main-header">My classes</h1>
+		<div class="main-classes-div">
+            <div class="main-c-part">
+                    <div class="class-obj">
+                        <div class="class-obj-title">
+                            Class Details
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Name:</div>
+                            <div class="c-data-value">Grade 7 Yellow </div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">School:</div>
+                            <div class="c-data-value">Eyerision Kenya</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">CID:</div>
+                            <div class="c-data-value">CLS-4534E3R43E3 </div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Year: </div>
+                            <div class="c-data-value">2026</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">State:</div>
+                            <div class="c-data-value">Archived</div>
+                        </div>
+                    </div>
+                    <div class="class-obj">
+                        <div class="class-obj-title">
+                            class-statistics
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Program:</div>
+                            <div class="c-data-value">JSS</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Polpulation:</div>
+                            <div class="c-data-value">55 Students</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Subjects:</div>
+                            <div class="c-data-value">7  </div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Teachers: </div>
+                            <div class="c-data-value">5</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">State:</div>
+                            <div class="c-data-value">Archived</div>
+                        </div>
+                    </div>
+                    <div class="class-obj">
+                        <div class="class-obj-title">
+                            Options
+                        </div>
+                        <div class="class-data">
+                            <button>View Students </button>
+                        </div>
+                        <div class="class-data">
+                            <button>View Teachers </button>
+                        </div>
+                        <div class="class-data">
+                            <button>View Results </button>
+                        </div>
+                        <div class="class-data">
+                            <button>Grade 7 Yellow </button>
+                        </div>
+                </div>
+            </div>
+            <div class="main-c-part">
+                    <div class="class-obj">
+                        <div class="class-obj-title">
+                            Class Details
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Name:</div>
+                            <div class="c-data-value">Grade 8 Yellow </div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">School:</div>
+                            <div class="c-data-value">Eyerision Kenya</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">CID:</div>
+                            <div class="c-data-value">CLS-4534E3R43E3 </div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Year: </div>
+                            <div class="c-data-value">2026</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">State:</div>
+                            <div class="c-data-value">Archived</div>
+                        </div>
+                    </div>
+                    <div class="class-obj">
+                        <div class="class-obj-title">
+                            class-statistics
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Program:</div>
+                            <div class="c-data-value">JSS</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Polpulation:</div>
+                            <div class="c-data-value">55 Students</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Subjects:</div>
+                            <div class="c-data-value">7  </div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">Teachers: </div>
+                            <div class="c-data-value">5</div>
+                        </div>
+                        <div class="class-data">
+                            <div class="c-data-title">State:</div>
+                            <div class="c-data-value">Archived</div>
+                        </div>
+                    </div>
+                    <div class="class-obj">
+                        <div class="class-obj-title">
+                            Options
+                        </div>
+                        <div class="class-data">
+                            <button>View Students </button>
+                        </div>
+                        <div class="class-data">
+                            <button>View Teachers </button>
+                        </div>
+                        <div class="class-data">
+                            <button>View Results </button>
+                        </div>
+                        <div class="class-data">
+                            <button>Grade 7 Yellow </button>
+                        </div>
+                </div>
+            </div>
+        </div>
+	</main>
+    <!--3rd-->
+	{% include 'teachers/base/userp.html' %}
+  </div>
+{% endblock content %}
+
+{% block head_js %}
+<script src="{% static 'teachers/js/dashl0/teacher_class.js'%}"></script>
+{% endblock head_js %}

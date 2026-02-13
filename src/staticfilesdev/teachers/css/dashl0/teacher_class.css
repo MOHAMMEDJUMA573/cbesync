@@ -1,0 +1,90 @@
+/*custom styles for the school_page*/
+main {
+    margin-left: 15rem;
+}
+main .main-classes-div{
+    margin-top: 4.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+main .main-c-part{
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr;
+    gap: 1rem;
+    border-radius: 1rem;
+}
+main .class-obj{
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+main .class-obj-title{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    font-weight: bolder;
+    background: #6b808c;
+}
+main .class-data{
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    justify-content: center;
+}
+main .c-data-title{
+    background: var(--color-white);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+}
+main .c-data-value{
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-cbesync-p1);
+    display: flex;
+    flex: 1;
+    background: var(--color-white);
+}
+main .class-data > button{
+    display: flex;
+    justify-content: center;
+    flex: 0.7;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+/*Media Queries*/
+@media screen and (max-width:1200px) {
+    main{
+        margin-left: 8rem;
+    }
+    main .main-classes-{
+        display: flex;
+        flex-direction: column;
+        margin-top: 3rem;
+        flex-direction: column-reverse;
+    }    
+    .class-obj:nth-child(2){
+        display: none;
+    }
+    main .main-c-part{
+        grid-template-columns: 1fr 1fr;
+    }
+}
+@media screen and (max-width:768px) {
+    main{
+        margin-top: 0rem;
+        margin-left: 0;
+    }
+    .class-obj:nth-child(3){
+        display: none;
+    }
+    main .main-c-part{
+        grid-template-columns: 1fr;
+    }
+}

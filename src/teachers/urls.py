@@ -11,9 +11,11 @@ urlpatterns = [
 #secondary urls patterns
 urlpatterns+=[
     path(
-        "clases/",
+        "myclasses/",
         include(
-            []
+            [
+                path("", views.class_teacher_classes, name="teacher_classes_management"),
+            ]
         ),
     ),
     path(

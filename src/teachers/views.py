@@ -54,16 +54,18 @@ def class_teacher_classes(request):
             for c in ClassProfile.objects.filter(class_teacher=current_teacher)
         ]
         subject_t_dict = {}
+        for item in t_classes_array:
+            subject_t_dict.update({item[0]:{}})
         class_s_teacher_count = []
         for item in t_classes_array:
             # print(item[0],"\n\countn\n", item[1] ,"\nsubjects\n", item[2], item[3] students)
             for subject in item[2]:
                 subject_teacher = subject.subject_teacher
                 if subject_teacher:
-                    if subject_t_dict.get(subject_teacher):
-                        subject_t_dict[subject_teacher] += [subject]
+                    if subject_t_dict[item[0]].get(subject_teacher):
+                        subject_t_dict[item[0]][subject_teacher] += [subject.subject_name]
                     else:
-                        subject_t_dict.update({subject_teacher: [subject]})
+                        subject_t_dict[item[0]].update({subject_teacher: [subject.subject_name]})
         print(subject_t_dict)
             
         if teacher_uuid == valid_teacher_uuid:
@@ -73,7 +75,8 @@ def class_teacher_classes(request):
                 "page_title":page_title,
                 "teacher":current_teacher,
                 "teacher_school":teacher_school,
-                "teacher_classes":t_classes_array
+                "teacher_classes":t_classes_array,
+                "subject_t_dict": subject_t_dict
             }
         else:
             return HttpResponse("Wrong teacher trying to access the page!")

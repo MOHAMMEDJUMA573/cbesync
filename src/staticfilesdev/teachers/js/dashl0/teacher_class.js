@@ -11,8 +11,10 @@ function CreatePopUp(id){
     return openPopup
 }
 
-const studentPopup = CreatePopUp("#popup")
+const studentPopup = CreatePopUp("#studentsPopup")
 document.querySelector("#studentsView").addEventListener("click", studentPopup)
+const teachersPopup = CreatePopUp("#teachersPopup")
+document.querySelector("#teachersView").addEventListener("click", teachersPopup)
 //link active toggle
 function T2(){
     /*activate the classlist*/

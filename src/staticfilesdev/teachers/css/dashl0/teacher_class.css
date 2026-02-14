@@ -99,7 +99,11 @@ main .class-data > button{
 }
 .maingt-header-row,.maingt-data-row {
     display: grid;
-    grid-template-columns: 1fr 1.5fr 1fr 1fr;
+    grid-template-columns: 1fr 1.5fr 1fr 0.5fr;
+}
+#teachersPopup .maingt-header-row,#teachersPopup .maingt-data-row {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 2fr 0.5fr;
 }
 .maingth-data {
     display: flex;
@@ -152,7 +156,10 @@ main .class-data > button{
         grid-template-columns: 1fr 1fr;
     }
     .maingt-header-row,.maingt-data-row {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 0.5fr;
+    }
+    #teachersPopup .maingt-header-row,#teachersPopup .maingt-data-row {
+        grid-template-columns: 1fr 1fr 0.5fr;
     }
     .maingth-data:nth-child(1),.maingtr-data:nth-child(1), .maingtr-data-p1:nth-child(2){
         display: none;
@@ -174,6 +181,9 @@ main .class-data > button{
     }
     .maingt-header-row,.maingt-data-row {
         grid-template-columns: 3fr 1fr;
+    }
+    #teachersPopup .maingt-header-row,#teachersPopup .maingt-data-row {
+        grid-template-columns: 1fr 0.5fr;
     }
     .maingth-data:nth-child(3),.maingtr-data:nth-child(3), .maingtr-data-p1:nth-child(2){
         display: none;

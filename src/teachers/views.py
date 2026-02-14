@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 import uuid
 from classes.models import ClassProfile
 from results.models import SubjectProfile
+from students.models import StudentProfile
 from teachers.models import TeacherProfile
 
 valid_teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -46,13 +47,16 @@ def class_teacher_classes(request):
         current_teacher = get_teacher_object(request.user)
         teacher_school = current_teacher.teacher_school
         t_classes_array = [
-            (c, SubjectProfile.objects.filter(subject_class=c.id).count(), SubjectProfile.objects.filter(subject_class=c.id))
+            (
+                c, SubjectProfile.objects.filter(subject_class=c).count(), SubjectProfile.objects.filter(subject_class=c),
+                StudentProfile.objects.filter(student_class=c)
+            )
             for c in ClassProfile.objects.filter(class_teacher=current_teacher)
         ]
         subject_t_dict = {}
         class_s_teacher_count = []
         for item in t_classes_array:
-            # print(item[0],"\n\countn\n", item[1] ,"\nsubjects\n", item[2])
+            # print(item[0],"\n\countn\n", item[1] ,"\nsubjects\n", item[2], item[3] students)
             for subject in item[2]:
                 subject_teacher = subject.subject_teacher
                 if subject_teacher:

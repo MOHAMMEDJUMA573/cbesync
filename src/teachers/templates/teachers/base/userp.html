@@ -12,7 +12,14 @@
         </div>
         <div class="profile">
             <div class="info">
-                <p>Hey, <b>Mohammed</b></p>
+                <p>Hey, <b>
+                    {% if teacher.teacher_gender == 'M' %} 
+                        Mr.
+                    {% elif teacher.teacher_gender == 'F' %}
+                        Ms.
+                    {% endif %}
+                    {{teacher.teacher_last_name}}
+                </b></p>
                 <small class="text-muted">Admin</small>
             </div>
             <div class="profile-photo">

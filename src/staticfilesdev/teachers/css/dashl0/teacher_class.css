@@ -85,7 +85,7 @@ main .class-data > button{
     transform: translate(-50%, -50%) scale(1.15);
     width: 75%;
     max-height: 70%;
-    overflow: scroll;
+    overflow: auto;
     background: var(--color-white);
     padding: 1.25rem;
     opacity: 0;

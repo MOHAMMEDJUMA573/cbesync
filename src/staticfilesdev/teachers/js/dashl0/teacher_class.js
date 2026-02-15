@@ -1,21 +1,25 @@
-function CreatePopUp(id){
-    const popNode = document.querySelector(id)
-    const overlay = popNode.querySelector(".overlay")
-    function openPopup(){
-        popNode.classList.add("active");
-    }
-    function closePopup(){
-        popNode.classList.remove("active");
-    }
-    overlay.addEventListener("click", closePopup)
-    return openPopup
-}
+//custom auto pop 15/02/2025
+const classdivs = document.querySelectorAll(".main-c-part");
+classdivs.forEach((div, index) => {
+    const divPopups = div.querySelectorAll(".popup");
+    const divButtons = div.querySelectorAll(".class-opts")
+    divPopups.forEach((pop, index) => {
+        const popoverlay = pop.querySelector(".overlay")
+        function openPopup(){
+            pop.classList.add("active");
+        }
+        function closePopup(){
+            pop.classList.remove("active");
+        }
+        popoverlay.addEventListener("click", closePopup)
+        divButtons.forEach((but, index2) => {
+            if (index2 == index) {
+                but.addEventListener("click", openPopup)
+            }
+        });
+    });
+});
 
-const studentPopup = CreatePopUp("#studentsPopup")
-document.querySelector("#studentsView").addEventListener("click", studentPopup)
-const teachersPopup = CreatePopUp("#teachersPopup")
-document.querySelector("#teachersView").addEventListener("click", teachersPopup)
-//link active toggle
 function T2(){
     /*activate the classlist*/
     document.querySelector(".sidebar a.active")?.classList.remove("active");

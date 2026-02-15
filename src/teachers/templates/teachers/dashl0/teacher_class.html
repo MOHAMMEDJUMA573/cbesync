@@ -73,23 +73,23 @@
                             Options
                         </div>
                         <div class="class-data">
-                            <button id="studentsView">View Students </button>
+                            <button class="class-opts">View Students </button>
                         </div>
                         <div class="class-data">
-                            <button id="teachersView">View Teachers </button>
+                            <button class="class-opts">View Teachers </button>
                         </div>
                         <div class="class-data">
-                            <button>View Results </button>
+                            <button class="class-opts">View Results </button>
                         </div>
                         <div class="class-data">
-                            <button>Grade 7 Yellow </button>
+                            <button class="class-opts">Grade 7 Yellow </button>
                         </div>
                     </div>
 
                     <div class="popup" id="studentsPopup">
                         <div class="overlay"></div>
                         <div class="popup-data">
-                            <h2>{{class.class_full_str}}</h2>
+                            <h2>{{class.class_full_str}} Students</h2>
                             <div class="student_data">
                                 <div class="maingt-header-row">
                                     <div class="maingth-data">ID</div>
@@ -120,7 +120,7 @@
                     <div class="popup" id="teachersPopup">
                         <div class="overlay"></div>
                         <div class="popup-data">
-                            <h2>{{ class_t.class_full_str }}</h2>
+                            <h2>{{ class.class_full_str }} Teachers</h2>
                             <div class="teacher_data">
                                 <div class="maingt-header-row">
                                     <div class="maingth-data">ID</div>

@@ -51,12 +51,12 @@ class ClassRegistrationForm(forms.Form):
     )
 
     class_capacity = forms.IntegerField(
-        min_value=20,
-        max_value=200,
+        min_value=50,
+        max_value=300,
         widget=forms.NumberInput(
             attrs={
-                "max":200,
-                "min":20
+                "max":300,
+                "min":50
             }
         )
     )

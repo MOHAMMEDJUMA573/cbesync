@@ -4,8 +4,9 @@ from teachers.models import TeacherProfile
 import uuid
 from pathlib import Path
 from django.contrib.postgres.fields import ArrayField
-from accounts.models import CustomUser
 from accounts.models import table_exists
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 
 def generate_unique_class_pkey():
@@ -168,7 +169,7 @@ class ClassProfile(models.Model):
         default='Ac',
     )
     class_capacity = models.IntegerField(
-
+        validators=[MaxValueValidator(300), MinValueValidator(50)]
     )
     
     class_creation_date = models.DateTimeField(
@@ -177,6 +178,7 @@ class ClassProfile(models.Model):
     class_updated_date = models.DateTimeField(
         auto_now=True,
     )
+    
     @property
     def class_title_str(self):
         saved_t = self.class_title
@@ -200,14 +202,45 @@ class ClassProfile(models.Model):
             
     @property
     def class_student_count(self):
-        return self.student_profiles.count()
+        return f"{self.student_profiles.all().count()} of {self.class_capacity}"
+    
     @property
-    def class_teachers_count(self):
-        return self.subject_profiles.count()
+    def class_students(self):
+        return self.student_profiles.all()
+    
+    @property
+    def class_percent_capacity(self):
+        students = self.student_profiles.all().count()
+        return f"{round((students/self.class_capacity), 3)} %"
 
+    @property
+    def class_subjects_count(self):
+        return self.subject_profiles.count()
+    
+    @property
+    def class_subject_teachers_count(self):
+        subjects = self.subject_profiles.all()
+        teachers = set()
+        for subject in subjects:
+            if subject.subject_teacher:
+                sb_tid = subject.subject_teacher.teacher_id
+                teachers.add(sb_tid)
+        return len(teachers)
+    
     @property
     def class_full_str(self):
         return f"{self.class_level_str} {self.class_title_str}"
+    
+    @property
+    def class_subject_t_dict(self):
+        subject_t_dict = {}
+        for subject in self.subject_profiles.all():
+            if subject.subject_teacher:
+                if subject_t_dict.get(subject.subject_teacher):
+                    subject_t_dict[subject.subject_teacher].append(subject.subject_name)
+                else:
+                    subject_t_dict.update({subject.subject_teacher : [subject.subject_name]})
+        return subject_t_dict
 
     def __str__(self):
         return f"{self.get_class_title_display()}-{self.class_level} ({self.class_school.school_name})"

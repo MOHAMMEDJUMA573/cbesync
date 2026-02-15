@@ -218,6 +218,10 @@ class ClassProfile(models.Model):
         return self.subject_profiles.count()
     
     @property
+    def class_subjects(self):
+        return self.subject_profiles.all()
+    
+    @property
     def class_subject_teachers_count(self):
         subjects = self.subject_profiles.all()
         teachers = set()

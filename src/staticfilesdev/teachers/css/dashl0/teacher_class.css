@@ -57,6 +57,9 @@ main .class-data > button{
     padding: 1rem;
     border-radius: 0.5rem;
     cursor: pointer;
+    background: var(--color-primary);
+    color: #FFFFFF;
+    font-weight: bold;
 }
 /*popup css*/
 .popup{
@@ -104,6 +107,10 @@ main .class-data > button{
 #teachersPopup .maingt-header-row,#teachersPopup .maingt-data-row {
     display: grid;
     grid-template-columns: 1fr 1.5fr 2fr 0.5fr;
+}
+#subjectsPopup .maingt-header-row,#subjectsPopup .maingt-data-row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
 }
 .maingth-data {
     display: flex;
@@ -161,6 +168,9 @@ main .class-data > button{
     #teachersPopup .maingt-header-row,#teachersPopup .maingt-data-row {
         grid-template-columns: 1fr 1fr 0.5fr;
     }
+    #subjectsPopup .maingt-header-row,#subjectsPopup .maingt-data-row {
+        grid-template-columns: 2fr 1fr;
+    }
     .maingth-data:nth-child(1),.maingtr-data:nth-child(1), .maingtr-data-p1:nth-child(2){
         display: none;
     }
@@ -171,7 +181,25 @@ main .class-data > button{
         margin-left: 0;
     }
     .class-obj:nth-child(3){
+        display: flex;
+        flex-direction:row ;
+    }
+    main .class-data > button {
+        background: var(--color-primary);
+        border-radius: 0.25rem;
+        color: #FFFFFF;
+        cursor:pointer;
+        font-weight: bold;
+        line-height: 1rem;
+        min-width: 2rem;
+        padding: 0.4rem;
+        font-size: 0.5rem;
+    }
+    .class-obj:nth-child(3) .class-obj-title{
         display: none;
+    }
+    .class-obj:nth-child(3) .class-data{
+        flex: 1;
     }
     main .main-c-part{
         grid-template-columns: 1fr;
@@ -184,6 +212,9 @@ main .class-data > button{
     }
     #teachersPopup .maingt-header-row,#teachersPopup .maingt-data-row {
         grid-template-columns: 1fr 0.5fr;
+    }
+    #subjectsPopup .maingt-header-row,#subjectsPopup .maingt-data-row {
+        grid-template-columns: 1fr;
     }
     .maingth-data:nth-child(3),.maingtr-data:nth-child(3), .maingtr-data-p1:nth-child(2){
         display: none;

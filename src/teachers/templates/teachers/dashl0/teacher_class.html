@@ -79,7 +79,7 @@
                             <button class="class-opts">View Teachers </button>
                         </div>
                         <div class="class-data">
-                            <button class="class-opts">View Results </button>
+                            <button class="class-opts">View Subjects </button>
                         </div>
                         <div class="class-data">
                             <button class="class-opts">Grade 7 Yellow </button>
@@ -116,7 +116,6 @@
                             </div>
                         </div>
                     </div>
-                
                     <div class="popup" id="teachersPopup">
                         <div class="overlay"></div>
                         <div class="popup-data">
@@ -143,6 +142,28 @@
                                             {{ teacher.teacher_gender }}
                                         </div> 
                                     </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="popup" id="subjectsPopup">
+                        <div class="overlay"></div>
+                        <div class="popup-data">
+                            <h2>{{class.class_full_str}} Subjects</h2>
+                            <div class="subject_data">
+                                <div class="maingt-header-row">
+                                    <div class="maingth-data">ID</div>
+                                    <div class="maingth-data">Subject Name</div>
+                                    <div class="maingth-data">Subject Code</div>
+                                </div>
+                                {% for subject in class.class_subjects %}
+                                <div class="maingt-data-row">
+                                    <div class="maingtr-data">{{subject.subject_id}}</div>
+                                    <div class="maingtr-data">
+                                        {{subject.subject_name}}
+                                    </div>
+                                    <div class="maingtr-data">{{subject.subject_code}}</div>
+                                </div>
                                 {% endfor %}
                             </div>
                         </div>

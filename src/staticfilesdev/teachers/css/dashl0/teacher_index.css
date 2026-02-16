@@ -68,12 +68,11 @@ main .main-t-p{
     display: flex;
     text-align: center;
     justify-content: center;
-    border: 1px solid green;
     padding: 1rem;
     border-radius: 1rem;
     margin-bottom: 1rem;
     font-weight: bolder;
-    background: var(--color-white);
+    background: #6b808c;
 }
 .employement-d-data{
     display: grid;

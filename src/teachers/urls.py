@@ -19,9 +19,11 @@ urlpatterns+=[
         ),
     ),
     path(
-        "uploads/",
+        "r-uploads/",
         include(
-            []
+            [
+                path("", views.teacher_classes_results_upload, name="teacher_classes_rupload")
+            ]
         )
     ),
     path(

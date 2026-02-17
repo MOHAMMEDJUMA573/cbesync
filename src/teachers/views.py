@@ -7,6 +7,7 @@ import uuid
 from classes.models import ClassProfile
 from subjects.models import SubjectProfile
 from students.models import StudentProfile
+from results.forms import TeacherResultsUploadForm
 
 valid_teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -59,4 +60,56 @@ def class_teacher_classes(request):
             return HttpResponse("Wrong teacher trying to access the page!")
     else:
         return HttpResponse("Only teachers allowed bro!")
+    return render(request, template_name, context)
+#***--------------------***#***--------------------***
+#   Teacher-subject result upload views
+#***--------------------***
+@verified_email_required
+def teacher_classes_results_upload(request):
+    if request.user.user_type == "teacher":
+        current_teacher = get_teacher_object(request.user)
+        teacher_school = current_teacher.teacher_school
+        teacher_subjects = current_teacher.teacher_teaching_subjects
+        #form inits
+        teacher_classes_set = set()
+        for subject in teacher_subjects:
+            teacher_classes_set.add(subject.subject_class)
+
+        subjects_tuple_list = [
+            (str(c.subject_id), str(c.subject_name))
+            for c in teacher_subjects
+        ]
+        classes_tuple_list = [
+            (str(c.class_id), str(c.class_full_str))
+            for c in teacher_classes_set
+        ]
+        form = TeacherResultsUploadForm(subjects_tuple_choices=subjects_tuple_list,classes_tuple_choices=classes_tuple_list)
+        if teacher_uuid == valid_teacher_uuid:
+            template_name = "teachers/dashl0/teacher_rupload.html"
+            page_title = "R-uploads"
+            if request.method == "POST":
+                form = TeacherResultsUploadForm(request.POST,subjects_tuple_choices=subjects_tuple_list,classes_tuple_choices=classes_tuple_list)
+                if form.is_valid():
+                    print(form)
+                    return HttpResponse("valid form recieved")
+                else:
+                    context = {
+                    "page_title":page_title,
+                    "teacher":current_teacher,
+                    "teacher_school":teacher_school,
+                    "teacher_subjects":teacher_subjects,
+                    "form":form,
+                }
+            else:
+                context = {
+                "page_title":page_title,
+                "teacher":current_teacher,
+                "teacher_school":teacher_school,
+                "teacher_subjects":teacher_subjects,
+                "form":form,
+            }
+        else:
+            return HttpResponse("Wrong teacher trying to access the page!")
+    else:
+        return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)

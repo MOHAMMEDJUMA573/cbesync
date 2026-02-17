@@ -246,6 +246,9 @@ class ClassProfile(models.Model):
                     subject_t_dict.update({subject.subject_teacher : [subject.subject_name]})
         return subject_t_dict
 
+    #results processing
+    # def class_reports generator;
+    
     def __str__(self):
         return f"{self.get_class_title_display()}-{self.class_level} ({self.class_school.school_name})"
 

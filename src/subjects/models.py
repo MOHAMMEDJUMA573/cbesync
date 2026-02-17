@@ -1,6 +1,7 @@
 from django.db import models
 import uuid
 from classes.models import ClassProfile
+from schools.models import SchoolProfile
 from classes.models import ProgramProfile
 from teachers.models import TeacherProfile
 from accounts.models import table_exists
@@ -21,6 +22,11 @@ class SubjectProfile(models.Model):
         primary_key=True,
         default=generate_unique_subject_pkey,
         editable=False
+    )
+    subject_school = models.ForeignKey(
+        SchoolProfile,
+        on_delete=models.CASCADE,
+        related_name="subject_profiles"
     )
     subject_class = models.ForeignKey(
         ClassProfile,

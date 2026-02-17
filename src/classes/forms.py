@@ -129,6 +129,7 @@ class ClassRegistrationForm(forms.Form):
                 for subject in class_subjects_tuples:
                     SubjectProfile.objects.create(
                         subject_class = class_saved,
+                        subject_school = class_school,
                         subject_code = subject[0],
                         subject_name = subject[1],
                         subject_program = class_program,

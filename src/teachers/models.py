@@ -222,5 +222,9 @@ class TeacherProfile(models.Model):
             if saved_role == value:
                 return label
 
+    @property
+    def teacher_teaching_subjects(self):
+        return self.subject_profiles.all()
+    
     def __str__(self):
         return f"{self.teacher_first_name} {self.teacher_last_name} {self.teacher_tsc_number}"

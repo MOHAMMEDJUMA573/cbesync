@@ -5,10 +5,22 @@ from better_profanity import profanity
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 
-
+RESULT_PERIOD_CHOICES = [
+    ('Opener', 'Opener'),
+    ('Mid', 'Mid-Term'),
+    ('End', 'End-Term')
+]
+RESULT_TERM_CHOICES = [
+    ('T 1', 'Term 1'),
+    ('T 2', 'Term 2'),
+    ('T 3', 'Term 3'),
+]
 class ResultsSubmissionForm(forms.Form):
     result_student = forms.ChoiceField(
 
+    )
+    result_exam = forms.ChoiceField(
+        choices=()
     )
     result_class = forms.ChoiceField(
 
@@ -24,12 +36,6 @@ class ResultsSubmissionForm(forms.Form):
     )
     result_score = forms.IntegerField(
         initial=0
-    )
-    result_term = forms.ChoiceField(
-        choices=ResultsProfile.RESULT_TERM_CHOICES
-    )
-    result_period = forms.ChoiceField(
-        choices=ResultsProfile.RESULT_PERIOD_CHOICES,
     )
 
     def clean(self):
@@ -66,10 +72,10 @@ class ResultsFilterForm(forms.Form):
         choices = ()
     )
     result_term = forms.ChoiceField(
-        choices=ResultsProfile.RESULT_TERM_CHOICES
+        choices=RESULT_TERM_CHOICES
     )
     result_period = forms.ChoiceField(
-        choices=ResultsProfile.RESULT_PERIOD_CHOICES,
+        choices=RESULT_PERIOD_CHOICES
     )
     current_year = int((datetime.today()).year)
     RESULTS_YEAR_CHOICES = [
@@ -91,3 +97,36 @@ class ResultsFilterForm(forms.Form):
             cleaned_data["result_class"] = class_passed
                     
         return cleaned_data
+    
+
+class TeacherResultsUploadForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        subjects_tuple_choices = kwargs.pop("subjects_tuple_choices")
+        classes_tuple_choices = kwargs.pop("classes_tuple_choices")
+        super(TeacherResultsUploadForm, self).__init__(*args, **kwargs)
+        self.fields["results_subjects"].choices = subjects_tuple_choices
+        self.fields["results_classes"].choices = classes_tuple_choices
+    results_subjects =forms.ChoiceField(
+        choices=()
+    )
+    results_classes = forms.ChoiceField(
+        choices=()
+    )
+    results_terms = forms.ChoiceField(
+        choices=RESULT_TERM_CHOICES
+    )
+    results_period = forms.ChoiceField(
+        choices=RESULT_PERIOD_CHOICES
+    )
+    UPLOAD_OPTIONS = [
+        ("update", "Update"),
+        ("new", "New")
+    ]
+    option = forms.ChoiceField(
+        choices=UPLOAD_OPTIONS
+    )
+
+    def clean(self):
+        pass
+
+    

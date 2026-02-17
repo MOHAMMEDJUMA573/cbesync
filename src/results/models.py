@@ -9,6 +9,15 @@ from subjects.models import SubjectProfile
 from django.core.validators import MaxValueValidator, MinValueValidator
 from accounts.models import table_exists
 
+def generate_unique_exam_pkey():
+    table_name = "results_ExaminationProfile"
+    if table_exists(table_name):
+        while True:
+            new_id = uuid.uuid4()
+            if not ExaminationProfile.objects.filter(examination_id=new_id).exists():
+                return new_id
+    return uuid.uuid4()
+
 def generate_unique_result_pkey():
     table_name = "results_ResultsProfile"
     if table_exists(table_name):
@@ -18,11 +27,68 @@ def generate_unique_result_pkey():
                 return new_id
     return uuid.uuid4()
 
+
+class ExaminationProfile(models.Model):
+    examination_id = models.UUIDField(
+        primary_key=True,
+        default=generate_unique_exam_pkey,
+        editable=False
+    )
+    examination_school = models.ForeignKey(
+        SchoolProfile,
+        on_delete=models.CASCADE,
+        related_name="examination_profiles"
+    )
+    examination_class = models.ForeignKey(
+        ClassProfile,
+        on_delete=models.CASCADE,
+        related_name="examination_profiles"
+    )
+    EXAMINATION_TERM_CHOICES = [
+        ("T 1", "Term 1"),
+        ("T 2", "Term 2"),
+        ("T 3", "Term 3")
+    ]
+    examination_term = models.CharField(
+        choices=EXAMINATION_TERM_CHOICES
+    )
+    EXAMINATION_PERIOD_CHOICES = [
+        ("Opener", "Opener"),
+        ("Mid", "Mid-Term"),
+        ("End", "End-Term")
+    ]
+    examination_period = models.CharField(
+        choices=EXAMINATION_PERIOD_CHOICES,
+        default="Opener"
+    )
+    examination_year = models.PositiveSmallIntegerField(
+        validators=[
+            MinValueValidator(datetime.today().year - 10),
+            MaxValueValidator(datetime.today().year + 10)
+        ],
+        default=int(datetime.today().year)
+    )
+    examination_creation_date = models.DateTimeField(
+        auto_now_add=True
+    )
+    examination_update_date = models.DateTimeField(
+        auto_now=True
+    )
+
+
 class ResultsProfile(models.Model):
     result_id = models.UUIDField(
         primary_key=True,
         default=generate_unique_result_pkey,
         editable=False
+    )
+    RESULT_STATUS_CHOICES = [
+        (0, "new"),
+        (1, "updated"),
+    ]
+    result_status = models.CharField(
+        choices=RESULT_STATUS_CHOICES,
+        default=0
     )
     result_student = models.ForeignKey(
         StudentProfile,
@@ -54,29 +120,11 @@ class ResultsProfile(models.Model):
         default=0,
         validators=[MaxValueValidator(100), MinValueValidator(0)],
     )
-    RESULT_TERM_CHOICES = [
-        ("T 1", "Term 1"),
-        ("T 2", "Term 2"),
-        ("T 3", "Term 3")
-    ]
-    result_term = models.CharField(
-        choices=RESULT_TERM_CHOICES
-    )
-    RESULT_PERIOD_CHOICES = [
-        ("Opener", "Opener"),
-        ("Mid", "Mid-Term"),
-        ("End", "End-Term")
-    ]
-    result_period = models.CharField(
-        choices=RESULT_PERIOD_CHOICES,
-        default="Opener"
-    )
-    result_year = models.PositiveSmallIntegerField(
-        validators=[
-            MinValueValidator(datetime.today().year - 10),
-            MaxValueValidator(datetime.today().year + 10)
-        ],
-        default=int(datetime.today().year)
+    result_examination = models.ForeignKey(
+        ExaminationProfile,
+        on_delete=models.CASCADE,
+        related_name="result_profiles",
+        null=True
     )
     result_creation_date = models.DateTimeField(
         auto_now_add=True
@@ -85,5 +133,17 @@ class ResultsProfile(models.Model):
         auto_now=True
     )
 
+    @property
+    def result_year(self):
+        return self.result_examination.examination_year
+
+    @property
+    def result_period(self):
+        return self.result_examination.examination_period
+   
+    @property
+    def result_term(self):
+        return self.result_examination.examination_term
+
     def __str__(self):
-        return f"{self.result_student} --- {self.result_score}  --- {self.result_subject}"
+        return f"{self.result_student} ---{self.result_score}  ---{self.result_subject} ---{self.result_examination}"

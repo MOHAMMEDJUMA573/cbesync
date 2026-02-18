@@ -35,13 +35,6 @@
 				</div>
 				<div class="form-body">
 					<div class="form-field1">
-						<label for="id_results_classes">
-							Class:
-							<p>{{form.results_classes.errors}}</p>
-						</label>
-						{{form.results_classes}}
-					</div>
-					<div class="form-field1">
 						<label for="id_results_subjects">
 							Subject:
 							<p>{{form.results_subjects.errors}}</p>
@@ -56,7 +49,7 @@
 						{{form.results_terms}}
 					</div>
 					<div class="form-field1">
-						<label for="id_form.results_period">
+						<label for="id_results_period">
 							Period:
 							<p>{{form.results_period.errors}}</p>
 						</label>
@@ -95,7 +88,7 @@
 							<div class="maingtr-data">{{subject.subject_school.school_name}}</div>
 							<div class="maingtr-data">{{subject.subject_name}}</div>
 							<div class="maingtr-data">{{subject.subject_class.class_full_str}}</div>
-							<div class="maingtr-data">{{subject.subject_class.get_class_statusstatus_display}}</div>
+							<div class="maingtr-data">{{subject.subject_class.get_class_status_display}}</div>
 						</div>
 						{% endfor %}
 					</div>
@@ -103,7 +96,7 @@
 			{% endif %}
 			<div class="maing-data-grid" style="margin-top: 2rem;">
                 <div class="maing-data-header">
-                    Archive classes
+                    Archived classes
                 </div>
                 <div class="maing-data-table">
                     <div class="maingt-header-row">

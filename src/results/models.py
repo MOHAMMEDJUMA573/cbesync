@@ -74,7 +74,9 @@ class ExaminationProfile(models.Model):
     examination_update_date = models.DateTimeField(
         auto_now=True
     )
-
+    
+    def __str__(self):
+        return f"{self.examination_school.school_name} --- {self.examination_class.class_full_str} --- {self.examination_term}---{self.examination_period}"
 
 class ResultsProfile(models.Model):
     result_id = models.UUIDField(

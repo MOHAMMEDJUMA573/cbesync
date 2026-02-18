@@ -63,13 +63,11 @@ input[type="text"], input[type="email"],input[type="date"], select, input[type="
     font-weight: 600;
     border-radius: 0.3rem;
     color: darkblue;
-    max-width: 30ch;
     cursor: pointer;
 }
 .opt-buttons{
     display: flex;
     align-items: center;
-    justify-content: center;
 }
 .opt-buttons > button{
     display: flex;

@@ -5,6 +5,7 @@ from django.db.models import F
 from .models import StudentProfile
 from classes.models import ClassProfile
 from accounts.models import CustomUser
+from results.models import ResultsProfile
 from phonenumber_field.formfields import PhoneNumberField
 import uuid
 from django.utils.translation import gettext_lazy as _
@@ -175,7 +176,7 @@ class StudentRegistrationForm(forms.Form):
                 user_country = self.cleaned_data['student_country'],
             )
             #create the student
-            StudentProfile.objects.create(
+            student_saved = StudentProfile.objects.create(
                 user = user,
                 student_id = username,
                 student_school = student_school,
@@ -197,6 +198,20 @@ class StudentRegistrationForm(forms.Form):
                 student_pic = self.cleaned_data['student_pic'],
                 student_status = 'A' #student status default field
             )
+            #create results for the student
+            student_class = self.cleaned_data['student_class']
+            student_class_examinations = student_class.examination_profiles.all()
+            student_class_subjects = student_class.subject_profiles.all()
+            for examination in student_class_examinations:
+                for subject in student_class_subjects:
+                    ResultsProfile.objects.create(
+                        result_student = student_saved,
+                        result_class = student_class,
+                        result_school = student_class.class_school,
+                        result_subject = subject,
+                        result_examination = examination
+                    )
+
             #increment the nuber of students in the school
             student_school.school_students_polpulation = F(
                 'school_students_polpulation'

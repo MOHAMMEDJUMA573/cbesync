@@ -76,22 +76,21 @@ def teacher_classes_results_upload(request):
             teacher_classes_set.add(subject.subject_class)
 
         subjects_tuple_list = [
-            (str(c.subject_id), str(c.subject_name))
+            (str(c.subject_id), str(f"{c.subject_name} --- {c.subject_class.class_full_str}"))
             for c in teacher_subjects
         ]
-        classes_tuple_list = [
-            (str(c.class_id), str(c.class_full_str))
-            for c in teacher_classes_set
-        ]
-        form = TeacherResultsUploadForm(subjects_tuple_choices=subjects_tuple_list,classes_tuple_choices=classes_tuple_list)
+        form = TeacherResultsUploadForm(subjects_tuple_choices=subjects_tuple_list)
         if teacher_uuid == valid_teacher_uuid:
             template_name = "teachers/dashl0/teacher_rupload.html"
             page_title = "R-uploads"
             if request.method == "POST":
-                form = TeacherResultsUploadForm(request.POST,subjects_tuple_choices=subjects_tuple_list,classes_tuple_choices=classes_tuple_list)
+                form = TeacherResultsUploadForm(request.POST,subjects_tuple_choices=subjects_tuple_list)
                 if form.is_valid():
-                    print(form)
-                    return HttpResponse("valid form recieved")
+                    passed_subject = form.cleaned_data["results_subjects"]
+                    passed_subject_class = passed_subject.subject_class
+                    passed_subject_students = passed_subject_class.student_profiles.all()
+                    print(passed_subject_students)
+                    return HttpResponse(f"{passed_subject_students}")
                 else:
                     context = {
                     "page_title":page_title,

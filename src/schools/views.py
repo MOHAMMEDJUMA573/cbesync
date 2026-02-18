@@ -1061,7 +1061,6 @@ def assessment_management(request):
             if "get_results" in request.POST:
                 form2 = ResultsFilterForm(request.POST, request.FILES, classes_tuple_list=classes_list)
                 if form2.is_valid():
-                    print("Get rez form")
                     class_passed = form2.cleaned_data["result_class"]
                     term_passed = form2.cleaned_data["result_term"]
                     period_passed = form2.cleaned_data["result_period"]

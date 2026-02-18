@@ -3,6 +3,7 @@ from django.db import transaction
 from .models import ClassProfile, ProgramProfile
 from results.models import SubjectProfile
 from teachers.models import TeacherProfile
+from results.models import ExaminationProfile
 import uuid
 from .models import SchoolProfile
 from better_profanity import profanity
@@ -20,6 +21,16 @@ CLASS_SUBJECTS_DICT = {
     'LPE': [('ENGL','English L Activities'), ('KISW','Kiswahili L Activities'), ('MATS','Mathematics Activities'), ('RLED','Religious E. Activities'), ('ENVA','Environmental Activities'), ('CRAT','Creative Activities')],
     'PPE': [('LGAT','Language Activities'), ('MATS','Mathematical Activities'), ('CRAT','Creative Activities'), ('EVAT','Environment Activities'), ('REAT','Religious Activities')]
 }
+RESULT_PERIOD_CHOICES = [
+    ('Opener', 'Opener'),
+    ('Mid', 'Mid-Term'),
+    ('End', 'End-Term')
+]
+RESULT_TERM_CHOICES = [
+    ('T 1', 'Term 1'),
+    ('T 2', 'Term 2'),
+    ('T 3', 'Term 3'),
+]
 
 class ClassRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -121,11 +132,21 @@ class ClassRegistrationForm(forms.Form):
                 class_capacity = self.cleaned_data["class_capacity"],
                 class_status = 'Ac' 
             )
+            #create exams for the class
+            if class_saved:
+                for term in ExaminationProfile.EXAMINATION_TERM_CHOICES:
+                    for period in ExaminationProfile.EXAMINATION_PERIOD_CHOICES:
+                        ExaminationProfile.objects.create(
+                            examination_school = class_school,
+                            examination_class = class_saved,
+                            examination_term = term[0],
+                            examination_period = period[0]
+                        )
+                        
             #create subjects for the class
             class_program = self.cleaned_data["class_program"]
             if class_program.program_name :
                 class_subjects_tuples = CLASS_SUBJECTS_DICT.get(class_program.program_name)
-                print(class_subjects_tuples)
                 for subject in class_subjects_tuples:
                     SubjectProfile.objects.create(
                         subject_class = class_saved,
@@ -134,6 +155,7 @@ class ClassRegistrationForm(forms.Form):
                         subject_name = subject[1],
                         subject_program = class_program,
                     )
+
 class ClassDeletionForm(forms.Form):
     class_id = forms.CharField(
         max_length=35,

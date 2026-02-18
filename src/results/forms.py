@@ -1,5 +1,7 @@
 from django import forms
+import uuid
 from.models import ResultsProfile
+from subjects.models import SubjectProfile
 from classes.models import ClassProfile
 from better_profanity import profanity
 from django.utils.translation import gettext_lazy as _
@@ -102,14 +104,9 @@ class ResultsFilterForm(forms.Form):
 class TeacherResultsUploadForm(forms.Form):
     def __init__(self, *args, **kwargs):
         subjects_tuple_choices = kwargs.pop("subjects_tuple_choices")
-        classes_tuple_choices = kwargs.pop("classes_tuple_choices")
         super(TeacherResultsUploadForm, self).__init__(*args, **kwargs)
         self.fields["results_subjects"].choices = subjects_tuple_choices
-        self.fields["results_classes"].choices = classes_tuple_choices
     results_subjects =forms.ChoiceField(
-        choices=()
-    )
-    results_classes = forms.ChoiceField(
         choices=()
     )
     results_terms = forms.ChoiceField(
@@ -127,6 +124,13 @@ class TeacherResultsUploadForm(forms.Form):
     )
 
     def clean(self):
-        pass
+        check_flag1 = False
+        cleaned_data =  super().clean()
+        subject_passed_id = cleaned_data.get("results_subjects")
+        if subject_passed_id:
+            subject_passed = SubjectProfile.objects.get(subject_id = subject_passed_id)
+            cleaned_data["results_subjects"] = subject_passed
+        return cleaned_data
+
 
     

@@ -1,0 +1,129 @@
+/*Form formatting*/
+.form2{
+    margin-top: 4.2rem;
+}
+.reg-form{
+    display: flex;
+    flex-direction: column;
+}
+.form-header{
+    display: flex;
+    margin-bottom: 1rem;
+    background: rgb(107, 128, 140);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+.form-guide-text{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-align: center;
+    font-weight: 600;
+}
+.form-guide-text p{
+    color: var(--color-dark);
+}
+.error-message{
+    color: var(--color-warning);
+}
+.form-body{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border: 1px solid green;
+    background-color: var(--color-white);
+    border-radius: 1rem;
+}
+.form-body1{
+    grid-template-columns: repeat(4, 1fr);
+}
+.form-field1{
+    display: flex;
+    flex-direction: row;
+    margin: 0.4rem;
+    padding: 0.5rem;
+    justify-content: space-between;
+    appearance: auto;
+}
+.form-field1 > label{
+    display: block;
+    padding-right: 1rem;
+    text-align: left;
+}
+.maingtr-data{
+    font-weight: normal;
+    margin: 0;
+}
+
+.form-field1 > label> button{
+    display: block;
+    min-width: 8rem;
+    text-align: left;
+}
+input[type="text"], input[type="email"],input[type="date"], select, input[type="number"], textarea{
+    display: flex;
+    flex: 1;
+    border: none;
+    background: #e3e3e3;
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.3rem;
+    color: darkblue;
+    cursor: pointer;
+    max-width: 8rem;
+}
+.opt-buttons{
+    display: flex;
+    align-items: center;
+}
+.opt-buttons > button{
+    display: flex;
+    flex: 1;
+    margin: 1rem;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    font-weight: bolder;
+    color: white;
+    background: green;
+    max-width:6.5rem;
+    padding: 0.7rem;
+    height:3rem;
+    transition: all 300ms ease;
+}
+.opt-buttons > button:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+/*grid*/
+main {
+    margin-left: 15rem;
+}
+/*Media Queries*/
+@media screen and (max-width:1200px) {
+    main{
+        margin-left: 8rem;
+    }   
+    .reg-form{
+        margin-top: 2rem;
+    }
+    .form-body{
+        grid-template-columns: 1fr;
+    }  
+      .maingtr-data .maingtr-data-p1:nth-child(2) {
+        display: block;
+    }  
+}
+@media screen and (max-width:768px) {
+    main{
+        margin-top: 0rem;
+        margin-left: 0;
+    }
+    .form-body{
+        grid-template-columns: 1fr;
+    }  
+    .form-field1 > label > button{
+        display: none;
+    }
+}

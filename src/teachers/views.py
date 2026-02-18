@@ -147,7 +147,7 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
         teacher_school = current_teacher.teacher_school
         teacher_subjects = current_teacher.teacher_teaching_subjects
         if teacher_uuid == valid_teacher_uuid:
-            template_name = "teachers/dashl0/teacher_rupload/uploadresults.html"
+            template_name = "teachers/dash3l1/teacher_rupload_s.html"
             page_title = "SR-uploads"
             if request.method == "POST":
                 return HttpResponse("Post detected")
@@ -161,7 +161,6 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
                     "teacher_school":teacher_school,
                     "teacher_subjects":teacher_subjects,
                 }
-                return HttpResponse(f"succesfully access\n {context}")
         else:
             return HttpResponse("Wrong teacher trying to access the page!")
     else:

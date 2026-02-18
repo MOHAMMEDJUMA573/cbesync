@@ -22,7 +22,8 @@ urlpatterns+=[
         "r-uploads/",
         include(
             [
-                path("", views.teacher_classes_results_upload, name="teacher_classes_rupload")
+                path("", views.teacher_classes_results_upload_redirect, name="teacher_classes_rupload"),
+                path("<class_id>/<uuid:subject_id>/<uuid:exam_id>/", views.teacher_classes_results_upload_subject, name="teacher_classes_rupload_subject")
             ]
         )
     ),

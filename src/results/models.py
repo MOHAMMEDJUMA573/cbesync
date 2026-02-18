@@ -75,6 +75,19 @@ class ExaminationProfile(models.Model):
         auto_now=True
     )
     
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=[
+                    "examination_school",
+                    "examination_class",
+                    "examination_term",
+                    "examination_period",
+                ],
+                name="unique_exam_profile_per_context"
+            )
+        ]
+
     def __str__(self):
         return f"{self.examination_school.school_name} --- {self.examination_class.class_full_str} --- {self.examination_term}---{self.examination_period}"
 

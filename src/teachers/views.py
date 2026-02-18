@@ -7,6 +7,7 @@ import uuid
 from classes.models import ClassProfile
 from subjects.models import SubjectProfile
 from students.models import StudentProfile
+from results.models import ExaminationProfile
 from results.forms import TeacherResultsUploadForm
 
 valid_teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -65,7 +66,7 @@ def class_teacher_classes(request):
 #   Teacher-subject result upload views
 #***--------------------***
 @verified_email_required
-def teacher_classes_results_upload(request):
+def teacher_classes_results_upload_redirect(request):
     if request.user.user_type == "teacher":
         current_teacher = get_teacher_object(request.user)
         teacher_school = current_teacher.teacher_school
@@ -87,10 +88,36 @@ def teacher_classes_results_upload(request):
                 form = TeacherResultsUploadForm(request.POST,subjects_tuple_choices=subjects_tuple_list)
                 if form.is_valid():
                     passed_subject = form.cleaned_data["results_subjects"]
+                    passed_subject_term = form.cleaned_data["results_terms"]
+                    passed_subject_period = form.cleaned_data["results_period"]
+                    passed_subject_id = passed_subject.subject_id
                     passed_subject_class = passed_subject.subject_class
                     passed_subject_students = passed_subject_class.student_profiles.all()
-                    print(passed_subject_students)
-                    return HttpResponse(f"{passed_subject_students}")
+                    #get the exam
+                    try:
+                        required_exam = ExaminationProfile.objects.get(
+                            examination_school=teacher_school,
+                            examination_class=passed_subject_class,
+                            examination_term=passed_subject_term,
+                            examination_period=passed_subject_period
+                        )
+                    except ExaminationProfile.DoesNotExist:
+                        required_exam = None
+
+                    print(required_exam.examination_id)
+                    print(passed_subject.subject_id)
+                    print(passed_subject_class.class_id)
+                    return redirect(
+                        reverse(
+                            "teachers:teacher_classes_rupload_subject",
+                            kwargs={
+                                "class_id": passed_subject_class.class_id,
+                                "subject_id": passed_subject.subject_id,
+                                "exam_id": required_exam.examination_id,
+                            },
+                        )
+                    )
+
                 else:
                     context = {
                     "page_title":page_title,
@@ -107,6 +134,34 @@ def teacher_classes_results_upload(request):
                 "teacher_subjects":teacher_subjects,
                 "form":form,
             }
+        else:
+            return HttpResponse("Wrong teacher trying to access the page!")
+    else:
+        return HttpResponse("Only schools allowed bro!")
+    return render(request, template_name, context)
+
+@verified_email_required
+def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_id):
+    if request.user.user_type == "teacher":
+        current_teacher = get_teacher_object(request.user)
+        teacher_school = current_teacher.teacher_school
+        teacher_subjects = current_teacher.teacher_teaching_subjects
+        if teacher_uuid == valid_teacher_uuid:
+            template_name = "teachers/dashl0/teacher_rupload/uploadresults.html"
+            page_title = "SR-uploads"
+            if request.method == "POST":
+                return HttpResponse("Post detected")
+            else:
+                context = {
+                    "class_id":class_id,
+                    "subject_id":subject_id,
+                    "exam_id":exam_id,
+                    "page_title":page_title,
+                    "teacher":current_teacher,
+                    "teacher_school":teacher_school,
+                    "teacher_subjects":teacher_subjects,
+                }
+                return HttpResponse(f"succesfully access\n {context}")
         else:
             return HttpResponse("Wrong teacher trying to access the page!")
     else:

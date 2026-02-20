@@ -1,14 +1,17 @@
 from django.shortcuts import render, redirect
+from django.db import transaction
+from django.contrib import messages
 from django.http import HttpResponse
 from django.urls import reverse
+from django.forms import modelformset_factory
 from allauth.account.decorators import verified_email_required
 from django.utils.translation import gettext_lazy as _
 import uuid
 from classes.models import ClassProfile
 from subjects.models import SubjectProfile
 from students.models import StudentProfile
-from results.models import ExaminationProfile
-from results.forms import TeacherResultsUploadForm
+from results.models import ExaminationProfile, ResultsProfile
+from results.forms import TeacherResultsUploadForm, ResultsSubmissionForm
 
 valid_teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 teacher_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -133,36 +136,110 @@ def teacher_classes_results_upload_redirect(request):
                 "teacher_school":teacher_school,
                 "teacher_subjects":teacher_subjects,
                 "form":form,
-            }
-        else:
-            return HttpResponse("Wrong teacher trying to access the page!")
+            }            
     else:
         return HttpResponse("Only schools allowed bro!")
     return render(request, template_name, context)
 
 @verified_email_required
 def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_id):
-    if request.user.user_type == "teacher":
-        current_teacher = get_teacher_object(request.user)
-        teacher_school = current_teacher.teacher_school
-        teacher_subjects = current_teacher.teacher_teaching_subjects
-        if teacher_uuid == valid_teacher_uuid:
-            template_name = "teachers/dash3l1/teacher_rupload_s.html"
-            page_title = "SR-uploads"
-            if request.method == "POST":
-                return HttpResponse("Post detected")
-            else:
-                context = {
-                    "class_id":class_id,
-                    "subject_id":subject_id,
-                    "exam_id":exam_id,
-                    "page_title":page_title,
-                    "teacher":current_teacher,
-                    "teacher_school":teacher_school,
-                    "teacher_subjects":teacher_subjects,
-                }
-        else:
-            return HttpResponse("Wrong teacher trying to access the page!")
-    else:
+    if request.user.user_type != "teacher":
         return HttpResponse("Only schools allowed bro!")
+    if teacher_uuid != valid_teacher_uuid:
+        return HttpResponse("Wrong teacher trying to access the page!")
+
+    template_name = "teachers/dash3l1/teacher_rupload_s.html"
+    page_title = "SR-uploads"
+    current_teacher = get_teacher_object(request.user)
+    teacher_subjects = current_teacher.teacher_teaching_subjects
+    try:
+        passed_subject = SubjectProfile.objects.get(subject_id=subject_id)
+        passed_class   = ClassProfile.objects.get(class_id=class_id)
+        passed_exam    = ExaminationProfile.objects.get(examination_id=exam_id)
+    except (SubjectProfile.DoesNotExist, ClassProfile.DoesNotExist, ExaminationProfile.DoesNotExist):
+        return HttpResponse("<h1>Invalid subject, class or exam.</h1>", status=404)
+    def get_form_kwargs():
+        return {'result_teacher': current_teacher}
+    StudentsResultsFormSet = modelformset_factory(
+        ResultsProfile,
+        form=ResultsSubmissionForm,
+        fields=["result_score"],
+        extra=0,
+        max_num=(passed_class.student_profiles.count()),
+        validate_max=True,
+        absolute_max=passed_class.student_profiles.count()
+        # widgets=...  ← better to put in Meta now
+    )
+    queryset = ResultsProfile.objects.filter(
+        result_student__student_class=passed_class,
+        result_class=passed_class,
+        result_subject=passed_subject,
+        result_examination=passed_exam,
+    ).select_related('result_student')
+    formset = StudentsResultsFormSet(
+        queryset=queryset,
+        form_kwargs=get_form_kwargs(),
+    )
+    if request.method == "POST":
+        formset = StudentsResultsFormSet(
+            request.POST, request.FILES,
+            queryset=queryset,
+            form_kwargs=get_form_kwargs(),   # ← every form gets teacher
+        )
+        if formset.is_valid():
+            print("Inside valid")
+            try:
+                with transaction.atomic():
+                    instances = formset.save()
+                    context = {
+                        "page_title":page_title,
+                        "teacher":current_teacher,
+                        "teacher_school":current_teacher.teacher_school,
+                        "passed_subject":passed_subject,
+                        "passed_examination":passed_exam,
+                        "results_formset":formset,
+                        "exam_id":exam_id,
+                        "class_id":class_id,
+                        "subject_id":subject_id
+                    }
+                # Optional: messages.success(...)
+            except Exception as e:
+                pass
+            return redirect(
+                'teachers:teacher_classes_rupload_subject',
+                class_id=class_id,
+                exam_id=exam_id,
+                subject_id=subject_id    
+            )
+        else :
+            print("Inside invalid")
+            messages.error(
+                request,
+                _("An error occured")
+            )
+            context = {
+                "page_title":page_title,
+                "teacher":current_teacher,
+                "teacher_school":current_teacher.teacher_school,
+                "passed_subject":passed_subject,
+                "passed_examination":passed_exam,
+                "results_formset":formset,
+                "exam_id":exam_id,
+                "class_id":class_id,
+                "subject_id":subject_id
+            }
+            return HttpResponse(formset.non_form_errors())
+    else:
+        context = {
+            "page_title":page_title,
+            "teacher":current_teacher,
+            "teacher_school":current_teacher.teacher_school,
+            "passed_subject":passed_subject,
+            "passed_examination":passed_exam,
+            "formset":formset,
+            "exam_id":exam_id,
+            "class_id":class_id,
+            "subject_id":subject_id
+        }
+        
     return render(request, template_name, context)

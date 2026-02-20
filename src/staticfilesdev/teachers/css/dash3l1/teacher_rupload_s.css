@@ -38,6 +38,7 @@
 }
 .form-field1{
     display: flex;
+    align-items: baseline;
     flex-direction: row;
     margin: 0.4rem;
     padding: 0.5rem;
@@ -52,8 +53,13 @@
 .maingtr-data{
     font-weight: normal;
     margin: 0;
+    border: none;
+    display: flex;
 }
-
+.maingtr-data button{
+    width: 14.5rem;
+    overflow: auto;
+}
 .form-field1 > label> button{
     display: block;
     min-width: 8rem;
@@ -123,6 +129,10 @@ main {
     .form-body{
         grid-template-columns: 1fr;
     }  
+    .form-field1{
+        padding: 0;
+        justify-content: flex-start;
+    }
     .form-field1 > label > button{
         display: none;
     }

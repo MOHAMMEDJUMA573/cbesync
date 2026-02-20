@@ -88,6 +88,8 @@ class ExaminationProfile(models.Model):
             )
         ]
 
+    def exam_short_description(self):
+        return f"{self.get_examination_term_display()} - {self.examination_period} - {self.examination_creation_date.year}"
     def __str__(self):
         return f"{self.examination_school.school_name} --- {self.examination_class.class_full_str} --- {self.examination_term}---{self.examination_period}"
 
@@ -161,4 +163,4 @@ class ResultsProfile(models.Model):
         return self.result_examination.examination_term
 
     def __str__(self):
-        return f"{self.result_student} ---{self.result_score}  ---{self.result_subject} ---{self.result_examination}"
+        return f"{self.result_student} ---{self.result_score}  ---{self.result_subject.subject_name} ---{self.result_examination}"

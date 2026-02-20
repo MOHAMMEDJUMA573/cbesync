@@ -15,68 +15,48 @@
     {% endblock sidemenu%}
 	<!--main body--> 
 	<main>
-		<h1 class="main-header">Mathematics</h1>
-		<div class="class-section form2">
-			<form action="https://httpbin.org/post" method="post" class="reg-form" id="results_upload_s">
+		<h1 class="main-header">
+			{{passed_subject.subject_name}}
+			<p style="font-size: medium;">{{passed_subject.subject_class.class_full_str}} {{passed_examination.exam_short_description}}</p>
+		</h1>
+		<div class="class-section form2"> 
+			<form action="{% url 'teachers:teacher_classes_rupload_subject' class_id=class_id subject_id=subject_id exam_id=exam_id%}" method="post" class="reg-form" id="results_upload_s">
+				{% csrf_token %}
 				<div class="form-header">
 					<div class="form-guide-text"> 
 						<p>Please fill in the student result fields</p>
-						<p class="error-message"></p>
+						{% if messages %}
+							<ul class="messages">
+								{% for message in messages %}
+								<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+								{% endfor %}
+							</ul>
+						{% endif %}
+						<p class="error-message">
+							{{ form.non_field_errors }}
+						</p>
 					</div>
 				</div>
 				<div class="form-body">
-					<div class="form-field1">
-						<label for="STD-2124124243">
-                            <button>STD-3434232312234</button>
-                        </label>
-						<label for="STD-212412444">
-								<div class="maingtr-data">
-									<div class="maingtr-data-p1">Abdullah</div>
-									<div class="maingtr-data-p1">Hamza</div>
-									<div class="maingtr-data-p1">Juma</div>
-								</div>
-                        </label>
-						<input type="number" id="STD-2124124243" name="STD-2124124243" min="0" max="100"> 
-					</div>
-					<div class="form-field1">
-						<label for="STD-2124124243">
-                            <button>STD-3436572312234</button>
-                        </label>
-						<label for="STD-2124124">
-								<div class="maingtr-data">
-									<div class="maingtr-data-p1">Abdullah</div>
-									<div class="maingtr-data-p1">Hamza</div>
-									<div class="maingtr-data-p1">Juma</div>
-								</div>
-                        </label>
-						<input type="number" id="STD-2124124" name="STD-2124124" min="0" max="100"> 
-					</div>
-					<div class="form-field1">
-						<label for="STD-2124124243">
-                            <button>STD-3434232347634</button>
-                        </label>
-						<label for="STD-3214124243">
-							<div class="maingtr-data">
-								<div class="maingtr-data-p1">Abdullah</div>
-								<div class="maingtr-data-p1">Hamza</div>
-								<div class="maingtr-data-p1">Juma</div>
-							</div>
-                        </label>
-						<input type="number" id="STD-3214124243" name="STD-3214124243" min="0" max="100"> 
-					</div>
-					<div class="form-field1">
-						<label for="STD-2124124243">
-                            <button>STD-3439732347634</button>
-                        </label>
-						<label for="STD-11114124243">
-							<div class="maingtr-data">
-								<div class="maingtr-data-p1">Abdullah</div>
-								<div class="maingtr-data-p1">Hamza</div>
-								<div class="maingtr-data-p1">Juma</div>
-							</div>
-                        </label>
-						<input type="number" id="STD-321424243" name="STD-321424243" min="0" max="100"> 
-					</div>
+					{{ formset.management_form }}
+					{% for form in formset %}
+						<div class="form-field1">
+							<label>
+								<button>{{form.instance.result_student.student_id}}</button>
+							</label>
+							<label >
+									<div class="maingtr-data">
+										<button type="button">
+										<div class="maingtr-data-p1">{{form.instance.result_student.student_first_name}}</div>
+										<div class="maingtr-data-p1">{{form.instance.result_student.student_middle_name}}</div>
+										<div class="maingtr-data-p1">{{form.instance.result_student.student_last_name}}</div>
+										</button>
+									</div>
+							</label>
+							{{ form.result_score }} 
+							{{ form.id }}
+						</div>
+					{% endfor %}
 					<div class="opt-buttons">
 						<button type="submit">
 							Save

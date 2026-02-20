@@ -1,8 +1,10 @@
 from django import forms
+from django.db import transaction
 import uuid
 from.models import ResultsProfile
 from subjects.models import SubjectProfile
 from classes.models import ClassProfile
+from students.models import StudentProfile
 from better_profanity import profanity
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
@@ -17,53 +19,57 @@ RESULT_TERM_CHOICES = [
     ('T 2', 'Term 2'),
     ('T 3', 'Term 3'),
 ]
-class ResultsSubmissionForm(forms.Form):
-    result_student = forms.ChoiceField(
 
-    )
-    result_exam = forms.ChoiceField(
-        choices=()
-    )
-    result_class = forms.ChoiceField(
+class ResultsSubmissionForm(forms.ModelForm):
+    class Meta:
+        model = ResultsProfile
+        fields = ["result_score"]
+        widgets = {
+            "result_score": forms.NumberInput(attrs={"max": 100, "min": 0, "step": "any"}),
+        }
 
-    )
-    result_teacher = forms.ChoiceField(
+    def __init__(self, *args, **kwargs):
+        # Pop the teacher so we can use it in save()
+        self.results_teacher = kwargs.pop('result_teacher', None)
+        super().__init__(*args, **kwargs)
 
-    )
-    result_school = forms.ChoiceField(
-
-    )
-    result_subject = forms.ChoiceField(
-
-    )
-    result_score = forms.IntegerField(
-        initial=0
-    )
-
-    def clean(self):
-        check_flag1 = False
-        cleaned_data =  super().clean()
-        results_fields = [
-            "result_score"
-        ]
-        for result_field in results_fields:
-            value = cleaned_data.get(result_field)
-            if value:
-                if profanity.contains_profanity(value):
-                    self.add_error(
-                        result_field,
-                        _(f"{profanity.censor(value)} is abusive!")
-                    )
-                    check_flag1 = True
-        #check for none fields
-        if not check_flag1:
-            nn_fields = [
-                "result_student"
-            ]
-            #for some future validations
-        
-        return cleaned_data
+        # Improve label to show student name (only for existing instances)
+        if self.instance and self.instance.pk: 
+            try:       
+                print(f"{self.instance} --- 2")    
+                student = self.instance.result_student
+                if student is not None:
+                    names = [
+                        student.student_first_name,
+                        student.student_middle_name or "",
+                        student.student_last_name or "",
+                    ]
+                    self.fields["result_score"].label = " ".join(filter(None, names)).strip() or "Unnamed student"
+                else:
+                    self.fields["result_score"].label = "Student (missing link)"
+            except AttributeError as e:
+                print("AttributeError in form init:", e)
+        else:
+            print("Passed")
     
+    def clean_result_score(self):
+        score = self.cleaned_data.get("result_score")
+        print(f"{score} -- cleaned")
+        if score is not None:
+            if score < 0 or score > 100:
+                raise forms.ValidationError(_("Score must be between 0 and 100."))
+        return score
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if self.results_teacher is not None:
+            instance.result_teacher = self.results_teacher
+        if commit:
+            instance.save(update_fields=["result_score", "result_teacher"])
+        return instance
+            
+
+#school results filter form 
 class ResultsFilterForm(forms.Form):
     def __init__(self, *args, **kwargs):
         classes_tuple_choices = kwargs.pop("classes_tuple_list")
@@ -100,7 +106,7 @@ class ResultsFilterForm(forms.Form):
                     
         return cleaned_data
     
-
+#teachers page to select the class for which he is to update scores
 class TeacherResultsUploadForm(forms.Form):
     def __init__(self, *args, **kwargs):
         subjects_tuple_choices = kwargs.pop("subjects_tuple_choices")

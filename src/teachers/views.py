@@ -190,18 +190,15 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
             print("Inside valid")
             try:
                 with transaction.atomic():
-                    instances = formset.save()
-                    context = {
-                        "page_title":page_title,
-                        "teacher":current_teacher,
-                        "teacher_school":current_teacher.teacher_school,
-                        "passed_subject":passed_subject,
-                        "passed_examination":passed_exam,
-                        "results_formset":formset,
-                        "exam_id":exam_id,
-                        "class_id":class_id,
-                        "subject_id":subject_id
-                    }
+                    print("Form saved")
+                    formset.save()
+                    messages.success(
+                        request,
+                        _(f"{passed_class.class_full_str} {passed_subject.subject_name} Results updated successfully")
+                    )
+                    return redirect(
+                        reverse('teachers:teacher_classes_rupload')
+                    )
                 # Optional: messages.success(...)
             except Exception as e:
                 pass
@@ -212,7 +209,7 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
                 subject_id=subject_id    
             )
         else :
-            print("Inside invalid")
+            #log errors in the future
             messages.error(
                 request,
                 _("An error occured")
@@ -223,12 +220,11 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
                 "teacher_school":current_teacher.teacher_school,
                 "passed_subject":passed_subject,
                 "passed_examination":passed_exam,
-                "results_formset":formset,
+                "formset":formset,
                 "exam_id":exam_id,
                 "class_id":class_id,
                 "subject_id":subject_id
             }
-            return HttpResponse(formset.non_form_errors())
     else:
         context = {
             "page_title":page_title,

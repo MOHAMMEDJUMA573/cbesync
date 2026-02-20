@@ -32,32 +32,17 @@ class ResultsSubmissionForm(forms.ModelForm):
         # Pop the teacher so we can use it in save()
         self.results_teacher = kwargs.pop('result_teacher', None)
         super().__init__(*args, **kwargs)
-
-        # Improve label to show student name (only for existing instances)
-        if self.instance and self.instance.pk: 
-            try:       
-                print(f"{self.instance} --- 2")    
-                student = self.instance.result_student
-                if student is not None:
-                    names = [
-                        student.student_first_name,
-                        student.student_middle_name or "",
-                        student.student_last_name or "",
-                    ]
-                    self.fields["result_score"].label = " ".join(filter(None, names)).strip() or "Unnamed student"
-                else:
-                    self.fields["result_score"].label = "Student (missing link)"
-            except AttributeError as e:
-                print("AttributeError in form init:", e)
-        else:
-            print("Passed")
+        if 'result_id' in self.fields:           
+            self.fields['result_id'].widget = forms.HiddenInput()
     
     def clean_result_score(self):
         score = self.cleaned_data.get("result_score")
-        print(f"{score} -- cleaned")
         if score is not None:
             if score < 0 or score > 100:
-                raise forms.ValidationError(_("Score must be between 0 and 100."))
+                self.add_error(
+                    "result_score",
+                    _("Score out of range!")
+                )
         return score
     
     def save(self, commit=True):

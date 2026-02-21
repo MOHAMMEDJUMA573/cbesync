@@ -145,6 +145,7 @@ def user_management(request):
         school_online_days = current_school.school_online_days
 
         context = {
+            "school":current_school,
             "school_name":school_name,
             "page_title":page_title,
             "school_polpulation":school_polpulation,
@@ -336,6 +337,7 @@ def teacher_ledger_view(request):
                 }
         else:
             context = {
+                "school":current_school,
                 "school_name":school_name,
                 "page_title":page_title,
                 "school_teachers":school_teachers,
@@ -357,6 +359,7 @@ def teacher_management(request):
             pass
         else:
             context = {
+                "school":current_school,
                 "school_name":school_name,
                 "page_title":page_title,
             }
@@ -1009,6 +1012,7 @@ def class_management(request):
                     return redirect(reverse("schools:school_class_management"))          
             else:
                 context = {
+                    "school":current_school,
                     "school_name":school_name,
                     "page_title":page_title,
                     "form":form,
@@ -1089,6 +1093,7 @@ def assessment_management(request):
             }
     else:
         context = {
+            "school":current_school,
             "school_name":school_name,
             "page_title":page_title,
             "form2":form2

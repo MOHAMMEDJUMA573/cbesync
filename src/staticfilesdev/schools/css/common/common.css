@@ -46,6 +46,7 @@
     border: 0;
     box-sizing: border-box;
     font-family: "Montserrat", sans-serif;
+    transition: all 300ms ease;
 }
 /*general styles*/
 html{

@@ -10,92 +10,137 @@
 	<!--Side bar menu-->
     {% block sidemenu%}
 		{% include 'schools/base/navbar.html' %}
-    {% endblock sidemenu%}  
-	<!--main body-->
+    {% endblock sidemenu%} 
+	<!--main body--> 
 	<main>
 		<h1 class="main-header">Dashboard</h1>
-		<div class="school-data">
-			<div class="school-name">
-				<p>School Name: <span class="school-rez">{{ school_name }}</span></p>
-			</div>
-			<div class="school-code">
-				<p>School ID: <span class="school-rez">{{ school_id }}</span></p>
-			</div>
-			<div class="school-country">
-				<p>Country: <span class="school-rez">{{ school_country }}</span></p>
-			</div>
-			<div class="school-county">
-				<p>County: <span class="school-rez">{{ school_county }}</span></p>
-			</div>
-			<div class="school-type">
-				<p>School Type: <span class="school-rez">{{ school_type }}</span></p>
-			</div>
-			<div class="school-rating">
-				<p>School Rating: <span class="school-rez">⭐⭐⭐(60%)</span></p>
-			</div>
-		</div>
-		<div class="insights">
-			<!--Students census-->
-			<div class="census-std" id="studentblob" data-url="{% url 'schools:school_student_ledgerview' %}" >
-				<span class="material-symbols-outlined">person_4</span>
-				<div class="middle">
-					<div class="left">
-						<h3>Students</h3>
-						<h1>{{ student_count|stringformat:"04d" }}</h1>
+		<div class="main-s-page">
+			<div class="main-s-p">
+				<div class="main-s-title">School Profile</div>
+				<div class="school-p-pic">
+					<img src="{% static 'schools/images/profile-2.jpg'%}" class="school-p-image" alt="Profile pic">
+				</div>
+				<div class="school-p-data">
+					<div class="school-pd-row">
+						<div class="pd-title">Name :</div>
+						<div class="pd-value">{{ school.school_name }}</div>
 					</div>
-					<div class="progress">
-						<canvas class="canvas0">
-
-						</canvas>
-						<div class="number">
-							<p class="percentNo">33.3%</p>
+					<div class="school-pd-row">
+						<div class="pd-title">Country :</div>
+						<div class="pd-value">{{school.user.get_user_country_display}}</div>
+					</div>
+					<div class="school-pd-row">
+						<div class="pd-title">County / District / :</div>
+						<div class="pd-value">{{school.get_school_admin_level_2_display}}</div>
+					</div>
+					<div class="school-pd-row">
+						<div class="pd-title">Verified Status :</div>
+						<div class="pd-value">{{school.get_school_status_display}}</div>
+					</div>
+					<div class="school-pd-row">
+						<div class="pd-title">School ID :</div>
+						<div class="pd-value">{{school.school_id}}</div>
+					</div>
+					<div class="school-pd-row">
+						<div class="pd-title">Email :</div>
+						<div class="pd-value">{{school.user.email}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="main-s-p">
+				<div class="main-s-title">School Ledgers</div>
+				<div class="school-p-data">
+					<div class="school-ledger-row">
+						<div class="school-l-div" id="studentblob" data-url="{% url 'schools:school_student_ledgerview' %}">
+							Students
+							<span class="material-symbols-outlined">checkbook</span>
+						</div>
+					</div>
+					<div class="school-ledger-row">
+						<div class="school-l-div" id="teacherblob"  data-url="{% url 'schools:school_teacher_ledgerview' %}">
+							Teachers
+							<span class="material-symbols-outlined">checkbook</span>
+						</div>
+					</div>
+					<div class="school-ledger-row">
+						<div class="school-l-div" id="ntsblob"  data-url="{% url 'schools:school_ntstaff_ledgerview' %}">
+							Nt-Staffs
+							<span class="material-symbols-outlined">checkbook</span>
+						</div>
+					</div>
+					<div class="main-s-title">School Population</div>
+					<div class="school-pd-row">
+						<div class="pd-title">Students:</div>
+						<div class="pd-value info">{{ school.school_students_polpulation|stringformat:"04d" }}</div>
+					</div>
+					<div class="school-pd-row">
+						<div class="pd-title">Teachers :</div>
+						<div class="pd-value info">{{ school.school_teachers_polpulation|stringformat:"04d" }}</div>
+					</div>
+					<div class="school-pd-row">
+						<div class="pd-title">Nt-Staffs :</div>
+						<div class="pd-value info">{{ school.school_ntstaffs_polpulation|stringformat:"04d" }}</div>
+					</div>
+				</div>
+			</div>
+			<div class="main-s-p">
+				<div class="bio-data">
+					<div class="main-s-title">Bio</div>
+					<div class="bio-d-text">
+						How can i describe myself in my own words yet all that i do is almost wholly based on my subjective reality
+						not objective input for I'm human and the human brain automates most of the habits for simpicity of life .
+						I see that which is not there. I hear that which doesn't sound....I believe that which i can't prove.
+					</div>
+				</div>
+				<div class="schools-data">
+					<div class="main-s-title">School Statistics:</div>
+					<div class="school-analytics">
+						<div class="online- courses">
+							<div class="icon">
+								<span class="material-symbols-outlined">podcasts</span>
+							</div>
+							<div class="right">
+								<div class="info">
+									<h3>Online Since</h3>
+									<small class="text-muted">Last 24hrs</small>
+								</div>
+								<h5 class="success">{{ school.school_creation_date.date }}</h5>
+								<h3>{{ school.school_online_days|stringformat:"04d" }} Days</h3>
+							</div>
+						</div>
+						<div class="online- courses">
+							<div class="icon">
+								<span class="material-symbols-outlined">portable_wifi_off</span>
+							</div>
+							<div class="right">
+								<div class="info">
+									<h3>Account level</h3>
+									<small class="text-muted">Last 24hrs</small>
+								</div>
+								<h5 class="success">Premium</h5>
+								<h3>700/1000</h3>
+							</div>
+						</div>
+						<div class="online- courses">
+							<div class="icon">
+								<span class="material-symbols-outlined">groups_2</span>
+							</div>
+							<div class="right">
+								<div class="info">
+									<h3>Users</h3>
+									<small class="text-muted">Last 24hrs</small>
+								</div>
+								<h5 class="success">100%</h5>
+								<h3>{{school.school_polpulation|stringformat:"04d"}}</h3>
+							</div>
 						</div>
 					</div>
 				</div>
-				<small class="text-muted">Last 24hrs</small>
 			</div>
-			<!--Teachers census-->
-			<div class="census-tch" id="teacherblob" data-url="{% url 'schools:school_teacher_ledgerview' %}">
-				<span class="material-symbols-outlined">person_4</span>
-				<div class="middle">
-					<div class="left">
-						<h3>Teachers</h3>
-						<h1>{{ teacher_count|stringformat:"04d" }}</h1>
-					</div>
-					<div class="progress">
-						<canvas class="canvas1">
-
-						</canvas>
-						<div class="number">
-							<p>33.3%</p>
-						</div>
-					</div>
-				</div>
-				<small class="text-muted">Last 24hrs</small>
-			</div>
-			<!--Staff census-->
-			<div class="census-nts" id="ntsblob" data-url="{% url 'schools:school_ntstaff_ledgerview' %}">
-				<span class="material-symbols-outlined">person_4</span>
-				<div class="middle">
-					<div class="left">
-						<h3>NT-Staff</h3>
-						<h1>{{ ntstaff_count|stringformat:"04d" }}</h1>
-					</div>
-					<div class="progress">
-						<canvas class="canvas2">
-
-						</canvas>
-						<div class="number">
-							<p>33.3%</p>
-						</div>
-					</div>
-				</div>
-				<small class="text-muted">Last 24hrs</small>
-			</div>
-		</div>
+		</div>	
 		<!--Recent activities table-->
 		<div class="recent-activities">
-			<h2>Recent Programmes</h2>
+			<h2>Current Programmes</h2>
 			<table>
 				<thead>
 					<tr>
@@ -107,57 +152,22 @@
 					</tr>
 				</thead>
 				<tbody>
+					{% for program in programmes %}
 					<tr>
-						<td>Parents Meeting</td>
-						<td>P59RWX</td>
-						<td>Mr. Mohammed</td>
-						<td class="warning">Pending</td>
-						<td class="primary">Details</td>
+						<td>{{program.get_program_name_display}}</td>
+						<td>{{program.program_id}}</td>
+						<td>Government of Kenya</td>
+						<td class="primary">Active</td>
+						<td class="info">Details</td>
 					</tr>
-					<tr>
-						<td>Parents Meeting</td>
-						<td>P5O9RWX</td>
-						<td>Mr. Mohammed</td>
-						<td class="warning">Pending</td>
-						<td class="primary">Details</td>
-					</tr>
-					<tr>
-						<td>Parents Meeting</td>
-						<td>P5O7YX</td>
-						<td>Mr. Mohammed</td>
-						<td class="warning">Pending</td>
-						<td class="primary">Details</td>
-					</tr>
-					<tr>
-						<td>Parents Meeting</td>
-						<td>P5O7YX</td>
-						<td>Mr. Mohammed</td>
-						<td class="warning">Pending</td>
-						<td class="primary">Details</td>
-					</tr>
-					<tr>
-						<td>Parents Meeting</td>
-						<td>YW9RWX</td>
-						<td>Mr. Mohammed</td>
-						<td class="warning">Pending</td>
-						<td class="primary">Details</td>
-					</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 			<a href="#">show all</a>
-			<p>
-				{% if messages %}
-					<ul class="messages">
-						{% for message in messages %}
-						<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-						{% endfor %}
-					</ul>
-				{% endif %}
-			</p>
 		</div>
 	</main>
 	<!--3rd-->
-	{% include 'schools/base/3divuserp.html' %}
+	{% include 'schools/base/1divuserp.html' %}
   </div>
 {% endblock content %}
 

@@ -105,34 +105,21 @@ def get_specific_parent(passed_parent_id):
 def dashboard(request):
     if request.user.user_type == "school":
         current_school = get_school_object(request.user)
-        school_students_polpulation = current_school.school_students_polpulation
-        school_teachers_polpulation = current_school.school_teachers_polpulation
-        school_ntstaffs_polpulation = current_school.school_ntstaffs_polpulation
-        school_name = current_school.school_name
-        school_id = current_school.school_id
         school_country = current_school.user.get_user_country_display()
         school_type = current_school.get_school_type_display()
         school_county = current_school.get_school_admin_level_2_display()
-        school_polpulation = current_school.school_polpulation
-        school_creation_date = current_school.school_creation_date
-        school_online_days = current_school.school_online_days
+        programs = ProgramProfile.objects.all()
         if school_uuid == valid_school_uuid:
             template_name = "schools/dashl0/school_index.html"
             page_title = "S-Dashboard"
 
             context = {
+                "school":current_school,
                 "page_title":page_title,
-                "school_name":school_name,
-                "school_id":school_id,
                 "school_country":school_country,
                 "school_county":school_county,
                 "school_type":school_type,
-                "student_count":school_students_polpulation,
-                "teacher_count":school_teachers_polpulation,
-                "ntstaff_count":school_ntstaffs_polpulation,
-                "school_polpulation":school_polpulation,
-                "online_days":school_online_days,
-                "creation_date":school_creation_date
+                "programmes":programs
             }   
         else:
             return HttpResponse("Wrong teacher trying to access the page")

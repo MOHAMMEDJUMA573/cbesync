@@ -152,7 +152,7 @@ class ResultsProfile(models.Model):
 
     @property
     def result_year(self):
-        return self.result_examination.examination_year
+        return int(self.result_examination.examination_year)
 
     @property
     def result_period(self):

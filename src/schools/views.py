@@ -1049,57 +1049,63 @@ def class_management(request):
 #***--------------------***
 @verified_email_required
 def assessment_management(request):
-    if request.user.user_type == "school":
-        current_school = get_school_object(request.user)
-        school_name = current_school.school_name
-        template_name = "schools/dashl0/school_assess.html"
-        page_title = "A-Management"
-        classes_list = current_school.school_classes_list
-        school_results = current_school.school_result_objects
-        form2 = ResultsFilterForm(classes_tuple_list=classes_list)
-        if request.method == "POST":
-            if "get_results" in request.POST:
-                form2 = ResultsFilterForm(request.POST, request.FILES, classes_tuple_list=classes_list)
-                if form2.is_valid():
-                    class_passed = form2.cleaned_data["result_class"]
-                    term_passed = form2.cleaned_data["result_term"]
-                    period_passed = form2.cleaned_data["result_period"]
-                    year_passed = form2.cleaned_data["result_year"]
-                    class_students = class_passed.student_profiles.all()
-                    students_results_dict = {}
-                    for student in class_students:
-                        student_identifier = f"{student.student_first_name}"
-                        student_filtered_rez = student.result_profiles.all().filter(result_class=class_passed).filter(result_term=term_passed).filter(result_period=period_passed).filter(result_year=year_passed)
-                        students_results_dict.update({student_identifier:student_filtered_rez})
-                    context = {
-                        "school_name":school_name,
-                        "page_title":page_title,
-                        "form2":form2,
-                        "class_fetched":class_passed,
-                        "class_students":class_students,
-                        "students_results_dict":students_results_dict
-                    }
-                else:
-                    context = {
-                        "school_name":school_name,
-                        "page_title":page_title,
-                        "form2":form2
-                    }
-            elif "manage_results" in request.POST:
-                print("Managerez form")
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    current_school = get_school_object(request.user)
+    school_name = current_school.school_name
+    template_name = "schools/dashl0/school_assess.html"
+    page_title = "A-Management"
+    classes_list = current_school.school_classes_list
+    school_results = current_school.school_result_objects
+    form2 = ResultsFilterForm(classes_tuple_list=classes_list)
+    if request.method == "POST":
+        if "get_results" in request.POST:
+            form2 = ResultsFilterForm(request.POST, request.FILES, classes_tuple_list=classes_list)
+            if form2.is_valid():
+                class_passed = form2.cleaned_data["result_class"]
+                term_passed = form2.cleaned_data["result_term"]
+                period_passed = form2.cleaned_data["result_period"]
+                year_passed = form2.cleaned_data["result_year"]
+                print(year_passed)
+                class_students = class_passed.student_profiles.all()
+                students_results_dict = {}
+                for student in class_students:
+                    student_identifier = f"{student.student_first_name}"
+                    student_filtered_rez = [
+                        result
+                        for result in student.result_profiles.filter(result_class=class_passed)
+                        if result.result_term == term_passed
+                        and result.result_period == period_passed
+                        and result.result_year == int(year_passed)
+                    ]      
+                    students_results_dict.update({student_identifier:student_filtered_rez})
                 context = {
                     "school_name":school_name,
                     "page_title":page_title,
-                    "form2":ResultsFilterForm(classes_tuple_list=classes_list)
+                    "form2":form2,
+                    "class_fetched":class_passed,
+                    "class_students":class_students,
+                    "students_results_dict":students_results_dict
                 }
-        else:
+            else:
+                context = {
+                    "school_name":school_name,
+                    "page_title":page_title,
+                    "form2":form2
+                }
+        elif "manage_results" in request.POST:
+            print("Managerez form")
             context = {
                 "school_name":school_name,
                 "page_title":page_title,
-                "form2":form2
+                "form2":ResultsFilterForm(classes_tuple_list=classes_list)
             }
     else:
-        return HttpResponse("Only schools allowed bro!")
+        context = {
+            "school_name":school_name,
+            "page_title":page_title,
+            "form2":form2
+        }
     return render(request, template_name, context)
 
 

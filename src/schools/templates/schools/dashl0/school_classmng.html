@@ -4,6 +4,7 @@
 {% block head_css %}
 	<link rel="stylesheet" href="{% static 'schools/css/usermng/reg.css'%}">
     <link rel="stylesheet" href="{% static 'schools/css/dashl1/school_index_bledger.css'%}">
+	<link rel="stylesheet" href="{% static 'schools/css/dashl0/school_classmng.css'%}">
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
@@ -16,7 +17,7 @@
 	<main>
 		<h1 class="main-header">Class Management</h1>
 		<div class="main-grid">
-			<div class="class-section" style="margin-bottom: 1rem;">
+			<div class="class-section" style="margin-bottom: 1rem; margin-top: 1rem;">
 				<form action="{%  url 'schools:school_class_management' %}" method="post" class="reg-form" id="classRegForm">
 					{% csrf_token %}
 					<div class="form-header">

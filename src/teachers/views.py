@@ -70,75 +70,75 @@ def class_teacher_classes(request):
 #***--------------------***
 @verified_email_required
 def teacher_classes_results_upload_redirect(request):
-    if request.user.user_type == "teacher":
-        current_teacher = get_teacher_object(request.user)
-        teacher_school = current_teacher.teacher_school
-        teacher_subjects = current_teacher.teacher_teaching_subjects
-        #form inits
-        teacher_classes_set = set()
-        for subject in teacher_subjects:
-            teacher_classes_set.add(subject.subject_class)
-
-        subjects_tuple_list = [
-            (str(c.subject_id), str(f"{c.subject_name} --- {c.subject_class.class_full_str}"))
-            for c in teacher_subjects
-        ]
-        form = TeacherResultsUploadForm(subjects_tuple_choices=subjects_tuple_list)
-        if teacher_uuid == valid_teacher_uuid:
-            template_name = "teachers/dashl0/teacher_rupload.html"
-            page_title = "R-uploads"
-            if request.method == "POST":
-                form = TeacherResultsUploadForm(request.POST,subjects_tuple_choices=subjects_tuple_list)
-                if form.is_valid():
-                    passed_subject = form.cleaned_data["results_subjects"]
-                    passed_subject_term = form.cleaned_data["results_terms"]
-                    passed_subject_period = form.cleaned_data["results_period"]
-                    passed_subject_id = passed_subject.subject_id
-                    passed_subject_class = passed_subject.subject_class
-                    passed_subject_students = passed_subject_class.student_profiles.all()
-                    #get the exam
-                    try:
-                        required_exam = ExaminationProfile.objects.get(
-                            examination_school=teacher_school,
-                            examination_class=passed_subject_class,
-                            examination_term=passed_subject_term,
-                            examination_period=passed_subject_period
-                        )
-                    except ExaminationProfile.DoesNotExist:
-                        required_exam = None
-
-                    print(required_exam.examination_id)
-                    print(passed_subject.subject_id)
-                    print(passed_subject_class.class_id)
-                    return redirect(
-                        reverse(
-                            "teachers:teacher_classes_rupload_subject",
-                            kwargs={
-                                "class_id": passed_subject_class.class_id,
-                                "subject_id": passed_subject.subject_id,
-                                "exam_id": required_exam.examination_id,
-                            },
-                        )
-                    )
-
-                else:
-                    context = {
-                    "page_title":page_title,
-                    "teacher":current_teacher,
-                    "teacher_school":teacher_school,
-                    "teacher_subjects":teacher_subjects,
-                    "form":form,
-                }
-            else:
-                context = {
-                "page_title":page_title,
-                "teacher":current_teacher,
-                "teacher_school":teacher_school,
-                "teacher_subjects":teacher_subjects,
-                "form":form,
-            }            
-    else:
+    if request.user.user_type != "teacher":
         return HttpResponse("Only schools allowed bro!")
+    if teacher_uuid != valid_teacher_uuid:
+        return HttpResponse("Wrong teacher trying to access the page!")
+    current_teacher = get_teacher_object(request.user)
+    teacher_school = current_teacher.teacher_school
+    teacher_subjects = current_teacher.teacher_teaching_subjects
+    #form inits
+    teacher_classes_set = set()
+    for subject in teacher_subjects:
+        teacher_classes_set.add(subject.subject_class)
+
+    subjects_tuple_list = [
+        (str(c.subject_id), str(f"{c.subject_name} --- {c.subject_class.class_full_str}"))
+        for c in teacher_subjects
+    ]
+    form = TeacherResultsUploadForm(subjects_tuple_choices=subjects_tuple_list)
+    template_name = "teachers/dashl0/teacher_rupload.html"
+    page_title = "R-uploads"
+    if request.method == "POST":
+        form = TeacherResultsUploadForm(request.POST,subjects_tuple_choices=subjects_tuple_list)
+        if form.is_valid():
+            passed_subject = form.cleaned_data["results_subjects"]
+            passed_subject_term = form.cleaned_data["results_terms"]
+            passed_subject_period = form.cleaned_data["results_period"]
+            passed_subject_id = passed_subject.subject_id
+            passed_subject_class = passed_subject.subject_class
+            passed_subject_students = passed_subject_class.student_profiles.all()
+            #get the exam
+            try:
+                required_exam = ExaminationProfile.objects.get(
+                    examination_school=teacher_school,
+                    examination_class=passed_subject_class,
+                    examination_term=passed_subject_term,
+                    examination_period=passed_subject_period
+                )
+            except ExaminationProfile.DoesNotExist:
+                required_exam = None
+
+            print(required_exam.examination_id)
+            print(passed_subject.subject_id)
+            print(passed_subject_class.class_id)
+            return redirect(
+                reverse(
+                    "teachers:teacher_classes_rupload_subject",
+                    kwargs={
+                        "class_id": passed_subject_class.class_id,
+                        "subject_id": passed_subject.subject_id,
+                        "exam_id": required_exam.examination_id,
+                    },
+                )
+            )
+
+        else:
+            context = {
+            "page_title":page_title,
+            "teacher":current_teacher,
+            "teacher_school":teacher_school,
+            "teacher_subjects":teacher_subjects,
+            "form":form,
+        }
+    else:
+        context = {
+        "page_title":page_title,
+        "teacher":current_teacher,
+        "teacher_school":teacher_school,
+        "teacher_subjects":teacher_subjects,
+        "form":form,
+    }            
     return render(request, template_name, context)
 
 @verified_email_required
@@ -146,12 +146,16 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
     if request.user.user_type != "teacher":
         return HttpResponse("Only schools allowed bro!")
     if teacher_uuid != valid_teacher_uuid:
-        return HttpResponse("Wrong teacher trying to access the page!")
-
+        return HttpResponse("Wrong teacher trying to access the page!")    
+    current_teacher = get_teacher_object(request.user)
+    teacher_subjects_ids = [
+        (c.subject_id)
+        for c in current_teacher.teacher_teaching_subjects
+    ]
+    if subject_id not in teacher_subjects_ids:
+        return HttpResponse("Permision Denied", status=404)
     template_name = "teachers/dash3l1/teacher_rupload_s.html"
     page_title = "SR-uploads"
-    current_teacher = get_teacher_object(request.user)
-    teacher_subjects = current_teacher.teacher_teaching_subjects
     try:
         passed_subject = SubjectProfile.objects.get(subject_id=subject_id)
         passed_class   = ClassProfile.objects.get(class_id=class_id)

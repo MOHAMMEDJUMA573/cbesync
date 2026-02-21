@@ -6,6 +6,9 @@
 }
 @media screen and (max-width:768px) {
     /*the last third  division*/
+    input[type="text"], input[type="email"],input[type="date"], select, input[type="number"], input[type="tel"], textarea{
+        max-width: none;
+    }
     .grid-part{
         grid-template-columns: repeat(1, 1fr);
     }

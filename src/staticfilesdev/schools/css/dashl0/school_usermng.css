@@ -12,14 +12,14 @@
     margin-top: 1rem;
 }
 .grid-partitions{
-    border: 1px solid green;
+    /* border: 1px solid green; */
     margin: 0.4rem;
     justify-content: center;
     align-items: center;
     text-align: center;
     padding: var(--card-padding);
     background: var(--color-white);
-    border-radius: var(--card-border-radius);
+    border-radius: var(--allround-bradius);
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
     display: flex;

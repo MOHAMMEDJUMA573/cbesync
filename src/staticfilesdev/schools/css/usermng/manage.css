@@ -6,10 +6,13 @@
 .page-header{
     display: flex;
     margin-bottom: 1rem;
-    border: 1px solid green;
-    background-color: var(--color-white);
-    border-radius: 1rem;
+    background-color: var(--color-headers-bg);
+    border-radius: var(--allround-bradius);
     padding: 1rem;
+}
+.page-header p{
+    color: var(--color-black);
+    font-weight: bold;
 }
 .page-guide-text{
     display: flex;

@@ -5,6 +5,7 @@
     --color-white: #202528;
     --color-dark: #edeffd;
     --color-dark-variant: #a3bdcc;
+    --color-headers-bg: #6b808c;
     --color-light: rgba(0,0,0,0.4);
     --box-shadow: 0 2rem 3rem var(--color-light);    
 
@@ -21,6 +22,7 @@
     --border-radius-1: 0.4rem;
     --border-radius-2: 0.8rem;
     --border-radius-3: 1.2rem;
+    --allround-bradius: 0.5rem;
     --card-padding: 1.8rem;
     --padding-1: 1.2rem;
 }
@@ -334,7 +336,7 @@ main h1{
     gap: 1rem;
     background-color: var(--color-white);
     box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius-3);
+    border-radius: var(--allround-bradius);
     padding: 1.4rem var(--card-padding);
     margin-bottom: 0.7rem;
     transition: all 300ms ease;

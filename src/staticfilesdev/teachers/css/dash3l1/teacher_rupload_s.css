@@ -29,7 +29,6 @@
 .form-body{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    border: 1px solid green;
     background-color: var(--color-white);
     border-radius: 0.5rem;
 }

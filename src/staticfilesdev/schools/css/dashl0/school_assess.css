@@ -20,9 +20,9 @@
 .form-header{
     display: flex;
     margin-bottom: 1rem;
-    border: 1px solid green;
     background-color: var(--color-white);
-    border-radius: 1rem;
+    background-color: var(--color-headers-bg);
+    border-radius: var(--allround-bradius);
     padding: 1rem;
 }
 .form-guide-text{
@@ -35,12 +35,15 @@
 .error-message{
     color: var(--color-warning);
 }
+.form-guide-text p{
+    color: var(--color-black);
+    font-weight: bold;
+}
 .form-body{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    border: 1px solid green;
     background-color: var(--color-white);
-    border-radius: 1rem;
+    border-radius: var(--allround-bradius);
 }
 .form-body1{
     grid-template-columns: repeat(4, 1fr);
@@ -69,7 +72,6 @@ input[type="text"], input[type="email"],input[type="date"], select, input[type="
     background: #e3e3e3;
     padding: 0.5rem;
     font-size: 1rem;
-    font-weight: 600;
     border-radius: 0.3rem;
     color: darkblue;
     max-width: 30ch;
@@ -109,7 +111,6 @@ input[type="text"], input[type="email"],input[type="date"], select, input[type="
 }
 .status-button1{
     background: #00ff67;
-    padding: 1rem; 
     margin-top: 1rem;
 }
 .class-data-div{
@@ -155,6 +156,9 @@ input[type="text"], input[type="email"],input[type="date"], select, input[type="
     }
     .form-body{
         grid-template-columns: repeat(1, 1fr);
+    }
+    input[type="text"], input[type="email"],input[type="date"], select, input[type="number"], input[type="tel"], textarea{
+        max-width: none;
     }
     .aside-right .top{
         top: 0;

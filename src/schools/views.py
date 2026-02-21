@@ -1067,13 +1067,13 @@ def assessment_management(request):
                 period_passed = form2.cleaned_data["result_period"]
                 year_passed = form2.cleaned_data["result_year"]
                 print(year_passed)
-                class_students = class_passed.student_profiles.all()
+                class_students = class_passed.student_profiles.all().order_by("student_first_name")
                 students_results_dict = {}
                 for student in class_students:
-                    student_identifier = f"{student.student_first_name}"
+                    student_identifier = f"{student.student_first_name} {student.student_middle_name[:1]} {student.student_last_name}"
                     student_filtered_rez = [
                         result
-                        for result in student.result_profiles.filter(result_class=class_passed)
+                        for result in student.result_profiles.filter(result_class=class_passed).order_by('result_subject__subject_name')
                         if result.result_term == term_passed
                         and result.result_period == period_passed
                         and result.result_year == int(year_passed)

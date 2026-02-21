@@ -118,7 +118,7 @@
 							Class Teacher: <button>{{class_fetched.class_teacher.teacher_full_name}}</button>
 						</div>
 						<div class="class_name">
-							Class: <button>{{class_fetched}}</button>
+							Class: <button>{{class_fetched.class_full_str}}</button>
 						</div>
 						<div class="class-description">
 							Description: <button>"{{class_fetched.class_description|truncatechars:15}}"</button>
@@ -136,7 +136,7 @@
 								<div class="maingt-header-row">
 									<div class="maingth-data">Student Name</div>
 									{% for result in student_filtered_rez %}
-										<div class="maingth-data">{{result.result_subject.subject_code}}</div>
+										<div class="maingth-data" title={{result.result_subject.subject_name}}>{{result.result_subject.subject_code}}</div>
 									{% endfor %}
 									<div class="maingth-data">POS</div>
 									<div class="maingth-data">TTL</div>

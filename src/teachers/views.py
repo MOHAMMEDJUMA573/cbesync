@@ -176,10 +176,9 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
     )
     queryset = ResultsProfile.objects.filter(
         result_student__student_class=passed_class,
-        result_class=passed_class,
         result_subject=passed_subject,
         result_examination=passed_exam,
-    ).select_related('result_student')
+    ).select_related('result_student').order_by('result_student__student_first_name')
     formset = StudentsResultsFormSet(
         queryset=queryset,
         form_kwargs=get_form_kwargs(),

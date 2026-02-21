@@ -10,7 +10,7 @@
     display: flex;
     margin-bottom: 1rem;
     background: rgb(107, 128, 140);
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     padding: 1rem;
 }
 .form-guide-text{
@@ -31,7 +31,7 @@
     grid-template-columns: repeat(4, 1fr);
     border: 1px solid green;
     background-color: var(--color-white);
-    border-radius: 1rem;
+    border-radius: 0.5rem;
 }
 .form-body1{
     grid-template-columns: repeat(4, 1fr);
@@ -112,6 +112,7 @@ main .main-subjects-div{
     }
     .form-body{
         grid-template-columns: repeat(3, 1fr);
+        border: none;
     }
     .maingt-header-row .maingth-data:nth-child(3), .maingt-data-row .maingtr-data:nth-child(3){
         display: block;

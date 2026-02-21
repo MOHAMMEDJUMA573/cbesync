@@ -210,9 +210,9 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
             )
         else :
             #log errors in the future
-            messages.error(
+            messages.warning(
                 request,
-                _("An error occured")
+                _("An unexpected error occured and has been logged!")
             )
             context = {
                 "page_title":page_title,

@@ -114,11 +114,11 @@
 							</div>
 							<div class="right">
 								<div class="info">
-									<h3>Account level</h3>
+									<h3>Account</h3>
 									<small class="text-muted">Last 24hrs</small>
 								</div>
 								<h5 class="success">Premium</h5>
-								<h3>700/1000</h3>
+								<h3>⭐</h3>
 							</div>
 						</div>
 						<div class="online- courses">
@@ -130,14 +130,23 @@
 									<h3>Users</h3>
 									<small class="text-muted">Last 24hrs</small>
 								</div>
-								<h5 class="success">100%</h5>
-								<h3>{{school.school_polpulation|stringformat:"04d"}}</h3>
+								<h5 class="success">+20%</h5>
+								<h3>{{ school.school_polpulation|stringformat:"04d" }}</h3>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>	
+		<p>
+			{% if messages %}
+				<ul class="messages">
+					{% for message in messages %}
+					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</p>
 		<!--Recent activities table-->
 		<div class="recent-activities">
 			<h2>Current Programmes</h2>
@@ -172,5 +181,5 @@
 {% endblock content %}
 
 {% block head_js %}
-<script src="{% static 'schools/js/dashl0/school_index.js'%}"></script>
+	<script src="{% static 'schools/js/dashl0/school_index.js'%}"></script>
 {% endblock head_js %}

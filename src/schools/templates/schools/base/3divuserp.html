@@ -1,6 +1,6 @@
 {% load static %}
-<!--The 3rd section of the page-->
-<div class="aside-right">
+	<!--The 3rd section of the page-->
+	<div class="aside-right">
 		<!--Part one third row-->
 		<div class="top">
 			<button id="menu-btn">
@@ -83,8 +83,8 @@
 						<h3>Online Since</h3>
 						<small class="text-muted">Last 24hrs</small>
 					</div>
-					<h5 class="success">{{ creation_date.date }}</h5>
-					<h3>{{ online_days|stringformat:"04d" }} Days</h3>
+					<h5 class="success">{{ school.school_creation_date.date }}</h5>
+					<h3>{{ school.school_online_days|stringformat:"04d" }} Days</h3>
 				</div>
 			</div>
 			<div class="online- courses">
@@ -93,11 +93,11 @@
 				</div>
 				<div class="right">
 					<div class="info">
-						<h3>Account level</h3>
+						<h3>Account</h3>
 						<small class="text-muted">Last 24hrs</small>
 					</div>
 					<h5 class="success">Premium</h5>
-					<h3>700/1000</h3>
+					<h3>⭐</h3>
 				</div>
 			</div>
 			<div class="online- courses">
@@ -110,7 +110,7 @@
 						<small class="text-muted">Last 24hrs</small>
 					</div>
 					<h5 class="success">+20%</h5>
-					<h3>{{ school_polpulation|stringformat:"04d" }}</h3>
+					<h3>{{ school.school_polpulation|stringformat:"04d" }}</h3>
 				</div>
 			</div>
 		</div>

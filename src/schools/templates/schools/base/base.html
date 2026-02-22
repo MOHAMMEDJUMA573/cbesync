@@ -15,10 +15,11 @@
     <title>{% block head_title %}CbeSync{% endblock head_title %} </title>
 
     <!--Meta data-->
-    {% include 'base/schoolmeta.html' %}
+    {% include 'base/projectmeta.html' %}
     
     <!--Static files load-->
-    {% include 'base/schoolcss.html' %}
+    {% include 'base/schools/css.html' %}
+    
     <!--Custom css for everypage-->
     {% block head_css %} {% endblock head_css %}
 </head>
@@ -30,9 +31,10 @@
     {% endblock sidemenu%}
         
     {% endblock content %}
+     <!--Common scripts for schools-->
+    {% include 'base/schools/scripts.html' %}
+    
     <!--Custom js for everypage-->
     {% block head_js %} {% endblock head_js %}
-    <!--Common scripts for schools-->
-    {% include 'base/schoolscripts.html' %}
 </body>
 </html>

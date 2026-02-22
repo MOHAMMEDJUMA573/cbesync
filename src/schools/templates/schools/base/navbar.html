@@ -1,59 +1,59 @@
 {% load static %}
-<aside>
-    <div class="top">
-        <div class="logo">
-            <img src="{% static 'schools/images/logo.png'%}" alt="INC-LOGO">
-            <h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
+    <aside>
+        <div class="top">
+            <div class="logo">
+                <img src="{% static 'schools/images/logo.png'%}" alt="INC-LOGO">
+                <h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
+            </div>
+            <div class="close" id="close-btn">
+                <span class="material-symbols-outlined">cancel_presentation</span>
+            </div>
         </div>
-        <div class="close" id="close-btn">
-            <span class="material-symbols-outlined">cancel_presentation</span>
+        <div class="sidebar">
+            <a href="{% url 'schools:school_app_dashboard'%}" class="active">
+                <span class="material-symbols-outlined">dashboard</span>
+                <h3>Dashboard</h3>
+            </a>
+            <a href="{% url 'schools:school_usr_management'%}">
+                <span class="material-symbols-outlined">groups_3</span>
+                <h3>User-Management</h3>
+            </a>
+            <a href="{%url 'schools:school_class_management'%}">
+                <span class="material-symbols-outlined">cast_for_education</span>
+                <h3>Class-Management</h3>
+            </a>
+            <a href="{% url 'schools:school_assessment_management' %}">
+                <span class="material-symbols-outlined">quiz</span>
+                <h3>Assessments</h3>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">admin_panel_settings</span>
+                <h3>Administrative Tools</h3>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">communication</span>
+                <h3>Communication</h3>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">books_movies_and_music</span>
+                <h3>Library</h3>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">report</span>
+                <h3>Reports</h3>
+                <span class="report-count">10</span>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">table_chart_view</span>
+                <h3>Analytics</h3>
+            </a>
+            <a href="#">
+                <span class="material-symbols-outlined">settings</span>
+                <h3>settings</h3>
+            </a>
+            <a href="{% url 'account_logout'%}">
+                <span class="material-symbols-outlined">logout</span>
+                <h3>logout</h3>
+            </a>
         </div>
-    </div>
-    <div class="sidebar">
-        <a href="{% url 'schools:school_app_dashboard'%}" class="active">
-            <span class="material-symbols-outlined">dashboard</span>
-            <h3>Dashboard</h3>
-        </a>
-        <a href="{% url 'schools:school_usr_management'%}">
-            <span class="material-symbols-outlined">groups_3</span>
-            <h3>User-Management</h3>
-        </a>
-        <a href="{%url 'schools:school_class_management'%}">
-            <span class="material-symbols-outlined">cast_for_education</span>
-            <h3>Class-Management</h3>
-        </a>
-        <a href="{% url 'schools:school_assessment_management' %}">
-            <span class="material-symbols-outlined">quiz</span>
-            <h3>Assessments</h3>
-        </a>
-        <a href="#">
-            <span class="material-symbols-outlined">admin_panel_settings</span>
-            <h3>Administrative Tools</h3>
-        </a>
-        <a href="#">
-            <span class="material-symbols-outlined">communication</span>
-            <h3>Communication</h3>
-        </a>
-        <a href="#">
-            <span class="material-symbols-outlined">books_movies_and_music</span>
-            <h3>Library</h3>
-        </a>
-        <a href="#">
-            <span class="material-symbols-outlined">report</span>
-            <h3>Reports</h3>
-            <span class="report-count">10</span>
-        </a>
-        <a href="#">
-            <span class="material-symbols-outlined">table_chart_view</span>
-            <h3>Analytics</h3>
-        </a>
-        <a href="#">
-            <span class="material-symbols-outlined">settings</span>
-            <h3>settings</h3>
-        </a>
-        <a href="{% url 'account_logout'%}">
-            <span class="material-symbols-outlined">logout</span>
-            <h3>logout</h3>
-        </a>
-    </div>
-</aside> 
+    </aside> 

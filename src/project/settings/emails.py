@@ -15,7 +15,7 @@ else:
     EMAIL_PORT=587
     EMAIL_USE_TLS=True
     EMAIL_USE_SSL=False
-    DEFAULT_FROM_EMAIL="CbeSync"
+    DEFAULT_FROM_EMAIL="cbesync@cbesync.com"
     ACCOUNT_EMAIL_SUBJECT_PREFIX=""
     
     #sendgrid config

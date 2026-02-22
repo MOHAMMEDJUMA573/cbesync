@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import F, Window
+from django.db.models.functions import Rank, DenseRank
 from schools.models import SchoolProfile
 from teachers.models import TeacherProfile
 import uuid
@@ -247,8 +249,38 @@ class ClassProfile(models.Model):
         return subject_t_dict
 
     #results processing
-    # def class_reports generator;
+    def class_reports_total_generator(self,examination):
+        required_reports = self.stereport_profiles.filter(
+            streport_examination=examination
+        ).order_by("streport_t_score")
+        required_results = self.result_profiles.filter(
+            result_examination=examination
+        )
+        for ereport in required_reports:
+            total = 0
+            student = ereport.streport_student
+            student_results = required_results.filter(
+                result_student = student
+            )
+            for subject_rez in student_results:
+                total += int(subject_rez.result_score)
+            ereport.streport_t_score = total
+            ereport.save(update_fields=['streport_t_score'])
+            print(ereport)
     
+    def class_reports_pos_generator(self,examination):
+        required_reports = self.stereport_profiles.filter(
+            streport_examination=examination
+        ).annotate(
+            rank=Window(
+                expression=DenseRank(),
+                order_by=F('streport_t_score').desc(),
+            )
+        )
+        for report in required_reports:
+            report.streport_c_position = report.rank
+            report.save(update_fields=['streport_c_position'])
+
     def __str__(self):
         return f"{self.get_class_title_display()}-{self.class_level} ({self.class_school.school_name})"
 

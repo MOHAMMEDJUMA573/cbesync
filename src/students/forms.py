@@ -6,6 +6,7 @@ from .models import StudentProfile
 from classes.models import ClassProfile
 from accounts.models import CustomUser
 from results.models import ResultsProfile
+from reports.models import StudentEReportProfile
 from phonenumber_field.formfields import PhoneNumberField
 import uuid
 from django.utils.translation import gettext_lazy as _
@@ -211,6 +212,11 @@ class StudentRegistrationForm(forms.Form):
                         result_subject = subject,
                         result_examination = examination
                     )
+                StudentEReportProfile.objects.create(
+                    streport_examination = examination,
+                    streport_class = student_class,
+                    streport_student = student_saved,
+                )
 
             #increment the nuber of students in the school
             student_school.school_students_polpulation = F(

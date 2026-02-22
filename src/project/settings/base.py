@@ -85,6 +85,7 @@ INSTALLED_APPS = [
     "classes",
     "subjects",
     "results",
+    "reports",
 ]
 ALLAUTH_UI_THEME = "emerald"
 # TAILWIND_APP_NAME = "theme"

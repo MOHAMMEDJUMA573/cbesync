@@ -7,7 +7,8 @@ from teachers.models import TeacherProfile
 from ntstaffs.models import NtStaffProfile
 from parents.models import ParentProfile
 from classes.models import ClassProfile,ProgramProfile
-from results.models import ResultsProfile
+from results.models import ExaminationProfile
+from reports.models import StudentEReportProfile
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -1035,19 +1036,40 @@ def assessment_management(request):
                 term_passed = form2.cleaned_data["result_term"]
                 period_passed = form2.cleaned_data["result_period"]
                 year_passed = form2.cleaned_data["result_year"]
-                print(year_passed)
+                try:
+                    examination_q = ExaminationProfile.objects.get(
+                        examination_class = class_passed,
+                        examination_term = term_passed,
+                        examination_period = period_passed,
+                        examination_year = year_passed
+                    )
+                except ExaminationProfile.DoesNotExist:
+                    messages.success(
+                        request,
+                        _(f"Qeried results dont exist")
+                    )
+                    context = {
+                        "school":current_school,
+                        "page_title":page_title,
+                        "form2":form2
+                    }
+                    return render(request, template_name, context)
+                #generate reports total and position
+                class_passed.class_reports_total_generator(examination_q)
+                class_passed.class_reports_pos_generator(examination_q)
                 class_students = class_passed.student_profiles.all().order_by("student_first_name")
                 students_results_dict = {}
                 for student in class_students:
                     student_identifier = f"{student.student_first_name} {student.student_middle_name[:1]} {student.student_last_name}"
                     student_filtered_rez = [
                         result
-                        for result in student.result_profiles.filter(result_class=class_passed).order_by('result_subject__subject_name')
-                        if result.result_term == term_passed
-                        and result.result_period == period_passed
-                        and result.result_year == int(year_passed)
-                    ]      
-                    students_results_dict.update({student_identifier:student_filtered_rez})
+                        for result in student.result_profiles.filter(result_examination=examination_q).order_by('result_subject__subject_name')
+                    ]
+                    student_report = StudentEReportProfile.objects.get(
+                        streport_student = student,
+                        streport_examination=examination_q
+                    )  
+                    students_results_dict.update({student_identifier:[student_filtered_rez, student_report]})
                 context = {
                     "school":current_school,
                     "page_title":page_title,

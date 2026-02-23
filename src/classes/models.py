@@ -266,7 +266,6 @@ class ClassProfile(models.Model):
                 total += int(subject_rez.result_score)
             ereport.streport_t_score = total
             ereport.save(update_fields=['streport_t_score'])
-            print(ereport)
     
     def class_reports_pos_generator(self,examination):
         required_reports = self.stereport_profiles.filter(

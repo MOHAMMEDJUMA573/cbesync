@@ -23,7 +23,16 @@
 					<div class="form-header">
 						<div class="form-guide-text"> 
 							<p>Management Options</p>
-							<p class="error-message"></p>
+							{% if messages %}
+								<ul class="messages">
+									{% for message in messages %}
+									<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+							<p class="error-message">
+								{{ form.non_field_errors }}
+							</p>
 						</div>
 					</div>
 					<div class="form-body form-body1">
@@ -64,8 +73,17 @@
 					{% csrf_token %}
 					<div class="form-header">
 						<div class="form-guide-text"> 
-							<p>Please select the appropriate filters for the results</p>
-							<p class="error-message"></p>
+							<p>Please select the appropriate filters for the results</p> 
+							{% if messages %}
+								<ul class="messages">
+									{% for message in messages %}
+									<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+							<p class="error-message">
+								{{ form.non_field_errors }}
+							</p>
 						</div>
 					</div>
 					<div class="form-body">
@@ -135,7 +153,7 @@
 							{% if forloop.first %}
 								<div class="maingt-header-row">
 									<div class="maingth-data">Student Name</div>
-									{% for result in student_filtered_rez %}
+									{% for result in student_filtered_rez.0 %}
 										<div class="maingth-data" title={{result.result_subject.subject_name}}>{{result.result_subject.subject_code}}</div>
 									{% endfor %}
 									<div class="maingth-data">POS</div>
@@ -144,12 +162,13 @@
 							{% endif %}
 							<div class="maingt-data-row">
 								<div class="maingtr-data">{{student_identifier}}</div>
-								{% for item in student_filtered_rez %}
+								{% for item in student_filtered_rez.0 %}
 									<div class="maingtr-data">{{item.result_score|default:0}}</div>
 								{% endfor %}
-								<div class="maingtr-data">XXXX</div>
+								<div class="maingtr-data">{{student_filtered_rez.1.streport_c_position}}</div>
 								<div class="maingtr-data">
-									{{student_filtered_rez|add_results}}
+									{{student_filtered_rez.1.streport_t_score}}
+									<!-- {{student_filtered_rez.0|add_results}} removed template -->
 								</div>
 							</div>
 						{% endfor %}

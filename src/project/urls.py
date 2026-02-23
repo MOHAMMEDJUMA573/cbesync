@@ -11,6 +11,7 @@ urlpatterns = [
     #apps urls
     path('school/', include("schools.urls")),
     path('teacher/', include("teachers.urls")),
+    path('report/', include("reports.urls")),
     #allauth urls
     path('accounts/', include('allauth.urls')),
 ]

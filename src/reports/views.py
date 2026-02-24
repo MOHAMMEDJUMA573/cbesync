@@ -23,7 +23,7 @@ def fetch_logo(request):
         print(f"Failed to read static file: {e}")
         return None 
     
-def create_report_header(elements, styles, logo_buffer):
+def create_report_header(elements, styles, logo_buffer, class_passed, exam_passed):
     if logo_buffer:
         logo = Image(logo_buffer, height=1.2*inch, width=3*inch)
         logo.hAlign = 'CENTER'
@@ -45,16 +45,15 @@ def create_report_header(elements, styles, logo_buffer):
         fontName="Helvetica-Bold",
         textColor=black
     )
-
-    school_p1 = Paragraph("MWANGANI JUNIOR SCHOOL", heading1)
-    school_p2 = Paragraph("PO BOX 16-80405 KINANGO <br/> END OF TERM 3, 2025", heading2)
+    school_p1 = Paragraph(f"{class_passed.class_school.school_name.upper()}", heading1)
+    school_p2 = Paragraph(f"PO BOX 16-80405 KINANGO <br/> {exam_passed.examination_period.upper()} OF TERM {exam_passed.examination_term[2:]}, {exam_passed.examination_year}", heading2)
     elements.append(school_p1)
     elements.append(school_p2)
     elements.append(Spacer(1, 0.1*inch))
 
-def create_student_page(elements, styles,logo_buffer, student_obj, class_passed):
+def create_student_page(elements, styles,logo_buffer, student_obj, class_passed, exam_passed):
     #header part
-    create_report_header(elements, styles, logo_buffer)
+    create_report_header(elements, styles, logo_buffer, class_passed, exam_passed)
     text1 = ParagraphStyle(
         name="Heading3",
         parent=styles['Heading3'],
@@ -69,7 +68,7 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed)
     table_data = [['LEARNING AREA', 'SCORE', 'POINTS', 'PERFORMANCE LEVEL']]
     for result_passed in student_obj[1]:
         table_data.append([result_passed.result_subject.subject_name.upper(), result_passed.result_score, str(result_passed.result_p_level[1]), str(result_passed.result_p_level[0])])
-    table_data.append(['TOTAL', str(student_obj[2].streport_t_score), str(student_obj[2].streport_points_score), "EE1" ])
+    table_data.append(['TOTAL', str(student_obj[2].streport_t_score), str(student_obj[2].streport_points_score), str(student_obj[2].streport_p_level) ])
     table1 = Table(
         table_data,
         rowHeights=0.3*inch,
@@ -97,10 +96,10 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed)
         textColor=black
     )
     row1p1 = Paragraph(f"TOTAL: <font color=#d90000 size=11 > <b> { str(student_obj[2].streport_t_score)} </b> </font>", text2)
-    row1p2 = Paragraph(f"OUT OF: <b> 900 </b>", text2)
+    row1p2 = Paragraph(f"OUT OF: <b>{len(student_obj[1])*100}</b>", text2)
     row2p1 = Paragraph(f"POSITION: <font color=#d90000 size=11 > <b> { str(student_obj[2].streport_c_position)} </b> </font> ", text2)
-    row2p2 = Paragraph(f" OUT OF: <b> 18 </b>", text2)
-    row3p1 = Paragraph(f"GENERAL PERFORMANCE LEVEL: <font color=#d90000 size=11 > {"EE1"} </font>", text2)
+    row2p2 = Paragraph(f" OUT OF: <b> {class_passed.student_profiles.all().count()} </b>", text2)
+    row3p1 = Paragraph(f"GENERAL PERFORMANCE LEVEL: <font color=#d90000 size=11 > {str(student_obj[2].streport_p_level)} </font>", text2)
     row3p2 = Paragraph(f"")
     table1_data = [
         [row1p1, row1p2],
@@ -136,7 +135,6 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed)
     )
     elements.append(table3)
     elements.append(Spacer(1, 0.8*inch))
-
     footer = Paragraph(
         "<a href='https://cbesync.com' color='blue'><u>www.cbesync.com</u></a> &nbsp;" "© 2026 cbesync from Eyerision"
     )
@@ -172,10 +170,8 @@ def student_report1_generator(class_passed, exam_passed, request=None):
             streport_examination=exam_passed
         )
         students_reports_dict.update({student_identifier:[student_full_name,student_filtered_rez, student_report_data]})
-    
     for student_id, student_data in students_reports_dict.items():
-        create_student_page(elements, styles, logo_buffer, student_data, class_passed)
-
+        create_student_page(elements, styles, logo_buffer, student_data, class_passed, exam_passed)
     # Remove the last PageBreak
     if elements and isinstance(elements[-1], PageBreak):
         elements.pop()
@@ -184,7 +180,6 @@ def student_report1_generator(class_passed, exam_passed, request=None):
     filename = f"full_student_report_{uuid.uuid4().hex[:8]}.pdf"
 
     return FileResponse(buffer, as_attachment=True, filename=filename)
-
 
 def student_report_paragraph_gen(request=None):
         # Create the document

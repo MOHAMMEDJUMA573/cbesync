@@ -257,8 +257,10 @@ class ClassProfile(models.Model):
             result_examination=examination
         )
         for ereport in required_reports:
+            sbt_count = self.class_subjects_count
             points = 0
             total = 0
+            report_avg = ""
             student = ereport.streport_student
             student_results = required_results.filter(
                 result_student = student
@@ -266,9 +268,27 @@ class ClassProfile(models.Model):
             for subject_rez in student_results:
                 total += int(subject_rez.result_score)
                 points += int(subject_rez.result_p_level[1])
+            if total > (89 * sbt_count):
+                report_avg = "EE1"
+            elif total > (74 * sbt_count):
+                report_avg = "EE2"
+            elif total > (57 * sbt_count):
+                report_avg = "ME1"
+            elif total > (40 * sbt_count):
+                report_avg = "ME2"
+            elif total > (30 * sbt_count):
+                report_avg = "AE1"
+            elif total > (20 * sbt_count):
+                report_avg = "AE2"
+            elif total > (10 * sbt_count):
+                report_avg = "BE1"
+            elif total >=( 0 * sbt_count):
+                report_avg = "BE2"
+            
             ereport.streport_t_score = total
             ereport.streport_points_score = points
-            ereport.save(update_fields=['streport_t_score','streport_points_score'])
+            ereport.streport_p_level = report_avg
+            ereport.save(update_fields=["streport_t_score","streport_points_score", "streport_p_level"])
     
     def class_reports_pos_generator(self,examination):
         required_reports = self.stereport_profiles.filter(

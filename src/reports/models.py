@@ -53,6 +53,10 @@ class StudentEReportProfile(models.Model):
     streport_update_date = models.DateTimeField(
         auto_now=True
     )
+    streport_p_level = models.CharField(
+        default="",
+        max_length=5
+    )    
 
     def __str__(self):
         return f"{self.streport_student.student_full_name} {self.streport_examination.exam_short_description()}"

@@ -16,8 +16,8 @@ def generate_unique_class_id():
             return new_id
 
 CLASS_SUBJECTS_DICT = {
-    'JSS': [('ENGL','English'), ('KISW','Kiswahili'), ('MATS','Mathematics'), ('RLED','Religious E.'), ('SSTD','Social Studies'), ('INTS','Intergrated Science'), ('PRTS','Pre Technical'), ('AGNT','Agriculture Nutr'), ('CASP','C.A Sports')],
-    'UPE': [('ENGL','English'), ('KISW','Kiswahili'), ('MATS','Mathematics'), ('RLED','Religious E.'), ('SSTD','Social Studies'), ('SATC','Science Technology '), ('AGNT','Agriculture Nutr'), ('CASP','C.A Sports')],
+    'JSS': [('ENGL','English'), ('KISW','Kiswahili'), ('MATS','Mathematics'), ('RLED','Religious Education'), ('SSTD','Social Studies'), ('INTS','Intergrated Science'), ('PRTS','Pre-Technical'), ('AGNT','Agriculture and Nutrition'), ('CASP','Creative Arts & Sports')],
+    'UPE': [('ENGL','English'), ('KISW','Kiswahili'), ('MATS','Mathematics'), ('RLED','Religious Education'), ('SSTD','Social Studies'), ('SATC','Science & Technology '), ('AGNT','Agriculture & Nutrition'), ('CASP','Creative Arts & Sports')],
     'LPE': [('ENGL','English L Activities'), ('KISW','Kiswahili L Activities'), ('MATS','Mathematics Activities'), ('RLED','Religious E. Activities'), ('ENVA','Environmental Activities'), ('CRAT','Creative Activities')],
     'PPE': [('LGAT','Language Activities'), ('MATS','Mathematical Activities'), ('CRAT','Creative Activities'), ('EVAT','Environment Activities'), ('REAT','Religious Activities')]
 }

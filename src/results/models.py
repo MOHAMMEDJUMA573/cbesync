@@ -159,6 +159,28 @@ class ResultsProfile(models.Model):
         return self.result_examination.examination_period
    
     @property
+    def result_p_level(self):
+        score = self.result_score
+        if score > 89:
+            return ("EE1", 8)
+        elif score > 74:
+            return ("EE2", 7)
+        elif score > 57:
+            return ("ME1", 6)
+        elif score > 40:
+            return ("ME2", 5)
+        elif score > 30:
+            return ("AE1", 4)
+        elif score > 20:
+            return ("AE2", 3)
+        elif score > 10:
+            return ("BE1", 2)
+        elif score >= 0:
+            return ("BE2", 1)
+        
+
+
+    @property
     def result_term(self):
         return self.result_examination.examination_term
 

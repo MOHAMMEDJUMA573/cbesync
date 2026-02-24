@@ -1,8 +1,5 @@
-from reportlab.graphics.shapes import Drawing
-from reportlab.graphics.charts.barcharts import VerticalBarChart
 import io
 import uuid
-import requests
 from reportlab.lib.pagesizes import A4, letter
 from reportlab.lib import colors
 from reportlab.lib.colors import black, navy, red, yellow, lightgrey, HexColor
@@ -12,8 +9,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, Page
 from reportlab.lib.units import inch
 from django.http import FileResponse
 from django.contrib.staticfiles import finders
-from django.conf import settings
-from reportlab.pdfgen import canvas
+from reports.models import StudentEReportProfile
 
 def fetch_logo(request):
     path = finders.find('project/images/moe.png')
@@ -56,7 +52,7 @@ def create_report_header(elements, styles, logo_buffer):
     elements.append(school_p2)
     elements.append(Spacer(1, 0.1*inch))
 
-def create_student_page(elements, styles, student, logo_buffer):
+def create_student_page(elements, styles,logo_buffer, student_obj, class_passed):
     #header part
     create_report_header(elements, styles, logo_buffer)
     text1 = ParagraphStyle(
@@ -67,13 +63,13 @@ def create_student_page(elements, styles, student, logo_buffer):
         fontName="Helvetica-Bold",
         textColor=black
     )
-    term = Paragraph(f"&nbsp; CLASS: <b> <font color=#d90000 size=11 > GRADE 7 NORTH </font>  <br/> </b>&nbsp NAME: <b> <font color=#d90000 size=11 > {student['name']} </font>  </b>", text1)
+    term = Paragraph(f"&nbsp; CLASS: <b> <font color=#d90000 size=11 > {class_passed.class_full_str} </font>  <br/> </b>&nbsp NAME: <b> <font color=#d90000 size=11 > {student_obj[0]} </font>  </b>", text1)
     elements.append(term) 
     # first part
     table_data = [['LEARNING AREA', 'SCORE', 'POINTS', 'PERFORMANCE LEVEL']]
-    for subj, (score, points, level) in zip(student['subjects'], student['scores']):
-        table_data.append([subj, str(score), str(points), level])
-    table_data.append(['TOTAL', str(student['total_score']), str(student['total_points']), student['general_level']])
+    for result_passed in student_obj[1]:
+        table_data.append([result_passed.result_subject.subject_name.upper(), result_passed.result_score, str(result_passed.result_p_level[1]), str(result_passed.result_p_level[0])])
+    table_data.append(['TOTAL', str(student_obj[2].streport_t_score), str(student_obj[2].streport_points_score), "EE1" ])
     table1 = Table(
         table_data,
         rowHeights=0.3*inch,
@@ -100,11 +96,11 @@ def create_student_page(elements, styles, student, logo_buffer):
         fontName="Helvetica",
         textColor=black
     )
-    row1p1 = Paragraph(f"TOTAL: <font color=#d90000 size=11 > <b> {student['total_score']} </b> </font>", text2)
+    row1p1 = Paragraph(f"TOTAL: <font color=#d90000 size=11 > <b> { str(student_obj[2].streport_t_score)} </b> </font>", text2)
     row1p2 = Paragraph(f"OUT OF: <b> 900 </b>", text2)
-    row2p1 = Paragraph(f"POSITION: <font color=#d90000 size=11 > <b> {student['position']} </b> </font> " if 'position' in student else "", text2)
+    row2p1 = Paragraph(f"POSITION: <font color=#d90000 size=11 > <b> { str(student_obj[2].streport_c_position)} </b> </font> ", text2)
     row2p2 = Paragraph(f" OUT OF: <b> 18 </b>", text2)
-    row3p1 = Paragraph(f"GENERAL PERFORMANCE LEVEL: <font color=#d90000 size=11 > {student['general_level']} </font>", text2)
+    row3p1 = Paragraph(f"GENERAL PERFORMANCE LEVEL: <font color=#d90000 size=11 > {"EE1"} </font>", text2)
     row3p2 = Paragraph(f"")
     table1_data = [
         [row1p1, row1p2],
@@ -148,233 +144,47 @@ def create_student_page(elements, styles, student, logo_buffer):
     elements.append(Spacer(1, 0*inch))
     elements.append(PageBreak())
 
-def student_report1_generator(request=None):
+def student_report1_generator(class_passed, exam_passed, request=None):
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=36, leftMargin=36, topMargin=10, bottomMargin=36)
     styles = getSampleStyleSheet()
     elements = []
     logo_buffer = fetch_logo(request)
-
-    # Subjects list (common for all)
-    subjects = [
-        'SKILLS IN ENGLISH', 'KISWAHILI', 'MATHEMATICS', 'RELIGIOUS EDUCATION',
-        'INTEGRATED SCIENCE', 'SOCIAL STUDIES', 'AGRICULTURE AND NUTRITION',
-        'CREATIVE ARTS & SPORTS', 'PRE- TECHNICAL'
-    ]
-
     # Student data from the document
-    students = [
-        {
-            'name': 'JUMA MWAZUKA CHAKA',
-            'scores': [(39, 2, 'A.E.1'), (68, 3, 'M.E.1'), (44, 2.5, 'M.E.2'), (63, 3, 'M.E.1'),
-                       (84, 3.5, 'E.E.2'), (32, 2, 'A.E.1'), (70, 3, 'M.E.1'), (18, 1, 'B.E.1'),
-                       (54, 2.5, 'M.E.2')],
-            'total_score': 493.5, 'total_points': 22.5, 'general_level': 'M.E.2', 'position': 1
-        },
-        {
-            'name': 'JOHN BASHISHI MANGISI',
-            'scores': [(54, 2.5, 'M.E.2'), (72, 3, 'M.E.1'), (46, 2.5, 'M.E.2'), (63, 3, 'M.E.1'),
-                       (72, 3, 'M.E.1'), (34, 2, 'A.E.1'), (72, 3, 'M.E.1'), (20, 1, 'B.E.1'),
-                       (38, 2, 'A.E.1')],
-            'total_score': 492, 'total_points': 22, 'general_level': 'M.E.2', 'position': 2
-        },
-        {
-            'name': 'BORA CHIRIMA',
-            'scores': [(21, 1.5, 'A.E.2'), (46, 2.5, 'M.E.2'), (68, 3, 'M.E.1'), (47, 2.5, 'M.E.2'),
-                       (72, 3, 'M.E.1'), (36, 2, 'A.E.1'), (70, 3, 'M.E.1'), (18, 1, 'B.E.1'),
-                       (46, 2.5, 'M.E.2')],
-            'total_score': 444, 'total_points': 21, 'general_level': 'M.E.2', 'position': 3
-        },
-        {
-            'name': 'HALIMA WANINI',
-            'scores': [(35, 2, 'A.E.1'), (64, 3, 'M.E.1'), (48, 2.5, 'M.E.2'), (60, 3, 'M.E.1'),
-                       (50, 2.5, 'M.E.2'), (32, 2, 'A.E.1'), (52, 2.5, 'M.E.2'), (22, 1.5, 'A.E.2'),
-                       (32, 2, 'A.E.1')],
-            'total_score': 414.5, 'total_points': 21, 'general_level': 'M.E.2', 'position': 4
-        },
-        {
-            'name': 'ESTHER NDUKU MWONGELA',
-            'scores': [(27, 1.5, 'A.E.2'), (46, 2.5, 'M.E.2'), (28, 1.5, 'A.E.2'), (43, 2.5, 'M.E.2'),
-                       (50, 2.5, 'M.E.2'), (20, 1, 'B.E.1'), (34, 2, 'A.E.1'), (38, 2, 'A.E.1'),
-                       (34, 2, 'A.E.1')],
-            'total_score': 335.5, 'total_points': 17.5, 'general_level': 'A.E.1', 'position': 5
-        },
-        {
-            'name': 'CHAKA TSUMA JULO',
-            'scores': [(31, 2, 'A.E.1'), (42, 2.5, 'M.E.2'), (8, 0.5, 'B.E.2'), (20, 1, 'B.E.1'),
-                       (32, 2, 'A.E.1'), (18, 1, 'B.E.1'), (32, 2, 'A.E.1'), (38, 2, 'A.E.1'),
-                       (32, 2, 'A.E.1')],
-            'total_score': 266, 'total_points': 15, 'general_level': 'A.E.2', 'position': 7
-        },
-        {
-            'name': 'NDURYA MASINDA',
-            'scores': [(25, 1.5, 'A.E.2'), (30, 1.5, 'A.E.2'), (24, 1.5, 'A.E.2'), (53, 2.5, 'M.E.2'),
-                       (48, 2.5, 'M.E.2'), (12, 1, 'B.E.1'), (28, 1.5, 'A.E.2'), (14, 1, 'B.E.1'),
-                       (18, 1, 'B.E.1')],
-            'total_score': 265, 'total_points': 14, 'general_level': 'A.E.2', 'position': 8
-        },
-        {
-            'name': 'BINTI DZAME CHAKA',
-            'scores': [(18, 1, 'B.E.1'), (20, 1, 'B.E.1'), (22, 1.5, 'A.E.2'), (53, 2.5, 'M.E.2'),
-                       (50, 2.5, 'M.E.2'), (14, 1, 'B.E.1'), (44, 2.5, 'M.E.2'), (33, 2, 'A.E.1'),
-                       (30, 1.5, 'A.E.2')],
-            'total_score': 297.5, 'total_points': 15.5, 'general_level': 'A.E.1', 'position': 6
-        },
-        {
-            'name': 'ISIAH MAZERA ANDREW',
-            'scores': [(24, 1.5, 'A.E.2'), (22, 1.5, 'A.E.2'), (20, 1, 'B.E.1'), (40, 2, 'A.E.1'),
-                       (32, 2, 'A.E.1'), (20, 1, 'B.E.1'), (22, 1.5, 'A.E.2'), (28, 1.5, 'A.E.2'),
-                       (30, 1.5, 'A.E.2')],
-            'total_score': 250, 'total_points': 13.5, 'general_level': 'A.E.2', 'position': 9
-        },
-        {
-            'name': 'GLORIA SAFARI MTINDI',
-            'scores': [(19, 1, 'B.E.1'), (28, 1.5, 'A.E.2'), (30, 1.5, 'A.E.2'), (33, 2, 'A.E.1'),
-                       (40, 2, 'A.E.1'), (10, 0.5, 'B.E.2'), (32, 2, 'A.E.1'), (20, 1, 'B.E.1'),
-                       (24, 1.5, 'A.E.2')],
-            'total_score': 248, 'total_points': 13, 'general_level': 'A.E.2', 'position': 10
-        },
-        {
-            'name': 'OMAR MALEJA',
-            'scores': [(33, 2, 'A.E.1'), (28, 1.5, 'A.E.2'), (16, 1, 'B.E.1'), (33, 2, 'A.E.1'),
-                       (50, 2.5, 'M.E.2'), (14, 1, 'B.E.1'), (26, 1.5, 'A.E.2'), (18, 1, 'B.E.1'),
-                       (14, 1, 'B.E.1')],
-            'total_score': 244.5, 'total_points': 13.5, 'general_level': 'A.E.2', 'position': 12
-        },
-        {
-            'name': 'MASUDI HAMISI SAIDI',
-            'scores': [(23, 1.5, 'A.E.2'), (30, 1.5, 'A.E.2'), (24, 1.5, 'A.E.2'), (33, 2, 'A.E.1'),
-                       (36, 2, 'A.E.1'), (18, 1, 'B.E.1'), (36, 2, 'A.E.1'), (18, 1, 'B.E.1'),
-                       (16, 1, 'B.E.1')],
-            'total_score': 246.5, 'total_points': 13.5, 'general_level': 'A.E.2', 'position': 11
-        },
-        {
-            'name': 'BINTI KAWENDO WANINI',
-            'scores': [(18, 1, 'B.E.1'), (20, 1, 'B.E.1'), (16, 1, 'B.E.1'), (27, 1.5, 'A.E.2'),
-                       (40, 2, 'A.E.1'), (18, 1, 'B.E.1'), (18, 1, 'B.E.1'), (14, 1, 'B.E.1'),
-                       (20, 1, 'B.E.1')],
-            'total_score': 200.5, 'total_points': 10.5, 'general_level': 'A.E.2', 'position': 13
-        },
-        {
-            'name': 'CHINGAMBA MWAYOGWE GUNI',
-            'scores': [(24, 1.5, 'A.E.2'), (8, 0.5, 'B.E.2'), (20, 1, 'B.E.1'), (37, 2, 'A.E.1'),
-                       (20, 1, 'B.E.1'), (10, 0.5, 'B.E.2'), (16, 1, 'B.E.1'), (26, 1.5, 'A.E.2'),
-                       (16, 1, 'B.E.1')],
-            'total_score': 185.5, 'total_points': 10, 'general_level': 'B.E.1', 'position': 15
-        },
-        {
-            'name': 'MCHEKWISHA ZUHURU NYUNDO',
-            'scores': [(21, 1.5, 'A.E.2'), (4, 0.5, 'B.E.2'), (26, 1.5, 'A.E.2'), (17, 1, 'B.E.1'),
-                       (18, 1, 'B.E.1'), (16, 1, 'B.E.1'), (16, 1, 'B.E.1'), (34, 2, 'A.E.1'),
-                       (20, 1, 'B.E.1')],
-            'total_score': 180.5, 'total_points': 10.5, 'general_level': 'B.E.1', 'position': 16
-        },
-        {
-            'name': 'HAMISI TSUMA',
-            'scores': [(18, 1, 'B.E.1'), (28, 1.5, 'A.E.2'), (26, 1.5, 'A.E.2'), (23, 1.5, 'A.E.2'),
-                       (24, 1.5, 'A.E.2'), (18, 1, 'B.E.1'), (8, 0.5, 'B.E.2'), (24, 1.5, 'A.E.2'),
-                       (14, 1, 'B.E.1')],
-            'total_score': 192.5, 'total_points': 11, 'general_level': 'A.E.2', 'position': 14
-        },
-        {
-            'name': 'BAKARI NGEMA NGUMBAO',
-            'scores': [(1, 0.5, 'B.E.2'), (12, 1, 'B.E.1'), (1, 0.5, 'B.E.2'), (1, 0.5, 'B.E.2'),
-                       (30, 1.5, 'A.E.2'), (14, 1, 'B.E.1'), (18, 1, 'B.E.1'), (24, 1.5, 'A.E.2'),
-                       (26, 1.5, 'A.E.2')],
-            'total_score': 134.5, 'total_points': 9, 'general_level': 'B.E.1', 'position': 18
-        },
-        {
-            'name': 'CHIZI MEJUMAA NDAO',
-            'scores': [(20, 1, 'B.E.1'), (2, 0.5, 'B.E.2'), (10, 0.5, 'B.E.2'), (10, 0.5, 'B.E.2'),
-                       (10, 0.5, 'B.E.2'), (8, 0.5, 'B.E.2'), (32, 2, 'A.E.1'), (24, 1.5, 'A.E.2'),
-                       (18, 1, 'B.E.1')],
-            'total_score': 140.5, 'total_points': 8, 'general_level': 'B.E.1', 'position': 17
-        },
-        {
-            'name': 'AVERAGE',
-            'scores': [(25.06, 1.5, 'A.E.2'), (31.67, 2, 'A.E.1'), (26.5, 1.5, 'A.E.2'), (36.44, 2, 'A.E.1'),
-                       (42.11, 2.5, 'M.E.2'), (19.11, 1, 'B.E.1'), (34.78, 2, 'A.E.1'), (23.94, 1.5, 'A.E.2'),
-                       (26.78, 1.5, 'A.E.2')],
-            'total_score': 279.5, 'total_points': 15.5, 'general_level': 'A.E.1'
-        }
+    students_reports_dict = {}
+    report_subjects = [
+        str(s.subject_name)
+        for s in class_passed.class_subjects.all().order_by('subject_name')
     ]
-
-    for student in students:
-        student['subjects'] = subjects  # Add subjects to each
-        create_student_page(elements, styles, student, logo_buffer)
+    report_students = [
+        s
+        for s in class_passed.student_profiles.all().order_by("student_first_name")
+    ]
+    for student in report_students:
+        student_identifier = student.student_id
+        student_full_name = f"{student.student_first_name} {student.student_middle_name} {student.student_last_name}"
+        student_filtered_rez = [
+            result
+            for result in student.result_profiles.filter(result_examination=exam_passed).order_by('result_subject__subject_name')
+        ]
+        student_report_data = StudentEReportProfile.objects.get(
+            streport_student = student,
+            streport_examination=exam_passed
+        )
+        students_reports_dict.update({student_identifier:[student_full_name,student_filtered_rez, student_report_data]})
+    
+    for student_id, student_data in students_reports_dict.items():
+        create_student_page(elements, styles, logo_buffer, student_data, class_passed)
 
     # Remove the last PageBreak
     if elements and isinstance(elements[-1], PageBreak):
         elements.pop()
-
     doc.build(elements)
     buffer.seek(0)
-
     filename = f"full_student_report_{uuid.uuid4().hex[:8]}.pdf"
-    if request:  # For Django
-        return FileResponse(buffer, as_attachment=True, filename=filename)
-    else:  # Standalone save
-        with open(filename, "wb") as f:
-            f.write(buffer.getvalue())
-        print(f"PDF saved as {filename}")
 
-def student_report_table_generator(request=None):
-    styles = getSampleStyleSheet()
-    doc = SimpleDocTemplate("hello.pdf", pagesize=A4)
-    elements = []
+    return FileResponse(buffer, as_attachment=True, filename=filename)
 
-    data = [
-        ['Header 1', 'Header 2', 'Header 3', 'Longer Header 4'],
-        ['Row 1 Col1', Paragraph("<b>Bold & <font color=red>red</font></b>", styles['Normal']), '123.45', 'extra'],
-        ['Row 2', ' merged →', '', 'value'],
-        ['Row 3', 'data', '999', 'last'],
-        ['Footer', 'Total', '', '1,234.56'],
-    ]
-
-    t = Table(
-        data,
-        colWidths=[1.2*inch, 1.8*inch, 1*inch, 1.5*inch],
-        rowHeights=None,               # auto
-        repeatRows=1,                  # repeat header on split
-        spaceBefore=12,
-        spaceAfter=24,
-        cornerRadii=[8, 8, 4, 4]       # rounded corners
-    )
-
-    style = TableStyle([
-        # headers
-        ('BACKGROUND', (0,0), (-1,0), colors.darkblue),
-        ('TEXTCOLOR',  (0,0), (-1,0), colors.white),
-        ('ALIGN',      (0,0), (-1,0), 'CENTER'),
-        ('FONTNAME',   (0,0), (-1,0), 'Helvetica-Bold'),
-        ('FONTSIZE',   (0,0), (-1,0), 12),
-
-        # footer
-        ('BACKGROUND', (0,-1), (-1,-1), colors.lightgrey),
-        ('ALIGN',      (0,-1), (-1,-1), 'RIGHT'),
-        ('FONTNAME',   (0,-1), (-1,-1), 'Helvetica-Bold'),
-
-        # alternating rows
-        ('ROWBACKGROUNDS', (0,1), (-1,-2), [colors.white, colors.beige]),
-
-        # lines
-        ('GRID',       (0,0), (-1,-1), 0.5, colors.grey),
-        ('BOX',        (0,0), (-1,-1), 1.5, colors.black),
-
-        # span example
-        ('SPAN',       (1,2), (2,2)),
-        ('ALIGN',      (1,2), (2,2), 'CENTER'),
-        ('VALIGN',     (1,2), (2,2), 'MIDDLE'),
-        ('BACKGROUND', (1,2), (2,2), colors.lavender),
-
-        # split decoration (only appears when table actually splits)
-        ('LINEABOVE',  (0,'splitlast'), (-1,'splitlast'), 4, colors.purple),
-        ('LINEBELOW',  (0,'splitfirst'), (-1,'splitfirst'), 4, colors.orange),
-    ])
-
-    t.setStyle(style)
-    elements.append(t)
-    doc.build(elements)
 
 def student_report_paragraph_gen(request=None):
         # Create the document

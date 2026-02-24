@@ -37,6 +37,9 @@ class StudentEReportProfile(models.Model):
     streport_t_score = models.IntegerField(
         default=0
     )
+    streport_points_score = models.IntegerField(
+        default=0
+    )
     streport_c_position = models.IntegerField(
         default=0
     )

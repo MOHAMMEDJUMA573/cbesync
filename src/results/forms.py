@@ -78,6 +78,14 @@ class ResultsFilterForm(forms.Form):
     result_year = forms.ChoiceField(
         choices=RESULTS_YEAR_CHOICES,
         initial=int((datetime.today()).year)
+    )
+    VIEW_RESULTS_OPTION = [
+        (0, "View"),
+        (1, "Print")
+    ]
+    result_options = forms.ChoiceField(
+        choices=VIEW_RESULTS_OPTION,
+        initial=0
     )   
     
     def clean(self):

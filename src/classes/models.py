@@ -257,6 +257,7 @@ class ClassProfile(models.Model):
             result_examination=examination
         )
         for ereport in required_reports:
+            points = 0
             total = 0
             student = ereport.streport_student
             student_results = required_results.filter(
@@ -264,8 +265,10 @@ class ClassProfile(models.Model):
             )
             for subject_rez in student_results:
                 total += int(subject_rez.result_score)
+                points += int(subject_rez.result_p_level[1])
             ereport.streport_t_score = total
-            ereport.save(update_fields=['streport_t_score'])
+            ereport.streport_points_score = points
+            ereport.save(update_fields=['streport_t_score','streport_points_score'])
     
     def class_reports_pos_generator(self,examination):
         required_reports = self.stereport_profiles.filter(

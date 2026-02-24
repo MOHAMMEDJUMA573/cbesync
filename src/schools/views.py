@@ -9,6 +9,7 @@ from parents.models import ParentProfile
 from classes.models import ClassProfile,ProgramProfile
 from results.models import ExaminationProfile
 from reports.models import StudentEReportProfile
+from reports.views import student_report1_generator
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -1036,6 +1037,7 @@ def assessment_management(request):
                 term_passed = form2.cleaned_data["result_term"]
                 period_passed = form2.cleaned_data["result_period"]
                 year_passed = form2.cleaned_data["result_year"]
+                passed_option = form2.cleaned_data["result_options"]
                 try:
                     examination_q = ExaminationProfile.objects.get(
                         examination_class = class_passed,
@@ -1054,6 +1056,9 @@ def assessment_management(request):
                         "form2":form2
                     }
                     return render(request, template_name, context)
+                #print the reports if method is print
+                if passed_option == str(1):
+                    return student_report1_generator(class_passed=class_passed, exam_passed=examination_q)
                 #generate reports total and position
                 class_passed.class_reports_total_generator(examination_q)
                 class_passed.class_reports_pos_generator(examination_q)

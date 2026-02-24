@@ -119,10 +119,16 @@
 							</label>
 							{{form2.result_year}}
 						</div>
+						<div class="form-field1">
+							<label for="id_result_options">
+								Options:
+								<p>{{form2.result_options.errors}}</p>
+							</label>
+							{{form2.result_options}}
+						</div>
 						<div class="opt-buttons">
 							<button type="submit" name="get_results">
-								View .
-								<span class="material-symbols-outlined">visibility</span>
+								Submit
 							</button> 
 							<button type="reset">Clear</button>
 						</div>

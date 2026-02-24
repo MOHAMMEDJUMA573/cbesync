@@ -1,4 +1,3 @@
-
 from reportlab.graphics.shapes import Drawing
 from reportlab.graphics.charts.barcharts import VerticalBarChart
 import io
@@ -12,23 +11,21 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, PageBreak, Image, TableStyle
 from reportlab.lib.units import inch
 from django.http import FileResponse
+from django.contrib.staticfiles import finders
+from django.conf import settings
 from reportlab.pdfgen import canvas
 
-def fetch_logo():
-    url = "http://localhost:8000/static/project/images/kenya.png"
+def fetch_logo(request):
+    path = finders.find('project/images/moe.png')
+    if path is None:
+        print("Static file not found")
+        return None
     try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
-        content_type = response.headers.get('Content-Type', '').lower()
-        if 'svg' in content_type or response.text.startswith('<?xml') or response.text.startswith('<svg'):
-            from cairosvg import svg2png
-            png_bytes = svg2png(bytestring=response.content, output_width=150, output_height=180)
-            return io.BytesIO(png_bytes)
-        else:
-            return io.BytesIO(response.content)
+        with open(path, 'rb') as f:
+            return io.BytesIO(f.read())
     except Exception as e:
-        print(f"Failed to fetch/convert logo: {e}")
-        return None  
+        print(f"Failed to read static file: {e}")
+        return None 
     
 def create_report_header(elements, styles, logo_buffer):
     if logo_buffer:
@@ -60,6 +57,7 @@ def create_report_header(elements, styles, logo_buffer):
     elements.append(Spacer(1, 0.1*inch))
 
 def create_student_page(elements, styles, student, logo_buffer):
+    #header part
     create_report_header(elements, styles, logo_buffer)
     text1 = ParagraphStyle(
         name="Heading3",
@@ -69,50 +67,85 @@ def create_student_page(elements, styles, student, logo_buffer):
         fontName="Helvetica-Bold",
         textColor=black
     )
-    term = Paragraph(f"&nbsp; GRADE: <b> <font color=navy > SEVEN </font>  <br/> </b>&nbsp NAME: <b> <font color=navy > {student['name']} </font>  </b>", text1)
-    elements.append(term)
-    # Table data
+    term = Paragraph(f"&nbsp; CLASS: <b> <font color=#d90000 size=11 > GRADE 7 NORTH </font>  <br/> </b>&nbsp NAME: <b> <font color=#d90000 size=11 > {student['name']} </font>  </b>", text1)
+    elements.append(term) 
+    # first part
     table_data = [['LEARNING AREA', 'SCORE', 'POINTS', 'PERFORMANCE LEVEL']]
     for subj, (score, points, level) in zip(student['subjects'], student['scores']):
         table_data.append([subj, str(score), str(points), level])
     table_data.append(['TOTAL', str(student['total_score']), str(student['total_points']), student['general_level']])
-
-    table = Table(
+    table1 = Table(
         table_data,
+        rowHeights=0.3*inch,
         colWidths=[250, 60, 60, 120],
         style=[
-            ('GRID', (0, 0), (-1, -1), 0.5, colors.navy),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
             ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+            ('TEXTCOLOR', (-1, 1), (-1, -1), colors.navy),
             ('ALIGN', (1, 1), (-1, -1), 'CENTER'),
             ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
             ('FONTSIZE', (0, 0), (-1, -1), 10),
             ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
         ]
     )
-    elements.append(table)
+    elements.append(table1)
     elements.append(Spacer(1, 0.3*inch))
-
-    # Summary
-    position_text = f"POSITION: {student['position']} OUT OF: 18" if 'position' in student else ""
-    summary = Paragraph(
-        f"TOTAL : {student['total_score']} OUT OF: 900 {position_text}<br/>GENERAL PERFORMANCE LEVEL: {student['general_level']}",
-        styles['Normal']
+    #second part
+    text2 = ParagraphStyle(
+        name="Heading3",
+        parent=styles['Heading3'],
+        fontSize=12,
+        alignment=TA_LEFT,
+        fontName="Helvetica",
+        textColor=black
     )
-    elements.append(summary)
-    elements.append(Spacer(1, 0.2*inch))
-
-    dates = Paragraph("CLOSING DATE: 24/10/2025 OPENING DATE: 5/1/2026", styles['Normal'])
-    elements.append(dates)
+    row1p1 = Paragraph(f"TOTAL: <font color=#d90000 size=11 > <b> {student['total_score']} </b> </font>", text2)
+    row1p2 = Paragraph(f"OUT OF: <b> 900 </b>", text2)
+    row2p1 = Paragraph(f"POSITION: <font color=#d90000 size=11 > <b> {student['position']} </b> </font> " if 'position' in student else "", text2)
+    row2p2 = Paragraph(f" OUT OF: <b> 18 </b>", text2)
+    row3p1 = Paragraph(f"GENERAL PERFORMANCE LEVEL: <font color=#d90000 size=11 > {student['general_level']} </font>", text2)
+    row3p2 = Paragraph(f"")
+    table1_data = [
+        [row1p1, row1p2],
+        [row2p1, row2p2],
+        [row3p1, row3p2]
+    ]
+    table1 = Table(
+        table1_data,
+        colWidths=[300, 120],
+        style=[
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+        ],
+    )
+    elements.append(table1)
     elements.append(Spacer(1, 0.3*inch))
+    #last report part
+    row1p1 = Paragraph(".....................................................<br/> CLASS TEACHER'S SIGNATURE:<br/> &nbsp; ", styles['Normal'])
+    row2p1 = Paragraph(".....................................................<br/> PRINCIPAL'S SIGNATURE:<br/> &nbsp;", styles['Normal'])
+    table3_data = [
+        [row1p1],
+        [row2p1]
+    ]
+    table3 = Table(
+        table3_data,
+        colWidths=[200],
+        rowHeights=1*inch,
+        style=[
+            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+        ],
+        hAlign='LEFT'
+    )
+    elements.append(table3)
+    elements.append(Spacer(1, 0.8*inch))
 
-    teacher_sig = Paragraph("CLASS TEACHER'S SIGNATURE: ....................................", styles['Normal'])
-    elements.append(teacher_sig)
-    elements.append(Spacer(1, 0.1*inch))
-
-    principal_sig = Paragraph("PRINCIPAL'S SIGNATURE: ....................................", styles['Normal'])
-    elements.append(principal_sig)
-
+    footer = Paragraph(
+        "<a href='https://cbesync.com' color='blue'><u>www.cbesync.com</u></a> &nbsp;" "© 2026 cbesync from Eyerision"
+    )
+    elements.append(footer)
+    elements.append(Spacer(1, 0*inch))
     elements.append(PageBreak())
 
 def student_report1_generator(request=None):
@@ -120,7 +153,7 @@ def student_report1_generator(request=None):
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=36, leftMargin=36, topMargin=10, bottomMargin=36)
     styles = getSampleStyleSheet()
     elements = []
-    logo_buffer = fetch_logo()
+    logo_buffer = fetch_logo(request)
 
     # Subjects list (common for all)
     subjects = [

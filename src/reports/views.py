@@ -63,7 +63,7 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed)
         fontName="Helvetica-Bold",
         textColor=black
     )
-    term = Paragraph(f"&nbsp; CLASS: <b> <font color=#d90000 size=11 > {class_passed.class_full_str} </font>  <br/> </b>&nbsp NAME: <b> <font color=#d90000 size=11 > {student_obj[0]} </font>  </b>", text1)
+    term = Paragraph(f"&nbsp; CLASS: <b> <font color=#d90000 size=11 > GRADE {class_passed.class_level} </font>  <br/> </b>&nbsp NAME: <b> <font color=#d90000 size=11 > {student_obj[0].upper()} </font>  </b>", text1)
     elements.append(term) 
     # first part
     table_data = [['LEARNING AREA', 'SCORE', 'POINTS', 'PERFORMANCE LEVEL']]

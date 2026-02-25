@@ -347,6 +347,44 @@ def teacher_management(request):
             "page_title":page_title
         }
     return render(request, template_name, context)
+
+@verified_email_required
+def teacher_management_class_assignment(request):
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    if school_uuid != valid_school_uuid:
+        return HttpResponse("Wrong school trying to access the page")
+    current_school = get_school_object(request.user)
+    template_name = "schools/usrmng/tmanagement/class_assignment.html"
+    page_title = "T-Management"
+    if request.method == "POST":
+        pass
+    else:
+        context = {
+            "school":current_school,
+            "page_title":page_title
+        }
+    return render(request, template_name, context)
+
+@verified_email_required
+def teacher_management_subject_allocation(request):
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    if school_uuid != valid_school_uuid:
+        return HttpResponse("Wrong school trying to access the page")
+    current_school = get_school_object(request.user)
+    template_name = "schools/usrmng/tmanagement/subject_allocation.html"
+    page_title = "T-Management"
+    if request.method == "POST":
+        pass
+    else:
+        context = {
+            "school":current_school,
+            "page_title":page_title
+        }
+    return render(request, template_name, context)
+
+
 #***--------------------***
 #Student-school views
 #***--------------------***

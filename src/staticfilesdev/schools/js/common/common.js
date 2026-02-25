@@ -11,6 +11,15 @@ menuButton.addEventListener('click', ()=> {
 closeButton.addEventListener('click', ()=> {
     sideMenu.style.display = 'none';
 })
+//hide nav bar before proceed
+if (window.innerWidth < 768)  {
+    const nav_links = document.querySelectorAll(".sidebar a");
+    nav_links.forEach((navlink, index) => {
+        navlink.addEventListener('click', ()=> {
+            sideMenu.style.display = 'none';
+        })
+    })
+}
 //
 function T1(){
     document.body.classList.toggle('dark-theme-variables');
@@ -22,3 +31,38 @@ function T1(){
 themeButton.addEventListener('click', ()=> {
     T1();
 })
+//hide top div
+let lastScrollPos = 0;
+window.addEventListener('scroll', () => {
+    const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
+    // Only when user has scrolled down at all
+    if (window.innerWidth > 1024) {
+        if (currentScrollPos > 0) {
+            document.querySelector(".main-header").style.top = "-3rem";
+            document.querySelector(".aside-right .top").style.top = "-3rem";
+        }else{
+            document.querySelector(".main-header").style.top = "1.5rem";
+            document.querySelector(".aside-right .top").style.top = "1.5rem";
+        }
+    }else{
+        if (lastScrollPos > currentScrollPos || lastScrollPos == currentScrollPos) {
+            document.querySelector(".main-header").style.top = "0";
+            document.querySelector(".aside-right .top").style.top = "0";
+            if (window.innerWidth < 768) {
+                if (sideMenu.style.display != 'none') {
+                    closeButton.click();
+                    console.log("menu not none");
+                }
+            }
+        }else{
+            if (window.innerWidth < 768) {
+                if (sideMenu.style.display != 'none') {
+                    closeButton.click();
+                }
+            }
+            document.querySelector(".main-header").style.top = "-5rem";
+            document.querySelector(".aside-right .top").style.top = "-5rem";
+        }
+    }    
+    lastScrollPos = currentScrollPos;
+});

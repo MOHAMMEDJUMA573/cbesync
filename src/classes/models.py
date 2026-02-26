@@ -152,8 +152,10 @@ class ClassProfile(models.Model):
     )
     class_teacher = models.ForeignKey(
         TeacherProfile,
-        on_delete=models.SET_NULL, null=True,
-        blank=True, related_name='classt_profile',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='classt_profiles',
         help_text="Teache assigned to the class"
     )
 

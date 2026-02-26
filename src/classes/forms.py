@@ -190,3 +190,36 @@ class ClassDeletionForm(forms.Form):
 
         return cleaned_data
      
+class ClassTeacherAssignmentForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        classes_tuple_choices = kwargs.pop("classes_tuple_list")
+        teachers_tuple_choices = kwargs.pop("teachers_tuple_list")
+        super(ClassTeacherAssignmentForm, self).__init__(*args, **kwargs)
+        self.fields["classes_objs"].choices = classes_tuple_choices
+        self.fields["teachers_objs"].choices = teachers_tuple_choices
+
+    classes_objs = forms.ChoiceField(
+        choices=()
+    )
+    teachers_objs = forms.ChoiceField(
+        choices=()
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        class_passed = cleaned_data.get("classes_objs")
+        teacher_passed = cleaned_data.get("teachers_objs")
+        if class_passed and teacher_passed:
+            try:
+                class_obj = ClassProfile.objects.get(class_id=class_passed)
+                teacher_obj = TeacherProfile.objects.get(teacher_id=teacher_passed)
+                cleaned_data["classes_objs"] = class_obj
+                cleaned_data["teacher_objs"] = teacher_obj
+            except (ClassProfile.DoesNotExist, TeacherProfile.DoesNotExist):
+                raise forms.ValidationError("Non existent options ")
+            
+    def save(self):
+        with transaction.atomic():
+            class_passed = self.cleaned_data["classes_objs"]
+            class_passed.class_teacher = self.cleaned_data["teacher_objs"]
+            class_passed.save(update_fields=["class_teacher"])

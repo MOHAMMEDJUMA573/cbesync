@@ -73,6 +73,12 @@ def get_teacher_choice_tuple(passed_school):
         for t in TeacherProfile.objects.filter(teacher_school=passed_school)
     ]
 
+def get_teacher_choice_tuple2(passed_school):
+    return [
+        (str(t.teacher_id), str(f"{t.teacher_first_name} {t.teacher_middle_name} {t.teacher_last_name} {t.teacher_id}"))
+        for t in TeacherProfile.objects.filter(teacher_school=passed_school)
+    ]
+
 def get_ntstaff_objects(passed_school):
     return NtStaffProfile.objects.filter(ntstaff_school=passed_school)
 
@@ -358,7 +364,7 @@ def teacher_management_class_assignment(request):
     template_name = "schools/usrmng/tmanagement/class_assignment.html"
     page_title = "T-Management"
     classes_list = current_school.school_classes_list
-    teachers_list = get_teacher_choice_tuple(current_school)
+    teachers_list = get_teacher_choice_tuple2(current_school)
     school_teachers = get_teacher_objects(current_school)
     form = ClassTeacherAssignmentForm(classes_tuple_list=classes_list,teachers_tuple_list=teachers_list)
     if request.method == "POST":
@@ -982,7 +988,7 @@ def class_management(request):
         "east_classes":set_filtered_class(get_filtered_classes(school_classes, "E")),
         "west_classes":set_filtered_class(get_filtered_classes(school_classes, "W"))
     }
-    teachers_list = get_teacher_choice_tuple(current_school)
+    teachers_list = get_teacher_choice_tuple2(current_school)
     form = ClassRegistrationForm(teachers_list=teachers_list)
     form2 = ClassDeletionForm()
     if teachers_list:

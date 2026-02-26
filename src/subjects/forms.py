@@ -68,3 +68,39 @@ class SubjectCreationForm(forms.Form):
                 subject_teacher = self.cleaned_data['subject_teacher'],
                 subject_status = 'A' #student status default field
             )
+
+
+class SubjectTeacherAllocationForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        subjects_tuple_choices = kwargs.pop("subjects_tuple_list")
+        teachers_tuple_choices = kwargs.pop("teachers_tuple_list")
+        super(SubjectTeacherAllocationForm, self).__init__(*args, **kwargs)
+        self.fields["subjects_objs"].choices = subjects_tuple_choices
+        self.fields["teachers_objs"].choices = teachers_tuple_choices
+
+    subjects_objs = forms.ChoiceField(
+        choices=()
+    )
+    teachers_objs = forms.ChoiceField(
+        choices=()
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        subject_passed = cleaned_data.get("subjects_objs")
+        teacher_passed = cleaned_data.get("teachers_objs")
+        if subject_passed and teacher_passed:
+            try:
+                subject_obj = SubjectProfile.objects.get(subject_id=subject_passed)
+                teacher_obj = TeacherProfile.objects.get(teacher_id=teacher_passed)
+                cleaned_data["subjects_objs"] = subject_obj
+                cleaned_data["teacher_objs"] = teacher_obj
+            except (SubjectProfile.DoesNotExist, TeacherProfile.DoesNotExist):
+                raise forms.ValidationError("Non existent options ")
+        return cleaned_data
+            
+    def save(self):
+        with transaction.atomic():
+            subject_passed = self.cleaned_data["subjects_objs"]
+            subject_passed.subject_teacher = self.cleaned_data["teacher_objs"]
+            subject_passed.save(update_fields=["subject_teacher"])

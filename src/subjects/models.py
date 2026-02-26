@@ -57,6 +57,9 @@ class SubjectProfile(models.Model):
     subject_update_date = models.DateTimeField(
         auto_now=True
     )
-
+    @property
+    def subject_str_full(self):
+        return f"{self.subject_name} {self.subject_code} {self.subject_class.class_full_str}"
+    
     def __str__(self):
         return f"{self.subject_name} --- {self.subject_code} --- {self.subject_program}"

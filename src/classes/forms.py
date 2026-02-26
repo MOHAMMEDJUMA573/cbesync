@@ -217,6 +217,7 @@ class ClassTeacherAssignmentForm(forms.Form):
                 cleaned_data["teacher_objs"] = teacher_obj
             except (ClassProfile.DoesNotExist, TeacherProfile.DoesNotExist):
                 raise forms.ValidationError("Non existent options ")
+        return cleaned_data
             
     def save(self):
         with transaction.atomic():

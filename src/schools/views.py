@@ -9,6 +9,7 @@ from parents.models import ParentProfile
 from classes.models import ClassProfile,ProgramProfile
 from results.models import ExaminationProfile
 from reports.models import StudentEReportProfile
+from subjects.models import SubjectProfile
 from reports.views import student_report1_generator
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -20,6 +21,7 @@ from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEn
 from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
 from classes.forms import ClassRegistrationForm, ClassDeletionForm, ClassTeacherAssignmentForm
 from results.forms import ResultsFilterForm
+from subjects.forms import SubjectTeacherAllocationForm
 from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
@@ -105,6 +107,12 @@ def get_specific_ntstaff(passed_ntstaff_id):
 
 def get_specific_parent(passed_parent_id):
     return ParentProfile.objects.get(parent_id=passed_parent_id)
+
+def get_subject_choice_tuple(passed_school):
+    return [
+        (s.subject_id, str(s.subject_str_full))
+        for s in SubjectProfile.objects.filter(subject_school=passed_school)
+    ]
 
 #***--------------------***#***--------------------***
 #Dashboard-school views
@@ -402,12 +410,33 @@ def teacher_management_subject_allocation(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/tmanagement/subject_allocation.html"
     page_title = "T-Management"
+    teachers_list = get_teacher_choice_tuple2(current_school)
+    subject_list = get_subject_choice_tuple(current_school)
+    school_teachers = get_teacher_objects(current_school)
+    form = SubjectTeacherAllocationForm(subjects_tuple_list=subject_list, teachers_tuple_list=teachers_list)
     if request.method == "POST":
-        pass
-    else:
-        context = {
+        form = SubjectTeacherAllocationForm(request.POST, subjects_tuple_list=subject_list, teachers_tuple_list=teachers_list)
+        if form.is_valid():
+            ct_allocated = form.cleaned_data["teacher_objs"]
+            sb_allocated = form.cleaned_data["subjects_objs"]
+            form.save()
+            messages.success(
+                request,
+                _(f" {'Mr.' if ct_allocated.teacher_gender == 'M' else 'Ms.' } {ct_allocated.teacher_last_name} has been allocated {sb_allocated.subject_str_full} successfully🥳")
+            )
+            return redirect("schools:school_teacher_management_subject_allocation")
+        else:
+          context = {
+            "form":form,
             "school":current_school,
             "page_title":page_title
+          } 
+    else:
+        context = {
+            "form":form,
+            "school":current_school,
+            "page_title":page_title,
+            "teachers":school_teachers
         }
     return render(request, template_name, context)
 

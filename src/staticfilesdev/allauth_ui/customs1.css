@@ -32,6 +32,9 @@
 .py-3 > div{
     margin: 1rem;
 }
+.mb-3{
+    font-weight: bold;
+}
 @media screen and (max-width:1200px) {
     .py-3{
         grid-template-columns: repeat(2, 1fr);

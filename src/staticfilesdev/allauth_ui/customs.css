@@ -15,3 +15,11 @@
     border: 1px solid orange;
     padding: 0.5rem;
 }
+.logop1 {
+    color: rgb(143, 143, 0);
+    font-weight: bold;
+}
+.logop2 {
+    color: green;
+    font-weight: bold;
+}

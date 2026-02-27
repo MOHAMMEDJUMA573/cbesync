@@ -48,18 +48,7 @@ window.addEventListener('scroll', () => {
         if (lastScrollPos > currentScrollPos || lastScrollPos == currentScrollPos) {
             document.querySelector(".main-header").style.top = "0";
             document.querySelector(".aside-right .top").style.top = "0";
-            if (window.innerWidth < 768) {
-                if (sideMenu.style.display != 'none') {
-                    closeButton.click();
-                    console.log("menu not none");
-                }
-            }
         }else{
-            if (window.innerWidth < 768) {
-                if (sideMenu.style.display != 'none') {
-                    closeButton.click();
-                }
-            }
             document.querySelector(".main-header").style.top = "-5rem";
             document.querySelector(".aside-right .top").style.top = "-5rem";
         }

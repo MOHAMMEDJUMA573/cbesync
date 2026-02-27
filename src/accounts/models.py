@@ -249,9 +249,11 @@ class CustomUser(AbstractUser):
 
     def save(self, *args, **kwargs):
         with transaction.atomic():
-            # Get next number (atomic & safe)
-            users_count = CustomUser.objects.all().count()
-            self.user_number = users_count
+            # give a number if he doesnt exist
+            if not CustomUser.objects.get(user_id=self.user_id):
+                print("doesn't exist")
+                users_count = CustomUser.objects.all().count()
+                self.user_number = users_count
             super().save(*args, **kwargs)
 
     def __str__(self):

@@ -17,7 +17,7 @@
 	<main>
 		<h1 class="main-header">Assessments</h1>
 		<div class="main-grid">
-			<div class="class-section" style="margin-bottom: 1rem;">
+			<div class="class-section">
 				<form action="{% url 'schools:school_assessment_management' %}" method="post" id="manage_results">
 					{% csrf_token %}
 					<div class="form-header">

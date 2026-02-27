@@ -1,4 +1,5 @@
 from django.db import models, connection
+from django.db import transaction
 from django.contrib.auth.models import AbstractUser
 import uuid
 
@@ -221,9 +222,37 @@ class CustomUser(AbstractUser):
         ("sysadmin", "SysAdmin"),
     )
     #the fields of abstract model
-    user_id = models.UUIDField(default=generate_unique_user_id,editable=False, unique=True)
-    user_type = models.CharField(max_length=15, choices=USER_TYPE_CHOICES, default='school',help_text="user_type field for allauth modularity")
-    user_country = models.CharField(max_length=100, choices=CBESYNC_COUNTRIES, default="KEN", help_text="Country")
-    
+    user_id = models.UUIDField(
+        primary_key=True,
+        default=generate_unique_user_id,
+        editable=False,
+        unique=True
+    )
+    user_number = models.PositiveBigIntegerField(
+        unique=True,
+        editable=False,
+        null=True,
+        default=0
+    )
+    user_type = models.CharField(
+        max_length=15,
+        choices=USER_TYPE_CHOICES,
+        default='school',
+        help_text="user_type field for allauth modularity"
+    )
+    user_country = models.CharField(
+        max_length=100,
+        choices=CBESYNC_COUNTRIES,
+        default="KEN",
+        help_text="Country"
+    )
+
+    def save(self, *args, **kwargs):
+        with transaction.atomic():
+            # Get next number (atomic & safe)
+            users_count = CustomUser.objects.all().count()
+            self.user_number = users_count
+            super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"{self.username} ---  {self.user_type} --- {self.user_id} -- {self.user_country}"
+        return f"{self.username} ---  {self.user_type} --- {self.user_number} -- {self.user_country}"

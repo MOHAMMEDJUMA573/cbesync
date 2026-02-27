@@ -2,6 +2,8 @@
 {% load i18n %}
 {% load allauth_ui %}
 {% load widget_tweaks %}
+{% load static %}
+{% block extra_head %} {{block.super}} <link rel="stylesheet" href="{% static 'allauth_ui/customs1.css' %}">  {% endblock extra_head %}
 {% block content %}
     {% trans "Register your School" as heading %}
     {% blocktranslate asvar subheading %}Already have an account? Then please <a href="{{ login_url }}" class="link">sign in</a>.{% endblocktranslate %}

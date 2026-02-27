@@ -5,6 +5,13 @@
 }
 .web-logo{
     display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.web-logo > img {
+    max-height: 20rem;
+    max-width: 20rem;
 }
 .bg-base-100{
     margin-top: 1rem;

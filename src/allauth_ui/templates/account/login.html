@@ -3,11 +3,12 @@
 {% load allauth_ui %}
 {% load widget_tweaks %}
 {% load static %}
+{% block extra_head %} {{block.super}} <link rel="stylesheet" href="{% static 'allauth_ui/customs.css' %}">  {% endblock extra_head %}
 {% block content %}
     {% trans "Login" as heading %}
     {% #container heading=heading  %}
     {% if not SOCIALACCOUNT_ONLY %}
-        <div class="py-3">
+        <div>
             {% blocktranslate %}Dont have an account? Then please
             <a class="link" href="{{ signup_url }}">sign up</a> first.{% endblocktranslate %}
         </div>

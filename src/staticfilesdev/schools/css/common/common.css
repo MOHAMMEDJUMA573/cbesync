@@ -114,7 +114,7 @@ b{
     color: var(--color-success);
 }
 .warning{
-    color: var(--color-warning);
+    color: yellow;
 }
 .info{
     color: #ff00dd;
@@ -129,6 +129,11 @@ b{
     height: 3rem;
     width: 3rem;
     object-fit: cover;
+}
+.custom-m-icon{
+    height: 2.5rem;
+    width: 2.5rem;
+    border-radius: 1.25rem;
 }
 /*context formating*/
 .top-level-box{

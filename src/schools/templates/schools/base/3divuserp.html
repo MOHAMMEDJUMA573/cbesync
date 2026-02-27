@@ -76,41 +76,41 @@
 			<h2>School analytics</h2>
 			<div class="online- courses">
 				<div class="icon">
-					<span class="material-symbols-outlined">podcasts</span>
+					<img class="custom-m-icon" src="{% static 'schools/icons/newton.png' %}" alt="teacher-icon">
 				</div>
 				<div class="right">
 					<div class="info">
-						<h3>Online Since</h3>
+						<h3>TEACHERS</h3>
 						<small class="text-muted">Last 24hrs</small>
 					</div>
-					<h5 class="success">{{ school.school_creation_date.date }}</h5>
-					<h3>{{ school.school_online_days|stringformat:"04d" }} Days</h3>
+					<h5 class="success">{{ school.school_creation_date.date.today}}</h5>
+					<h3>{{ school.school_teachers_polpulation|stringformat:"04d" }}</h3>
 				</div>
 			</div>
 			<div class="online- courses">
 				<div class="icon">
-					<span class="material-symbols-outlined">portable_wifi_off</span>
+					<img class="custom-m-icon" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
 				</div>
 				<div class="right">
 					<div class="info">
-						<h3>Account</h3>
+						<h3>STUDENTS</h3>
 						<small class="text-muted">Last 24hrs</small>
 					</div>
-					<h5 class="success">Premium</h5>
-					<h3>⭐</h3>
+					<h5 class="success">{{ school.school_creation_date.date.today}}</h5>
+					<h3>{{ school.school_students_polpulation|stringformat:"04d" }}</h3>
 				</div>
 			</div>
 			<div class="online- courses">
 				<div class="icon">
-					<span class="material-symbols-outlined">groups_2</span>
+					<img class="custom-m-icon" src="{% static 'schools/icons/worker.png' %}" alt="ntstaff-icon">
 				</div>
 				<div class="right">
 					<div class="info">
-						<h3>Users</h3>
+						<h3>NT-STAFFS</h3>
 						<small class="text-muted">Last 24hrs</small>
 					</div>
-					<h5 class="success">+20%</h5>
-					<h3>{{ school.school_polpulation|stringformat:"04d" }}</h3>
+					<h5 class="success">{{ school.school_creation_date.date.today }}</h5>
+					<h3>{{ school.school_ntstaffs_polpulation|stringformat:"04d" }}</h3>
 				</div>
 			</div>
 		</div>

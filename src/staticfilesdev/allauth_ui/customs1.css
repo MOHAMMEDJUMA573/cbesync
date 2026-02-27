@@ -1,0 +1,50 @@
+.main-image{
+    display: flex;
+    height: 80%;
+    width: 80%;
+}
+.web-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.web-logo > img {
+    max-height: 20rem;
+    max-width: 20rem;
+}
+.bg-base-100{
+    margin-top: 1rem;
+    display: grid;
+    width: fit-content;
+}
+#id_code{
+    border: 1px solid orange;
+    padding: 0.5rem;
+}
+.py-3{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+.py-3 > label{
+    padding: 1rem;
+}
+.py-3 > div{
+    margin: 1rem;
+}
+@media screen and (max-width:1200px) {
+    .py-3{
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .py-3 > label{
+        padding: 1rem;
+    }
+}
+@media screen and (max-width:768px) {
+    .py-3{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .py-3 > label{
+        padding: 0;
+    }
+}

@@ -10,6 +10,9 @@
     display: none;
 }
 /*page context formating*/
+.class_section{
+    margin-bottom: 1rem; margin-top: 1rem;
+}
 .form2{
     margin-bottom: 1rem;
 }
@@ -18,9 +21,9 @@
     flex-direction: column;
 }
 .form-header{
+    margin-top: 1rem;
     display: flex;
     margin-bottom: 1rem;
-    background-color: var(--color-white);
     background-color: var(--color-headers-bg);
     border-radius: var(--allround-bradius);
     padding: 1rem;

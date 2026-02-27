@@ -5,7 +5,7 @@
 {% load static %}
 {% block extra_head %} {{block.super}} <link rel="stylesheet" href="{% static 'allauth_ui/customs.css' %}">  {% endblock extra_head %}
 {% block content %}
-    {% trans "Login" as heading %}
+    {% trans "CbeSync" as heading %}
     {% #container heading=heading  %}
     {% if not SOCIALACCOUNT_ONLY %}
         <div>
@@ -16,7 +16,7 @@
             <img class="main-image" src="{% static 'project/images/logo.png'%}" alt="">
         </div>
         {% url 'account_login' as action_url %}
-        {% #form form=form url=action_url button_text=heading %}
+        {% #form form=form url=action_url button_text="login" %}
         {% if form.remember %}
             <div class="items-start my-2 form-control">
                 <label class="cursor-pointer label">

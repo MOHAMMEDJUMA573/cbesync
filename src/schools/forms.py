@@ -1,4 +1,5 @@
 from allauth.account.forms import SignupForm
+from django.db import transaction
 from django import forms
 import uuid
 from accounts.models import CustomUser
@@ -24,14 +25,46 @@ def alphanumeric_validator(value):
 
 class SchoolSignupForm(SignupForm):
     # --- School Form fields ---
-    school_code = forms.CharField(
-        max_length=20,
+    school_country = forms.ChoiceField(
+        choices=CustomUser.CBESYNC_COUNTRIES,
+        initial="KEN",
+        disabled=True,
+        label="School Country"
+    )
+    school_name = forms.CharField(
         required=True,
+        max_length=35,
+        label="School Name",
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
+    
+    school_admin_level_1 = forms.ChoiceField(
+        choices=SchoolProfile.KENYA_PRV_CBESYNC,
+        label="State / Province / Region",
+    )
+    school_ownership = forms.ChoiceField(
+        initial='GOVT',
+        choices=SchoolProfile.OWNERSHIP_CHOICES,
+        label="School Ownership"
+    )
+    school_admin_level_2 = forms.ChoiceField(
+        choices=SchoolProfile.KENYA_CNT_CBESYNC,
+        label="County / District / Prefecture",
+        initial="KWL"
+    )
+
+    school_code = forms.CharField(
+        max_length=30,
+        required=False,
         label="School Code",
         validators=[alphanumeric_validator],
         error_messages={
             "required": _("Please enter your school code"),
-            "max_length": _("School code cannot exceed 20 characters"),
+            "max_length": _("School code cannot exceed 30 characters"),
             "invalid": _("School code is not valid")
         },
         widget=forms.TextInput(
@@ -40,51 +73,23 @@ class SchoolSignupForm(SignupForm):
                 }
         )
     )
-    school_name = forms.CharField(
-        required=True,
-        max_length=150,
-        label="School Name",
+   
+    school_postal_box = forms.CharField(
+        max_length=30,
+        initial="e.g 16-80405 Kinango",
+        label="School Postal Box",
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+            'autocomplete':'on',
+            }
         )
     )
-    school_badge = forms.ImageField(
-        required=False
-    )
-
     school_type = forms.ChoiceField(
         initial='D',
-        choices=SchoolProfile.SCHOOL_TYPES_CHOICES
+        choices=SchoolProfile.SCHOOL_TYPES_CHOICES,
+        label="School Type"
     )
-    school_ownership = forms.ChoiceField(
-        initial='GOVT',
-        choices=SchoolProfile.OWNERSHIP_CHOICES
-    )
-
-    school_country = forms.ChoiceField(
-        choices=CustomUser.CBESYNC_COUNTRIES,
-        initial="KEN",
-        disabled=True,
-    )
-    school_admin_level_1 = forms.ChoiceField(
-        choices=SchoolProfile.KENYA_PRV_CBESYNC,
-        label="State / Province / Region",
-    )
-    school_admin_level_2 = forms.ChoiceField(
-        choices=SchoolProfile.KENYA_CNT_CBESYNC,
-        label="County / District / Prefecture",
-    )
-    school_admin_level_3 = forms.CharField(
-        max_length=100,
-        label="Ward / Municipality / Commune",
-        widget=forms.TextInput(
-            attrs={
-                'autocomplete':'off'
-                }
-        )
-    )
+    
     school_locality = forms.CharField(
         max_length=255,
         label="Village / Town / Neighborhood",
@@ -102,8 +107,12 @@ class SchoolSignupForm(SignupForm):
                 }
         ),
         initial="+254",
-        label="Mobile No",
+        label="Contact No",
     )
+    school_badge = forms.ImageField(
+        required=False
+    )
+   
     def clean(self):
         cleaned_data = super().clean()
         if not cleaned_data.get("school_country"):
@@ -111,7 +120,7 @@ class SchoolSignupForm(SignupForm):
         school_fields = [
             "school_code", "school_name", "school_type", "school_ownership",
             "school_country", "school_admin_level_1", "school_admin_level_2",
-            "school_admin_level_3", "school_locality", "school_phone"
+            "school_postal_box", "school_locality", "school_phone"
         ]        
         for school_field in school_fields:
             if not cleaned_data.get(school_field):
@@ -125,39 +134,29 @@ class SchoolSignupForm(SignupForm):
             )
         
         return cleaned_data
-            
-
-
-    #shown full form error no specifics
-    # def clean_school_code(self):
-    #     code = self.cleaned_data.get("school_code")
-    #     if SchoolProfile.objects.filter(school_code=code).exists():
-    #         raise forms.ValidationError(
-    #             _("This school code is already in use. Please contact your administrator.")
-    #         )
-    #     return code
 
     def save(self, request):
-        user = super().save(request)
-        username = generate_unique_school_id()
-        user.user_type = 'school'
-        user.username = username
-        user.user_country = self.cleaned_data['school_country']
-        user.save(update_fields=['user_type', 'username', 'user_country'])
-        #actual school obj creation
-        SchoolProfile.objects.create(
-            user=user,
-            school_code=self.cleaned_data['school_code'].upper(),
-            school_name=self.cleaned_data['school_name'].upper(),
-            school_badge=self.cleaned_data['school_badge'],
-            school_type=self.cleaned_data['school_type'],
-            school_ownership=self.cleaned_data['school_ownership'],
-            school_admin_level_1=self.cleaned_data['school_admin_level_1'],
-            school_admin_level_2=self.cleaned_data.get('school_admin_level_2'),
-            school_admin_level_3=self.cleaned_data.get('school_admin_level_3').upper(),
-            school_locality=self.cleaned_data.get('school_locality').upper(),
-            school_phone=self.cleaned_data['school_phone'],
-            school_status='P',  # default
-        )
+        with transaction.atomic():
+            user = super().save(request)
+            user.user_type = 'school'
+            user.user_country = self.cleaned_data['school_country']
+            user.save(update_fields=['user_type', 'user_country'])
+            #actual school obj creation
+            school = SchoolProfile.objects.create(
+                user=user,
+                school_code=self.cleaned_data['school_code'].upper(),
+                school_name=self.cleaned_data['school_name'].upper(),
+                school_badge=self.cleaned_data['school_badge'],
+                school_type=self.cleaned_data['school_type'],
+                school_ownership=self.cleaned_data['school_ownership'],
+                school_admin_level_1=self.cleaned_data['school_admin_level_1'],
+                school_admin_level_2=self.cleaned_data['school_admin_level_2'],
+                school_postal_box=self.cleaned_data['school_postal_box'].upper(),
+                school_locality=self.cleaned_data['school_locality'].upper(),
+                school_phone=self.cleaned_data['school_phone'],
+                school_status='P',  # default
+            )
+            user.username = school.school_id
+            user.save(update_fields=['username'])
 
-        return user
+            return user

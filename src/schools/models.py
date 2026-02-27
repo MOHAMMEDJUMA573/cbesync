@@ -40,12 +40,12 @@ class SchoolProfile(models.Model):
         editable=False
     )
     school_code = models.CharField(
-        max_length=20,
+        max_length=30,
         unique=True,
         help_text="Official MOE school code."
     )
     school_name = models.CharField(
-        max_length=150,
+        max_length=35,
         help_text="Official school name."
     )
     school_badge = models.ImageField(
@@ -113,6 +113,7 @@ class SchoolProfile(models.Model):
         ("KIT", "Kitui"),
         ("KLF", "Kilifi"),
         ("KRC", "Kericho"),
+        ("KWL", "Kwale"),
         ("LKP", "Laikipia"),
         ("LMU", "Lamu"),
         ("MSA", "Mombasa"),
@@ -151,12 +152,9 @@ class SchoolProfile(models.Model):
         default="MBS",
         help_text="County / District / Prefecture"
     )
-    school_admin_level_3 = models.CharField(
-        max_length=100,
-        null=False,
-        blank=False,
-        default="Likoni",
-        help_text="Ward / Municipality / Commune"
+    school_postal_box = models.CharField(
+        max_length=30,
+        help_text="school_postal_box e.g 16-80405 Kinango"
     )
     school_locality = models.CharField(
         max_length=255,

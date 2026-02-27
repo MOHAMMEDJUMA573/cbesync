@@ -228,12 +228,6 @@ class CustomUser(AbstractUser):
         editable=False,
         unique=True
     )
-    user_number = models.PositiveBigIntegerField(
-        unique=True,
-        editable=False,
-        null=True,
-        default=0
-    )
     user_type = models.CharField(
         max_length=15,
         choices=USER_TYPE_CHOICES,
@@ -247,14 +241,5 @@ class CustomUser(AbstractUser):
         help_text="Country"
     )
 
-    def save(self, *args, **kwargs):
-        with transaction.atomic():
-            # give a number if he doesnt exist
-            if not CustomUser.objects.get(user_id=self.user_id):
-                print("doesn't exist")
-                users_count = CustomUser.objects.all().count()
-                self.user_number = users_count
-            super().save(*args, **kwargs)
-
     def __str__(self):
-        return f"{self.username} ---  {self.user_type} --- {self.user_number} -- {self.user_country}"
+        return f"{self.username} ---  {self.user_type} --- {self.user_id} --- {self.user_country}"

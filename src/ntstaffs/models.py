@@ -122,8 +122,8 @@ class NtStaffProfile(models.Model):
     )
     ntstaff_y_experience = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(60), MinValueValidator(0)],
-        help_text="teachers experience in years"
+        validators=[MaxValueValidator(70), MinValueValidator(0)],
+        help_text="workers experience in years"
     )
     JOB_TITLE = (
         ('SLBT', 'Lab Technician'),

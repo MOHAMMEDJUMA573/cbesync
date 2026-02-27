@@ -15,14 +15,10 @@ def generate_unique_ntstaff_id():
         new_id = f"NTS-{uuid.uuid4().hex[:16].upper()}"
         if not NtStaffProfile.objects.filter(ntstaff_id=new_id).exists():
             return new_id
-        
-
-
 
 class NtStaffRegistrationForm(forms.Form):
     ntstaff_first_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -40,7 +36,6 @@ class NtStaffRegistrationForm(forms.Form):
     )
     ntstaff_last_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -60,7 +55,7 @@ class NtStaffRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':"off"
-                }
+            }
         ),
         initial="+254",
     )
@@ -103,7 +98,7 @@ class NtStaffRegistrationForm(forms.Form):
         widget=forms.NumberInput(
             attrs={
                 'min':0,
-                'max':60,
+                'max':70,
             }
         )
     )
@@ -142,23 +137,21 @@ class NtStaffRegistrationForm(forms.Form):
                     )
                     check_flag1 = True
         #check for none fields
-        if not check_flag1:
-            nn_fields = [
-                "ntstaff_gender", "ntstaff_dob",
-                "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
-                "ntstaff_y_experience", "ntstaff_j_title"
-            ]
-            #for some future validations
+        if check_flag1:
+            return cleaned_data
+        ntstaff_middle_name = cleaned_data.get("ntstaff_middle_name")
+        if not ntstaff_middle_name:
+            cleaned_data["ntstaff_middle_name"] = ""
         #lowercase the email
         r_email = cleaned_data.get("ntstaff_email")
         if r_email:
             cleaned_data["ntstaff_email"] = r_email.lower()
         #reasonable exp
         xp = cleaned_data.get("ntstaff_y_experience")
-        if xp and (xp > 60 or xp < 0) :
+        if xp and (xp > 70 or xp < 0) :
             self.add_error(
                 "ntstaff_y_experience",
-                _("> 0 and <60 ? ")
+                _("> 0 and 760 ? ")
             )
 
         return cleaned_data
@@ -180,9 +173,9 @@ class NtStaffRegistrationForm(forms.Form):
                 ntstaff_pic = self.cleaned_data['ntstaff_pic'],
                 ntstaff_school = ntstaff_school,
 
-                ntstaff_first_name = self.cleaned_data['ntstaff_first_name'],
-                ntstaff_middle_name = self.cleaned_data['ntstaff_middle_name'],
-                ntstaff_last_name = self.cleaned_data['ntstaff_last_name'],
+                ntstaff_first_name = (self.cleaned_data['ntstaff_first_name']).title(),
+                ntstaff_middle_name = (self.cleaned_data['ntstaff_middle_name']).title(),
+                ntstaff_last_name = (self.cleaned_data['ntstaff_last_name']).title(),
 
                 ntstaff_gender = self.cleaned_data['ntstaff_gender'],
                 ntstaff_dob = self.cleaned_data['ntstaff_dob'],

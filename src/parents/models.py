@@ -31,7 +31,6 @@ class ParentProfile(models.Model):
         default=generate_unique_parent_id,
         editable=False
     )
-
     parent_pic = models.ImageField(
         upload_to=image_file_upload_handler,
         null=True,
@@ -50,7 +49,8 @@ class ParentProfile(models.Model):
     parent_middle_name = models.CharField(
         max_length=35,
         blank=True,
-        null=True
+        null=True,
+        default=""
     )
     parent_last_name = models.CharField(
         max_length=35

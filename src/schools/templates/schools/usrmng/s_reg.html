@@ -114,15 +114,11 @@
 							{{form.student_class}}
 					</div>
 					<div class="form-field1">
-							<label for="nationality">
+							<label for="id_student_country">
 								Nationality: 
 								<p>{{ form.student_country.errors }}</p> 
 							</label>
-							<select name="student_country" id="nationality" value="{{ form.student_country.value }}">
-								{% for value, label in form.student_country.field.choices %}
-									<option value={{value}}>{{label}}</option>
-								{% endfor %}
-							</select>
+							{{form.student_country}}
 					</div>
 					<div class="form-field1">
 							<label for="id_student_admission_date">
@@ -157,11 +153,11 @@
 							{{form.student_blood_group}}
 					</div>
 					<div class="form-field1">
-							<label for="e-notes">
+							<label for="id_student_e_notes">
 								Emergency Notes: 
 								<p>{{ form.student_e_notes.errors }}</p> 
 							</label>
-							<textarea name="student_e_notes" id="e-notes" rows="3" cols="5"></textarea> 
+							{{form.student_e_notes}} 
 					</div>
 					<div class="form-field1">
 							<label for="ENV">
@@ -183,11 +179,11 @@
 							</div>
 					</div> 
 					<div class="form-field1">
-							<label for="avatar">
+							<label for="id_student_pic">
 								Upload a passport photo: 
 								<p>{{ form.student_pic.errors }}</p> 
 							</label>
-							<input type="file" id="avatar" name="student_pic" accept="image/png, image/jpeg" />
+							{{form.student_pic}}
 					</div>
 					<div class="opt-buttons">
 						<button type="submit">Submit</button> 

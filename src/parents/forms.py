@@ -16,17 +16,13 @@ def generate_unique_parent_id():
         if not ParentProfile.objects.filter(parent_id=new_id).exists():
             return new_id
         
-
-
-
 class ParentRegistrationForm(forms.Form):
     parent_first_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
-                }
+            }
         )
     )
     parent_middle_name = forms.CharField(
@@ -65,7 +61,7 @@ class ParentRegistrationForm(forms.Form):
         widget=forms.EmailInput(
             attrs={
                 'autocomplete':"off"
-                }
+            }
         ),
         max_length=30,
     )
@@ -98,12 +94,14 @@ class ParentRegistrationForm(forms.Form):
                         _(f"{profanity.censor(value)} is abusive!")
                     )
                     check_flag1 = True
+        if check_flag1:
+            return cleaned_data
         #check for none fields
-        if not check_flag1:
-            nn_fields = [
-                "parent_gender","parent_country"
-            ]
-            #for some future validations
+        if check_flag1:
+           return cleaned_data
+        parent_middle_name = cleaned_data.get("parent_middle_name")
+        if not parent_middle_name:
+            cleaned_data["parent_middle_name"] = ""
         #lowercase the email
         r_email = cleaned_data.get("parent_email")
         if r_email:
@@ -128,9 +126,9 @@ class ParentRegistrationForm(forms.Form):
                 parent_pic = self.cleaned_data['parent_pic'],
                 parent_school = parent_school,
 
-                parent_first_name = self.cleaned_data['parent_first_name'],
-                parent_middle_name = self.cleaned_data['parent_middle_name'],
-                parent_last_name = self.cleaned_data['parent_last_name'],
+                parent_first_name = (self.cleaned_data['parent_first_name']).title(),
+                parent_middle_name = (self.cleaned_data['parent_middle_name']).title(),
+                parent_last_name = (self.cleaned_data['parent_last_name']).title(),
 
                 parent_gender = self.cleaned_data['parent_gender'],
 
@@ -146,7 +144,6 @@ class ParentRegistrationForm(forms.Form):
             ) + 1
             parent_school.save(update_fields=['school_parents_polpulation'])
             
-
 class ParentEnrollmentForm(forms.Form):
     parent_first_name = forms.CharField(
         max_length=35,

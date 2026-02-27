@@ -115,7 +115,13 @@ class StudentRegistrationForm(forms.Form):
     ) 
     student_e_notes = forms.CharField(
         max_length=200,
-        required=False
+        required=False,
+        widget=forms.Textarea(
+            attrs={
+                "rows":3,
+                "cols":5
+            }
+        )
     )
     student_allergies = forms.MultipleChoiceField(
         choices=StudentProfile.ALLERGY_CHOICES,

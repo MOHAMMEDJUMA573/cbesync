@@ -78,9 +78,6 @@ class TeacherRegistrationForm(forms.Form):
     )
     teacher_home_address = forms.CharField(
         widget=forms.TextInput(
-            attrs={
-                'autocomplete':"off"
-            }
         ),
         max_length=50,
     )
@@ -91,6 +88,7 @@ class TeacherRegistrationForm(forms.Form):
                 'autocomplete':"off"
             }
         ),
+        required=False,
         max_length=35,
         help_text="Teacher's tsc assigned number"
     )
@@ -98,7 +96,7 @@ class TeacherRegistrationForm(forms.Form):
         initial=0,
         widget=forms.NumberInput(
             attrs={
-                "max":60,
+                "max":70,
                 "min":0
             }
         ),
@@ -144,35 +142,30 @@ class TeacherRegistrationForm(forms.Form):
         cleaned_data =  super().clean()
         teacher_fields = [
             "teacher_first_name", "teacher_middle_name", "teacher_last_name",
-            "teacher_email"
         ]
         for teacher_field in teacher_fields:
             value = cleaned_data.get(teacher_field)
             if value:
+                value = value.title()
+                self.cleaned_data[teacher_field] = value
                 if profanity.contains_profanity(value):
                     self.add_error(
                         teacher_field,
                         _(f"{profanity.censor(value)} is unallowed!")
                     )
                     check_flag1 = True
-
-        if not check_flag1:
-            nn_fields = [
-                "teacher_gender", "teacher_y_experience", "teacher_h_date",
-                "teacher_country", "teacher_employer", "teacher_department",
-                "teacher_role", "teacher_e_level"
-            ]
-            #for future validations
+        if check_flag1:
+            return cleaned_data
             
         r_email = cleaned_data.get("teacher_email")
         if r_email:
             cleaned_data["teacher_email"] = r_email.lower()
         #reasonable exp
         xp = cleaned_data.get("teacher_y_experience")
-        if xp and (xp > 60 or xp < 0) :
+        if xp and (xp > 70 or xp < 0) :
             self.add_error(
                 "teacher_y_experience",
-                _("> 0 and <60 ? ")
+                _("> 0 and <70 ? ")
             )
 
         return cleaned_data 
@@ -221,7 +214,7 @@ class TeacherRegistrationForm(forms.Form):
             
 class TeacherSearchForm(forms.Form):
     teacher_data = forms.CharField(
-        max_length=20,
+        max_length=35,
         required=False,
         widget=forms.TextInput(
             attrs={
@@ -249,7 +242,7 @@ class TeacherSearchForm(forms.Form):
 
 class TeacherEnrollmentForm(forms.Form):
     teacher_first_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -257,7 +250,7 @@ class TeacherEnrollmentForm(forms.Form):
         )
     )
     teacher_last_name = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -270,7 +263,7 @@ class TeacherEnrollmentForm(forms.Form):
         widget=forms.RadioSelect
     )
     teacher_id = forms.CharField(
-        max_length=30,
+        max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -304,23 +297,21 @@ class TeacherEnrollmentForm(forms.Form):
         check_flag1 = False
         cleaned_data = super().clean()
         teacher_fields = [
-            "teacher_first_name", "teacher_last_name", "teacher_id",
+            "teacher_first_name", "teacher_last_name",
         ]
         for teacher_field in teacher_fields:
             value = cleaned_data.get(teacher_field)
             if value:
+                value = value.title()
+                cleaned_data[teacher_field] = value
                 if profanity.contains_profanity(value):
                     self.add_error(
                         teacher_field,
                         _(f"{profanity.censor(value)} is unallowed!")
                     )
                     check_flag1 = True
-        if not check_flag1:
-            nn_fields = [
-                "teacher_gender", "teacher_role",
-                "teacher_e_level", "teacher_h_qualification"
-            ]
-            #for some future validation
+        if check_flag1:
+            return cleaned_data
 
         return cleaned_data
      

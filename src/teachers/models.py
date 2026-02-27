@@ -101,7 +101,7 @@ class TeacherProfile(models.Model):
 
     teacher_y_experience = models.IntegerField(
         default=0,
-        validators=[MaxValueValidator(60), MinValueValidator(0)],
+        validators=[MaxValueValidator(70), MinValueValidator(0)],
         help_text="teachers experience in years"
     )
     teacher_h_date = models.DateField(
@@ -109,10 +109,7 @@ class TeacherProfile(models.Model):
     )
     TEACHER_ROLES = (
         ('PR', 'Principal'),
-        ('DP', 'Deputy'),
-        ('CT', 'Class Teacher'),
-        ('ST', 'Subject Teacher'),
-        ('PT', 'Patron'), 
+        ('CT', 'Teacher'),
         ('O', 'Other'),
     )
     teacher_role = models.CharField(
@@ -183,7 +180,7 @@ class TeacherProfile(models.Model):
         default=list
     )
     QUALIFICATIONS = (
-        ("UDGR","Bachelors Degree"),
+        ("UDGR","Bachelor's Degree"),
         ("MSTS", "Masters"),
         ("PHDS", "Doctor of Phylosophy"),
         ("DPLM", "Diploma"),

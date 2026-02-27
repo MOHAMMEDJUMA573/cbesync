@@ -19,6 +19,7 @@ def generate_unique_user_id():
 #custom users table for scalability
 class CustomUser(AbstractUser):
     CBESYNC_COUNTRIES = [
+        ("KEN", "Kenya"),
         ("AFG", "Afghanistan"),
         ("ALB", "Albania"),
         ("DZA", "Algeria"),
@@ -105,7 +106,6 @@ class CustomUser(AbstractUser):
         ("JPN", "Japan"),
         ("JOR", "Jordan"),
         ("KAZ", "Kazakhstan"),
-        ("KEN", "Kenya"),
         ("KIR", "Kiribati"),
         ("KWT", "Kuwait"),
         ("KGZ", "Kyrgyzstan"),

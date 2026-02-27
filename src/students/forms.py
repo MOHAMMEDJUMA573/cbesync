@@ -58,7 +58,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.RadioSelect
     )
     student_dob = forms.DateField(
-        initial=date(2006, 6, 9).strftime('%Y-%m-%d'),
+        initial=date(2010, 1, 1).strftime('%Y-%m-%d'),
         required=True
     )
     
@@ -66,7 +66,7 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':"off"
-                }
+            }
         ),
         initial="+254",
         label="Mobile No"
@@ -81,10 +81,10 @@ class StudentRegistrationForm(forms.Form):
         required=False
     )
     student_home_address = forms.CharField(
-        max_length=50,
+        max_length=35,
         required=True
     )
-    student_admission_number = forms.CharField(
+    student_assessment_number = forms.CharField(
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -92,7 +92,7 @@ class StudentRegistrationForm(forms.Form):
         ),
         max_length=35,
         initial="",
-        required=True
+        required=False
     )
     student_class = forms.ChoiceField(
     )
@@ -100,7 +100,6 @@ class StudentRegistrationForm(forms.Form):
     student_country = forms.ChoiceField(
         choices=CustomUser.CBESYNC_COUNTRIES,
         initial="KEN",
-        disabled=True,
     )
     student_admission_date = forms.DateField(
         initial=date.today().strftime('%Y-%m-%d'),
@@ -143,14 +142,12 @@ class StudentRegistrationForm(forms.Form):
                         _(f"{profanity.censor(value)} is unallowed!")
                     )
                     check_flag1 = True
+        if check_flag1:
+            return cleaned_data
         #check for none fields
-        if not check_flag1:
-            nn_fields = [
-                "student_gender", "student_dob", "student_country",
-                "student_admission_date", "student_s_needs",
-                "student_blood_group"
-            ]
-            #for some future validations
+        student_middle_name = cleaned_data.get('student_middle_name')
+        if not student_middle_name:
+            cleaned_data['student_middle_name'] = ""
         r_email = cleaned_data.get("student_email")
         if r_email:
             cleaned_data["student_email"] = r_email.lower()
@@ -159,9 +156,15 @@ class StudentRegistrationForm(forms.Form):
         student_classes = cleaned_data.get('student_class')
         if not student_classes:
             return cleaned_data
-        cleaned_data['student_class'] = ClassProfile.objects.get(
-            class_id = self.cleaned_data['student_class']
-        )
+        try:
+            cleaned_data['student_class'] = ClassProfile.objects.get(
+                class_id = self.cleaned_data['student_class']
+            )
+        except ClassProfile.DoesNotExist:
+            self.add_error(
+                "student_class",
+                _("The class does not exist")
+            )
 
 
         return cleaned_data
@@ -182,15 +185,15 @@ class StudentRegistrationForm(forms.Form):
                 student_id = username,
                 student_school = student_school,
                 student_class = self.cleaned_data['student_class'],
-                student_first_name = self.cleaned_data['student_first_name'],
-                student_middle_name = self.cleaned_data['student_middle_name'],
-                student_last_name = self.cleaned_data['student_last_name'],
+                student_first_name = (self.cleaned_data['student_first_name']).title(),
+                student_middle_name = (self.cleaned_data['student_middle_name']).title(),
+                student_last_name = (self.cleaned_data['student_last_name']).title(),
                 student_gender = self.cleaned_data['student_gender'],
                 student_dob = self.cleaned_data['student_dob'],
                 student_e_contact = self.cleaned_data['student_e_contact'],
                 student_email = self.cleaned_data['student_email'],
                 student_home_address = self.cleaned_data['student_home_address'],
-                student_admission_number = self.cleaned_data['student_admission_number'],
+                student_assessment_number = self.cleaned_data['student_assessment_number'],
                 student_admission_date = self.cleaned_data['student_admission_date'],
                 student_s_needs = self.cleaned_data['student_s_needs'],
                 student_blood_group = self.cleaned_data['student_blood_group'],
@@ -223,7 +226,7 @@ class StudentRegistrationForm(forms.Form):
                 'school_students_polpulation'
             ) + 1
             student_school.save(update_fields=['school_students_polpulation'])
-            
+         
 class StudentSearchForm(forms.Form):
     student_data = forms.CharField(
         max_length=35,

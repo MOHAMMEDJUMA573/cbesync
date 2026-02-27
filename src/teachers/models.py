@@ -64,7 +64,8 @@ class TeacherProfile(models.Model):
     )
     teacher_middle_name = models.CharField(
         max_length=35,
-        default=""
+        default="",
+        blank=True
     )
     teacher_last_name = models.CharField(
         max_length=35

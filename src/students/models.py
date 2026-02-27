@@ -56,13 +56,9 @@ class StudentProfile(models.Model):
         null=True
     )
 
-    student_admission_number = models.CharField(
-        max_length=30,
-        default="XXXXX"
-    )
     student_assessment_number = models.CharField(
         max_length=20,
-        default="XXXXX"
+        default="XXXXXXXXXX"
     )
 
     student_first_name = models.CharField(
@@ -70,7 +66,8 @@ class StudentProfile(models.Model):
     )
     student_middle_name = models.CharField(
         max_length=35,
-        blank=True
+        blank=True,
+        default=""
     )
     student_last_name = models.CharField(
         max_length=35
@@ -132,7 +129,7 @@ class StudentProfile(models.Model):
         blank=True
     )
     student_home_address = models.CharField(
-        max_length=50,
+        max_length=35,
         null=True,
         blank=True,
         help_text="Student address of residence"

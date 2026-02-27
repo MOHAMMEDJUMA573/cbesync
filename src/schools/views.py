@@ -1035,7 +1035,9 @@ def class_management(request):
                     context = {
                         "school":current_school,
                         "page_title":page_title,
-                        "form":form
+                        "form":form,
+                        "form2":form2,
+                        "classes_dict":school_classes_dict
                     }
             elif  "class_deletion" in request.POST:
                 form2 = ClassDeletionForm(request.POST)

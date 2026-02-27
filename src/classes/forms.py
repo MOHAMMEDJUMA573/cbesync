@@ -50,7 +50,7 @@ class ClassRegistrationForm(forms.Form):
 
     class_level = forms.ChoiceField(
         choices=ClassProfile.CLASS_LEVEL_CHOICES,
-        initial=13
+        initial=7
     )
 
     class_program = forms.ChoiceField(
@@ -88,7 +88,7 @@ class ClassRegistrationForm(forms.Form):
         check_flag1 = False
         cleaned_data =  super().clean()
         class_fields = [
-            "class_title"
+            "class_description"
         ]
         for class_field in class_fields:
             value = cleaned_data.get(class_field)
@@ -105,14 +105,25 @@ class ClassRegistrationForm(forms.Form):
                 "class_program", "class_teacher"
             ]
             #for some future validations       
+        #check if level matches
+        
+        
         #get the keyed fields
         teachers = cleaned_data.get('class_teacher')
         programs = cleaned_data.get('class_program')
+        level = cleaned_data.get('class_level')
+        #check if level matches
         if not teachers or not programs:
             return cleaned_data
         cleaned_data['class_program'] = ProgramProfile.objects.get(
             program_id=self.cleaned_data['class_program']
         )
+        #check if  cbe level syncs
+        if level not in list(cleaned_data['class_program'].program_levels):
+            self.add_error(
+                "class_program",
+                _("program and level mismatch")
+            )
         cleaned_data['class_teacher'] = TeacherProfile.objects.get(
             teacher_id=self.cleaned_data['class_teacher']
         )

@@ -139,15 +139,10 @@ class ParentRegistrationForm(forms.Form):
                 parent_status = 'A' 
             )
             #increment the nuber of parents in the school
-            parent_school.school_parents_polpulation = F(
-                'school_parents_polpulation'
-            ) + 1
-            parent_school.save(update_fields=['school_parents_polpulation'])
             
 class ParentEnrollmentForm(forms.Form):
     parent_first_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -156,7 +151,6 @@ class ParentEnrollmentForm(forms.Form):
     )
     parent_last_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -170,7 +164,6 @@ class ParentEnrollmentForm(forms.Form):
     )
     parent_id = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -182,22 +175,21 @@ class ParentEnrollmentForm(forms.Form):
         check_flag1 = False
         cleaned_data = super().clean()
         parent_fields = [
-            "parent_first_name", "parent_last_name", "parent_id",
+            "parent_first_name", "parent_last_name",
         ]
         for parent_field in parent_fields:
             value = cleaned_data.get(parent_field)
             if value:
+                value = value.title()
+                cleaned_data[parent_field] = value
                 if profanity.contains_profanity(value):
                     self.add_error(
                         parent_field,
                         _(f"{profanity.censor(value)} is unallowed!")
                     )
                     check_flag1 = True
-        if not check_flag1:
-            nn_fields = [
-                "parent_gender"
-            ]
-            #for some future validations
+        if check_flag1:
+            return cleaned_data
 
         return cleaned_data
    

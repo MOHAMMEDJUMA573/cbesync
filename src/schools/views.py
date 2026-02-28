@@ -716,20 +716,12 @@ def parent_enrollment(request):
                         #transfer the teacher to the new school
                     with transaction.atomic():
                         enrolled_parent.parent_school = current_school
-                        parent_old_school.school_parents_polpulation = F(
-                            "school_parents_polpulation"
-                        ) - 1
-                        current_school.school_parents_polpulation = F(
-                            "school_parents_polpulation"
-                        ) + 1
                         #update the fields
                         enrolled_parent.save(
                             update_fields=[
                                 "parent_school"
                             ]
                         )
-                        parent_old_school.save(update_fields=["school_parents_polpulation"])
-                        current_school.save(update_fields=["school_parents_polpulation"])
                         messages.success(
                             request,
                             (f"Parent {parent_last_name} : {passed_parent_id} responsibility transferred from {parent_old_school.school_name} from {current_school.school_name} ")

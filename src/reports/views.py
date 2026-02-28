@@ -1,5 +1,6 @@
 import io
 import uuid
+import datetime
 from reportlab.lib.pagesizes import A4, letter
 from reportlab.lib import colors
 from reportlab.lib.colors import black, navy, red, yellow, lightgrey, HexColor
@@ -46,7 +47,7 @@ def create_report_header(elements, styles, logo_buffer, class_passed, exam_passe
         textColor=black
     )
     school_p1 = Paragraph(f"{class_passed.class_school.school_name.upper()}", heading1)
-    school_p2 = Paragraph(f"PO BOX 16-80405 KINANGO <br/> {exam_passed.examination_period.upper()} OF TERM {exam_passed.examination_term[2:]}, {exam_passed.examination_year}", heading2)
+    school_p2 = Paragraph(f"P.O BOX {class_passed.class_school.school_postal_box} <br/> {exam_passed.examination_period.upper()} OF TERM {exam_passed.examination_term[2:]}, {exam_passed.examination_year}", heading2)
     elements.append(school_p1)
     elements.append(school_p2)
     elements.append(Spacer(1, 0.1*inch))
@@ -135,9 +136,7 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed,
     )
     elements.append(table3)
     elements.append(Spacer(1, 0.8*inch))
-    footer = Paragraph(
-        "<a href='https://cbesync.com' color='blue'><u>www.cbesync.com</u></a> &nbsp;" "© 2026 cbesync from Eyerision"
-    )
+    footer = Paragraph(f"<a href='https://cbesync.com' color='green'><u>www.cbesync.com</u></a> &nbsp; © 2026 cbesync -: {datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')}")
     elements.append(footer)
     elements.append(Spacer(1, 0*inch))
     elements.append(PageBreak())

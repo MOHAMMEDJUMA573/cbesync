@@ -500,9 +500,10 @@ def student_enrollment(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/s_enroll.html"
     page_title = "S-Enrollment"
-    form = StudentEnrollmentForm()
+    classes_list = current_school.school_classes_list
+    form = StudentEnrollmentForm(classes_tuple_list=classes_list)
     if request.method == "POST":
-        form = StudentEnrollmentForm(request.POST)
+        form = StudentEnrollmentForm(request.POST,classes_tuple_list=classes_list)
         if form.is_valid():
             passed_student_id = form.cleaned_data["student_id"]
             passed_first_name = form.cleaned_data["student_first_name"]
@@ -555,7 +556,7 @@ def student_enrollment(request):
                             context = {
                                 "school":current_school,
                                 "page_title":page_title,
-                                "form":StudentEnrollmentForm()
+                                "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
                             }
                 else:
                     messages.warning(

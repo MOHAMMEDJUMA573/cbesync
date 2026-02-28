@@ -264,6 +264,11 @@ class StudentSearchForm(forms.Form):
     
 
 class StudentEnrollmentForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        classes_tuple_choices = kwargs.pop("classes_tuple_list")
+        super(StudentEnrollmentForm, self).__init__(*args, **kwargs)
+        self.fields["student_class"].choices = classes_tuple_choices
+
     student_first_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
@@ -294,7 +299,7 @@ class StudentEnrollmentForm(forms.Form):
         )
     )
     student_class = forms.ChoiceField(
-
+        choices=()
     )
     student_s_needs= forms.ChoiceField(
         choices=StudentProfile.SP_NEEDS_OPTS,
@@ -305,21 +310,22 @@ class StudentEnrollmentForm(forms.Form):
         check_flag1 = False
         cleaned_data = super().clean()
         student_fields = [
-            "student_first_name", "student_last_name", "student_id",
+            "student_first_name", "student_last_name",
         ]
         for student_field in student_fields:
             value = cleaned_data.get(student_field)
             if value:
+                value = value.title()
+                cleaned_data[student_field] = value
                 if profanity.contains_profanity(value):
                     self.add_error(
                         student_field,
                         _(f"{profanity.censor(value)} is unallowed!")
                     )
                     check_flag1 = True
-        if not check_flag1:
-            nn_fields = [
-                "student_gender","student_s_needs"#, "student_class"
-            ]
+        if check_flag1:
+            return cleaned_data
+        
             #for some future validations
 
         return cleaned_data

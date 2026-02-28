@@ -46,7 +46,7 @@ class NtStaffProfile(models.Model):
     ntstaff_school = models.ForeignKey(
         SchoolProfile,
         on_delete=models.CASCADE,
-        related_name="ntstaffs",
+        related_name="ntstaff_profiles",
         null=True
     )
 

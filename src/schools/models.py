@@ -184,25 +184,10 @@ class SchoolProfile(models.Model):
         help_text="School_status on the platform e.g Verified"
     )
     #school_polpulation
-    school_students_polpulation = models.IntegerField(
-        default=0,
-        validators=[MaxValueValidator(5000), MinValueValidator(0)],
-        help_text="Number of students"
-    )
-    school_teachers_polpulation = models.IntegerField(
-        default=0,
-        validators=[MaxValueValidator(500), MinValueValidator(0)],
-        help_text="Number of teachers"
-    )
-    school_ntstaffs_polpulation = models.IntegerField(
-        default=0,
-        validators=[MaxValueValidator(500), MinValueValidator(0)],
-        help_text="Number of ntstaffs"
-    )
-    school_parents_polpulation = models.IntegerField(
+    school_parents_population = models.IntegerField(
         default=0,
         validators=[MaxValueValidator(2500), MinValueValidator(0)],
-        help_text="Number of ntstaffs"
+        help_text="Number of parents"
     )
     #12. Timestamps
     school_creation_date = models.DateTimeField(
@@ -217,8 +202,22 @@ class SchoolProfile(models.Model):
     #return string
 
     @property
-    def school_polpulation(self):
-        return (self.school_students_polpulation + self.school_teachers_polpulation + self.school_ntstaffs_polpulation)
+    def school_students_population(self):
+        return self.student_profiles.all().count()
+        
+    
+    @property
+    def school_teachers_population(self):
+        return self.teacher_profiles.all().count()
+        
+    @property
+    def school_ntstaffs_population(self):
+        return  self.ntstaff_profiles.all().count()
+        
+
+    @property
+    def school_population(self):
+        return (self.school_students_population + self.school_teachers_population + self.school_ntstaffs_population)
 
     @property
     def school_online_days(self):

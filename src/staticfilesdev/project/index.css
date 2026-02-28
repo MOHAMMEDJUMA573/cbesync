@@ -1,12 +1,12 @@
 /* root variables */
 :root {
-    /*theme 2*/
-    --color-background: black;
-    --color-white: #202528;
-    --color-dark: #edeffd;
-    --color-dark-variant: #a3bdcc;
-    --color-light: rgba(0,0,0,0.4);
-    --box-shadow: 0 2rem 3rem var(--color-light);    
+    /*theme 1*/
+    --color-background: #f6f9f8;
+    --color-white: #fff;
+    --color-dark: #363949;
+    --color-dark-variant: #677483;
+    --color-light: rgba(132, 139, 200, 0.18);
+    --box-shadow: 0 2rem 3rem var(--color-light);
 
     --color-primary: #008000;
     --color-danger: #fe4a59;
@@ -21,18 +21,20 @@
     --border-radius-1: 0.4rem;
     --border-radius-2: 0.8rem;
     --border-radius-3: 1.2rem;
+    --allround-bradius: 0.5rem;
     --card-padding: 1.8rem;
     --padding-1: 1.2rem;
 }
 /*Dark theme variables*/
 .dark-theme-variables{
-    /*theme 1 colors*/
-    --color-background: #f6f9f8;
-    --color-white: #fff;
-    --color-dark: #363949;
-    --color-dark-variant: #677483;
-    --color-light: rgba(132, 139, 200, 0.18);
-    --box-shadow: 0 2rem 3rem var(--color-light);
+    /*theme 2*/
+    --color-background: black;
+    --color-white: #202528;
+    --color-dark: #edeffd;
+    --color-dark-variant: #a3bdcc;
+    --color-light: rgba(0,0,0,0.4);
+    --box-shadow: 0 2rem 3rem var(--color-light);    
+    
 }
 *{
     text-decoration: none;
@@ -277,7 +279,7 @@ main h1{
     font-weight: bold;
     border: white;
     width: 105px;
-    border-radius: 10px;
+    border-radius: var(--allround-bradius);
     cursor: pointer;
 }
 .copyright-div{

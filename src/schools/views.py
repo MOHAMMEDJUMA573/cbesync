@@ -864,12 +864,6 @@ def ntstaff_enrollment(request):
                             enrolled_ntstaff.ntstaff_s_field = passed_s_field
                             enrolled_ntstaff.ntstaff_y_experience = passed_y_experience
                             enrolled_ntstaff.ntstaff_j_title = passed_j_title
-                            ntstaff_old_school.school_ntstaffs_polpulation = F(
-                                "school_ntstaffs_polpulation"
-                            ) - 1
-                            current_school.school_ntstaffs_polpulation = F(
-                                "school_ntstaffs_polpulation"
-                            ) + 1
                             #update the fields
                             enrolled_ntstaff.save(
                                 update_fields=[
@@ -877,8 +871,6 @@ def ntstaff_enrollment(request):
                                     "ntstaff_y_experience", "ntstaff_j_title"
                                 ]
                             )
-                            ntstaff_old_school.save(update_fields=["school_ntstaffs_polpulation"])
-                            current_school.save(update_fields=["school_ntstaffs_polpulation"])
                             messages.success(
                                 request,
                                 (f"NTstaff {ntstaff_last_name} : {passed_ntstaff_id} enrolled successfully")

@@ -124,12 +124,13 @@ class NtStaffRegistrationForm(forms.Form):
         check_flag1 = False
         cleaned_data =  super().clean()
         ntstaff_fields = [
-            "ntstaff_first_name", "ntstaff_middle_name", "ntstaff_last_name",
-            "ntstaff_email"
+            "ntstaff_first_name", "ntstaff_middle_name", "ntstaff_last_name"
         ]
         for ntstaff_field in ntstaff_fields:
             value = cleaned_data.get(ntstaff_field)
             if value:
+                value = value.title()
+                cleaned_data[ntstaff_field] = value
                 if profanity.contains_profanity(value):
                     self.add_error(
                         ntstaff_field,
@@ -195,13 +196,7 @@ class NtStaffRegistrationForm(forms.Form):
 
                 ntstaff_status = 'E' #ntstaff status default field
             )
-            #increment the nuber of ntstaffs in the school
-            ntstaff_school.school_ntstaffs_polpulation = F(
-                'school_ntstaffs_polpulation'
-            ) + 1
-            ntstaff_school.save(update_fields=['school_ntstaffs_polpulation'])
             
-
 class NtStaffSearchForm(forms.Form):
     ntstaff_data = forms.CharField(
         max_length=20,
@@ -234,16 +229,14 @@ class NtStaffSearchForm(forms.Form):
 class NtStaffEnrollmentForm(forms.Form):
     ntstaff_first_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
-                }
+            }
         )
     )
     ntstaff_last_name = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -252,7 +245,6 @@ class NtStaffEnrollmentForm(forms.Form):
     )
     ntstaff_id = forms.CharField(
         max_length=35,
-        required=True,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off'
@@ -279,7 +271,7 @@ class NtStaffEnrollmentForm(forms.Form):
         widget=forms.NumberInput(
             attrs={
                 'min':0,
-                'max':60,
+                'max':70,
             }
         )
     )
@@ -292,11 +284,13 @@ class NtStaffEnrollmentForm(forms.Form):
         check_flag1 = False
         cleaned_data =  super().clean()
         ntstaff_fields = [
-            "ntstaff_first_name", "ntstaff_last_name", "ntstaff_email"
+            "ntstaff_first_name", "ntstaff_last_name"
         ]
         for ntstaff_field in ntstaff_fields:
             value = cleaned_data.get(ntstaff_field)
             if value:
+                value = value.title()
+                cleaned_data[ntstaff_field] = value
                 if profanity.contains_profanity(value):
                     self.add_error(
                         ntstaff_field,
@@ -304,19 +298,16 @@ class NtStaffEnrollmentForm(forms.Form):
                     )
                     check_flag1 = True
         #check for none fields
-        if not check_flag1:
-            nn_fields = [
-                "ntstaff_gender", "ntstaff_dob",
-                "ntstaff_h_qualification", "ntstaff_s_field", "ntstaff_country", 
-                "ntstaff_y_experience", "ntstaff_j_title"
-            ]
-            #for some future validations
+        if check_flag1:
+            return cleaned_data
+        
+
         #reasonable exp
         xp = cleaned_data.get("ntstaff_y_experience")
-        if xp and (xp > 60 or xp < 0) :
+        if xp and (xp > 70 or xp < 0) :
             self.add_error(
                 "ntstaff_y_experience",
-                _("> 0 and <60 ? ")
+                _("> 0 and <70 ? ")
             )
 
         return cleaned_data

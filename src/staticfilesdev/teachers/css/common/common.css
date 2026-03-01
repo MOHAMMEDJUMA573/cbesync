@@ -112,7 +112,7 @@ b{
     color: var(--color-success);
 }
 .warning{
-    color: var(--color-warning);
+    color: yellow;
 }
 .info{
     color: #ff00dd;
@@ -365,7 +365,6 @@ main h1{
         right: 1rem;
         background: var(--color-background);
         border-radius: var(--border-radius-1);
-        padding: var(2rem);
     }
     /*below top*/
     .aside-right .recent-updates{

@@ -206,11 +206,6 @@ class TeacherRegistrationForm(forms.Form):
                 teacher_pic = self.cleaned_data['teacher_pic'],
                 teacher_status = 'E' 
             )
-            #increment the nuber of students in the school
-            teacher_school.school_teachers_polpulation = F(
-                'school_teachers_polpulation'
-            ) + 1
-            teacher_school.save(update_fields=['school_teachers_polpulation'])
             
 class TeacherSearchForm(forms.Form):
     teacher_data = forms.CharField(

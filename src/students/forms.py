@@ -226,12 +226,6 @@ class StudentRegistrationForm(forms.Form):
                     streport_class = student_class,
                     streport_student = student_saved,
                 )
-
-            #increment the nuber of students in the school
-            student_school.school_students_polpulation = F(
-                'school_students_polpulation'
-            ) + 1
-            student_school.save(update_fields=['school_students_polpulation'])
          
 class StudentSearchForm(forms.Form):
     student_data = forms.CharField(

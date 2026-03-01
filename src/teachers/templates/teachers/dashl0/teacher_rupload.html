@@ -71,10 +71,13 @@
 			</form>
 		</div>
 		<div class="main-subjects-div">
+			{% if not teacher_subjects %} 
+                <h1 style="justify-content: center;align-items: center; text-align: center;" class="info"> No subjects assigned to you! </h1>
+            {% endif %}
 			{% if teacher_subjects %}
 				<div class="maing-data-grid">
 					<div class="maing-data-header">
-						Active classes
+						Active Subjects
 					</div>
 					<div class="maing-data-table">
 						<div class="maingt-header-row">
@@ -94,7 +97,7 @@
 					</div>
 				</div> 
 			{% endif %}
-			<div class="maing-data-grid" style="margin-top: 2rem;">
+			<!-- <div class="maing-data-grid" style="margin-top: 2rem;">
                 <div class="maing-data-header">
                     Archived classes
                 </div>
@@ -118,7 +121,7 @@
                         <div class="maingtr-data">Archive</div>
                     </div>
                 </div>
-            </div>     
+            </div>      -->
         </div>
 	</main>
 	<!--3rd-->

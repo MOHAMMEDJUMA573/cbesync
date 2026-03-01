@@ -16,6 +16,38 @@
 		<h1 class="main-header">Dashboard</h1>
 		<div class="main-t-page">
 			<div class="main-t-p">
+				<div class="main-p-title">Teacher Profile</div>
+				<div class="teacher-p-pic">
+					{% if teacher.teacher_pic %}
+						<img src={{teacher.teacher_pic.url}} class="teacher-p-image" alt="Profile pic">
+					{% else %}
+						<img src="{% static 'teachers/images/profile-2.jpg' %}" class="teacher-p-image" alt="Profile pic">
+					{% endif %}
+				</div>
+				<div class="teacher-p-data">
+					<div class="teacher-pd-row">
+						<div class="pd-title">Name :</div>
+						<div class="pd-value">{{teacher.teacher_first_name}} {{teacher.teacher_middle_name}} {{teacher.teacher_last_name}}</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">TID :</div>
+						<div class="pd-value">{{teacher.teacher_id}}</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Employment Status :</div>
+						<div class="pd-value">{{teacher.get_teacher_status_display}}</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Qualification :</div>
+						<div class="pd-value">{{teacher.get_teacher_h_qualification_display}}</div>
+					</div>
+					<div class="teacher-pd-row">
+						<div class="pd-title">Email :</div>
+						<div class="pd-value">{{teacher.teacher_email}}</div>
+					</div>
+				</div>
+			</div>
+			<div class="main-t-p">
 				<div class="main-p-title">School Profile</div>
 				<div class="teacher-p-pic">
 					<img src="{% static 'teachers/images/profile-2.jpg' %}" class="teacher-p-image" alt="Profile pic">
@@ -40,34 +72,6 @@
 					<div class="teacher-pd-row">
 						<div class="pd-title">Email :</div>
 						<div class="pd-value">{{teacher_school.user.email}}</div>
-					</div>
-				</div>
-			</div>
-			<div class="main-t-p">
-				<div class="main-p-title">Teacher Profile</div>
-				<div class="teacher-p-pic">
-					<img src={{teacher.teacher_pic.url}} class="teacher-p-image" alt="Profile pic">
-				</div>
-				<div class="teacher-p-data">
-					<div class="teacher-pd-row">
-						<div class="pd-title">Name :</div>
-						<div class="pd-value">{{teacher.teacher_first_name}} {{teacher.teacher_middle_name}} {{teacher.teacher_last_name}}</div>
-					</div>
-					<div class="teacher-pd-row">
-						<div class="pd-title">TID :</div>
-						<div class="pd-value">{{teacher.teacher_id}}</div>
-					</div>
-					<div class="teacher-pd-row">
-						<div class="pd-title">Employment Status :</div>
-						<div class="pd-value">{{teacher.get_teacher_status_display}}</div>
-					</div>
-					<div class="teacher-pd-row">
-						<div class="pd-title">Qualification :</div>
-						<div class="pd-value">{{teacher.get_teacher_h_qualification_display}}</div>
-					</div>
-					<div class="teacher-pd-row">
-						<div class="pd-title">Email :</div>
-						<div class="pd-value">{{teacher.teacher_email}}</div>
 					</div>
 				</div>
 			</div>

@@ -138,7 +138,6 @@ class ParentRegistrationForm(forms.Form):
 
                 parent_status = 'A' 
             )
-            #increment the nuber of parents in the school
             
 class ParentEnrollmentForm(forms.Form):
     parent_first_name = forms.CharField(

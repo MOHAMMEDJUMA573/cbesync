@@ -110,7 +110,8 @@ class SchoolSignupForm(SignupForm):
         label="Contact No",
     )
     school_badge = forms.ImageField(
-        required=False
+        required=False,
+        label="Profile Picture"
     )
    
     def clean(self):
@@ -174,4 +175,3 @@ class SchoolLocksForm(forms.Form):
         choices=LOCKS_CHOICES,
         initial=0
     )
-    

@@ -23,7 +23,11 @@
                 <small class="text-muted">Admin</small>
             </div>
             <div class="profile-photo">
-                <img src="{{teacher.teacher_pic.url}}" alt="Profile pic">
+                {% if teacher.teacher_pic %}
+                    <img src={{teacher.teacher_pic.url}} class="teacher-p-image" alt="Profile pic">
+                {% else %}
+                    <img src="{% static 'teachers/images/profile-2.jpg' %}" class="teacher-p-image" alt="Profile pic">
+                {% endif %}
             </div>
         </div>
     </div>

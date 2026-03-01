@@ -36,7 +36,7 @@ let lastScrollPos = 0;
 window.addEventListener('scroll', () => {
     const currentScrollPos = window.pageYOffset || document.documentElement.scrollTop;
     // Only when user has scrolled down at all
-    if (window.innerWidth > 1024) {
+    if (window.innerWidth > 768) {
         if (currentScrollPos > 0) {
             document.querySelector(".main-header").style.top = "-3rem";
             document.querySelector(".aside-right .top").style.top = "-3rem";

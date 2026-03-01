@@ -232,4 +232,4 @@ class TeacherProfile(models.Model):
     def teacher_ct_classes(self):
         return self.classt_profiles.all()
     def __str__(self):
-        return f"{self.teacher_first_name} {self.teacher_last_name} {self.teacher_tsc_number}"
+        return f"{self.teacher_first_name} {self.teacher_last_name} ({self.teacher_id})"

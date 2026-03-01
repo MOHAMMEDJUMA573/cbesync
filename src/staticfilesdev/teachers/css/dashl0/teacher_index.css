@@ -108,7 +108,6 @@ main .main-t-p{
         display: flex;
         flex-direction: column;
         margin-top: 3rem;
-        flex-direction: column-reverse;
     }    
     .employement-d-data{
         display: flex;

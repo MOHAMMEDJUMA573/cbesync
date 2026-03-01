@@ -90,6 +90,12 @@ def teacher_classes_results_upload_redirect(request):
     template_name = "teachers/dashl0/teacher_rupload.html"
     page_title = "R-uploads"
     if request.method == "POST":
+        if teacher_school.school_rupload_lock == 0:
+            messages.warning(
+                request,
+                _("School Admin has closed result uploads!")
+            )
+            return redirect("teachers:teacher_classes_rupload")
         form = TeacherResultsUploadForm(request.POST,subjects_tuple_choices=subjects_tuple_list)
         if form.is_valid():
             passed_subject = form.cleaned_data["results_subjects"]
@@ -108,10 +114,6 @@ def teacher_classes_results_upload_redirect(request):
                 )
             except ExaminationProfile.DoesNotExist:
                 required_exam = None
-
-            print(required_exam.examination_id)
-            print(passed_subject.subject_id)
-            print(passed_subject_class.class_id)
             return redirect(
                 reverse(
                     "teachers:teacher_classes_rupload_subject",
@@ -122,7 +124,6 @@ def teacher_classes_results_upload_redirect(request):
                     },
                 )
             )
-
         else:
             context = {
             "page_title":page_title,
@@ -146,8 +147,15 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
     if request.user.user_type != "teacher":
         return HttpResponse("Only schools allowed bro!")
     if teacher_uuid != valid_teacher_uuid:
-        return HttpResponse("Wrong teacher trying to access the page!")    
+        return HttpResponse("Wrong teacher trying to access the page!") 
     current_teacher = get_teacher_object(request.user)
+    teacher_school = current_teacher.teacher_school
+    if teacher_school.school_rupload_lock == 0:
+            messages.warning(
+                request,
+                _("School Admin has closed result uploads!")
+            )
+            return redirect("teachers:teacher_classes_rupload")   
     teacher_subjects_ids = [
         (c.subject_id)
         for c in current_teacher.teacher_teaching_subjects
@@ -184,6 +192,12 @@ def teacher_classes_results_upload_subject(request, subject_id, class_id, exam_i
         form_kwargs=get_form_kwargs(),
     )
     if request.method == "POST":
+        if teacher_school.school_rupload_lock == 0:
+            messages.warning(
+                request,
+                _("School Admin has closed result uploads!")
+            )
+            return redirect("teachers:teacher_classes_rupload")
         formset = StudentsResultsFormSet(
             request.POST, request.FILES,
             queryset=queryset,

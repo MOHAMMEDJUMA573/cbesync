@@ -15,6 +15,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
 import uuid
+from .forms import SchoolLocksForm
 from teachers.forms import TeacherRegistrationForm, TeacherSearchForm, TeacherEnrollmentForm
 from students.forms import StudentRegistrationForm, StudentSearchForm, StudentEnrollmentForm
 from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEnrollmentForm
@@ -1013,7 +1014,7 @@ def class_management(request):
                     form.save(current_school)
                     messages.success(
                         request,
-                        f"Class: created saved successfully! 🥳"
+                        f"The class was created successfully! 🥳"
                     )                        
                     return redirect(reverse("schools:school_class_management"))
                 else:
@@ -1084,7 +1085,7 @@ def class_management(request):
     else:
         messages.warning(
             request,
-            f"please create a teacher to administer the class ⚠️"
+            f"please create a teacher first ⚠️"
         ) 
         context = {
             "school":current_school,
@@ -1109,6 +1110,7 @@ def assessment_management(request):
     page_title = "A-Management"
     classes_list = current_school.school_classes_list
     school_results = current_school.school_result_objects
+    form = SchoolLocksForm()
     form2 = ResultsFilterForm(classes_tuple_list=classes_list)
     if request.method == "POST":
         if "get_results" in request.POST:
@@ -1137,12 +1139,12 @@ def assessment_management(request):
                         "form2":form2
                     }
                     return render(request, template_name, context)
-                #print the reports if method is print
-                if passed_option == str(1):
-                    return student_report1_generator(class_passed=class_passed, exam_passed=examination_q)
                 #generate reports total and position
                 class_passed.class_reports_total_generator(examination_q)
                 class_passed.class_reports_pos_generator(examination_q)
+                #print the reports if method is print
+                if passed_option == str(1):
+                    return student_report1_generator(class_passed=class_passed, exam_passed=examination_q)
                 class_students = class_passed.student_profiles.all().order_by("student_first_name")
                 students_results_dict = {}
                 for student in class_students:
@@ -1171,16 +1173,25 @@ def assessment_management(request):
                     "form2":form2
                 }
         elif "manage_results" in request.POST:
-            print("Managerez form")
+            form = SchoolLocksForm(request.POST)
+            if form.is_valid():
+                school_rupload_lock = form.cleaned_data["school_rupload_lock"]
+                school_reportgen_lock = form.cleaned_data["school_reportgen_lock"]
+                current_school.school_rupload_lock = school_rupload_lock
+                current_school.school_reportgen_lock = school_reportgen_lock
+                current_school.save(update_fields=["school_rupload_lock","school_reportgen_lock"])
+                return redirect("schools:school_assessment_management")
             context = {
                 "school":current_school,
                 "page_title":page_title,
+                "form":form,
                 "form2":ResultsFilterForm(classes_tuple_list=classes_list)
             }
     else:
         context = {
             "school":current_school,
             "page_title":page_title,
+            "form":form,
             "form2":form2
         }
     return render(request, template_name, context)

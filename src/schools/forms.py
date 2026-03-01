@@ -160,3 +160,18 @@ class SchoolSignupForm(SignupForm):
             user.save(update_fields=['username'])
 
             return user
+
+class SchoolLocksForm(forms.Form):
+    LOCKS_CHOICES = [
+        (0, "Lock"),
+        (1, "Unlock")
+    ]
+    school_rupload_lock = forms.ChoiceField(
+        choices=LOCKS_CHOICES,
+        initial=0
+    )
+    school_reportgen_lock = forms.ChoiceField(
+        choices=LOCKS_CHOICES,
+        initial=0
+    )
+    

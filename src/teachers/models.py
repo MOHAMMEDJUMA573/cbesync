@@ -203,6 +203,10 @@ class TeacherProfile(models.Model):
     )
     
     @property
+    def teacher_prefix(self):
+        return "Mr. " if self.teacher_gender == "M" else "Ms. "
+
+    @property
     def teacher_full_name(self):
         return f"{self.teacher_first_name} {self.teacher_last_name[:4]}... {self.teacher_id[:8]}..."
     

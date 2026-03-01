@@ -28,6 +28,13 @@ def generate_unique_school_id():
 # 1. School Model
 # ======================================
 class SchoolProfile(models.Model):
+    class RuploadLock(models.IntegerChoices):
+        LOCKED = 0, "Locked"
+        UNLOCKED = 1, "Unlocked"
+    class ReportGenLock(models.IntegerChoices):
+        LOCKED = 0, "Locked"
+        UNLOCKED = 1, "Unlocked"
+    
     user = models.OneToOneField(
         CustomUser,
         on_delete=models.CASCADE,
@@ -183,11 +190,14 @@ class SchoolProfile(models.Model):
         default='P',
         help_text="School_status on the platform e.g Verified"
     )
-    #school_polpulation
-    school_parents_population = models.IntegerField(
-        default=0,
-        validators=[MaxValueValidator(2500), MinValueValidator(0)],
-        help_text="Number of parents"
+    #school locks 
+    school_rupload_lock = models.IntegerField(
+        choices = RuploadLock.choices,
+        default = RuploadLock.UNLOCKED
+    )
+    school_reportgen_lock = models.IntegerField(
+        choices=ReportGenLock.choices,
+        default=ReportGenLock.UNLOCKED
     )
     #12. Timestamps
     school_creation_date = models.DateTimeField(
@@ -204,7 +214,6 @@ class SchoolProfile(models.Model):
     @property
     def school_students_population(self):
         return self.student_profiles.all().count()
-        
     
     @property
     def school_teachers_population(self):

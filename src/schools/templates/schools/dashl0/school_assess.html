@@ -37,30 +37,44 @@
 					</div>
 					<div class="form-body form-body1">
 						<div class="form-field1">
-							<p>
-								Current Status:
-								<button type="button" class="status-button1"> Unlocked </button> 
-							</p>
+							{% if school.school_rupload_lock == 0 %}
+								<p>
+									Current Status: 
+									<button type="button" class="status-button1" style="background: #ff6464;">Locked</button> 
+								</p>
+							{% else %}
+								<p>
+									Current Status:
+									<button type="button" class="status-button1"> Unlocked </button> 
+								</p>
+							{% endif %}
 						</div>
 						<div class="form-field1">
-							<label for="rez-lock">Results Upload Lock: </label>
-							<select name="rez-lock" id="rez-lock">
-								<option value="lock">Lock</option>
-								<option value="unlock">Unlock</option>
-							</select>
+							<label for="id_school_rupload_lock">
+								Results Upload Lock:
+								<p>{{form.school_rupload_lock.errors}}</p>
+							</label>
+							{{form.school_rupload_lock}}
 						</div>
 						<div class="form-field1">
-							<p>
-								Current Status: 
-								<button type="button" class="status-button1" style="background: #ff6464;">Locked</button> 
-							</p>
+							{% if school.school_reportgen_lock == 0 %}
+								<p>
+									Current Status: 
+									<button type="button" class="status-button1" style="background: #ff6464;">Locked</button> 
+								</p>
+							{% else %}
+								<p>
+									Current Status:
+									<button type="button" class="status-button1"> Unlocked </button> 
+								</p>
+							{% endif %}
 						</div>
 						<div class="form-field1">
-							<label for="rez-update">Report Generate Lock: </label>
-							<select name="rez-update" id="rez-update">
-								<option value="lock">Lock</option>
-								<option value="unlock">Unlock</option>
-							</select>
+							<label for="id_school_reportgen_lock">
+								Report Generate Lock:
+								<p>{{form.school_reportgen_lock.errors}}</p>
+							</label>
+							{{form.school_reportgen_lock}}
 						</div>
 						<div class="opt-buttons">
 							<button type="submit" name="manage_results">Change</button> 
@@ -139,7 +153,7 @@
 				{% if class_fetched %}
 					<div class="class-data-div">
 						<div class="class-teacher">
-							Class Teacher: <button>{{class_fetched.class_teacher.teacher_full_name}}</button>
+							Class Teacher: <button> {{class_fetched.class_teacher.teacher_prefix}} {{class_fetched.class_teacher.teacher_last_name}} {{class_fetched.class_teacher.teacher_id}}</button>
 						</div>
 						<div class="class_name">
 							Class: <button>{{class_fetched.class_full_str}}</button>

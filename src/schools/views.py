@@ -1170,6 +1170,7 @@ def assessment_management(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "form":form,
                     "form2":form2
                 }
         elif "manage_results" in request.POST:
@@ -1181,12 +1182,13 @@ def assessment_management(request):
                 current_school.school_reportgen_lock = school_reportgen_lock
                 current_school.save(update_fields=["school_rupload_lock","school_reportgen_lock"])
                 return redirect("schools:school_assessment_management")
-            context = {
-                "school":current_school,
-                "page_title":page_title,
-                "form":form,
-                "form2":ResultsFilterForm(classes_tuple_list=classes_list)
-            }
+            else:
+                context = {
+                    "school":current_school,
+                    "page_title":page_title,
+                    "form":form,
+                    "form2":ResultsFilterForm(classes_tuple_list=classes_list)
+                }
     else:
         context = {
             "school":current_school,

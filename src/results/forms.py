@@ -115,8 +115,8 @@ class TeacherResultsUploadForm(forms.Form):
         choices=RESULT_PERIOD_CHOICES
     )
     UPLOAD_OPTIONS = [
-        ("update", "Update"),
-        ("new", "New")
+        (1, "Update"),
+        (2, "Print")
     ]
     option = forms.ChoiceField(
         choices=UPLOAD_OPTIONS

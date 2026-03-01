@@ -316,7 +316,7 @@ main h1{
 .aside-right .recent-updates .updates{
     background: var(--color-white);
     padding: var(--card-padding);
-    border-radius: var(--card-border-radius);
+    border-radius: var(--allround-bradius);
     box-shadow: var(--box-shadow);
     transition: all 300ms ease;
 }

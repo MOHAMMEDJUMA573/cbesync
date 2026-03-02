@@ -10,6 +10,8 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             "school": "schools:school_app_dashboard",
             "sysadmin": "admin:index",
             "teacher": "teachers:teacher_app_dashboard",
+            "student": "account_logout",
+            "ntstaff": "account_logout"
         }
         user = request.user
         redirect_url = REDIRECT_MAP.get(user.user_type)

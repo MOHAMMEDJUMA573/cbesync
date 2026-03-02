@@ -1011,11 +1011,17 @@ def class_management(request):
             if  "class_registration" in request.POST:
                 form = ClassRegistrationForm(request.POST, teachers_list=teachers_list)
                 if form.is_valid():
-                    form.save(current_school)
-                    messages.success(
-                        request,
-                        f"The class was created successfully! 🥳"
-                    )                        
+                    response = form.save(current_school)
+                    if response == 0 :
+                        messages.success(
+                            request,
+                            f"The class was created successfully! 🥳"
+                        )  
+                    else:
+                        messages.warning(
+                            request,
+                            f"The class already exists!"
+                        )                    
                     return redirect(reverse("schools:school_class_management"))
                 else:
                     context = {

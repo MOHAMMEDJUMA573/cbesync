@@ -132,6 +132,16 @@ class ClassRegistrationForm(forms.Form):
 
     def save(self, class_school, commit=True):
         with transaction.atomic():
+            passed_c_level = self.cleaned_data['class_level']
+            passed_c_title = self.cleaned_data['class_title']
+            try:
+                class_school.class_profiles.get(
+                    class_level=passed_c_level,
+                    class_title = passed_c_title
+                )
+                return 1
+            except ClassProfile.DoesNotExist:
+                pass
             #create the class object
             class_saved = ClassProfile.objects.create(
                 class_school = class_school,
@@ -166,6 +176,7 @@ class ClassRegistrationForm(forms.Form):
                         subject_name = subject[1],
                         subject_program = class_program,
                     )
+            return 0
 
 class ClassDeletionForm(forms.Form):
     class_id = forms.CharField(

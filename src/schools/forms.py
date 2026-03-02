@@ -76,7 +76,7 @@ class SchoolSignupForm(SignupForm):
    
     school_postal_box = forms.CharField(
         max_length=30,
-        initial="e.g 16-80405 Kinango",
+        initial="e.g 16-80100 Mombasa",
         label="School Postal Box",
         widget=forms.TextInput(
             attrs={

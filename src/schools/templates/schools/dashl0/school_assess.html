@@ -169,11 +169,11 @@
 						Student_Results
 					</div>
 					<div class="maing-data-table">
-						{% for student_identifier, student_filtered_rez in students_results_dict.items %}
+						{% for student, data_tuple in students_results_dict.items %}
 							{% if forloop.first %}
 								<div class="maingt-header-row">
 									<div class="maingth-data">Student Name</div>
-									{% for result in student_filtered_rez.0 %}
+									{% for result in data_tuple.0 %}
 										<div class="maingth-data" title={{result.result_subject.subject_name}}>{{result.result_subject.subject_code}}</div>
 									{% endfor %}
 									<div class="maingth-data">POS</div>
@@ -181,14 +181,14 @@
 								</div>
 							{% endif %}
 							<div class="maingt-data-row">
-								<div class="maingtr-data">{{student_identifier}}</div>
-								{% for item in student_filtered_rez.0 %}
-									<div class="maingtr-data">{{item.result_score|default:0}}</div>
+								<div class="maingtr-data">{{student.student_first_name}}</div>
+								{% for result in data_tuple.0 %}
+									<div class="maingtr-data">{{result.result_score|default:0}}</div>
 								{% endfor %}
-								<div class="maingtr-data">{{student_filtered_rez.1.streport_c_position}}</div>
+								<div class="maingtr-data">{{data_tuple.1.streport_c_position}}</div>
 								<div class="maingtr-data">
-									{{student_filtered_rez.1.streport_t_score}}
-									<!-- {{student_filtered_rez.0|add_results}} removed template -->
+									{{data_tuple.1.streport_t_score}}
+									<!-- {{data_tuple.0|add_results}} -->
 								</div>
 							</div>
 						{% endfor %}

@@ -10,6 +10,7 @@ from classes.models import ClassProfile,ProgramProfile
 from results.models import ExaminationProfile
 from reports.models import StudentEReportProfile
 from subjects.models import SubjectProfile
+from results.models import ResultsProfile
 from reports.views import student_report1_generator
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -26,6 +27,8 @@ from subjects.forms import SubjectTeacherAllocationForm
 from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.db.models import Prefetch
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -1122,53 +1125,86 @@ def assessment_management(request):
         if "get_results" in request.POST:
             form2 = ResultsFilterForm(request.POST, request.FILES, classes_tuple_list=classes_list)
             if form2.is_valid():
-                class_passed = form2.cleaned_data["result_class"]
-                term_passed = form2.cleaned_data["result_term"]
-                period_passed = form2.cleaned_data["result_period"]
-                year_passed = form2.cleaned_data["result_year"]
-                passed_option = form2.cleaned_data["result_options"]
+                formfields = ["result_class", "result_term", "result_period", "result_year", "result_options"]
+                formdata = { field : form2.cleaned_data[f"{field}"] for field in formfields}
                 try:
                     examination_q = ExaminationProfile.objects.get(
-                        examination_class = class_passed,
-                        examination_term = term_passed,
-                        examination_period = period_passed,
-                        examination_year = year_passed
+                        examination_class = formdata["result_class"],
+                        examination_term = formdata["result_term"],
+                        examination_period = formdata["result_period"],
+                        examination_year = formdata["result_year"]
                     )
                 except ExaminationProfile.DoesNotExist:
-                    messages.success(
+                    messages.warning(
                         request,
-                        _(f"Qeried results dont exist")
+                        _("No examination profile found for the selected class, term, period and year.")
                     )
                     context = {
                         "school":current_school,
                         "page_title":page_title,
+                        "form":form,
+                        "form2":form2
+                    }
+                    return render(request, template_name, context)
+                except ExaminationProfile.MultipleObjectsReturned:
+                    messages.warning(
+                        request,
+                        _("System error: multiple matching examination profiles found. Contact support.")
+                    )
+                    context = {
+                        "school":current_school,
+                        "page_title":page_title,
+                        "form":form,
                         "form2":form2
                     }
                     return render(request, template_name, context)
                 #generate reports total and position
-                class_passed.class_reports_total_generator(examination_q)
-                class_passed.class_reports_pos_generator(examination_q)
+                try:
+                    obj = formdata["result_class"]
+                    obj.class_reports_total_generator(examination_q)
+                    obj.class_reports_pos_generator(examination_q)
+                except (ValidationError, ObjectDoesNotExist, ValueError, TypeError) as e:
+                    messages.warning(
+                        request,
+                        _(f"Error ({e}): preventing automatic report generation")
+                    )
+                    context = {
+                        "school":current_school,
+                        "page_title":page_title,
+                        "form":form,
+                        "form2":form2
+                    }
+                    return render(request, template_name, context)
                 #print the reports if method is print
-                if passed_option == str(1):
-                    return student_report1_generator(class_passed=class_passed, exam_passed=examination_q)
-                class_students = class_passed.student_profiles.all().order_by("student_first_name")
-                students_results_dict = {}
-                for student in class_students:
-                    student_identifier = f"{student.student_first_name} {student.student_middle_name[:1]} {student.student_last_name}"
-                    student_filtered_rez = [
-                        result
-                        for result in student.result_profiles.filter(result_examination=examination_q).order_by('result_subject__subject_name')
-                    ]
-                    student_report = StudentEReportProfile.objects.get(
-                        streport_student = student,
-                        streport_examination=examination_q
-                    )  
-                    students_results_dict.update({student_identifier:[student_filtered_rez, student_report]})
+                if formdata["result_options"] == str(1):
+                    return student_report1_generator(class_passed=formdata["result_class"], exam_passed=examination_q)
+                class_students = formdata["result_class"].student_profiles.all().order_by("student_first_name")
+                results_qs = ResultsProfile.objects.filter(
+                    result_examination = examination_q,
+                    result_student__in = class_students
+                ).select_related(
+                    'result_subject',
+                    'result_student',
+                ).order_by('result_student', 'result_subject__subject_name')
+                ereport_qs = StudentEReportProfile.objects.filter(
+                    streport_examination = examination_q,
+                    streport_student__in = class_students
+                )
+                class_students = class_students.prefetch_related(
+                    Prefetch('result_profiles', queryset=results_qs, to_attr='prefetched_results'),
+                    Prefetch('stereport_profile', queryset=ereport_qs, to_attr='prefetched_ereport'),
+                )
+                students_results_dict = {
+                    student : (
+                        student.prefetched_results,
+                        student.prefetched_ereport[0] if student.prefetched_ereport else None
+                    ) for student in class_students
+                }
                 context = {
                     "school":current_school,
                     "page_title":page_title,
                     "form2":form2,
-                    "class_fetched":class_passed,
+                    "class_fetched":formdata["result_class"],
                     "class_students":class_students,
                     "students_results_dict":students_results_dict
                 }

@@ -11,6 +11,8 @@ from reportlab.lib.units import inch
 from django.http import FileResponse
 from django.contrib.staticfiles import finders
 from reports.models import StudentEReportProfile
+from results.models import ResultsProfile
+from django.db.models import Prefetch
 
 def fetch_logo(request):
     path = finders.find('project/images/moe.png')
@@ -148,27 +150,30 @@ def student_report1_generator(class_passed, exam_passed, request=None):
     elements = []
     logo_buffer = fetch_logo(request)
     # Student data from the document
-    students_reports_dict = {}
-    report_subjects = [
-        str(s.subject_name)
-        for s in class_passed.class_subjects.all().order_by('subject_name')
-    ]
-    report_students = [
-        s
-        for s in class_passed.student_profiles.all().order_by("student_first_name")
-    ]
-    for student in report_students:
-        student_identifier = student.student_id
-        student_full_name = f"{student.student_first_name} {student.student_middle_name} {student.student_last_name}"
-        student_filtered_rez = [
-            result
-            for result in student.result_profiles.filter(result_examination=exam_passed).order_by('result_subject__subject_name')
-        ]
-        student_report_data = StudentEReportProfile.objects.get(
-            streport_student = student,
-            streport_examination=exam_passed
-        )
-        students_reports_dict.update({student_identifier:[student_full_name,student_filtered_rez, student_report_data]})
+    students_qs = class_passed.student_profiles.all().order_by("student_first_name")
+    results_qs = ResultsProfile.objects.filter(
+        result_examination = exam_passed,
+        result_student__in = students_qs
+    ).select_related(
+        'result_subject',
+        'result_student',
+    ).order_by('result_student', 'result_subject__subject_name')
+    ereport_qs = StudentEReportProfile.objects.filter(
+        streport_examination = exam_passed,
+        streport_student__in = students_qs
+    )
+    students_qs = students_qs.prefetch_related(
+        Prefetch('result_profiles', queryset=results_qs, to_attr='prefetched_results'),
+        Prefetch('stereport_profile', queryset=ereport_qs, to_attr='prefetched_ereport'),
+    )
+    students_reports_dict = {
+        student: [
+            f"{student.student_first_name} {student.student_middle_name} {student.student_last_name}",
+            student.prefetched_results,
+            student.prefetched_ereport[0] if student.prefetched_ereport else None
+        ] for student in students_qs
+    }
+
     for student_id, student_data in students_reports_dict.items():
         create_student_page(elements, styles, logo_buffer, student_data, class_passed, exam_passed)
     # Remove the last PageBreak

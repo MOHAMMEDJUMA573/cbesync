@@ -32,7 +32,8 @@ class StudentEReportProfile(models.Model):
     )
     streport_student = models.ForeignKey(
         StudentProfile,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name="stereport_profile"
     )
     streport_t_score = models.IntegerField(
         default=0

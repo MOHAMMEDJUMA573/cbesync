@@ -211,6 +211,10 @@ class TeacherProfile(models.Model):
         return f"{self.teacher_first_name} {self.teacher_last_name[:4]}... {self.teacher_id[:8]}..."
     
     @property
+    def teacher_official_name(self):
+        return  f"{self.teacher_first_name} {self.teacher_middle_name[:1].upper()} {self.teacher_last_name}"
+    
+    @property
     def teacher_h_qualification_str(self):
         saved_hq = self.teacher_h_qualification
         for value, label in self.QUALIFICATIONS:
@@ -231,5 +235,6 @@ class TeacherProfile(models.Model):
     @property
     def teacher_ct_classes(self):
         return self.classt_profiles.all()
+    
     def __str__(self):
         return f"{self.teacher_first_name} {self.teacher_last_name} ({self.teacher_id})"

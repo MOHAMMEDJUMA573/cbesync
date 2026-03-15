@@ -12,7 +12,7 @@ from django.http import FileResponse
 from django.contrib.staticfiles import finders
 from reports.models import StudentEReportProfile
 from results.models import ResultsProfile
-from django.db.models import Prefetch
+from django.db.models import Prefetch, OuterRef, Subquery
 
 def fetch_logo(request):
     path = finders.find('project/images/moe.png')
@@ -52,7 +52,6 @@ def create_report_header(elements, styles, logo_buffer, class_passed, exam_passe
     school_p2 = Paragraph(f"P.O BOX {class_passed.class_school.school_postal_box} <br/> {exam_passed.examination_period.upper()} OF TERM {exam_passed.examination_term[2:]}, {exam_passed.examination_year}", heading2)
     elements.append(school_p1)
     elements.append(school_p2)
-    elements.append(Spacer(1, 0.1*inch))
 
 def create_student_page(elements, styles,logo_buffer, student_obj, class_passed, exam_passed):
     #header part
@@ -143,6 +142,70 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed,
     elements.append(Spacer(1, 0*inch))
     elements.append(PageBreak())
 
+def create_classreport_page(elements, styles, logo_buffer, students_reports_dict, class_passed, exam_passed):
+    #header part
+    create_report_header(elements, styles, logo_buffer, class_passed, exam_passed)
+    text1 = ParagraphStyle(
+        name="Heading3",
+        parent=styles['Heading3'],
+        fontSize=9,
+        alignment=TA_LEFT,
+        fontName="Helvetica-Bold",
+        textColor=black
+    )
+    class_data = Paragraph(f"&nbsp; CLASS: <b> <font color=#d90000 size=9 > GRADE {class_passed.class_level} </font> &nbsp; </b>&nbsp CLASS TEACHER: <b> <font color=#d90000 size=9 > {class_passed.class_teacher.teacher_official_name} </font>  </b>", text1)
+    elements.append(class_data)
+    # first part
+    table_data = [['STUDENT NAME', 'SCORE', 'POINTS', 'P.LEVEL', 'POS']]
+    student_subjects = [
+        s.subject_code
+        for s in class_passed.class_subjects.order_by("subject_name")
+    ]
+    student_subjects_cols = [
+        35
+        for subject in student_subjects
+    ]
+    table_data[0][1:1] = student_subjects
+    #Student records fill
+    table_data[1:] = [
+        [
+            f"{student_id.student_first_name.upper()} {student_id.student_middle_name[:1].upper()} {student_id.student_last_name.upper()}"[:21],
+            *[
+                str(result.result_score)
+                for result in student_data[1]
+            ],
+            student_data[2].streport_t_score,
+            student_data[2].streport_points_score,
+            student_data[2].streport_p_level,
+            student_data[2].streport_c_position         
+        ]
+        for student_id, student_data in students_reports_dict.items()
+    ]
+    table1 = Table(
+        table_data,
+        rowHeights=0.25*inch,
+        colWidths=[110,*student_subjects_cols,40,40,45,35],
+        style=[
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+            ('TEXTCOLOR', (-1, 1), (-1, -1), colors.navy),
+            ('ALIGN', (1, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, -1), 9),
+            ('FONTSIZE', (0, 1), (-1, -1), 7),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]
+    )
+    elements.append(table1)
+
+    #footer at the end
+    elements.append(Spacer(1, 0.8*inch))
+    footer = Paragraph(f"<a href='https://cbesync.com' color='green'><u>www.cbesync.com</u></a> &nbsp; © 2026 cbesync -: {datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')}")
+    elements.append(footer)
+    elements.append(Spacer(1, 0*inch))
+    elements.append(PageBreak())
+
 def student_report1_generator(class_passed, exam_passed, request=None):
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=36, leftMargin=36, topMargin=10, bottomMargin=36)
@@ -150,14 +213,28 @@ def student_report1_generator(class_passed, exam_passed, request=None):
     elements = []
     logo_buffer = fetch_logo(request)
     # Student data from the document
-    students_qs = class_passed.student_profiles.all().order_by("student_first_name")
-    results_qs = ResultsProfile.objects.filter(
-        result_examination = exam_passed,
-        result_student__in = students_qs
-    ).select_related(
-        'result_subject',
-        'result_student',
-    ).order_by('result_student', 'result_subject__subject_name')
+    students_qs = (
+        class_passed
+        .student_profiles.all()
+        .annotate(
+            total_score=Subquery(
+                StudentEReportProfile.objects.filter(
+                    streport_student=OuterRef('pk'),
+                    streport_examination=exam_passed,
+                )
+                .values('streport_t_score')[:1]
+            )
+        )
+        .order_by('-total_score', 'student_first_name')
+    )
+    results_qs = (
+        ResultsProfile.objects.filter(
+            result_examination=exam_passed,
+            result_student__in=students_qs,
+        )
+        .select_related('result_subject', 'result_student')
+        .order_by('result_subject__subject_name')
+    )
     ereport_qs = StudentEReportProfile.objects.filter(
         streport_examination = exam_passed,
         streport_student__in = students_qs
@@ -173,6 +250,7 @@ def student_report1_generator(class_passed, exam_passed, request=None):
             student.prefetched_ereport[0] if student.prefetched_ereport else None
         ] for student in students_qs
     }
+    create_classreport_page(elements, styles, logo_buffer, students_reports_dict, class_passed, exam_passed)
 
     for student_id, student_data in students_reports_dict.items():
         create_student_page(elements, styles, logo_buffer, student_data, class_passed, exam_passed)

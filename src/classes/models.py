@@ -9,7 +9,11 @@ from django.contrib.postgres.fields import ArrayField
 from accounts.models import table_exists
 from django.core.validators import MaxValueValidator, MinValueValidator
 
-
+"""
+    Thinking of class promotion -> a new class is created with a parent class field pointing to the original class, i.e
+    the class with a parent class field of none i.e the one created officially by the school, the prmotion class creates subjects, exams
+    and reports based on the levels for each student in the old class then the students are pointed to the promotion class
+"""
 
 def generate_unique_class_pkey():
     table_name = "classes_ClassProfile"

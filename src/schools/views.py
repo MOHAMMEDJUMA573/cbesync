@@ -28,7 +28,7 @@ from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from django.db.models import Prefetch
+from django.db.models import Prefetch, OuterRef, Subquery
 
 valid_school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
@@ -1178,14 +1178,28 @@ def assessment_management(request):
                 #print the reports if method is print
                 if formdata["result_options"] == str(1):
                     return student_report1_generator(class_passed=formdata["result_class"], exam_passed=examination_q)
-                class_students = formdata["result_class"].student_profiles.all().order_by("student_first_name")
-                results_qs = ResultsProfile.objects.filter(
-                    result_examination = examination_q,
-                    result_student__in = class_students
-                ).select_related(
-                    'result_subject',
-                    'result_student',
-                ).order_by('result_student', 'result_subject__subject_name')
+                class_students = (
+                    formdata["result_class"]
+                    .student_profiles.all()
+                    .annotate(
+                        total_score=Subquery(
+                            StudentEReportProfile.objects.filter(
+                                streport_student=OuterRef('pk'),
+                                streport_examination=examination_q,
+                            )
+                            .values('streport_t_score')[:1]
+                        )
+                    )
+                    .order_by('-total_score', 'student_first_name')
+                )
+                results_qs = (
+                    ResultsProfile.objects.filter(
+                        result_examination=examination_q,
+                        result_student__in=class_students,
+                    )
+                    .select_related('result_subject', 'result_student')
+                    .order_by('result_subject__subject_name')
+                )
                 ereport_qs = StudentEReportProfile.objects.filter(
                     streport_examination = examination_q,
                     streport_student__in = class_students

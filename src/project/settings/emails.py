@@ -19,7 +19,7 @@ else:
     ACCOUNT_EMAIL_SUBJECT_PREFIX=""
     
     #sendgrid config
-    EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-    SENDGRID_API_KEY = config("SENDGRID_API_KEY", default="") # type:ignore
-    DEFAULT_FROM_EMAIL = "cbesync@cbesync.com"
+    # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+    # SENDGRID_API_KEY = config("SENDGRID_API_KEY", default="") # type:ignore
+    # DEFAULT_FROM_EMAIL = "cbesync@cbesync.com"
     SERVER_EMAIL = DEFAULT_FROM_EMAIL

@@ -180,6 +180,13 @@ class ClassProfile(models.Model):
         validators=[MaxValueValidator(300), MinValueValidator(50)]
     )
     
+    # class_parent = models.ForeignKey(
+    #     ClassProfile,
+    #     on_delete=models.CASCADE,
+    #     related_name="child_class",
+    #     null=True,
+    #     blank=True
+    # )
     class_creation_date = models.DateTimeField(
         auto_now_add=True,
     )

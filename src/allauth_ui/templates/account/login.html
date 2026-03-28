@@ -3,10 +3,10 @@
 {% load allauth_ui %}
 {% load widget_tweaks %}
 {% load static %}
-{% block extra_head %} {{block.super}} <link rel="stylesheet" href="{% static 'allauth_ui/customs.css' %}">  {% endblock extra_head %}
+{% block extra_head %} {{block.super}} <link rel="stylesheet" href="{% static 'project/index.css'%}"> <link rel="stylesheet" href="{% static 'allauth_ui/customs.css' %}">  {% endblock extra_head %}
 {% block content %}
     {% trans "Login" as heading %}
-    {% #container heading="<span class='logop1'>Cbe</span><span class='logop2'>Sync</span>"" %}
+    {% #container heading="<span class='text-yellow-500 font-sgothic'>CBE</span><span class='text-green-700 font-sgothic'>SYNC</span>"" %}
     {% if not SOCIALACCOUNT_ONLY %}
         <div>
             {% blocktranslate %}Dont have an account? Then please

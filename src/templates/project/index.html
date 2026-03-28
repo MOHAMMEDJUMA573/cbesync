@@ -16,13 +16,12 @@
 	{% include 'base/schoolmeta.html' %}
 </head> 
 <body>
-    <!--~~~~~~~~~~~~~~~ Header ~~~~~~~~~~~~~~~-->
     <header id="navbar" class="bg-stone-50 w-full top-0 left-0 z-50 fixed">
         <nav class="flex items-center justify-between h-16 sm:h-20 w-full lg:p-4">
             <div class="font-sgothic font-semibold sm:text-2xl lg:p-2">
                 <span class="text-yellow-500">CBE</span><span class="text-green-700">SYNC</span>
             </div>
-            <div id="nav-menu" class="absolute top-0 -left-full min-h-[80vh] w-full bg-stone-50/80 backdrop-blur-sm flex items-center justify-center lg:justify-evenly duration-300 lg:static lg:min-h-fit lg:bg-transparent lg:p-2 overflow-hidden">
+            <div id="nav-menu" class="absolute top-0 -left-full min-h-screen w-full bg-stone-50/80 backdrop-blur-sm flex items-center justify-center lg:justify-evenly duration-300 lg:static lg:min-h-fit lg:bg-transparent lg:p-2 overflow-hidden">
                 <ul class="flex flex-col items-center gap-8 lg:flex-row">
                     <li>
                         <a class="nav-link" href="#home">Home</a>
@@ -37,7 +36,7 @@
                         <a class="nav-link" href="#about">About</a>
                     </li>
                 </ul>
-                <div class="theme-btn absolute border border-black rounded-md bottom-0 lg:relative lg:left-4 flex overflow-hidden">
+               <div class="theme-btn absolute border border-black rounded-md mb-2 lg:mb-0 bottom-0 lg:relative lg:left-4 flex overflow-hidden">
                     <button class="btn p-2 bg-green-700 hover:cursor-pointer hover:bg-yellow-300 duration-300">
                         <i class="ri-sun-line"></i>
                     </button>
@@ -47,13 +46,12 @@
                 </div>
             </div>
             <div class="text-xl sm:text-3xl cursor-pointer z-50 lg:hidden">
-                <i class="ri-menu-4-line" id="hamburger"></i>
+                <i class="ri-menu-line" id="hamburger"></i>
             </div>
         </nav>
     </header>
 
     <main>
-        <!--~~~~~~~~~~~~~~~ Home ~~~~~~~~~~~~~~~-->
         <section id="home">
             <div>
                 <!--Blobs-->
@@ -67,8 +65,8 @@
 				            <span class="text-yellow-500">ELITE</span> CBE <span class="text-yellow-300">SYSTEM</span>	
                         </h1>
                         <p class="">
-                            Seamlessly connect your students, teachers and everyone else involved by getting started.Revotionalize your system and
-                            elevate your school status to a new level.Well i hope that's enough to convice you and the latter enough to dedo so!.
+                            Seamlessly connect your students, teachers and everyone else involved by getting started. <span class="hidden lg:block"> Revotionalize your system and
+                            elevate your school status to a new level.Well i hope that's enough to convice you and the latter enough to dedo so!. </span>
                         </p>
                         <div class="flex gap-2 flex-col sm:flex-row sm:gap-4 lg:pt-5 xl:pt-10">
 							{% if user.is_authenticated %}
@@ -90,29 +88,77 @@
                             Elevate to the concurrent levels
                         </p>
                         <div class="flex items-center gap-5 text-lg lg:pt-10 ">
-                            <i class="ri-facebook-fill hover:text-yellow-300 duration-300 "></i>
-                            <i class="ri-twitter-x-line hover:text-yellow-300 duration-300 text-base"></i>
-                            <i class="ri-whatsapp-line hover:text-yellow-300 duration-300"></i>
-                            <i class="ri-mail-ai-line hover:text-yellow-300 duration-300"></i>
+                            <i class="ri-facebook-fill hover:text-yellow-300 duration-300 hover:cursor-pointer "></i>
+                            <i class="ri-twitter-x-line hover:text-yellow-300 duration-300 text-base hover:cursor-pointer"></i>
+                            <i class="ri-whatsapp-line hover:text-yellow-300 duration-300 hover:cursor-pointer"></i>
+                            <i class="ri-mail-ai-line hover:text-yellow-300 duration-300 hover:cursor-pointer"></i>
                         </div>
                     </div>
                     <!--Image part-->
-                    <div class="w-full relative lg:w-1/2">
-                        <img src="{% static 'project/images/logo.png' %}" class="animate-rotating" alt="cbesync_logo">
-                        <div class="absolute -top-10 xl:top-5 right-0 opacity-30 animate-moving-y">
+                    <div class="w-full relative lg:w-1/2 items-center justify-center flex">
+                        <img src="{% static 'project/images/logo.png' %}" class=" max-w-[85%] lg:p-20" alt="cbesync_logo">
+                        <div class="absolute -top-10 xl:top-5 right-0 opacity-30 animate-moving-y  hidden sm:block">
                             <i class="ri-macbook-line text-6xl text-green-700"></i>
                         </div>
-                        <div class="absolute bottom-0 left-0 opacity-30 xl:bottom-12 animate-moving-y">
+                        <div class="absolute bottom-0 left-0 opacity-30 xl:bottom-12 animate-moving-y  hidden sm:block">
                             <i class="ri-book-line text-6xl text-green-700"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!--~~~~~~~~~~~~~~~ Services ~~~~~~~~~~~~~~~-->
-        <div>
-
+        <div id="services" class="bg-yellow-500 text-green-900 py-20">
+            <div class="w-full px-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <!--cards-->
+                <div class="border bg-white border-green-900 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-global-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold font-sgothic">
+                            Online <br>
+                            Management
+                        </p>
+                    </div>
+                    <p class="">
+                        Remote institutional management operations from anywhere (literally)!Even under your bed if connected
+                    </p>
+                </div>
+                <div class="border bg-white border-green-900 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-upload-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold font-sgothic">
+                            Remote <br>
+                            result uploads
+                        </p>
+                    </div>
+                    <p class="">
+                        Allows your tutors to upload results from anywhere, anytime and in anyway!(As long as they are connected)
+                    </p>
+                </div>
+                <div class="border bg-white border-green-900 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-robot-2-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold font-sgothic">
+                            Automatic <br>
+                            Processing
+                        </p>
+                    </div>
+                    <p class="">
+                        Does automatic processing of data and generate relevant and complete reports! (Save your time for more important things)
+                    </p>
+                </div>
+                <div class="border bg-white border-green-900 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5">
+                    <div class="flex items-center gap-5">
+                        <i class="ri-chat-1-line text-3xl md:text-4xl xl:text-5xl"></i>
+                        <p class="md:text-lg font-bold font-sgothic">
+                            Intra & Inter <br>
+                            Communication
+                        </p>
+                    </div>
+                    <p class="">
+                        Seamlessly communicate with the relevant people both internally and  externally(coming soon)...
+                    </p>
+                </div>
+            </div>
         </div>
 
         <!--~~~~~~~~~~~~~~~ About us ~~~~~~~~~~~~~~~-->

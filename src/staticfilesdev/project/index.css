@@ -253,14 +253,8 @@
   .w-full {
     width: 100%;
   }
-  .max-w-\[80\%\] {
-    max-width: 80%;
-  }
   .max-w-\[85\%\] {
     max-width: 85%;
-  }
-  .max-w-\[90\%\] {
-    max-width: 90%;
   }
   .border-collapse {
     border-collapse: collapse;
@@ -270,9 +264,6 @@
   }
   .animate-moving-y {
     animation: var(--animate-moving-y);
-  }
-  .animate-rotating {
-    animation: var(--animate-rotating);
   }
   .cursor-pointer {
     cursor: pointer;
@@ -351,6 +342,9 @@
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
+  .p-4 {
+    padding: calc(var(--spacing) * 4);
+  }
   .p-5 {
     padding: calc(var(--spacing) * 5);
   }
@@ -360,11 +354,12 @@
   .py-20 {
     padding-block: calc(var(--spacing) * 20);
   }
-  .pt-8 {
-    padding-top: calc(var(--spacing) * 8);
-  }
   .font-sgothic {
     font-family: var(--font-sgothic);
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
   }
   .text-3xl {
     font-size: var(--text-3xl);
@@ -470,19 +465,9 @@
       }
     }
   }
-  .sm\:absolute {
-    @media (width >= 40rem) {
-      position: absolute;
-    }
-  }
   .sm\:block {
     @media (width >= 40rem) {
       display: block;
-    }
-  }
-  .sm\:hidden {
-    @media (width >= 40rem) {
-      display: none;
     }
   }
   .sm\:h-20 {
@@ -622,11 +607,6 @@
   .xl\:bottom-12 {
     @media (width >= 80rem) {
       bottom: calc(var(--spacing) * 12);
-    }
-  }
-  .xl\:hidden {
-    @media (width >= 80rem) {
-      display: none;
     }
   }
   .xl\:grid-cols-4 {

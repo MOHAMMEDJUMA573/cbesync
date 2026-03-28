@@ -121,12 +121,14 @@ SECURE_CSP = {
         CSP.SELF,
         "https://fonts.googleapis.com",
         "https://unpkg.com",
+        "https://cdnjs.cloudflare.com",
          CSP.UNSAFE_INLINE,
     ],
     "font-src": [
         CSP.SELF,
         "https://fonts.gstatic.com",
-        "https://unpkg.com",   
+        "https://unpkg.com",
+        "https://cdnjs.cloudflare.com",
     ],
     "img-src": [
         CSP.SELF,

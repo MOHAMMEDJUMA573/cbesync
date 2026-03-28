@@ -1,33 +1,38 @@
-const sideMenu = document.querySelector("aside");
-const menuButton = document.querySelector("#menu-btn");
-const closeButton = document.querySelector("#close-btn");
-const themeButton = document.querySelector(".theme-toggle-btn");
+/*~~~~~~~~~~~~~~~ TOGGLE BUTTON ~~~~~~~~~~~~~~~*/
+const navMenu = document.getElementById("nav-menu");
+const navLinks = document.querySelectorAll(".nav-link");
+const hamburger = document.getElementById("hamburger");
 
-/*Menu show*/
-menuButton.addEventListener('click', ()=> {
-    sideMenu.style.display = 'block';
+hamburger.addEventListener("click", ()=> {
+    navMenu.classList.toggle("left-[0]");
+    hamburger.classList.toggle("ri-close-large-line");
 })
-/*menu hide*/
-closeButton.addEventListener('click', ()=> {
-    sideMenu.style.display = 'none';
-})
-//
-function T1(){
-    document.body.classList.toggle('dark-theme-variables');
-    /*change the button style after toggle*/
-    themeButton.querySelector('span:nth-child(1)').classList.toggle('active');
-    themeButton.querySelector('span:nth-child(2)').classList.toggle('active');
-}
-/*theme changer*/
-themeButton.addEventListener('click', ()=> {
-    T1();
+
+navLinks.forEach((link, index) =>{
+    link.addEventListener("click", ()=>{
+        navMenu.classList.toggle("left-[0]");
+        hamburger.classList.toggle("ri-close-large-line");
+    })
 })
 /*for data urls */
 const login = document.getElementById("loginbutton");
 login.addEventListener("click", ()=> {
     window.location.href = login.dataset.url;
 })
-const signin = document.getElementById("signinbutton");
+const signin = document.getElementById("signupbutton");
 signin.addEventListener("click", ()=> {
     window.location.href = signin.dataset.url
 })
+/*~~~~~~~~~~~~~~~ SHOW SCROLL UP ~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~ CHANGE BACKGROUND HEADER ~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~ SWIPER ~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~ SCROLL SECTIONS ACTIVE LINK ~~~~~~~~~~~~~~~*/
+
+
+/*~~~~~~~~~~~~~~~ SCROLL REVEAL ANIMATION ~~~~~~~~~~~~~~~*/

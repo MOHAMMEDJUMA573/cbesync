@@ -52,7 +52,7 @@
     </header>
 
     <main>
-        <section id="home">
+        <section id="home" class="p-16 md:p-28">
             <div>
                 <!--Blobs-->
                 <div></div>
@@ -70,7 +70,7 @@
                         </p>
                         <div class="flex gap-2 flex-col sm:flex-row sm:gap-4 lg:pt-5 xl:pt-10">
 							{% if user.is_authenticated %}
-							<a href="{% url 'account_logout' %}" style="padding: 1rem; margin-top: 1rem;">
+							<a href="{% url 'account_logout' %}" style="padding: 1rem; margin-top: 1rem; border: 1px solid green;">
 								Logout
 							</a>
 							{% else %}
@@ -160,15 +160,95 @@
                 </div>
             </div>
         </div>
-
-        <!--~~~~~~~~~~~~~~~ About us ~~~~~~~~~~~~~~~-->
-        <section id="about">
-
-        </section>
-
-        <!--~~~~~~~~~~~~~~~ Popular ~~~~~~~~~~~~~~~-->
-        <section id="popular">
-
+        <!-- <section id="about" class="relative overflow-hidden p-16">
+            <div class="flex flex-col items-center gap-3 text-center mb-10 md:mb-20">
+                <h2 class="title"> About Us</h2>
+                <p class="max-w-2xl">We are what you need(maybe what you want too!)</p>
+            </div>
+        </section> -->
+        <section id="pricing" class="bg-green-900 py-20">
+            <div class="flex flex-col items-center gap-3 text-center py-4 mb-20 md:mb-28 bg-stone-50 px-8 lg:max-w-1/2 lg:transform lg:translate-x-1/2 lg:translate-y-1/2 duration-500 rounded-md">
+                <h2 class="title font-sgothic">Pricing</h2>
+            </div>
+            <div class="px-8 w-full grid grid-cols-1 gap-x-8 gap-y-36 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <!-- card  -->
+                <div class="border bg-white border-black  p-10 pt-24 rounded-md relative hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-3">
+                    <p class="italic">
+                        Public and private
+                    </p>
+                    <h3>Schools</h3>
+                    <div class="text-yellow-500 text-xs py-3">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xl">$??/<span class="text-sm">Year</span> </p>
+                        <button class="bg-yellow-500 px-2 py-1 rounded sm:text-xl">
+                            <i class="ri-shopping-cart-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="border bg-white border-black  p-10 pt-24 rounded-md relative hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-3">
+                    <p class="italic">
+                        Public and private
+                    </p>
+                    <h3>Teachers</h3>
+                    <div class="text-yellow-500 text-xs py-3">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xl">0/<span class="text-sm">Year</span> </p>
+                        <button class="bg-yellow-500 px-2 py-1 rounded sm:text-xl">
+                            <i class="ri-shopping-cart-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="border bg-white border-black  p-10 pt-24 rounded-md relative hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-3">
+                    <p class="italic">
+                        Public and private
+                    </p>
+                    <h3>Students</h3>
+                    <div class="text-yellow-500 text-xs py-3">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xl">$0/<span class="text-sm">Year</span> </p>
+                        <button class="bg-yellow-500 px-2 py-1 rounded sm:text-xl">
+                            <i class="ri-shopping-cart-fill"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="border bg-white border-black  p-10 pt-24 rounded-md relative hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-3">
+                    <p class="italic">
+                        Public and private
+                    </p>
+                    <h3>Parents</h3>
+                    <div class="text-yellow-500 text-xs py-3">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <p class="text-xl">$0/<span class="text-sm">Year</span> </p>
+                        <button class="bg-yellow-500 px-2 py-1 rounded sm:text-xl">
+                            <i class="ri-shopping-cart-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!--~~~~~~~~~~~~~~~ Review ~~~~~~~~~~~~~~~-->

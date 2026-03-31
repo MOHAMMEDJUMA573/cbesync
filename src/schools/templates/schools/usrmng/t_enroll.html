@@ -50,22 +50,11 @@
 						{{form.teacher_last_name}}
 					</div>
 					<div class="form-field1">
-						<label for="gender_M">
-							Gender:
-							<p>{{ form.teacher_gender.errors }}</p>
+						<label for="id_teacher_email">
+							New email:
+							<p>{{ form.teacher_email.errors }}</p>
 						</label>
-						<div>
-							{% for value, label in form.teacher_gender.field.choices %}
-								<label for="gender_{{ value }}">{{ label }}:</label>
-								<input 
-									type="radio"
-									id="gender_{{ value }}"
-									name="{{ form.teacher_gender.name }}"
-									value="{{ value }}"
-									{% if form.teacher_gender.value == value %}checked{% endif %}
-								>
-							{% endfor %}
-						</div>
+						{{form.teacher_email}}
 					</div>
 					<div class="form-field1">
 						<label for="id_teacher_id">
@@ -75,11 +64,11 @@
 						{{form.teacher_id}}
 					</div>
 					<div class="form-field1">
-						<label for="id_teacher_employer">
-							Employer:
-							<p>{{form.teacher_employer.errors}}</p>
+						<label for="id_teacher_phone">
+							New (Tel No):
+							<p>{{form.teacher_phone.errors}}</p>
 						</label>
-						{{form.teacher_employer}}
+						{{form.teacher_phone}}
 					</div>
 					<div class="form-field1">
 							<label for="id_teacher_role">

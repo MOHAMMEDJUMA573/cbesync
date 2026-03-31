@@ -259,9 +259,13 @@ class TeacherEnrollmentForm(forms.Form):
         )
     )
 
-    teacher_gender = forms.ChoiceField(
-        choices=TeacherProfile.GENDER_CHOICES,
-        widget=forms.RadioSelect
+    teacher_email = forms.EmailField(
+        widget=forms.EmailInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
+        max_length=100,
     )
     teacher_id = forms.CharField(
         max_length=35,
@@ -272,9 +276,14 @@ class TeacherEnrollmentForm(forms.Form):
         )
     )
     
-    teacher_employer = forms.ChoiceField(
-        choices=TeacherProfile.TEACHER_EMPLOYERS,
-        initial="GOVT",
+    teacher_phone = PhoneNumberField(
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':"off"
+                }
+        ),
+        initial="+254",
+        label="Mobile No",
     )
     teacher_role = forms.ChoiceField(
         choices=TeacherProfile.TEACHER_ROLES,
@@ -298,7 +307,7 @@ class TeacherEnrollmentForm(forms.Form):
         check_flag1 = False
         cleaned_data = super().clean()
         teacher_fields = [
-            "teacher_first_name", "teacher_last_name",
+            "teacher_first_name", "teacher_last_name", "teacher_email"
         ]
         for teacher_field in teacher_fields:
             value = cleaned_data.get(teacher_field)
@@ -313,6 +322,16 @@ class TeacherEnrollmentForm(forms.Form):
                     check_flag1 = True
         if check_flag1:
             return cleaned_data
+
+        r_email = cleaned_data.get("teacher_email")
+        if r_email:
+            email = r_email.lower()
+            cleaned_data["teacher_email"] = email
+            if CustomUser.objects.filter(email__iexact=email).exists():
+                self.add_error(
+                    "teacher_email",
+                    _("Email already in use!")
+                )
 
         return cleaned_data
      

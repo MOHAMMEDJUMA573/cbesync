@@ -56,7 +56,7 @@
     color: var(--color-cbesync-p1);
 }
 
-input[type="text"], input[type="email"],input[type="date"], select, input[type="number"], textarea{
+input[type="text"], input[type="email"],input[type="date"], select, input[type="number"], input[type="tel"], textarea{
     display: flex;
     flex: 1;
     border: none;

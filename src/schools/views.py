@@ -213,24 +213,23 @@ def teacher_enrollment(request):
             passed_teacher_id = form.cleaned_data["teacher_id"]
             passed_first_name = form.cleaned_data["teacher_first_name"]
             passed_last_name = form.cleaned_data["teacher_last_name"]
-            passed_teacher_gender = form.cleaned_data["teacher_gender"]
+            passed_teacher_email =  form.cleaned_data["teacher_email"]
             passed_teacher_role = form.cleaned_data["teacher_role"]
-            passed_teacher_employer = form.cleaned_data["teacher_employer"]
+            passed_teacher_phone = form.cleaned_data["teacher_phone"]
             passed_e_level = form.cleaned_data["teacher_e_level"]
             passed_t_subjects = form.cleaned_data["teacher_t_subjects"]
-            teacher_prefix = "Mr. " if form.cleaned_data["teacher_gender"] == "M" else "Mrs. "
             try:
                 enrolled_teacher = TeacherProfile.objects.get(teacher_id=passed_teacher_id)
                 teacher_first_name = enrolled_teacher.teacher_first_name
                 teacher_last_name = enrolled_teacher.teacher_last_name
-                teacher_gender = enrolled_teacher.teacher_gender
                 teacher_old_school = enrolled_teacher.teacher_school
+                teacher_prefix = "Mr. " if enrolled_teacher.teacher_gender == "M" else "Mrs. "
                 #check if passed values matter
-                if teacher_first_name == passed_first_name and teacher_last_name == passed_last_name and teacher_gender == passed_teacher_gender :
+                if teacher_first_name == passed_first_name and teacher_last_name == passed_last_name:
                     if enrolled_teacher.teacher_status != "T" and teacher_old_school != current_school:
                         messages.info(
                             request,
-                            (f"Teacher {teacher_last_name} : {passed_teacher_id} is yet to be released from {teacher_old_school.school_name} ")
+                            (f"{teacher_prefix} {teacher_last_name} : {passed_teacher_id} is yet to be released from {teacher_old_school.school_name} ")
                         )
                         context = {
                             "school":current_school,
@@ -242,28 +241,29 @@ def teacher_enrollment(request):
                         with transaction.atomic():
                             enrolled_teacher.teacher_school = current_school
                             enrolled_teacher.teacher_status = "E"
+                            enrolled_teacher.teacher_email = passed_teacher_email
+                            enrolled_teacher.teacher_phone = passed_teacher_phone
                             enrolled_teacher.teacher_role = passed_teacher_role
                             enrolled_teacher.teacher_t_subjects = passed_t_subjects
-                            enrolled_teacher.teacher_employer = passed_teacher_employer
                             enrolled_teacher.teacher_e_level = passed_e_level
-                            teacher_old_school.school_teachers_polpulation = F(
-                                "school_teachers_polpulation"
-                            ) - 1
-                            current_school.school_teachers_polpulation = F(
-                                "school_teachers_polpulation"
-                            ) + 1
+                            #change teacher user email too
+                            user = enrolled_teacher.user
+                            user.email = passed_teacher_email
                             # update the fields
-                            enrolled_teacher.save(
+                            user.save(
                                 update_fields=[
-                                    "teacher_school","teacher_status","teacher_role","teacher_t_subjects",
-                                    "teacher_employer", "teacher_e_level"
+                                    "email"
                                 ]
                             )
-                            teacher_old_school.save(update_fields=["school_teachers_polpulation"])
-                            current_school.save(update_fields=["school_teachers_polpulation"])
+                            enrolled_teacher.save(
+                                update_fields=[
+                                    "teacher_school","teacher_status","teacher_email","teacher_phone","teacher_role","teacher_t_subjects",
+                                    "teacher_e_level"
+                                ]
+                            )
                             messages.success(
                                 request,
-                                (f"Teacher {teacher_last_name} : {passed_teacher_id} enrolled successfully")
+                                (f"{teacher_prefix} {teacher_last_name} : {passed_teacher_id} (updated/enrolled) successfully")
                             )
                             context = {
                                 "school":current_school,
@@ -283,7 +283,7 @@ def teacher_enrollment(request):
             except TeacherProfile.DoesNotExist:
                 messages.warning(
                     request,
-                    (f"{teacher_prefix}{passed_last_name} {passed_teacher_id}:  Doesn't exist! Check your data!")
+                    (f"Mr./Mrs. {passed_last_name} {passed_teacher_id}:  Doesn't exist! Check your data!")
                 )
                 context = {
                     "school":current_school,

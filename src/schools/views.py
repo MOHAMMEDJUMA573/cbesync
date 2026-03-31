@@ -509,69 +509,115 @@ def student_enrollment(request):
     if request.method == "POST":
         form = StudentEnrollmentForm(request.POST,classes_tuple_list=classes_list)
         if form.is_valid():
-            passed_student_id = form.cleaned_data["student_id"]
             passed_first_name = form.cleaned_data["student_first_name"]
+            passed_middle_name = form.cleaned_data["student_middle_name"]
             passed_last_name = form.cleaned_data["student_last_name"]
-            passed_student_gender = form.cleaned_data["student_gender"]
-            passed_s_needs = form.cleaned_data["student_s_needs"]
+            passed_student_id = form.cleaned_data["student_id"]           
+            passed_student_class = form.cleaned_data["student_class"]
+            passed_student_dob = form.cleaned_data["student_dob"]
             try:
                 enrolled_student = get_specific_student(passed_student_id)
-                student_first_name = enrolled_student.student_first_name
-                student_last_name = enrolled_student.student_last_name
-                student_gender = enrolled_student.student_gender
                 student_old_school = enrolled_student.student_school
                 #check if passed values matter
-                if student_first_name == passed_first_name and student_last_name == passed_last_name and student_gender == passed_student_gender :
-                    if enrolled_student.student_status != "T" and student_old_school != current_school:
-                        messages.info(
-                            request,
-                            (f"Student {student_last_name} : {passed_student_id} is yet to be released from {student_old_school.school_name} ")
-                        )
-                        context = {
-                            "school":current_school,
-                            "page_title":page_title,
-                            "form":form
-                        }
-                    else:
-                        #transfer the teacher to the new school
-                        with transaction.atomic():
-                            enrolled_student.student_school = current_school
-                            enrolled_student.student_status = "A"
-                            #enrolled_student.student_class
-                            enrolled_student.student_s_needs = passed_s_needs
-                            student_old_school.school_students_polpulation = F(
-                                "school_students_polpulation"
-                            ) - 1
-                            current_school.school_students_polpulation = F(
-                                "school_students_polpulation"
-                            ) + 1
-                            # update the fields
-                            enrolled_student.save(
-                                update_fields=[
-                                    "student_school","student_status","student_s_needs"
-                                ]
-                            )
-                            student_old_school.save(update_fields=["school_students_polpulation"])
-                            current_school.save(update_fields=["school_students_polpulation"])
-                            messages.success(
-                                request,
-                                (f"Student {student_last_name} : {passed_student_id} enrolled successfully")
-                            )
-                            context = {
-                                "school":current_school,
-                                "page_title":page_title,
-                                "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
-                            }
-                else:
-                    messages.warning(
+                if enrolled_student.student_status != "T" and student_old_school != current_school:
+                    messages.info(
                         request,
-                        (f"Student's data in inconsistent")
+                        (f"Student {passed_last_name} : {passed_student_id} is yet to be released from {student_old_school.school_name} ")
                     )
                     context = {
                         "school":current_school,
                         "page_title":page_title,
                         "form":form
                     }
+                else:
+                    #transfer the teacher to the new school
+                    with transaction.atomic():
+                        #internal update or external transfer
+                        if student_old_school == current_school:
+                            #data update or class transfer
+                            if enrolled_student.student_class == passed_student_class:
+                                enrolled_student.student_first_name = passed_first_name
+                                enrolled_student.student_middle_name = passed_middle_name
+                                enrolled_student.student_last_name = passed_last_name
+                                enrolled_student.student_dob = passed_student_dob
+                                enrolled_student.save(
+                                    update_fields=[
+                                        "student_first_name","student_middle_name","student_last_name","student_dob"
+                                    ]
+                                )
+                                messages.success(
+                                    request,
+                                    (f"Student {passed_last_name} : {passed_student_id} records updated successfully")
+                                )
+                                context = {
+                                    "school":current_school,
+                                    "page_title":page_title,
+                                    "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
+                                }
+                            else:
+                                #delete all past exams,reports for the class and create for the new ones
+                                ResultsProfile.objects.filter(
+                                    result_student=enrolled_student,
+                                    result_class=enrolled_student.student_class
+                                ).delete()
+                                StudentEReportProfile.objects.filter(
+                                    streport_student=enrolled_student,
+                                    streport_class=enrolled_student.student_class
+                                ).delete()
+                                student_class_examinations = passed_student_class.examination_profiles.all()
+                                student_class_subjects = passed_student_class.subject_profiles.all()
+                                for examination in student_class_examinations:
+                                    for subject in student_class_subjects:
+                                        ResultsProfile.objects.create(
+                                            result_student = enrolled_student,
+                                            result_class = passed_student_class,
+                                            result_school = passed_student_class.class_school,
+                                            result_subject = subject,
+                                            result_examination = examination
+                                        )
+                                    StudentEReportProfile.objects.create(
+                                        streport_examination = examination,
+                                        streport_class = passed_student_class,
+                                        streport_student = enrolled_student,
+                                    )                                                   
+                                enrolled_student.student_first_name = passed_first_name
+                                enrolled_student.student_middle_name = passed_middle_name
+                                enrolled_student.student_last_name = passed_last_name
+                                enrolled_student.student_dob = passed_student_dob
+                                enrolled_student.student_class = passed_student_class
+                                enrolled_student.save(
+                                    update_fields=[
+                                        "student_first_name","student_middle_name","student_last_name","student_dob",
+                                        "student_class"
+                                    ]
+                                )
+                                messages.success(
+                                    request,
+                                    (f"Student {passed_last_name} : {passed_student_id} transferred to {passed_student_class.class_full_str}")
+                                )
+                                context = {
+                                    "school":current_school,
+                                    "page_title":page_title,
+                                    "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
+                                }
+                        else:
+                            enrolled_student.student_school = current_school
+                            enrolled_student.student_status = "A"
+                            # update the fields
+                            enrolled_student.save(
+                                update_fields=[
+                                    "student_school","student_status"
+                                ]
+                            )
+                            messages.success(
+                                request,
+                                (f"Student {passed_last_name} : {passed_student_id} enrolled successfully")
+                            )
+                            context = {
+                                "school":current_school,
+                                "page_title":page_title,
+                                "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
+                            }
             except StudentProfile.DoesNotExist:
                 messages.warning(
                     request,

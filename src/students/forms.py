@@ -277,6 +277,15 @@ class StudentEnrollmentForm(forms.Form):
                 }
         )
     )
+    student_middle_name = forms.CharField(
+        max_length=35,
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off'
+                }
+        )
+    )
     student_last_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
@@ -284,11 +293,6 @@ class StudentEnrollmentForm(forms.Form):
                 'autocomplete':'off'
                 }
         )
-    )
-
-    student_gender = forms.ChoiceField(
-        choices=StudentProfile.GENDER_CHOICES,
-        widget=forms.RadioSelect
     )
     student_id = forms.CharField(
         max_length=35,
@@ -301,8 +305,9 @@ class StudentEnrollmentForm(forms.Form):
     student_class = forms.ChoiceField(
         choices=()
     )
-    student_s_needs= forms.ChoiceField(
-        choices=StudentProfile.SP_NEEDS_OPTS,
+    student_dob = forms.DateField(
+        initial=date(2010, 1, 1).strftime('%Y-%m-%d'),
+        required=True
     )
 
 
@@ -310,7 +315,7 @@ class StudentEnrollmentForm(forms.Form):
         check_flag1 = False
         cleaned_data = super().clean()
         student_fields = [
-            "student_first_name", "student_last_name",
+            "student_first_name","student_middle_name","student_last_name"
         ]
         for student_field in student_fields:
             value = cleaned_data.get(student_field)
@@ -326,7 +331,20 @@ class StudentEnrollmentForm(forms.Form):
         if check_flag1:
             return cleaned_data
         
-            #for some future validations
+        #for some future validations
+        #get the keyed fields
+        student_classid = cleaned_data.get('student_class')
+        if not student_classid:
+            return cleaned_data
+        try:
+            cleaned_data['student_class'] = ClassProfile.objects.get(
+                class_id = student_classid
+            )
+        except ClassProfile.DoesNotExist:
+            self.add_error(
+                "student_class",
+                _("The class does not exist")
+            )
 
         return cleaned_data
      

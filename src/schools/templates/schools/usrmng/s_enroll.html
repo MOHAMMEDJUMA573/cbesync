@@ -20,7 +20,7 @@
 				{% csrf_token %}
 				<div class="form-header">
 					<div class="form-guide-text">
-						<p>Please enter the required student data (transfer/update)</p>
+						<p>Please enter the student ID to (transfer/update) a student</p>
 						{% if messages %}
 							<ul class="messages">
 								{% for message in messages %}
@@ -42,29 +42,18 @@
 							{{form.student_first_name}}
 					</div>
 					<div class="form-field1">
+							<label for="id_student_middle_name">
+								Middle-Name:
+								<p>{{form.student_middle_name.errors}}</p>
+							</label>
+							{{form.student_middle_name}}
+					</div>
+					<div class="form-field1">
 							<label for="id_student_last_name">
 								Last-Name:
 								<p>{{form.student_last_name.errors}}</p>
 							</label>
 							{{form.student_last_name}}
-					</div>
-					<div class="form-field1">
-							<label for="gender_M">
-								Gender:
-								<p>{{ form.student_gender.errors }}</p>
-							</label>
-							<div>
-								{% for value, label in form.student_gender.field.choices %}
-									<label for="gender_{{ value }}">{{ label }}:</label>
-									<input 
-										type="radio"
-										id="gender_{{ value }}"
-										name="{{ form.student_gender.name }}"
-										value="{{ value }}"
-										{% if form.student_gender.value == value %}checked{% endif %}
-									>
-								{% endfor %}
-							</div>
 					</div>
 					<div class="form-field1">
 							<label for="is_student_id">
@@ -81,22 +70,11 @@
 							{{form.student_class}}
 					</div>
 					<div class="form-field1">
-						<label for="T">
-							Special Needs: 
-							<p>{{ form.student_s_needs.errors }}</p> 
-						</label>
-						<div>
-							{% for value, label in form.student_s_needs.field.choices %}
-								<label for={{value}}>{{label}}: </label>
-								<input 
-									type="radio" 
-									id="{{value}}" 
-									value="{{value}}" 
-									name="student_s_needs"
-									{% if form.student_s_needs.value == value %}checked{% endif %}
-								>									
-							{% endfor %}
-						</div>
+							<label for="id_student_dob">
+								Date of Birth: 
+								<p>{{ form.student_dob.errors }}</p> 
+							</label>
+							{{form.student_dob}}
 					</div>
 					<div class="opt-buttons">
 						<button type="submit">Submit</button> 

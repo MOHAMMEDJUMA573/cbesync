@@ -146,7 +146,13 @@ class NtStaffRegistrationForm(forms.Form):
         #lowercase the email
         r_email = cleaned_data.get("ntstaff_email")
         if r_email:
-            cleaned_data["ntstaff_email"] = r_email.lower()
+            email = r_email.lower()
+            cleaned_data["ntstaff_email"] = email
+            if CustomUser.objects.filter(email__iexact=email).exists():
+                self.add_error(
+                    "ntstaff_email",
+                    _("Email already in use!")
+                )
         #reasonable exp
         xp = cleaned_data.get("ntstaff_y_experience")
         if xp and (xp > 70 or xp < 0) :

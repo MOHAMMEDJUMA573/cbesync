@@ -105,7 +105,13 @@ class ParentRegistrationForm(forms.Form):
         #lowercase the email
         r_email = cleaned_data.get("parent_email")
         if r_email:
-            cleaned_data["parent_email"] = r_email.lower()
+            email = r_email.lower()
+            cleaned_data["parent_email"] = email
+            if CustomUser.objects.filter(email__iexact=email).exists():
+                self.add_error(
+                    "parent_email",
+                    _("Email already in use!")
+                )
 
         return cleaned_data
 

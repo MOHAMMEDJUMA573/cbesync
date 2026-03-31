@@ -156,7 +156,13 @@ class StudentRegistrationForm(forms.Form):
             cleaned_data['student_middle_name'] = ""
         r_email = cleaned_data.get("student_email")
         if r_email:
-            cleaned_data["student_email"] = r_email.lower()
+            email = r_email.lower()
+            cleaned_data["student_email"] = email
+            if CustomUser.objects.filter(email__iexact=email).exists():
+                self.add_error(
+                    "student_email",
+                    _("Email already in use!")
+                )
         #validate date of birth later on
         #get the keyed fields
         student_classes = cleaned_data.get('student_class')

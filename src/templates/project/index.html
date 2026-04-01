@@ -65,8 +65,7 @@
 				            <span class="text-yellow-500">ELITE</span> CBE <span class="text-yellow-300">SYSTEM</span>	
                         </h1>
                         <p class="">
-                            Seamlessly connect your students, teachers and everyone else involved by getting started. <span class="hidden lg:block"> Revotionalize your system and
-                            elevate your school status to a new level.Well i hope that's enough to convice you and the latter enough to dedo so!. </span>
+                            Seamlessly connect your students, teachers and everyone else involved by getting started.
                         </p>
                         <div class="flex gap-2 flex-col sm:flex-row sm:gap-4 lg:pt-5 xl:pt-10">
 							{% if user.is_authenticated %}
@@ -107,7 +106,7 @@
                 </div>
             </div>
         </section>
-        <div id="services" class="bg-yellow-500 text-green-900 py-20">
+        <section id="services" class="bg-yellow-500 text-green-900 py-20">
             <div class="w-full px-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 <!--cards-->
                 <div class="border bg-white border-green-900 p-5 cursor-pointer rounded-md hover:shadow-2xl hover:-translate-y-1 duration-300 space-y-5">
@@ -159,13 +158,7 @@
                     </p>
                 </div>
             </div>
-        </div>
-        <!-- <section id="about" class="relative overflow-hidden p-16">
-            <div class="flex flex-col items-center gap-3 text-center mb-10 md:mb-20">
-                <h2 class="title"> About Us</h2>
-                <p class="max-w-2xl">We are what you need(maybe what you want too!)</p>
-            </div>
-        </section> -->
+        </section>
         <section id="pricing" class="bg-green-900 py-20">
             <div class="flex flex-col items-center gap-3 text-center py-4 mb-20 md:mb-28 bg-stone-50 px-8 lg:max-w-1/2 lg:transform lg:translate-x-1/2 lg:translate-y-1/2 duration-500 rounded-md">
                 <h2 class="title font-sgothic">Pricing</h2>
@@ -250,33 +243,62 @@
                 </div>
             </div>
         </section>
-
-        <!--~~~~~~~~~~~~~~~ Review ~~~~~~~~~~~~~~~-->
-        <section id="review">
-
-        </section>
     </main>
 
-    <!--~~~~~~~~~~~~~~~ Footer ~~~~~~~~~~~~~~~-->
-    <footer>
-        <!-- newsletter -->
-        
-        <!-- social icon -->
-
-        <!-- content -->
-
-        <!-- copyright -->
-
-        <!-- floral image -->
+    <footer class="p-16 md:pt-20 relative bg-stone-100" id="about">
+         <div class="p-16">
+            <div class="border-b border-green-500 relative">
+                <div class="absolute top-0 left-0 right-0 transform max-w-60 -translate-y-1/2  mx-auto">
+                    <div class="bg-stone-100 text-lg text-center space-x-2">
+                        <i class="ri-facebook-fill hover:text-yellow-300 duration-300 cursor-pointer text-2xl"></i>
+                        <i class="ri-twitter-x-line hover:text-yellow-300 duration-300 cursor-pointer text-2xl"></i>
+                        <i class="ri-whatsapp-line hover:text-yellow-300 duration-300 cursor-pointer text-2xl"></i>
+                        <i class="ri-mail-ai-line hover:text-yellow-300 duration-300 cursor-pointertext-2xl text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-evenly items-center text-center gap-8 md:text-start">
+            <div>
+                <div class="text-7xl text-green-700 text-center inline-block">
+                    <img src="{% static 'project/images/logo.png' %}" alt="" class="max-w-28">
+                    <p class="font-sgothic text-xl sm:text-2xl">
+                        <span class="text-yellow-500">CBE</span><span class="text-green-700">SYNC</span>
+                    </p>
+                </div>
+            </div>
+            <div>
+                <p class="mb-5 font-bold text-xl">API Docs</p>
+                <div class="flex flex-col gap-1">
+                    <a href="">Coming Soon ...</a>
+                    <a href="">Coming Soon ...</a>
+                    <a href="">Coming Soon ...</a>
+                    <a href="">Coming Soon ...</a>
+                    <a href="">Coming Soon ...</a>
+                </div>
+            </div>
+            <div>
+                <p class="mb-5 font-bold text-xl">Contact us</p>
+                <div class="flex flex-col gap-1">
+                    <a href="tel:+254768063352"> <i class="ri-phone-line"></i> +254768063352</a>
+                    <a href="mailto:contact@cbesync.com"><i class="ri-mail-line"></i> contact@cbesync.com</a>
+                    <br>
+                    <p>
+                        <i class="ri-map-pin-line"></i>Remote, Earth
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <p class="text-center opacity-50">
+                Copyright &copy; 2026 cbesync. All rights reserved.
+            </p>
+        </div>
     </footer>
-
-    <!--~~~~~~~~~~~~~~~ Scroll Up ~~~~~~~~~~~~~~~-->
-
-    <!--~~~~~~~~~~~~~~~ Swiper JS ~~~~~~~~~~~~~~~-->
-
-    <!--~~~~~~~~~~ SCROLLREVEAL ~~~~~~~~~~-->
-
-    <!--~~~~~~~~~~ mainjs ~~~~~~~~~~-->
+    <a href="#" class="fixed right-4 -bottom-1/2 bg-yellow-500 shadow-sm inline-block px-3 py-1 md:px-4 md:py-2 rounded-md text-lg z-50 hover:-translate-y-1
+     duration-300" id="scroll-up">
+        <i class="ri-arrow-up-line"></i>
+    </a>
     <script src="{% static 'project/index.js'%}"></script>
     
 </body>

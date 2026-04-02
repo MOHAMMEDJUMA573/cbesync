@@ -26,24 +26,30 @@
                         <button class="sButton" type="submit">Enter</button>
                     </form>
                 </div>
-                <div class="maing-topu-p">
-                    <div class="maing-tpp-label">Print</div>
-                    <div class="maing-tpp-label">
-                        <span class="material-symbols-outlined">print</span>
-                    </div>
-                </div>
-                <div class="maing-topu-p">
-                    <div class="maing-tpp-label">Export</div>
-                    <div class="maing-tpp-label">
-                        <span class="material-symbols-outlined">file_export</span>
-                    </div>
-                </div>
-                <div class="maing-topu-p">
-                    <div class="maing-tpp-label">Download</div>
-                    <div class="maing-tpp-label">
-                        <span class="material-symbols-outlined">download</span>
-                    </div>
-                </div>
+                <form class="maing-topu-p">
+                    <button type="submit" class="maing-topu-p">
+                        <div class="maing-tpp-label">Print</div>
+                        <div class="maing-tpp-label">
+                            <span class="material-symbols-outlined">print</span>
+                        </div>
+                    </button>
+                </form>
+                <form class="maing-topu-p">
+                    <button class="maing-topu-p">
+                        <div class="maing-tpp-label">Export</div>
+                        <div class="maing-tpp-label">
+                            <span class="material-symbols-outlined">file_export</span>
+                        </div>
+                    </button>
+                </form>
+                <form class="maing-topu-p">
+                    <button class="maing-topu-p">
+                        <div class="maing-tpp-label">Download</div>
+                        <div class="maing-tpp-label">
+                            <span class="material-symbols-outlined">download</span>
+                        </div>
+                    </button>
+                </form>
             </div>
             <!--DIv to display when the there is data from the serch method-->
             {% if search_results is None %}

@@ -23,27 +23,35 @@
                            <!--  <p>{{form.student_data.errors}}</p>  -->
                         </label>
                         {{form.student_data}}
-                        <button class="sButton" type="submit">Enter</button>
+                        <button class="sButton" type="submit" name="st_ledger_search">Enter</button>
                     </form>
                 </div>
-                <div class="maing-topu-p">
-                    <div class="maing-tpp-label">Print</div>
-                    <div class="maing-tpp-label">
-                        <span class="material-symbols-outlined">print</span>
-                    </div>
-                </div>
-                <div class="maing-topu-p">
-                    <div class="maing-tpp-label">Export</div>
-                    <div class="maing-tpp-label">
-                        <span class="material-symbols-outlined">file_export</span>
-                    </div>
-                </div>
-                <div class="maing-topu-p">
-                    <div class="maing-tpp-label">Download</div>
-                    <div class="maing-tpp-label">
-                        <span class="material-symbols-outlined">download</span>
-                    </div>
-                </div>
+                <form action="{% url 'schools:school_student_ledgerview' %}" class="maing-topu-p" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="maing-topu-p" name="st_ledger_print">
+                        <div class="maing-tpp-label">Print</div>
+                        <div class="maing-tpp-label">
+                            <span class="material-symbols-outlined">print</span>
+                        </div>
+                    </button>
+                </form>
+                <form class="maing-topu-p">
+                    <button class="maing-topu-p">
+                        <div class="maing-tpp-label">Export</div>
+                        <div class="maing-tpp-label">
+                            <span class="material-symbols-outlined">file_export</span>
+                        </div>
+                    </button>
+                </form>
+                <form class="maing-topu-p">
+                    <button class="maing-topu-p">
+                        <div class="maing-tpp-label">Download</div>
+                        <div class="maing-tpp-label">
+                            <span class="material-symbols-outlined">download</span>
+                        </div>
+                    </button>
+                </form>
+                
             </div>
             <!--DIv to display when the there is data from the serch method-->
             {% if search_results is None %}

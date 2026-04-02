@@ -13,7 +13,9 @@ from django.contrib.staticfiles import finders
 from reports.models import StudentEReportProfile
 from results.models import ResultsProfile
 from django.db.models import Prefetch, OuterRef, Subquery
+from django.http import HttpResponse
 
+#000->Helper (UNIVERSAL)
 def fetch_logo(request):
     path = finders.find('project/images/moe.png')
     if path is None:
@@ -25,34 +27,35 @@ def fetch_logo(request):
     except Exception as e:
         print(f"Failed to read static file: {e}")
         return None 
-    
+styles = getSampleStyleSheet()
+heading1 = ParagraphStyle(
+    name='Heading1',
+    parent=styles['Heading1'],
+    fontSize=18,
+    alignment=TA_CENTER,
+    fontName="Helvetica-Bold",
+    textColor=black,
+)
+heading2 = ParagraphStyle(
+    name='Heading2',
+    parent=styles['Heading2'],
+    fontSize=12,
+    alignment=TA_CENTER,
+    fontName="Helvetica-Bold",
+    textColor=black
+)
+#001->Helper 
 def create_report_header(elements, styles, logo_buffer, class_passed, exam_passed):
     if logo_buffer:
-        logo = Image(logo_buffer, height=1.2*inch, width=3*inch)
+        logo = Image(logo_buffer, height=0.8*inch, width=2*inch)
         logo.hAlign = 'CENTER'
         elements.append(logo)
         elements.append(Spacer(1, 0.1*inch))
-    heading1 = ParagraphStyle(
-        name='Heading1',
-        parent=styles['Heading1'],
-        fontSize=18,
-        alignment=TA_CENTER,
-        fontName="Helvetica-Bold",
-        textColor=black,
-    )
-    heading2 = ParagraphStyle(
-        name='Heading2',
-        parent=styles['Heading2'],
-        fontSize=12,
-        alignment=TA_CENTER,
-        fontName="Helvetica-Bold",
-        textColor=black
-    )
     school_p1 = Paragraph(f"{class_passed.class_school.school_name.upper()}", heading1)
     school_p2 = Paragraph(f"P.O BOX {class_passed.class_school.school_postal_box} <br/> {exam_passed.examination_period.upper()} OF TERM {exam_passed.examination_term[2:]}, {exam_passed.examination_year}", heading2)
     elements.append(school_p1)
     elements.append(school_p2)
-
+#001->Helper
 def create_student_page(elements, styles,logo_buffer, student_obj, class_passed, exam_passed):
     #header part
     create_report_header(elements, styles, logo_buffer, class_passed, exam_passed)
@@ -69,8 +72,22 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed,
     # first part
     table_data = [['LEARNING AREA', 'SCORE', 'POINTS', 'PERFORMANCE LEVEL']]
     for result_passed in student_obj[1]:
-        table_data.append([result_passed.result_subject.subject_name.upper(), result_passed.result_score, str(result_passed.result_p_level[1]), str(result_passed.result_p_level[0])])
-    table_data.append(['TOTAL', str(student_obj[2].streport_t_score), str(student_obj[2].streport_points_score), str(student_obj[2].streport_p_level) ])
+        table_data.append(
+            [
+                result_passed.result_subject.subject_name.upper(),
+                result_passed.result_score,
+                str(result_passed.result_p_level[1]),
+                str(result_passed.result_p_level[0])
+            ]
+        )
+    table_data.append(
+        [
+            'TOTAL',
+            str(student_obj[2].streport_t_score),
+            str(student_obj[2].streport_points_score),
+            str(student_obj[2].streport_p_level)
+        ]
+    )
     table1 = Table(
         table_data,
         rowHeights=0.3*inch,
@@ -141,7 +158,7 @@ def create_student_page(elements, styles,logo_buffer, student_obj, class_passed,
     elements.append(footer)
     elements.append(Spacer(1, 0*inch))
     elements.append(PageBreak())
-
+#001->Helper
 def create_classreport_page(elements, styles, logo_buffer, students_reports_dict, class_passed, exam_passed):
     #header part
     create_report_header(elements, styles, logo_buffer, class_passed, exam_passed)
@@ -205,10 +222,16 @@ def create_classreport_page(elements, styles, logo_buffer, students_reports_dict
     elements.append(footer)
     elements.append(Spacer(1, 0*inch))
     elements.append(PageBreak())
-
+#main class reports generator from admin(school) -> 001
 def student_report1_generator(class_passed, exam_passed, request=None):
     buffer = io.BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=A4, rightMargin=36, leftMargin=36, topMargin=10, bottomMargin=36)
+    doc = SimpleDocTemplate(
+        buffer, pagesize=A4,
+        rightMargin=36,
+        leftMargin=36,
+        topMargin=10,
+        bottomMargin=36
+    )
     styles = getSampleStyleSheet()
     elements = []
     logo_buffer = fetch_logo(request)
@@ -263,6 +286,91 @@ def student_report1_generator(class_passed, exam_passed, request=None):
 
     return FileResponse(buffer, as_attachment=True, filename=filename)
 
+#002->Helper
+def create_stledger_class_header(elements, styles, logo_buffer,class_passed):
+    if logo_buffer:
+        logo = Image(logo_buffer, height=0.8*inch, width=2*inch)
+        logo.hAlign = 'CENTER'
+        elements.append(logo)
+        elements.append(Spacer(1, 0.1*inch))
+    school_p1 = Paragraph(f"{class_passed.class_school.school_name.upper()}", heading1)
+    school_p2 = Paragraph(f"P.O BOX {class_passed.class_school.school_postal_box} <br/> {class_passed.class_level_str.upper()} OF {class_passed.class_creation_date.year}", heading2)
+    elements.append(school_p1)
+    elements.append(school_p2)
+#002->Helper
+def create_stledger_class_page(elements, styles, logo_buffer, class_passed):
+    create_stledger_class_header(elements, styles, logo_buffer,class_passed)
+    #first part
+    free_cols = 7
+    table_data = [
+        ["No","STUDENT FULL NAME","G","STUDENT_ID",*["V" for i in range(free_cols)]]
+    ]
+    class_students = list(class_passed.student_profiles.all().order_by("student_id"))
+    table_data[1:] = [
+        [
+            int(class_students.index(st))+1, f"{st.student_first_name} {st.student_middle_name} {st.student_last_name}",
+            str(st.student_gender),str(st.student_id),*[" " for i in range(free_cols)]
+        ]
+        for st in class_students
+    ]
+    data_table = Table(
+        table_data,
+        rowHeights=0.25*inch,
+        colWidths=[40,190,30,100,*[30 for i in range(free_cols)]],
+        style=[
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.black),
+            ('BACKGROUND', (0, 0), (-1, 0), colors.lightgrey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.black),
+            ('TEXTCOLOR', (-1, 1), (-1, -1), colors.navy),
+            ('ALIGN', (2, 0), (-1, -1), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTNAME', (0, 0), (0, -1), 'Helvetica-Bold'),
+            ('ALIGN', (0, 0), (0, -1), 'CENTER'),
+            ('FONTSIZE', (0, 0), (-1, -1), 9),
+            ('FONTSIZE', (0, 1), (-1, -1), 7),
+            ('FONTSIZE', (1, 1), (1, -1), 8),
+            ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ]
+    )
+    elements.append(data_table)
+    #footer at the end
+    elements.append(Spacer(1, 0.8*inch))
+    footer = Paragraph(f"<a href='https://cbesync.com' color='green'><u>www.cbesync.com</u></a> &nbsp; © 2026 cbesync -: {datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S')}")
+    elements.append(footer)
+    elements.append(Spacer(1, 0*inch))
+    elements.append(PageBreak())
+#main students ledger generator from admin(school) -> 002
+def student_ledger_generator(request):
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    current_school = request.user.school_profile
+    c_school_classes = current_school.class_profiles.all().order_by("class_level","class_title")
+
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(
+        buffer, pagesize=A4,
+        rightMargin=36,
+        leftMargin=36,
+        topMargin=10,
+        bottomMargin=36
+    )
+    styles = getSampleStyleSheet()
+    elements = []
+    logo_buffer = fetch_logo(request)
+
+    for st_class in c_school_classes:
+        create_stledger_class_page(elements,styles,logo_buffer,st_class)
+
+    # Remove the last PageBreak
+    if elements and isinstance(elements[-1], PageBreak):
+        elements.pop()
+    doc.build(elements)
+    buffer.seek(0)
+    filename = f"SCHOOL_LEDGER:{uuid.uuid4().hex[:8].upper()}.pdf"
+
+    return FileResponse(buffer, as_attachment=True, filename=filename)
+
+#Learn func -> 000
 def student_report_paragraph_gen(request=None):
         # Create the document
     doc = SimpleDocTemplate(

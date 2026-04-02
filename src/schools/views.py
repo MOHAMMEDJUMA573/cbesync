@@ -11,7 +11,7 @@ from results.models import ExaminationProfile
 from reports.models import StudentEReportProfile
 from subjects.models import SubjectProfile
 from results.models import ResultsProfile
-from reports.views import student_report1_generator
+from reports.views import student_report1_generator, student_ledger_generator
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from allauth.account.decorators import verified_email_required
@@ -35,6 +35,8 @@ school_uuid = uuid.UUID("075194d3-6885-417e-a8a8-6c931e272f01")
 
 #functions to get items
 def get_school_object(user_passed):
+    """Return the school object from the user
+    """
     return user_passed.school_profile
 
 def get_student_objects(passed_school):
@@ -654,25 +656,28 @@ def student_ledger_view(request):
     school_students = get_student_objects(current_school)
     form = StudentSearchForm()
     if request.method == "POST":
-        form = StudentSearchForm(request.POST)
-        if form.is_valid():
-            search_value = form.cleaned_data["student_data"]
-            student_search_results = get_searched_students(school_students,search_value)
-            context = {
-                "school":current_school,
-                "page_title":page_title,
-                "school_students":school_students,
-                "form":form,
-                "search_results":student_search_results if student_search_results.exists() else "empty"
-            }
-        else:
-            context = {
-                "school":current_school,
-                "page_title":page_title,
-                "school_students":school_students,
-                "form":form,
-                "search_results":None
-            }
+        if "st_ledger_search" in request.POST:
+            form = StudentSearchForm(request.POST)
+            if form.is_valid():
+                search_value = form.cleaned_data["student_data"]
+                student_search_results = get_searched_students(school_students,search_value)
+                context = {
+                    "school":current_school,
+                    "page_title":page_title,
+                    "school_students":school_students,
+                    "form":form,
+                    "search_results":student_search_results if student_search_results.exists() else "empty"
+                }
+            else:
+                context = {
+                    "school":current_school,
+                    "page_title":page_title,
+                    "school_students":school_students,
+                    "form":form,
+                    "search_results":None
+                }
+        elif "st_ledger_print" in request.POST:
+            return student_ledger_generator(request)
     else:
         context = {
             "school":current_school,

@@ -18,12 +18,12 @@
     {% include 'base/projectmeta.html' %}
     
     <!--Static files load-->
-    {% include 'base/schools/css.html' %}
+    {% include 'base/projectcss.html' %}
     
     <!--Custom css for everypage-->
     {% block head_css %} {% endblock head_css %}
 </head>
-<body>
+<body class="main-body">
     {% block content %}
     <!--Side menu part-->
     {% block sidemenu%}

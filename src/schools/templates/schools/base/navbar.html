@@ -1,59 +1,60 @@
 {% load static %}
-    <aside>
-        <div class="top">
-            <div class="logo">
-                <img src="{% static 'schools/images/logo.png'%}" alt="INC-LOGO">
-                <h2><span class="logop1">Cbe</span><span class="logop2">Sync</span> </h2>
-            </div>
-            <div class="close" id="close-btn">
-                <span class="material-symbols-outlined">cancel_presentation</span>
-            </div>
+<aside class="-left-full bg-white z-10 w-[77%] md:left-[0%] md:block md:bg-background md:z-0 md:w-auto transform ease-in-out duration-300 h-screen fixed overflow-auto">
+    <div class="flex flex-row items-center justify-between mt-4">
+        <div class="flex flex-row gap-4">
+            <img src="{% static 'project/images/logo.png' %}" class="w-8 h-8 ml-4" alt="LLC-LOGO">
+            <p class="font-sgothic font-semibold text-2xl md:hidden lg:block">
+                <span class="text-yellow-500">CBE</span><span class="text-green-700">SYNC</span>
+            </p>
         </div>
-        <div class="sidebar">
-            <a href="{% url 'schools:school_app_dashboard'%}">
-                <span class="material-symbols-outlined">dashboard</span>
-                <h3>Dashboard</h3>
-            </a>
-            <a href="{% url 'schools:school_usr_management'%}">
-                <span class="material-symbols-outlined">groups_3</span>
-                <h3>Users</h3>
-            </a>
-            <a href="{%url 'schools:school_class_management'%}">
-                <span class="material-symbols-outlined">cast_for_education</span>
-                <h3>Classes</h3>
-            </a>
-            <a href="{% url 'schools:school_assessment_management' %}">
-                <span class="material-symbols-outlined">quiz</span>
-                <h3>Assessments</h3>
-            </a>
-            <a href="#">
-                <span class="material-symbols-outlined">admin_panel_settings</span>
-                <h3>Tools</h3>
-            </a>
-            <a href="#">
-                <span class="material-symbols-outlined">communication</span>
-                <h3>Communication</h3>
-            </a>
-            <a href="#">
-                <span class="material-symbols-outlined">books_movies_and_music</span>
-                <h3>Library</h3>
-            </a>
-            <a href="#">
-                <span class="material-symbols-outlined">report</span>
-                <h3>Reports</h3>
-                <span class="report-count">10</span>
-            </a>
-            <a href="#">
-                <span class="material-symbols-outlined">table_chart_view</span>
-                <h3>Analytics</h3>
-            </a>
-            <a href="#">
-                <span class="material-symbols-outlined">settings</span>
-                <h3>settings</h3>
-            </a>
-            <a href="{% url 'account_logout'%}">
-                <span class="material-symbols-outlined">logout</span>
-                <h3>logout</h3>
-            </a>
+        <div class="md:hidden p-2 m-2 rounded-md cursor-pointer border border-green-700" id="close-btn">
+            <i class="ri-close-line text-2xl" id="hamburger"></i>
         </div>
-    </aside> 
+    </div>
+    <div class="relative top-12 flex flex-col duration-300" id="sidebar">
+        <a href="{% url 'schools:school_app_dashboard'%}" class="mb-navlinks active">
+            <i class="ri-dashboard-line"></i>
+            <p class="md:hidden lg:block">Dashboard</p>
+        </a>
+        <a href="{% url 'schools:school_usr_management'%}" class="mb-navlinks">
+            <i class="ri-group-line"></i>
+            <p class="md:hidden lg:block">Users</p>
+        </a>
+        <a href="{%url 'schools:school_class_management'%}" class="mb-navlinks">
+            <i class="ri-shadow-line"></i>
+            <p class="md:hidden lg:block">Classes</p>
+        </a>
+        <a href="{% url 'schools:school_assessment_management' %}" class="mb-navlinks">
+            <i class="ri-a-b"></i>
+            <p class="md:hidden lg:block">Assessments</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-tools-line"></i>
+            <p class="md:hidden lg:block">Tools</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-mail-line"></i>
+            <p class="md:hidden lg:block">Communication</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-book-shelf-line"></i>
+            <p class="md:hidden lg:block">Library</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-file-chart-line"></i>
+            <p class="md:hidden lg:block">Reports</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-line-chart-line"></i>
+            <p class="md:hidden lg:block" >Analytics</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-settings-line"></i>
+            <p class="md:hidden lg:block">settings</p>
+        </a>
+        <a href="{% url 'account_logout'%}" class="mb-navlinks">
+            <i class="ri-logout-box-r-line"></i>
+            <p class="md:hidden lg:block">logout</p>
+        </a>
+    </div>
+</aside>

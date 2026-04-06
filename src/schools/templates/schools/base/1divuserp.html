@@ -1,23 +1,20 @@
 {% load static%}
-    <!--The 3rd section of the page-->
-    <div class="aside-right">
-        <!--Part one third row-->
-        <div class="top top2">
-            <button id="menu-btn">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-            <div class="theme-toggle-btn">
-                <span class="material-symbols-outlined active">light_mode</span>
-                <span class="material-symbols-outlined">dark_mode</span>
-            </div>
-            <div class="profile">
-                <div class="info">
-                    <p>Hey, <b>{{school.school_name.title}}</b></p>
-                    <small class="text-muted">Admin</small>
-                </div>
-                <div class="profile-photo">
-                    <img src="{% static 'schools/images/profile-1.jpg'%}" alt="Profile pic">
-                </div>
-            </div>
+<!--The 3rd section of the page-->
+<div class="top-0 right-0 items-center p-3 h-15 bg-background w-full m-0 z-2 shadow-md justify-between fixed flex md:right-4 lg:top-4 gap-4 md:bg-transparent md:shadow-none md:justify-end rounded-md">
+    <button id="menu-btn" class="md:hidden">
+        <i class="ri-menu-line text-2xl" id="hamburger"></i>
+    </button>
+    <div class="bg-stone-300 flex justify-between items-center h-6 w-16 cursor-pointer rounded-md p-2">
+        <i class="ri-sun-line text-2xl"></i>
+        <i class="ri-moon-line text-xl"></i>
+    </div>
+    <div class="flex gap-8 text-left">
+        <div class="hidden md:block">
+            <p class="font-sgothic">Hey, <b>{{school.school_name.title}}</b></p>
+            <small class="text-gray-500">Admin</small>
+        </div>
+        <div class="overflow-hidden w-11 h-11 rounded-[50%] border border-green-300">
+            <img src="{% static 'project/images/logo.png' %}" alt="Profile pic" class="object-center object-cover">
         </div>
     </div>
+</div>

@@ -2,142 +2,140 @@
 
 {% load static%}
 {% block head_css %}
-    <link rel="stylesheet" href="{% static 'schools/css/dashl0/school_index.css'%}">
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-  <div class="top-level-box">
+  <div class="grid grid-cols-1 w-[97%] mt-0 mb-0 gap-5">
 	<!--Side bar menu-->
     {% block sidemenu%}
 		{% include 'schools/base/navbar.html' %}
     {% endblock sidemenu%} 
 	<!--main body--> 
-	<main>
-		<h1 class="main-header">Dashboard</h1>
-		<div class="main-s-page">
-			<div class="main-s-p">
-				<div class="main-s-title">School Profile</div>
-				<div class="school-p-pic">
-					<img src="{% static 'schools/images/profile-2.jpg'%}" class="school-p-image" alt="Profile pic">
+	<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
+		<p class="text-2xl font-bold font-sgothic">Dashboard</p>
+		<div class="relative top-12">
+			<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+				<div class="flex flex-col gap-4">
+					<p class="flex items-center justify-center font-bold bg-gray-600 rounded-md p-4">School Profile</p>
+					<table class="xl:w-[90%]">
+						<tbody class="">
+							<tr class="p-2">
+								<th>NAME:</th>
+								<td class="pl-2">{{ school.school_name }}</td>
+							</tr>
+							<tr class="p-2">
+								<th>COUNTRY:</th>
+								<td class="pl-2">{{school.user.get_user_country_display}}</td>
+							</tr>
+							<tr class="p-2">
+								<th>COUNTY:</th>
+								<td class="pl-2">{{school.get_school_admin_level_2_display}}</td>
+							</tr>
+							<tr class="p-2">
+								<th>SCHOOL-ID:</th>
+								<td class="pl-2">{{school.school_id}}</td>
+							</tr>
+							<tr class="p-2">
+								<th>EMAIL:</th>
+								<td class="pl-2">{{school.user.email}}</td>
+							</tr>
+							<tr class="p-2">
+								<th>RANK:</th>
+								<td class="pl-2">001</td>
+							</tr>
+							<tr class="p-2">
+								<th>VERIFICATION:</th>
+								<td class="pl-2">
+									{{school.get_school_status_display}}
+								</td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
-				<div class="school-p-data">
-					<div class="school-pd-row">
-						<div class="pd-title">Name :</div>
-						<div class="pd-value">{{ school.school_name }}</div>
-					</div>
-					<div class="school-pd-row">
-						<div class="pd-title">Country :</div>
-						<div class="pd-value">{{school.user.get_user_country_display}}</div>
-					</div>
-					<div class="school-pd-row">
-						<div class="pd-title">County / District / :</div>
-						<div class="pd-value">{{school.get_school_admin_level_2_display}}</div>
-					</div>
-					<div class="school-pd-row">
-						<div class="pd-title">Verified Status :</div>
-						<div class="pd-value">{{school.get_school_status_display}}</div>
-					</div>
-					<div class="school-pd-row">
-						<div class="pd-title">School ID :</div>
-						<div class="pd-value">{{school.school_id}}</div>
-					</div>
-					<div class="school-pd-row">
-						<div class="pd-title">Email :</div>
-						<div class="pd-value">{{school.user.email}}</div>
-					</div>
-				</div>
-			</div>
-			<div class="main-s-p">
-				<div class="main-s-title">School Ledgers</div>
-				<div class="school-p-data">
-					<div class="school-ledger-row">
-						<div class="school-l-div" id="studentblob" data-url="{% url 'schools:school_student_ledgerview' %}">
-							Students
-							<img class="custom-m-icon" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
+				<div class="flex flex-col justify-between gap-4">
+					<p class="flex items-center justify-center font-bold bg-gray-600 rounded-md p-4">School ledgers</p>
+					<div class="p-8 mb-2 hover:shadow-none cursor-pointer border border-black flex justify-between items-center bg-white shadow-xl rounded-md">
+						<div>
+							<div class="school-l-div" id="studentblob" data-url="{% url 'schools:school_student_ledgerview' %}">
+								Students
+								<i class="ri-numbers-line"></i>
+							</div>
+						</div>
+						<div class="info">
+							{{ school.school_students_population|stringformat:"04d" }}
 						</div>
 					</div>
-					<div class="school-ledger-row">
-						<div class="school-l-div" id="teacherblob"  data-url="{% url 'schools:school_teacher_ledgerview' %}">
-							Teachers
-							<img class="custom-m-icon" src="{% static 'schools/icons/newton.png' %}" alt="teacher-icon">
+					<div class="p-8 mb-2 hover:shadow-none cursor-pointer border border-black flex justify-between items-center bg-white shadow-xl rounded-md">
+						<div>
+							<div class="school-l-div" id="teacherblob"  data-url="{% url 'schools:school_teacher_ledgerview' %}">
+								Teachers
+								<i class="ri-numbers-line"></i>
+							</div>
+						</div>
+						<div class="info">
+							{{ school.school_teachers_population|stringformat:"04d" }}
 						</div>
 					</div>
-					<div class="school-ledger-row">
-						<div class="school-l-div" id="ntsblob"  data-url="{% url 'schools:school_ntstaff_ledgerview' %}">
-							Nt-Staffs
-							<img class="custom-m-icon" src="{% static 'schools/icons/worker.png' %}" alt="worker-icon">
+					<div class="p-8 mb-2 hover:shadow-none cursor-pointer border border-black flex justify-between items-center bg-white shadow-xl rounded-md">
+						<div>
+							<div class="school-l-div" id="ntsblob" data-url="{% url 'schools:school_ntstaff_ledgerview' %}">
+								Nt-Staffs
+								<i class="ri-numbers-line"></i>
+							</div>
 						</div>
-					</div>
-					<div class="main-s-title">School Population</div>
-					<div class="school-pd-row">
-						<div class="pd-title">Students:</div>
-						<div class="pd-value info">{{ school.school_students_population|stringformat:"04d" }}</div>
-					</div>
-					<div class="school-pd-row">
-						<div class="pd-title">Teachers :</div>
-						<div class="pd-value info">{{ school.school_teachers_population|stringformat:"04d" }}</div>
-					</div>
-					<div class="school-pd-row">
-						<div class="pd-title">Nt-Staffs :</div>
-						<div class="pd-value info">{{ school.school_ntstaffs_population|stringformat:"04d" }}</div>
-					</div>
-				</div>
-			</div>
-			<div class="main-s-p">
-				<div class="bio-data">
-					<div class="main-s-title">Bio</div>
-					<div class="bio-d-text">
-						"
-						I will only say, in general, that all which the atheists commonly allege in favor of the non-existence of God,
-						arises continually from one or other of these two things, namely, either the ascription of human affections
-						to Deity, or the undue attribution to our minds of so much vigor and wisdom that we may essay to determine
-						and comprehend both what God can and ought to do; hence all that is alleged by them will occasion us no
-						difficulty, provided only we keep in remembrance that our minds must be considered finite, while Deity is 
-						incomprehensible and infinite.
-						" ~Descartes
+						<div class="info">
+							{{ school.school_ntstaffs_population|stringformat:"04d" }}
+						</div>
 					</div>
 				</div>
-				<div class="schools-data">
-					<div class="main-s-title">School Statistics:</div>
-					<div class="school-analytics">
-						<div class="online- courses">
-							<div class="icon">
-								<span class="material-symbols-outlined">podcasts</span>
+				<div class="flex flex-col justify-between gap-4">
+					<div class="flex justify-between items-center bg-white rounded-md p-6 duration-300">
+						<div class="flex items-center justify-center">
+							<div class="p-2 text-green-700 text-2xl items-center justify-center">
+								<i class="ri-cloud-line"></i>
 							</div>
-							<div class="right">
-								<div class="info">
-									<h3>Online Since</h3>
-									<small class="text-muted">Last 24hrs</small>
-								</div>
-								<h5 class="success">{{ school.school_creation_date.date }}</h5>
-								<h3>{{ school.school_online_days|stringformat:"04d" }} Days</h3>
+							<div class="info font-bold ">
+								Joined
 							</div>
 						</div>
-						<div class="online- courses">
-							<div class="icon">
-								<span class="material-symbols-outlined">portable_wifi_off</span>
+						<div class="success font-bold">
+							{{ school.school_creation_date.date }}
+						</div>
+						<div>
+							{{ school.school_online_days|stringformat:"04d" }} Days
+						</div>
+					</div>
+					<div class="flex justify-between items-center bg-white rounded-md p-6 duration-300">
+						<div class="flex items-center justify-center">
+							<div class="p-2 text-green-700 text-2xl items-center justify-center">
+								<i class="ri-school-line"></i>
 							</div>
-							<div class="right">
-								<div class="info">
-									<h3>Account</h3>
-									<small class="text-muted">Last 24hrs</small>
-								</div>
-								<h5 class="success">Premium</h5>
-								<h3>⭐</h3>
+							<div class="info font-bold ">
+								Account:
 							</div>
 						</div>
-						<div class="online- courses">
-							<div class="icon">
-								<span class="material-symbols-outlined">groups_2</span>
+						<div class="success font-bold">
+							Premium
+						</div>
+						<div>
+							700/1000
+						</div>
+					</div>
+					<div class="flex justify-between items-center bg-white rounded-md p-6 duration-300">
+						<div class="flex items-center justify-center">
+							<div class="p-2 text-green-700 text-2xl items-center justify-center">
+								<i class="ri-user-community-line"></i>
 							</div>
-							<div class="right">
-								<div class="info">
-									<h3>Users</h3>
-									<small class="text-muted">Last 24hrs</small>
-								</div>
-								<h5 class="success">+20%</h5>
-								<h3>{{ school.school_population|stringformat:"04d" }}</h3>
+							<div class="info font-bold ">
+								Users
 							</div>
+						</div>
+						<div class="success font-bold">
+							{{ school.school_population|stringformat:"04d" }}
+						</div>
+						<div>
+							___
 						</div>
 					</div>
 				</div>
@@ -153,31 +151,31 @@
 			{% endif %}
 		</p>
 		<!--Recent activities table-->
-		<div class="recent-activities">
-			<h2>Current Programmes</h2>
-			<table>
+		<div class="mt-12 hidden sm:block">
+			<p class="text-2xl font-bold mb-8">Current Programmes</p>
+			<table class="bg-white rounded-md shadow-2xl hover:shadow-none cursor-pointer w-full p-8 duration-300 border-separate">
 				<thead>
 					<tr>
-						<th>Programme Name</th>
+						<th class="">Programme Name</th>
 						<th>Programme ID</th>
-						<th>Supervisor</th>
-						<th>Status</th>
-						<th>Data</th>
+						<th class="hidden lg:block">Supervisor</th>
+						<th class="">Status</th>
+						<th class="">Data</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for program in programmes %}
-					<tr>
-						<td>{{program.get_program_name_display}}</td>
-						<td>{{program.program_id}}</td>
-						<td>Government of Kenya</td>
-						<td class="primary">Active</td>
-						<td class="info">Details</td>
-					</tr>
+						<tr>
+							<td class="text-gray-500">{{program.get_program_name_display}}</td>
+							<td class="text-gray-500">{{program.program_id}}</td>
+							<td class="text-gray-500 hidden lg:block">Government of Kenya</td>
+							<td class="primary ">Active</td>
+							<td class="info">Details</td>
+						</tr>
 					{% endfor %}
 				</tbody>
 			</table>
-			<a href="#">show all</a>
+			<a href="#" class="primary text-center hidden sm:block m-4">show all</a>
 		</div>
 	</main>
 	<!--3rd-->

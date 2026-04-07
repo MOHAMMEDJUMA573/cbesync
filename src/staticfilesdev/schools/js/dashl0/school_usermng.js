@@ -1,5 +1,5 @@
 //selected grids
-grid_partitions = document.querySelectorAll(".grid-partitions")
+grid_partitions = document.querySelectorAll(".link-cards")
 grid_partitions.forEach( (partition, index) => {
     partition.addEventListener("click", ()=> {
         window.location.href = partition.dataset.url
@@ -8,6 +8,6 @@ grid_partitions.forEach( (partition, index) => {
 //link active toggle
 function T2(){
     /*activate the classlist*/
-    document.querySelectorAll(".sidebar a")[1].classList.add("active");
+    document.querySelectorAll("#sidebar a")[1].classList.add("active");
 }
 T2();

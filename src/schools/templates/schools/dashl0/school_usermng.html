@@ -1,180 +1,202 @@
 {% extends 'schools/base/base.html' %}
 
-
 {% load static%}
 {% block head_css %}
-    {% include 'base/schools/css.html' %} <!--To be deleted-->
-    <link rel="stylesheet" href="{% static 'schools/css/dashl0/school_usermng.css'%}">
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-  <div class="top-level-box">
+  <div class="grid grid-cols-1 w-[97%] mt-0 mb-0 gap-5">
 	<!--Side bar menu-->
     {% block sidemenu%}
 		{% include 'schools/base/navbar.html' %}
     {% endblock sidemenu%} 
 	<!--main body-->
-	<main>
-		<h1 class="main-header">User Management</h1>
-		<div class="main-grid">
-			<fieldset class="grid-fieldset">
-				<legend class="grid-fieldset-legend">Teacher Management</legend>
-				<div class="grid-part">
-					<div class="grid-partitions" id="teacherReg" data-url="{% url 'schools:school_teacher_registration' %}">
-						<div class="gp-parts" style="color: var(--color-success);">Teacher <br> Registration</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/newton.png' %}" alt="">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">app_registration</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="teacherEnroll" data-url="{% url 'schools:school_teacher_enrollment' %}">
-						<div class="gp-parts" style="color: var(--color-primary);" >Teacher <br> Enrollment</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/newton.png' %}" alt="">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">card_membership</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="teacherMng" data-url="{% url 'schools:school_teacher_management' %}">
-						<div class="gp-parts">Teacher <br> Management</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/newton.png' %}" alt="">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">account_tree</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-			<fieldset class="grid-fieldset">
-				<legend class="grid-fieldset-legend">Student Management</legend>
-				<div class="grid-part">
-					<div class="grid-partitions" id="studentReg" data-url="{% url 'schools:school_student_registration' %}">
-						<div class="gp-parts" style="color: var(--color-success);">Student <br> Registration</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">app_registration</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="studentEnroll" data-url="{% url 'schools:school_student_enrollment' %}">
-						<div class="gp-parts" style="color: var(--color-primary);" >Student <br> Enrollment</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">card_membership</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="studentMng" data-url="{% url 'schools:school_student_management' %}">
-						<div class="gp-parts">Student <br> Management</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">account_tree</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-			<fieldset class="grid-fieldset">
-				<legend class="grid-fieldset-legend">Parents Management</legend>
-				<div class="grid-part">
-					<div class="grid-partitions" id="parentReg" data-url="{% url 'schools:school_parent_registration' %}">
-						<div class="gp-parts" style="color: var(--color-success);">Parent <br> Registration</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/parent.png' %}" alt="parent-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">app_registration</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="parentEnroll" data-url="{% url 'schools:school_parent_enrollment' %}">
-						<div class="gp-parts" style="color: var(--color-primary);" >Parent <br> Enrollment</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/parent.png' %}" alt="parent-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">card_membership</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="parentMng" data-url="{% url 'schools:school_parent_management' %}">
-						<div class="gp-parts">Parent <br> Management</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/parent.png' %}" alt="parent-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">account_tree</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-			<fieldset class="grid-fieldset">
-				<legend class="grid-fieldset-legend">NT-Staff Management</legend>
-				<div class="grid-part">
-					<div class="grid-partitions" id="ntstaffReg" data-url="{% url 'schools:school_ntstaff_registration' %}">
-						<div class="gp-parts" style="color: var(--color-success);">NT-Staff <br> Registration</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/worker.png' %}" alt="worker-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">app_registration</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="ntstaffEnroll" data-url="{% url 'schools:school_ntstaff_enrollment' %}">
-						<div class="gp-parts" style="color: var(--color-primary);" >NT-Staff <br> Enrollment</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/worker.png' %}" alt="worker-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">card_membership</span>
-							</div>
-						</div>
-					</div>
-					<div class="grid-partitions" id="ntstaffMng" data-url="{% url 'schools:school_ntstaff_management' %}">
-						<div class="gp-parts">NT-Staff <br> Management</div>
-						<div class="gp-parts">
-							<div class="identity-icon">
-								<img class="standard-icon" src="{% static 'schools/icons/worker.png' %}" alt="worker-icon">
-							</div>
-							<div class="action-icon">
-								<span class="material-symbols-outlined standard-icon">account_tree</span>
-							</div>
-						</div>
-					</div>
-				</div>
-			</fieldset>
-		</div>
+	<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
+		<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">User Management</p>
+        <div class="">
+            <div class="relative top-12 grid grid-cols-3 xl:grid-cols-4 gap-4">
+                <div class="col-span-3">
+                    <fieldset class="rounded-md mb-4">
+                        <legend class="font-sgothic font-bold">Teacher Management</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="teacherReg" data-url="{% url 'schools:school_teacher_registration' %}">
+                                <div class="flex font-bold text-success">Teacher <br> Registration</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/newton.png' %}" alt="teacher-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-add-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="teacherEnroll" data-url="{% url 'schools:school_teacher_enrollment' %}">
+                                <div class="flex font-bold text-primary">Teacher <br> Enrollment</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/newton.png' %}" alt="">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-drag-move-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="teacherMng" data-url="{% url 'schools:school_teacher_management' %}">
+                                <div class="flex font-bold">Teacher <br> Management</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/newton.png' %}" alt="">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-settings-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="rounded-md mb-4">
+                        <legend class="font-sgothic font-bold">Student Management</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="studentReg" data-url="{% url 'schools:school_student_registration' %}">
+                                <div class="flex font-bold text-success">Student <br> Registration</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-add-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="studentEnroll" data-url="{% url 'schools:school_student_enrollment' %}">
+                                <div class="flex font-bold text-primary">Student <br> Enrollment</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-drag-move-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="studentMng" data-url="{% url 'schools:school_student_management' %}">
+                                <div class="flex font-bold">Student <br> Management</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/student.png' %}" alt="student-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-settings-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="rounded-md mb-4">
+                        <legend class="font-sgothic font-bold">Parents Management</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="parentReg" data-url="{% url 'schools:school_parent_registration' %}">
+                                <div class="flex font-bold text-success">Parent <br> Registration</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/parent.png' %}" alt="parent-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-add-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="parentEnroll" data-url="{% url 'schools:school_parent_enrollment' %}">
+                                <div class="flex font-bold text-primary">Parent <br> Enrollment</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/parent.png' %}" alt="parent-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-drag-move-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="parentMng" data-url="{% url 'schools:school_parent_management' %}">
+                                <div class="flex font-bold">Parent <br> Management</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/parent.png' %}" alt="parent-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-settings-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset class="rounded-md mb-4">
+                        <legend class="font-sgothic font-bold">NT-Staff Management</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="ntstaffReg" data-url="{% url 'schools:school_ntstaff_registration' %}">
+                                <div class="flex font-bold text-success">NT-Staff <br> Registration</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/worker.png' %}" alt="worker-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-add-line"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="ntstaffEnroll" data-url="{% url 'schools:school_ntstaff_enrollment' %}">
+                                <div class="flex font-bold text-primary" >NT-Staff <br> Enrollment</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/worker.png' %}" alt="worker-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-drag-move-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="ntstaffMng" data-url="{% url 'schools:school_ntstaff_management' %}">
+                                <div class="flex font-bold">NT-Staff <br> Management</div>
+                                <div class="flex font-bold">
+                                    <div class="flex h-12 w-12">
+                                        <img class="flex h-12 w-12" src="{% static 'schools/icons/worker.png' %}" alt="worker-icon">
+                                    </div>
+                                    <div class="flex h-12 w-12">
+                                        <i class="ri-user-settings-line text-xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <!-- last div  -->
+                <div class="border rounded-md border-black bg-light flex-col p-4 hidden xl:block">
+                    <p class="text-success mb-4 underline text-center font-bold">Coming soon...</p>
+                    <div class="mb-2 bg-white border border-primary">
+                        <p class="p-2 text-center">---Class CLS-232334344545 Removed---</p>
+                    </div>
+                    <div class="mb-2 bg-white border border-primary">
+                        <p class="p-2 text-center">---Student STD-232334344545 Added---</p>
+                    </div>
+                    <div class="mb-2 bg-white border border-primary">
+                        <p class="p-2 text-center">---Class CLS-232334344545 Removed---</p>
+                    </div>
+                    <div class="mb-2 bg-white border border-primary">
+                        <p class="p-2 text-center">---Student STD-232334344545 Added---</p>
+                    </div>
+                    <div class="mb-2 bg-white border border-primary">
+                        <p class="p-2 text-center">---Class CLS-232334344545 Removed---</p>
+                    </div>
+                </div>
+            </div>
+        </div>
 	</main>
-	<!--The 3rd section of the page-->
-	{% include 'schools/base/3divuserp.html' %}
+	<!--3rd-->
+	{% include 'schools/base/1divuserp.html' %}
   </div>  
 {% endblock content %}
+
 {% block head_js %}
   	<script src="{% static 'schools/js/dashl0/school_usermng.js'%}"></script>
 {% endblock head_js %}

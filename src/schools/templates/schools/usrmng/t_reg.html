@@ -3,6 +3,7 @@
 
 {% load static%}
 {% block head_css %}
+	{% include 'base/schools/css.html' %} <!--To be deleted-->
     <link rel="stylesheet" href="{% static 'schools/css/usermng/reg.css'%}">
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}

@@ -57,15 +57,6 @@ def get_specific_student(passed_student_id):
 def get_class_objects(passed_school):
     return ClassProfile.objects.filter(class_school=passed_school)
 
-def get_filtered_classes(passed_classes, passed_option):
-    found_classes = passed_classes.filter(
-        class_title = passed_option
-    )
-    return found_classes
-
-def set_filtered_class(passed_class):
-    return passed_class if passed_class.exists() else None
-
 def get_specific_class(passed_class_id):
     return ClassProfile.objects.get(class_id=passed_class_id)
     
@@ -1050,13 +1041,7 @@ def class_management(request):
     current_school = get_school_object(request.user)
     template_name = "schools/dashl0/school_classmng.html"
     page_title = "C-Management"
-    school_classes = get_class_objects(current_school)
-    school_classes_dict = {
-        "north_classes":set_filtered_class(get_filtered_classes(school_classes, "N")),
-        "south_classes":set_filtered_class(get_filtered_classes(school_classes, "S")),
-        "east_classes":set_filtered_class(get_filtered_classes(school_classes, "E")),
-        "west_classes":set_filtered_class(get_filtered_classes(school_classes, "W"))
-    }
+    school_classes = get_class_objects(current_school).order_by("-class_level", "class_title")
     teachers_list = get_teacher_choice_tuple2(current_school)
     form = ClassRegistrationForm(teachers_list=teachers_list)
     form2 = ClassDeletionForm()
@@ -1083,7 +1068,7 @@ def class_management(request):
                         "page_title":page_title,
                         "form":form,
                         "form2":form2,
-                        "classes_dict":school_classes_dict
+                        "school_classes":school_classes
                     }
             elif  "class_deletion" in request.POST:
                 form2 = ClassDeletionForm(request.POST)
@@ -1109,7 +1094,7 @@ def class_management(request):
                                 "page_title":page_title,
                                 "form":form,
                                 "form2":form2,
-                                "class_objs":school_classes_dict
+                                "school_classes":school_classes
                             }
                     except ClassProfile.DoesNotExist:
                         messages.warning(
@@ -1121,7 +1106,7 @@ def class_management(request):
                             "page_title":page_title,
                             "form":form,
                             "form2":form2,
-                            "classes_dict":school_classes_dict
+                            "school_classes":school_classes
                         }
                 else:
                     context = {
@@ -1129,7 +1114,7 @@ def class_management(request):
                         "page_title":page_title,
                         "form":form,
                         "form2":form2,
-                        "classes_dict":school_classes_dict
+                        "school_classes":school_classes
                     }
             else:
                 print("An unidentified form recieved")  
@@ -1140,7 +1125,7 @@ def class_management(request):
                 "page_title":page_title,
                 "form":form,
                 "form2":form2,
-                "classes_dict":school_classes_dict
+                "school_classes":school_classes
             }
     else:
         messages.warning(
@@ -1152,7 +1137,7 @@ def class_management(request):
             "page_title":page_title,
             "form":form,
             "form2":form2,
-            "classes_dict":school_classes_dict
+            "school_classes":school_classes
         }   
     return render(request, template_name, context)
 

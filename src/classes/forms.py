@@ -8,6 +8,7 @@ import uuid
 from .models import SchoolProfile
 from better_profanity import profanity
 from django.utils.translation import gettext_lazy as _
+from django.forms.widgets import Select
 
 def generate_unique_class_id():
     while True:
@@ -45,20 +46,40 @@ class ClassRegistrationForm(forms.Form):
         self.fields["class_program"].choices = programs_list
 
     class_title = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=ClassProfile.CLASS_TITLES_CHOICES
     )
 
     class_level = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=ClassProfile.CLASS_LEVEL_CHOICES,
         initial=7
     )
 
     class_program = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=(),
         required=True
     )
 
     class_teacher = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        )
     )
 
     class_capacity = forms.IntegerField(
@@ -67,7 +88,8 @@ class ClassRegistrationForm(forms.Form):
         widget=forms.NumberInput(
             attrs={
                 "max":300,
-                "min":50
+                "min":50,
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
             }
         )
     )
@@ -79,7 +101,8 @@ class ClassRegistrationForm(forms.Form):
             attrs={
                 'autocomplete':'off',
                 "rows":2,
-                "columns":4
+                "columns":4,
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
             }
         )
     )
@@ -184,7 +207,8 @@ class ClassDeletionForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off',
-                "max_length":35
+                "max_length":35,
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
             }
         )
     )

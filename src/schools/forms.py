@@ -7,6 +7,7 @@ from .models import SchoolProfile
 from phonenumber_field.formfields import PhoneNumberField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.forms.widgets import Select
 
 #function to generate random school id
 def generate_unique_school_id():
@@ -168,10 +169,20 @@ class SchoolLocksForm(forms.Form):
         (1, "Unlock")
     ]
     school_rupload_lock = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=LOCKS_CHOICES,
         initial=0
     )
     school_reportgen_lock = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=LOCKS_CHOICES,
         initial=0
     )

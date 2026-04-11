@@ -1253,6 +1253,7 @@ def assessment_management(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "form":form,
                     "form2":form2,
                     "class_fetched":formdata["result_class"],
                     "class_students":class_students,

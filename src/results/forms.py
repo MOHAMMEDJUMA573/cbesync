@@ -8,6 +8,7 @@ from students.models import StudentProfile
 from better_profanity import profanity
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
+from django.forms.widgets import Select
 
 RESULT_PERIOD_CHOICES = [
     ('Opener', 'Opener'),
@@ -62,12 +63,27 @@ class ResultsFilterForm(forms.Form):
         self.fields["result_class"].choices = classes_tuple_choices
     
     result_class = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices = ()
     )
     result_term = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=RESULT_TERM_CHOICES
     )
     result_period = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=RESULT_PERIOD_CHOICES
     )
     current_year = int((datetime.today()).year)
@@ -76,6 +92,11 @@ class ResultsFilterForm(forms.Form):
         for c in range((current_year-10),(current_year+10),1)
     ]
     result_year = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=RESULTS_YEAR_CHOICES,
         initial=int((datetime.today()).year)
     )
@@ -84,6 +105,11 @@ class ResultsFilterForm(forms.Form):
         (1, "Print")
     ]
     result_options = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+            }
+        ),
         choices=VIEW_RESULTS_OPTION,
         initial=0
     )   

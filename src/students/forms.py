@@ -240,7 +240,8 @@ class StudentSearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "autocomplete":"off",
-                "placeholder":"Name or SID"
+                "placeholder":"Name or SID",
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg ml-4 mr-4"
             }
         )
     )
@@ -261,7 +262,6 @@ class StudentSearchForm(forms.Form):
 
 
         return cleaned_data
-    
 
 class StudentEnrollmentForm(forms.Form):
     def __init__(self, *args, **kwargs):

@@ -6,7 +6,7 @@
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-  <div class="grid grid-cols-1 w-[97%] mt-0 mb-0 gap-5">
+  <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
 	<!--Side bar menu-->
     {% block sidemenu%}
 		{% include 'schools/base/navbar.html' %}

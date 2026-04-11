@@ -181,9 +181,9 @@ class TeacherProfile(models.Model):
         default=list
     )
     QUALIFICATIONS = (
-        ("UDGR","Bachelor's Degree"),
+        ("UDGR", "Degree"),
         ("MSTS", "Masters"),
-        ("PHDS", "Doctor of Phylosophy"),
+        ("PHDS", "PHD"),
         ("DPLM", "Diploma"),
         ("CTFC", "Certificate")
     )

@@ -220,7 +220,8 @@ class TeacherSearchForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "autocomplete":"off",
-                "placeholder":"Name or TID"
+                "placeholder":"Name or TID",
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg ml-4 mr-4"
             }
         )
     )

@@ -10,6 +10,7 @@ from phonenumber_field.widgets import PhoneNumber
 import uuid
 from django.utils.translation import gettext_lazy as _
 from better_profanity import profanity
+from django.forms.widgets import Select, ClearableFileInput
 
 #funtion to generate random but different teacher ids
 def generate_unique_teacher_id():
@@ -23,24 +24,27 @@ class TeacherRegistrationForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
         )
     )
     teacher_middle_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
         )
     )
     teacher_last_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
         )
     )
 
@@ -52,8 +56,9 @@ class TeacherRegistrationForm(forms.Form):
     teacher_phone = PhoneNumberField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
         ),
         initial="+254",
         label="Mobile No",
@@ -61,8 +66,9 @@ class TeacherRegistrationForm(forms.Form):
     teacher_e_contact = PhoneNumberField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
         ),
         initial="+254",
         label="Mobile No"
@@ -71,13 +77,17 @@ class TeacherRegistrationForm(forms.Form):
     teacher_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
         ),
         max_length=100,
     )
     teacher_home_address = forms.CharField(
         widget=forms.TextInput(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
         ),
         max_length=50,
     )
@@ -85,7 +95,8 @@ class TeacherRegistrationForm(forms.Form):
     teacher_tsc_number = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
+                'autocomplete':"off",
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
             }
         ),
         required=False,
@@ -97,31 +108,62 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.NumberInput(
             attrs={
                 "max":70,
-                "min":0
+                "min":0,
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
             }
         ),
         help_text="teachers experience"
     )
     teacher_h_date = forms.DateField(
         initial=date.today().strftime('%Y-%m-%d'),
+        widget=forms.DateInput(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        )
     )
     teacher_country = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        ),
         choices=CustomUser.CBESYNC_COUNTRIES,
         initial="KEN",
     )
     teacher_employer = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        ),
         choices=TeacherProfile.TEACHER_EMPLOYERS,
         initial="GOVT",
     )
     teacher_department = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        ),
         choices=TeacherProfile.TEACHER_DEPARTMENTS,
         initial="STPD",
     )
     teacher_role = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        ),
         choices=TeacherProfile.TEACHER_ROLES,
         initial="CT",
     )
     teacher_e_level = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        ),
         choices=TeacherProfile.EDUCATION_LEVELS,
         initial="JSS"
     )
@@ -130,10 +172,20 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
     )
     teacher_h_qualification = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        ),
         choices=TeacherProfile.QUALIFICATIONS,
         initial="UDGR"
     )
     teacher_pic = forms.ImageField(
+        widget=ClearableFileInput(
+            attrs={
+                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+            }
+        ),
         required=False
     )
 

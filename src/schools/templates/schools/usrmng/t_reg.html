@@ -3,25 +3,23 @@
 
 {% load static%}
 {% block head_css %}
-	{% include 'base/schools/css.html' %} <!--To be deleted-->
-    <link rel="stylesheet" href="{% static 'schools/css/usermng/reg.css'%}">
+	<!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-
-	<div class="top-level-box">
-	<!--Side bar menu-->
-	{% block sidemenu%}
-		{% include 'schools/base/navbar.html' %}
-    {% endblock sidemenu%} 
-	<!--main body-->
-		<main>
-			<h1 class="main-header">Teacher Registration</h1>
-			<div class="main-grid"> 
-				<form action="{% url 'schools:school_teacher_registration'%}" enctype="multipart/form-data" method="post" class="reg-form">
+	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
+		<!--Side bar menu-->
+		{% block sidemenu%}
+			{% include 'schools/base/navbar.html' %}
+		{% endblock sidemenu%}
+		<!--main body-->
+		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
+			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">T-Registration</p>
+			<div class="relative top-12">
+				<form action="{% url 'schools:school_teacher_registration'%}" enctype="multipart/form-data" method="post"  class="flex flex-col">
 					{% csrf_token%}
-					<div class="form-header">
-						<div class="form-guide-text">
+					<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
+						<div class="flex flex-col">
 							<p>Please fill the form below to register a Teacher</p>
 							{% if messages %}
 								<ul class="messages">
@@ -35,180 +33,180 @@
 							</p>
 						</div>
 					</div>
-					<div class="form-body">
-						<div class="form-field1">
-								<label for="id_teacher_first_name">
-									First-Name: 
-									<p>{{ form.teacher_first_name.errors }}</p> 
+					<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_first_name">
+								First-Name:
+								<p>{{ form.teacher_first_name.errors }}</p>
+							</label>
+							{{form.teacher_first_name}}
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_middle_name">
+								Middle-Name:
+								<p>{{ form.teacher_middle_name.errors }}</p>
+							</label>
+							{{form.teacher_middle_name}}
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_last_name">
+								Last-Name:
+								<p>{{ form.teacher_last_name.errors }}</p>
+							</label>
+							{{form.teacher_last_name}}
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_M">
+								Gender:
+								<p>{{ form.teacher_gender.errors }}</p>
+							</label>
+							<div>
+								{% for value, label in form.teacher_gender.field.choices %}
+								<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_{{ value }}">
+									{{ value }} :
 								</label>
-								{{form.teacher_first_name}}
+								<input
+									type="radio"
+									id="gender_{{ value }}"
+									name="{{ form.teacher_gender.name }}"
+									value="{{ value }}"
+									{% if form.teacher_gender.value == value %}checked{% endif %}
+								>
+								{% endfor %}
+							</div>
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_middle_name">
-									Middle-Name: 
-									<p>{{ form.teacher_middle_name.errors }}</p> 
-								</label>
-								{{form.teacher_middle_name}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_phone">
+								Phone Number:
+								<p>{{ form.teacher_phone.errors }} </p>
+							</label>
+							{{form.teacher_phone}}								
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_last_name">
-									Last-Name: 
-									<p>{{ form.teacher_last_name.errors }}</p> 
-								</label>
-								{{form.teacher_last_name}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_e_contact">
+								Emergency Contact:
+								<p>{{ form.teacher_e_contact.errors }} </p>
+							</label>
+							{{form.teacher_e_contact}}								
 						</div>
-						<div class="form-field1">
-								<label for="gender_M">
-									Gender: 
-									<p>{{ form.teacher_gender.errors }}</p>
-								</label>
-								<div>
-									{% for value, label in form.teacher_gender.field.choices %}
-										<label for="gender_{{ value }}">{{ label }}:</label>
-										<input 
-											type="radio"
-											id="gender_{{ value }}"
-											name="{{ form.teacher_gender.name }}"
-											value="{{ value }}"
-											{% if form.teacher_gender.value == value %}checked{% endif %}
-										>
-									{% endfor %}
-								</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_email">
+								Email:
+								<p>{{ form.teacher_email.errors }} </p>
+							</label>
+							{{form.teacher_email}}
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_phone">
-									Phone Number: 
-									<p>{{ form.teacher_phone.errors }} </p> 
-								</label>
-								{{form.teacher_phone}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_home_address">
+								Address:
+								<p>{{ form.teacher_home_address.errors }} </p>
+							</label>
+							{{form.teacher_home_address}}
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_e_contact">
-									Emergency Contact: 
-									<p>{{ form.teacher_e_contact.errors }} </p> 
-								</label>
-								{{form.teacher_e_contact}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_tsc_number">
+								TSC-Number:
+								<p>{{ form.teacher_tsc_number.errors }}</p>
+							</label>
+							{{form.teacher_tsc_number}}
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_email">
-									Email: 
-									<p>{{ form.teacher_email.errors }} </p>
-								</label>
-								{{form.teacher_email}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_y_experience">
+								Y of experience:
+								<p>{{ form.teacher_y_experience.errors }}</p>
+							</label>
+							{{form.teacher_y_experience}}
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_home_address">
-									Address: 
-									<p>{{ form.teacher_home_address.errors }} </p>
-								</label>
-								{{form.teacher_home_address}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_h_date">
+								Hired date:
+								<p>{{ form.teacher_h_date.errors }} </p>
+							</label>
+							{{form.teacher_h_date}}
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_tsc_number">
-									TSC-Number: 
-									<p>{{ form.teacher_tsc_number.errors }}</p>
-								 </label>
-								{{form.teacher_tsc_number}}
-						</div>
-						<div class="form-field1">
-								<label for="id_teacher_y_experience">
-									Y of experience: 
-									<p>{{ form.teacher_y_experience.errors }}</p>
-								</label>
-								{{form.teacher_y_experience}}
-						</div>
-						<div class="form-field1">
-								<label for="id_teacher_h_date">
-									Hired date: 
-									<p>{{ form.teacher_h_date.errors }} </p>
-								</label>
-								{{form.teacher_h_date}}
-						</div>
-						<div class="form-field1">
-								<label for="id_teacher_country">
-									Nationality: 
+						<div class="flex flex-col p-2 overflow-hidden">
+								<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_country">
+									Nationality:
 									<p>{{ form.teacher_country.errors }} </p>
 								</label>
-								{{form.teacher_country}}
+								{{form.teacher_country}}								
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_employer">
-									Employer: 
-									<p>{{ form.teacher_employer.errors }} </p>
-								</label>
-								{{form.teacher_employer}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_employer">
+								Employer:
+								<p>{{ form.teacher_employer.errors }} </p>
+							</label>
+							{{form.teacher_employer}}
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_department">
-									Department:
-									<p>{{ form.teacher_department.errors }} </p>
-								</label>
-								{{form.teacher_department}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_department">
+								Department:
+								<p>{{ form.teacher_department.errors }} </p>
+							</label>
+							{{form.teacher_department}}								
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_role">
-									Role:
-									<p>{{ form.teacher_role.errors }} </p>
-								</label>
-								{{form.teacher_role}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_role">
+								Role:
+								<p>{{ form.teacher_role.errors }} </p>
+							</label>
+							{{form.teacher_role}}
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_e_level">
-									Educational Level:
-									<p>{{ form.teacher_e_level.errors }} </p>
-								</label>
-								{{form.teacher_e_level}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_e_level">
+								Educational Level:
+								<p>{{ form.teacher_e_level.errors }} </p>
+							</label>
+							{{form.teacher_e_level}}
 						</div>
-						<div class="form-field1">
-								<label for="ENGL">
-									Teaching Subjects:
-									<p>{{ form.teacher_t_subjects.errors }}
-								</label>
-								<div style="display: grid; grid-template-columns: repeat(3, 1fr);">
-									{% for value, label in form.teacher_t_subjects.field.choices %}
-									<div>
-										<input 
-											type="checkbox" 
-											id="{{value}}" 
-											name="{{form.teacher_t_subjects.name}}" 
-											value="{{value}}"
-											{% if value in teacher_t_subjects.value %}checked{% endif %}
-										>
-										<label for="{{value}}">{{label}}</label><br> 
-									</div>
-									{% endfor %}
+						<div class="flex flex-col col-span-1 sm:col-span-2 lg:col-span-1 p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="ENGL">
+								Teaching Subjects:
+								<p>{{ form.teacher_t_subjects.errors }}</p>
+							</label>
+							<div class="grid grid-cols-2 sm:grid-cols-3">
+								{% for value, label in form.teacher_t_subjects.field.choices %}
+								<div>
+									<input
+										type="checkbox"
+										id="{{value}}"
+										name="{{form.teacher_t_subjects.name}}"
+										value="{{value}}"
+									>
+									<label class="p-2 pl-0 font-bold text-left " for="{{value}}">
+										{{label}}
+									</label><br> 
 								</div>
+								{% endfor %}									
+							</div>
 						</div>
-						<div class="form-field1">
-								<label for="id_teacher_h_qualification">
-									HIghest Qualification:
-									<p>{{ form.teacher_h_qualification.errors }} </p>
-								</label>
-								{{form.teacher_h_qualification}}
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_h_qualification">
+								Highest Qualification:
+								<p>{{ form.teacher_h_qualification.errors }} </p>
+							</label>
+							{{form.teacher_h_qualification}}
 						</div>  
-						<div class="form-field1">
-							<label for="id_teacher_pic">
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_pic">
 								Upload a passport photo:
 								<p>{{ form.teacher_pic.errors }}</p>
 							</label>
 							{{form.teacher_pic}}
-						</div>
-						<div class="opt-buttons">
-							<button type="submit">Submit</button> 
-							<button type="reset">Clear</button>
+						</div>					
+						<div class="flex items-center justify-between md:justify-start">
+							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
+							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
 						</div>
 					</div>     
-					
-				</form>           
+				</form>
 			</div>
 		</main>
 		<!-- 3rd -->
 		{% include 'schools/base/1divuserp.html' %}
-	</div> 
-
-  {% block head_js %}
-  	<script src="{% static 'schools/js/usermng/t_reg.js'%}"></script>
-  {% endblock head_js %}
+	</div>
 {% endblock content %}
 
-
+{% block head_js %}
+  	<script src="{% static 'schools/js/usermng/t_reg.js'%}"></script>
+  {% endblock head_js %}

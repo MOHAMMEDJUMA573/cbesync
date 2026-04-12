@@ -19,13 +19,15 @@ def generate_unique_teacher_id():
         if not TeacherProfile.objects.filter(teacher_id=new_id).exists():
             return new_id
 
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+
 class TeacherRegistrationForm(forms.Form):
     teacher_first_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off',
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         )
     )
@@ -34,7 +36,7 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off',
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         )
     )
@@ -43,7 +45,7 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':'off',
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         )
     )
@@ -57,7 +59,7 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':"off",
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         initial="+254",
@@ -67,7 +69,7 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':"off",
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         initial="+254",
@@ -78,7 +80,7 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.EmailInput(
             attrs={
                 'autocomplete':"off",
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         max_length=100,
@@ -86,7 +88,7 @@ class TeacherRegistrationForm(forms.Form):
     teacher_home_address = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         max_length=50,
@@ -96,7 +98,7 @@ class TeacherRegistrationForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'autocomplete':"off",
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         required=False,
@@ -109,7 +111,7 @@ class TeacherRegistrationForm(forms.Form):
             attrs={
                 "max":70,
                 "min":0,
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         help_text="teachers experience"
@@ -118,14 +120,14 @@ class TeacherRegistrationForm(forms.Form):
         initial=date.today().strftime('%Y-%m-%d'),
         widget=forms.DateInput(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         )
     )
     teacher_country = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         choices=CustomUser.CBESYNC_COUNTRIES,
@@ -134,7 +136,7 @@ class TeacherRegistrationForm(forms.Form):
     teacher_employer = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         choices=TeacherProfile.TEACHER_EMPLOYERS,
@@ -143,7 +145,7 @@ class TeacherRegistrationForm(forms.Form):
     teacher_department = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         choices=TeacherProfile.TEACHER_DEPARTMENTS,
@@ -152,7 +154,7 @@ class TeacherRegistrationForm(forms.Form):
     teacher_role = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         choices=TeacherProfile.TEACHER_ROLES,
@@ -161,7 +163,7 @@ class TeacherRegistrationForm(forms.Form):
     teacher_e_level = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         choices=TeacherProfile.EDUCATION_LEVELS,
@@ -174,7 +176,7 @@ class TeacherRegistrationForm(forms.Form):
     teacher_h_qualification = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         choices=TeacherProfile.QUALIFICATIONS,
@@ -183,7 +185,7 @@ class TeacherRegistrationForm(forms.Form):
     teacher_pic = forms.ImageField(
         widget=ClearableFileInput(
             attrs={
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+                "class": INPUTCSS
             }
         ),
         required=False
@@ -299,24 +301,27 @@ class TeacherEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class": INPUTCSS
+            }
         )
     )
     teacher_last_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class": INPUTCSS
+            }
         )
     )
 
     teacher_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class": INPUTCSS
+            }
         ),
         max_length=100,
     )
@@ -324,25 +329,37 @@ class TeacherEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class": INPUTCSS
+            }
         )
     )
     
     teacher_phone = PhoneNumberField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class": INPUTCSS
+            }
         ),
         initial="+254",
         label="Mobile No",
     )
     teacher_role = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": INPUTCSS
+            }
+        ),
         choices=TeacherProfile.TEACHER_ROLES,
         initial="CT",
     )
     teacher_e_level = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": INPUTCSS
+            }
+        ),
         choices=TeacherProfile.EDUCATION_LEVELS,
         initial="JSS"
     )
@@ -351,6 +368,11 @@ class TeacherEnrollmentForm(forms.Form):
         widget=forms.CheckboxSelectMultiple,
     )
     teacher_h_qualification = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class": INPUTCSS
+            }
+        ),
         choices=TeacherProfile.QUALIFICATIONS,
         initial="UDGR"
     )

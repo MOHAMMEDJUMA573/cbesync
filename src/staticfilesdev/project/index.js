@@ -2,6 +2,7 @@
 const navMenu = document.getElementById("nav-menu");
 const navLinks = document.querySelectorAll(".nav-link");
 const hamburger = document.getElementById("hamburger");
+const themeButton = document.getElementById("theme-toggle-btn");
 
 hamburger.addEventListener("click", ()=> {
     navMenu.classList.toggle("left-[0]");
@@ -13,6 +14,14 @@ navLinks.forEach((link, index) =>{
         navMenu.classList.toggle("left-[0]");
         hamburger.classList.toggle("ri-close-large-line");
     })
+})
+themeButton.addEventListener('click', ()=> {
+    const currentTheme = document.documentElement.getAttribute('data-theme')
+    if (currentTheme == 'dark') {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }else{
+        document.documentElement.setAttribute('data-theme', 'dark');
+    }
 })
 /*for data urls */
 const login = document.getElementById("loginbutton");

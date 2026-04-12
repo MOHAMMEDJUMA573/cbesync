@@ -32,7 +32,7 @@ RESULT_TERM_CHOICES = [
     ('T 2', 'Term 2'),
     ('T 3', 'Term 3'),
 ]
-
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
 class ClassRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):
         programs_list = [
@@ -48,7 +48,7 @@ class ClassRegistrationForm(forms.Form):
     class_title = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=ClassProfile.CLASS_TITLES_CHOICES
@@ -57,7 +57,7 @@ class ClassRegistrationForm(forms.Form):
     class_level = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=ClassProfile.CLASS_LEVEL_CHOICES,
@@ -67,7 +67,7 @@ class ClassRegistrationForm(forms.Form):
     class_program = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=(),
@@ -77,7 +77,7 @@ class ClassRegistrationForm(forms.Form):
     class_teacher = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         )
     )
@@ -89,7 +89,7 @@ class ClassRegistrationForm(forms.Form):
             attrs={
                 "max":300,
                 "min":50,
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         )
     )
@@ -102,7 +102,7 @@ class ClassRegistrationForm(forms.Form):
                 'autocomplete':'off',
                 "rows":2,
                 "columns":4,
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         )
     )
@@ -208,7 +208,7 @@ class ClassDeletionForm(forms.Form):
             attrs={
                 'autocomplete':'off',
                 "max_length":35,
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         )
     )

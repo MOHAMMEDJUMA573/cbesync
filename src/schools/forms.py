@@ -24,6 +24,8 @@ def alphanumeric_validator(value):
             params={"value": value},
         )
 
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+
 class SchoolSignupForm(SignupForm):
     # --- School Form fields ---
     school_country = forms.ChoiceField(
@@ -171,7 +173,7 @@ class SchoolLocksForm(forms.Form):
     school_rupload_lock = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=LOCKS_CHOICES,
@@ -180,7 +182,7 @@ class SchoolLocksForm(forms.Form):
     school_reportgen_lock = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=LOCKS_CHOICES,

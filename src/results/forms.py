@@ -20,6 +20,7 @@ RESULT_TERM_CHOICES = [
     ('T 2', 'Term 2'),
     ('T 3', 'Term 3'),
 ]
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
 
 class ResultsSubmissionForm(forms.ModelForm):
     class Meta:
@@ -65,7 +66,7 @@ class ResultsFilterForm(forms.Form):
     result_class = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices = ()
@@ -73,7 +74,7 @@ class ResultsFilterForm(forms.Form):
     result_term = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=RESULT_TERM_CHOICES
@@ -81,7 +82,7 @@ class ResultsFilterForm(forms.Form):
     result_period = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=RESULT_PERIOD_CHOICES
@@ -94,7 +95,7 @@ class ResultsFilterForm(forms.Form):
     result_year = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=RESULTS_YEAR_CHOICES,
@@ -107,7 +108,7 @@ class ResultsFilterForm(forms.Form):
     result_options = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg"
+                "class": INPUTCSS
             }
         ),
         choices=VIEW_RESULTS_OPTION,

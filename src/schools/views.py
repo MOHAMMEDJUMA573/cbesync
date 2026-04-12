@@ -40,7 +40,7 @@ def get_school_object(user_passed):
     return user_passed.school_profile
 
 def get_student_objects(passed_school):
-    return StudentProfile.objects.filter(student_school=passed_school)
+    return StudentProfile.objects.filter(student_school=passed_school).order_by("-student_class__class_level")
 
 def get_searched_students(students_objects, search_value):
     found_students = students_objects.filter(

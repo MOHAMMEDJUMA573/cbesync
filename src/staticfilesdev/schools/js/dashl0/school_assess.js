@@ -7,9 +7,11 @@ T2();
 //
 const stdTbl = document.getElementById("stdtblbody")
 const mainBody = document.querySelector("body")
-stdTbl.addEventListener("scroll", ()=> {
-    window.location.href = "#stdtblbody"
-})
+if (stdTbl != null) {
+    stdTbl.addEventListener("scroll", ()=> {
+        window.location.href = "#stdtblbody"
+    })
+}
 mainBody.addEventListener("scroll", ()=> {
     window.location.href = "#"
 })

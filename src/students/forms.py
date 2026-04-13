@@ -11,6 +11,7 @@ from phonenumber_field.formfields import PhoneNumberField
 import uuid
 from django.utils.translation import gettext_lazy as _
 from better_profanity import profanity
+from django.forms.widgets import Select, FileInput
 #from django.contrib.postgres.forms import SimpleArrayField
 
 def generate_unique_student_id():
@@ -19,7 +20,7 @@ def generate_unique_student_id():
         if not StudentProfile.objects.filter(student_id=new_id).exists():
             return new_id
 
-
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
 
 class StudentRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -31,8 +32,9 @@ class StudentRegistrationForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     student_middle_name = forms.CharField(
@@ -40,16 +42,18 @@ class StudentRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     student_last_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     
@@ -58,6 +62,11 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.RadioSelect
     )
     student_dob = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         initial=date(2010, 1, 1).strftime('%Y-%m-%d'),
         required=True
     )
@@ -65,7 +74,8 @@ class StudentRegistrationForm(forms.Form):
     student_e_contact = PhoneNumberField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
+                'autocomplete':"off",
+                "class":INPUTCSS
             }
         ),
         initial="+254",
@@ -74,42 +84,74 @@ class StudentRegistrationForm(forms.Form):
     student_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class":INPUTCSS
+            }
         ),
         max_length=100,
         required=False
     )
     student_home_address = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         max_length=35,
         required=True
     )
     student_assessment_number = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         ),
         max_length=35,
         initial="",
         required=False
     )
     student_class = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        )
     )
 
     student_country = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=CustomUser.CBESYNC_COUNTRIES,
         initial="KEN",
     )
     student_admission_date = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         initial=date.today().strftime('%Y-%m-%d'),
         required=True
     )
     student_s_needs= forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=StudentProfile.SP_NEEDS_OPTS,
         required=True
     )
     student_blood_group = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=StudentProfile.BLOOD_GROUPS,
         required=True
     ) 
@@ -119,7 +161,8 @@ class StudentRegistrationForm(forms.Form):
         widget=forms.Textarea(
             attrs={
                 "rows":3,
-                "cols":5
+                "cols":5,
+                "class":INPUTCSS
             }
         )
     )
@@ -129,6 +172,11 @@ class StudentRegistrationForm(forms.Form):
         required=False,
     )
     student_pic = forms.ImageField(
+        widget=FileInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         required=False
     )
 
@@ -241,7 +289,7 @@ class StudentSearchForm(forms.Form):
             attrs={
                 "autocomplete":"off",
                 "placeholder":"Name or SID",
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg ml-4 mr-4"
+                "class":INPUTCSS
             }
         )
     )

@@ -321,8 +321,9 @@ class StudentEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     student_middle_name = forms.CharField(
@@ -330,30 +331,43 @@ class StudentEnrollmentForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     student_last_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     student_id = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     student_class = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=()
     )
     student_dob = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         initial=date(2010, 1, 1).strftime('%Y-%m-%d'),
         required=True
     )

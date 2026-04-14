@@ -12,63 +12,97 @@
         {% endblock sidemenu%}
         <!--main body-->
         <main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-		<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">NT- Staffs</p>
-		<div class="relative top-12">
-            <!-- main top utils  -->
-			<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-4">
-                <div class="flex items-center col-span-2 lg:col-span-3">
-                    <form action="{% url 'schools:school_ntstaff_ledgerview' %}" class="flex items-center" method="post">
-                        {% csrf_token %}
-                        <label for="id_ntstaff_data">
-                            Search:
-                            <!--  <p>{{form.ntstaff_data.errors}}</p>  -->
-                        </label>
-                        {{form.ntstaff_data}}
-                        <button class="p-2 flex rounded-md border cursor-pointer" type="submit">
-                            <i class="ri-search-line"></i>
+            <p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">NT- Staffs</p>
+            <div class="relative top-12">
+                <!-- main top utils  -->
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-4">
+                    <div class="flex items-center col-span-2 lg:col-span-3">
+                        <form action="{% url 'schools:school_ntstaff_ledgerview' %}" class="flex items-center" method="post">
+                            {% csrf_token %}
+                            <label for="id_ntstaff_data">
+                                Search:
+                                <!--  <p>{{form.ntstaff_data.errors}}</p>  -->
+                            </label>
+                            {{form.ntstaff_data}}
+                            <button class="p-2 flex rounded-md border cursor-pointer" type="submit">
+                                <i class="ri-search-line"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <form class="flex items-center">
+                        <button class="flex items-center" type="submit">
+                            <div class="text-xl cursor-pointer">Print</div>
+                            <div class="text-xl cursor-pointer">
+                                <i class="ri-printer-line"></i>
+                            </div>
+                        </button>
+                    </form>
+                    <form class="items-center hidden lg:flex">
+                        <button class="flex items-center" type="submit">
+                            <div class="text-xl cursor-pointer">Export</div>
+                            <div class="text-xl cursor-pointer">
+                                <i class="ri-export-line"></i>
+                            </div>
+                        </button>
+                    </form>
+                    <form class="items-center hidden lg:flex">
+                        <button class="flex items-center" type="submit">
+                            <div class="text-xl cursor-pointer">Download</div>
+                            <div class="text-xl cursor-pointer">
+                                <i class="ri-download-line"></i>
+                            </div>
                         </button>
                     </form>
                 </div>
-                <form class="flex items-center">
-                    <button class="flex items-center" type="submit">
-                        <div class="text-xl cursor-pointer">Print</div>
-                        <div class="text-xl cursor-pointer">
-                            <i class="ri-printer-line"></i>
-                        </div>
-                    </button>
-                </form>
-                <form class="items-center hidden lg:flex">
-                    <button class="flex items-center" type="submit">
-                        <div class="text-xl cursor-pointer">Export</div>
-                        <div class="text-xl cursor-pointer">
-                            <i class="ri-export-line"></i>
-                        </div>
-                    </button>
-                </form>
-                <form class="items-center hidden lg:flex">
-                    <button class="flex items-center" type="submit">
-                        <div class="text-xl cursor-pointer">Download</div>
-                        <div class="text-xl cursor-pointer">
-                            <i class="ri-download-line"></i>
-                        </div>
-                    </button>
-                </form>
-            </div>
-            <!-- search results -->
-            {% if search_results is None %}
-                <!--Not a post request-->
-            {% elif search_results == "empty" %}
-                <div class="main-data-grid">
-                    <ul class="errorlist">
-                        <li>No such user</li>
-                    </ul>
-                </div>
-            {% else %}
-                <div class="mb-4">
-                    <div class="flex items-center justify-center underline font-bold text-srezs">
-                        Search Results
+                <!-- search results -->
+                {% if search_results is None %}
+                    <!--Not a post request-->
+                {% elif search_results == "empty" %}
+                    <div class="main-data-grid">
+                        <ul class="errorlist">
+                            <li>No such user</li>
+                        </ul>
                     </div>
-                    <div class="flex flex-col">
+                {% else %}
+                    <div class="mb-4">
+                        <div class="flex items-center justify-center underline font-bold text-srezs">
+                            Search Results
+                        </div>
+                        <div class="flex flex-col">
+                            <!-- ledger header  -->
+                            <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
+                                <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 font-bold text-xl p-2">ID</div>
+                                <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 md:col-span-3 font-bold text-xl p-2">Full Name</div>
+                                <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Employer</div>
+                                <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Role</div>
+                                <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden xl:flex" title="Date of enrollment">DOE</div>
+                                <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Gender</div>
+                            </div>
+                            <div class="max-h-144 overflow-auto cursor-pointer" id="stdtblbody">
+                                {% for ntstaff in search_results %}
+                                <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white text-srezs">
+                                    <div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{ ntstaff.ntstaff_id}}</div>
+                                    <div class="border border-primary col-span-2 md:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
+                                        <span class="mr-2">{{ntstaff.ntstaff_first_name}}</span>
+                                        <span class="mr-2">{{ntstaff.ntstaff_middle_name}}</span>
+                                        <span class="mr-2">{{ntstaff.ntstaff_last_name}}</span>
+                                    </div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">---</div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{ntstaff.ntstaff_gender}}</div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <!-- NT-Staffs Ledger -->
+                <div class="">
+                    <div class="flex items-center justify-center underline font-bold">
+                        NT-Staffs Ledger
+                    </div>
+                    <div class="flex flex-col shadow-xl">
                         <!-- ledger header  -->
                         <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
                             <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 font-bold text-xl p-2">ID</div>
@@ -78,61 +112,27 @@
                             <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden xl:flex" title="Date of enrollment">DOE</div>
                             <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Gender</div>
                         </div>
+                        <!-- ledger body  -->
                         <div class="max-h-144 overflow-auto cursor-pointer" id="stdtblbody">
-                            {% for ntstaff in search_results %}
-                            <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white text-srezs">
-                                <div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{ ntstaff.ntstaff_id}}</div>
-                                <div class="border border-primary col-span-2 md:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
-                                    <span class="mr-2">{{ntstaff.ntstaff_first_name}}</span>
-                                    <span class="mr-2">{{ntstaff.ntstaff_middle_name}}</span>
-                                    <span class="mr-2">{{ntstaff.ntstaff_last_name}}</span>
+                            {% for ntstaff in school_ntstaffs %}
+                                <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
+                                    <div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{ ntstaff.ntstaff_id}}</div>
+                                    <div class="border border-primary col-span-2 md:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
+                                        <span class="mr-2">{{ntstaff.ntstaff_first_name}}</span>
+                                        <span class="mr-2">{{ntstaff.ntstaff_middle_name}}</span>
+                                        <span class="mr-2">{{ntstaff.ntstaff_last_name}}</span>
+                                    </div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">---</div>
+                                    <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{ntstaff.ntstaff_gender}}</div>
                                 </div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">---</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{ntstaff.ntstaff_gender}}</div>
-                            </div>
                             {% endfor %}
                         </div>
                     </div>
-                </div>
-            {% endif %}
-            <!-- NT-Staffs Ledger -->
-            <div class="">
-                <div class="flex items-center justify-center underline font-bold">
-                    NT-Staffs Ledger
-                </div>
-                <div class="flex flex-col shadow-xl">
-                    <!-- ledger header  -->
-                    <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
-                        <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 font-bold text-xl p-2">ID</div>
-                        <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 md:col-span-3 font-bold text-xl p-2">Full Name</div>
-                        <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Employer</div>
-                        <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Role</div>
-                        <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden xl:flex" title="Date of enrollment">DOE</div>
-                        <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Gender</div>
-                    </div>
-                    <!-- ledger body  -->
-                    <div class="max-h-144 overflow-auto cursor-pointer" id="stdtblbody">
-                        {% for ntstaff in school_ntstaffs %}
-                            <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
-                                <div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{ ntstaff.ntstaff_id}}</div>
-                                <div class="border border-primary col-span-2 md:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
-                                    <span class="mr-2">{{ntstaff.ntstaff_first_name}}</span>
-                                    <span class="mr-2">{{ntstaff.ntstaff_middle_name}}</span>
-                                    <span class="mr-2">{{ntstaff.ntstaff_last_name}}</span>
-                                </div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">---</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">---</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{ntstaff.ntstaff_gender}}</div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div> 
-		</div>
-	</main>
+                </div> 
+            </div>
+        </main>
         <!-- 3rd -->
         {% include 'schools/base/1divuserp.html' %}
     </div> 

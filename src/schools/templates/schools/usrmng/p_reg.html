@@ -2,66 +2,68 @@
 
 {% load static%}
 {% block head_css %}
-	{% include 'base/schools/css.html' %} <!--To be deleted-->
-    <link rel="stylesheet" href="{% static 'schools/css/usermng/reg.css'%}">
+	<!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-  <div class="top-level-box">
-	<!--Side bar menu-->
-	{% block sidemenu%}
-		{% include 'schools/base/navbar.html'%}
-	{% endblock sidemenu%}
-	<!--main body-->
-	<main>
-		<h1 class="main-header">Parent Registration</h1>
-		<div class="main-grid"> 
-           <form action="{% url 'schools:school_parent_registration' %}" method="post" class="reg-form">
-				{% csrf_token %}
-				<div class="form-header">
-					<div class="form-guide-text"> 
-						<p>Please fill the form below to register a parent</p>
-						{% if messages %}
-							<ul class="messages">
-								{% for message in messages %}
-								<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-								{% endfor %}
-							</ul>
-						{% endif %}
-						<p class="error-message">
-							{{ form.non_field_errors }}
-						</p>
+	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
+		<!--Side bar menu-->
+		{% block sidemenu%}
+			{% include 'schools/base/navbar.html'%}
+		{% endblock sidemenu%}
+		<!--main body-->
+		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
+			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">P-Registration</p>
+			<div class="relative top-12">
+				<form action="{% url 'schools:school_parent_registration' %}" method="post"  class="flex flex-col">
+					{% csrf_token %}
+					<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
+						<div class="flex flex-col"> 
+							<p>Please fill the form below to register a parent</p>
+							{% if messages %}
+								<ul class="messages">
+									{% for message in messages %}
+									<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+									{% endfor %}
+								</ul>
+							{% endif %}
+							<p class="error-message">
+								{{ form.non_field_errors }}
+							</p>
+						</div>
 					</div>
-				</div>
-				<div class="form-body">
-					<div class="form-field1">
-							<label for="id_parent_first_name">
-								First-Name: 
-								<p>{{ form.parent_first_name.errors }}</p> 
+					<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_first_name">
+								First-Name:
+								<p>{{ form.parent_first_name.errors }}</p>
 							</label>
 							{{form.parent_first_name}}
-					</div>
-					<div class="form-field1">
-							<label for="id_parent_middle_name">
-								Middle-Name: 
-								<p>{{ form.parent_middle_name.errors }}</p> 
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_middle_name">
+								Middle-Name:
+								<p>{{ form.parent_middle_name.errors }}</p>
 							</label>
 							{{form.parent_middle_name}}
-					</div>
-					<div class="form-field1">
-							<label for="id_parent_last_name">Last-Name: 
-								<p>{{ form.parent_last_name.errors }}</p> 
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_last_name">
+								Last-Name:
+								<p>{{ form.parent_last_name.errors }}</p>
 							</label>
 							{{form.parent_last_name}}
-					</div>
-					<div class="form-field1">
-						<label for="gender_M">
-							Gender:
-							<p>{{ form.parent_gender.errors }}</p>
-						</label>
-						<div>
-							{% for value, label in form.parent_gender.field.choices %}
-								<label for="gender_{{ value }}">{{ label }}:</label>
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_{{ value }}">
+								Gender:
+								<p>{{ form.parent_gender.errors }}</p>
+							</label>
+							<div>
+								{% for value, label in form.parent_gender.field.choices %}
+								<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_{{ value }}">
+									{{ label }}:
+								</label>
 								<input
 									type="radio"
 									id="gender_{{ value }}"
@@ -69,57 +71,56 @@
 									value="{{ value }}"
 									{% if form.parent_gender.value == value %}checked{% endif %}
 								>
-							{% endfor %}
+								{% endfor %}
+							</div>
 						</div>
-					</div>
-					<div class="form-field1">
-							<label for="id_parent_phone">
-								Phone Number: 
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_phone">
+								Phone Number:
 								<p>{{form.parent_phone.errors}}</p>
 							</label>
 							{{form.parent_phone}}
-					</div>
-					<div class="form-field1">
-							<label for="id_parent_email">
-								Email: 
-								<p>{{form.parent_email.errors}}</p>
-							</label>
-							{{form.parent_email}}
-					</div>
-					<div class="form-field1">
-							<label for="id_parent_home_address">
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+								<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_email">
+									Email:
+									<p>{{form.parent_email.errors}}</p>
+								</label>
+								{{form.parent_email}}
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_home_address">
 								Home address: 
 								<p>{{form.parent_home_address.errors}}</p>
 							</label>
 							{{form.parent_home_address}}
-					</div>
-					<div class="form-field1">
-							<label for="id_parent_country">
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_country">
 								Nationality:
 								<p>{{form.parent_country.errors}}</p>
 							</label>
 							{{form.parent_country}}
-					</div>
-					<div class="form-field1">
-							<label for="id_parent_pic">
+						</div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_pic">
 								Upload a passport photo:
 								<p>{{form.parent_pic.errors}}</p>
 							</label>
 							{{form.parent_pic}}
-					</div>
-					<div class="opt-buttons">
-						<button type="submit">Submit</button> 
-						<button type="reset">Clear</button>
-					</div>
-				</div>                
-            </form>           
-		</div>
-	</main>
-	<!-- 3rd -->
-	{% include 'schools/base/1divuserp.html' %}
-  </div>  
-
-  {% block head_js %}
-  	<script src="{% static 'schools/js/usermng/p_reg.js'%}"></script>
-  {% endblock head_js %}
+						</div>						
+						<div class="flex items-center justify-between md:justify-start">
+							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
+							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
+						</div>
+					</div>                
+				</form>
+			</div>
+		</main>
+		<!-- 3rd -->
+		{% include 'schools/base/1divuserp.html' %}
+	</div>
 {% endblock content %}
+{% block head_js %}
+	<script src="{% static 'schools/js/usermng/p_reg.js'%}"></script>
+{% endblock head_js %}

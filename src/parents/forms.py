@@ -8,6 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 import uuid
 from django.db.models import F
+from django.forms.widgets import Select, FileInput
 
 
 def generate_unique_parent_id():
@@ -15,13 +16,16 @@ def generate_unique_parent_id():
         new_id = f"PRT-{uuid.uuid4().hex[:16].upper()}"
         if not ParentProfile.objects.filter(parent_id=new_id).exists():
             return new_id
-        
+
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+
 class ParentRegistrationForm(forms.Form):
     parent_first_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )
@@ -30,8 +34,9 @@ class ParentRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     parent_last_name = forms.CharField(
@@ -39,7 +44,8 @@ class ParentRegistrationForm(forms.Form):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )
@@ -52,7 +58,8 @@ class ParentRegistrationForm(forms.Form):
     parent_phone = PhoneNumberField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
+                'autocomplete':"off",
+                "class":INPUTCSS
             }
         ),
         initial="+254",
@@ -60,7 +67,8 @@ class ParentRegistrationForm(forms.Form):
     parent_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                'autocomplete':"off"
+                'autocomplete':"off",
+                "class":INPUTCSS
             }
         ),
         max_length=30,
@@ -68,13 +76,28 @@ class ParentRegistrationForm(forms.Form):
     
     parent_home_address = forms.CharField(
         max_length=50,
+        widget=forms.TextInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        )
     )
     parent_country = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=CustomUser.CBESYNC_COUNTRIES,
         initial="KEN",
     )
 
     parent_pic = forms.ImageField(
+        widget=FileInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         required=False
     )
 

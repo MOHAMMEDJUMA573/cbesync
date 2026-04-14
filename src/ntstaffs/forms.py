@@ -286,7 +286,8 @@ class NtStaffEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )
@@ -294,7 +295,8 @@ class NtStaffEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )
@@ -302,7 +304,8 @@ class NtStaffEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )
@@ -313,10 +316,20 @@ class NtStaffEnrollmentForm(forms.Form):
     )
 
     ntstaff_h_qualification = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=NtStaffProfile.QUALIFICATIONS,
         initial="UDGR"
     )
     ntstaff_s_field = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=NtStaffProfile.NT_STUDY_FIELD,
         initial="INFT"
     )
@@ -327,10 +340,16 @@ class NtStaffEnrollmentForm(forms.Form):
             attrs={
                 'min':0,
                 'max':70,
+                "class":INPUTCSS
             }
         )
     )
     ntstaff_j_title = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=NtStaffProfile.JOB_TITLE,
         initial="SLBT",
     )

@@ -173,15 +173,17 @@ class ParentEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     parent_last_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )
@@ -194,7 +196,8 @@ class ParentEnrollmentForm(forms.Form):
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )

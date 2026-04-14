@@ -3,37 +3,40 @@
 
 {% load static%}
 {% block head_css %}
-	{% include 'base/schools/css.html' %} <!--To be deleted-->
-    <link rel="stylesheet" href="{% static 'schools/css/usermng/manage.css'%}">
+	<!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-
-	<div class="top-level-box">
-	<!--Side bar menu-->
-	{% block sidemenu%}
-		{% include 'schools/base/navbar.html' %}
-    {% endblock sidemenu%}
-	<!--main body-->
-	<main>
-		<h1 class="main-header">Parent Management</h1>
-		<div class="main-grid"> 
-			<div class="page-header">
-				<div class="page-guide-text">
-					<p style="font-size: 1.3rem;">
-                        I’m sorry, but this is not within your power—or ours. At some point, we are all powerless.
-                        However difficult this may seem, remember that you have strength in certain areas, and so do we.
-                        That is what we must focus on in order to live in this world—a world of long-sought yet still non-existent equality,
-                        as reflected in Memorial. Have a good day ahead, and leave all the rubbish behind.
-                    </p>
-				</div>
-			</div>     
-		</div>
-	</main>
-	<!-- 3rd -->
-	{% include 'schools/base/1divuserp.html' %}
-  </div> 
-  {% block head_js %}
-  	<script src="{% static 'schools/js/usermng/p_manage.js'%}"></script>
-  {% endblock head_js %}
+	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
+		<!--Side bar menu-->
+		{% block sidemenu%}
+			{% include 'schools/base/navbar.html' %}
+		{% endblock sidemenu%}
+		<!--main body-->
+		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
+			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">P-Management</p>
+			<div class="relative top-12">
+				<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
+					<div class="flex flex-col font-bold">
+						<p>Select from the options below</p>
+					</div>
+				</div> 
+				<div class="grid md:w-[70%] xl:w-[50%] gap-4">
+					<div class="rounded-md p-4 border border-gray-600">
+						<p>
+							I’m sorry, but this is not within your power—or ours. At some point, we are all powerless.
+							However difficult this may seem, remember that you have strength in certain areas, and so do we.
+							That is what we must focus on in order to live in this world—a world of long-sought yet still non-existent equality,
+							as reflected in Memorial. Have a good day ahead, and leave all the rubbish behind.
+						</p>
+					</div>				
+				</div> 
+			</div>
+		</main>
+		<!-- 3rd -->
+		{% include 'schools/base/1divuserp.html' %}
+	</div>
 {% endblock content %}
+{% block head_js %}
+  	<script src="{% static 'schools/js/usermng/p_manage.js'%}"></script>
+{% endblock head_js %}

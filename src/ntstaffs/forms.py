@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import transaction
 import uuid
 from django.db.models import F
-
+from django.forms.widgets import Select, FileInput
 
 def generate_unique_ntstaff_id():
     while True:
@@ -16,13 +16,16 @@ def generate_unique_ntstaff_id():
         if not NtStaffProfile.objects.filter(ntstaff_id=new_id).exists():
             return new_id
 
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+
 class NtStaffRegistrationForm(forms.Form):
     ntstaff_first_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     ntstaff_middle_name = forms.CharField(
@@ -30,15 +33,17 @@ class NtStaffRegistrationForm(forms.Form):
         required=False,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
-                }
+                'autocomplete':'off',
+                "class":INPUTCSS
+            }
         )
     )
     ntstaff_last_name = forms.CharField(
         max_length=35,
         widget=forms.TextInput(
             attrs={
-                'autocomplete':'off'
+                'autocomplete':'off',
+                "class":INPUTCSS
             }
         )
     )
@@ -48,13 +53,19 @@ class NtStaffRegistrationForm(forms.Form):
         widget=forms.RadioSelect,
     )
     ntstaff_dob = forms.DateField(
+        widget=forms.DateInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         initial=date(2001, 1, 1).strftime('%Y-%m-%d'),
     )
     
     ntstaff_phone = PhoneNumberField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
+                'autocomplete':"off",
+                "class":INPUTCSS
             }
         ),
         initial="+254",
@@ -62,32 +73,54 @@ class NtStaffRegistrationForm(forms.Form):
     ntstaff_e_contact = PhoneNumberField(
         widget=forms.TextInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class":INPUTCSS
+            }
         ),
         initial="+254",
     )
     ntstaff_email = forms.EmailField(
         widget=forms.EmailInput(
             attrs={
-                'autocomplete':"off"
-                }
+                'autocomplete':"off",
+                "class":INPUTCSS
+            }
         ),
         max_length=30,
     )
     ntstaff_home_address = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         max_length=50,
     )
 
     ntstaff_h_qualification = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=NtStaffProfile.QUALIFICATIONS,
         initial="UDGR"
     )
     ntstaff_s_field = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=NtStaffProfile.NT_STUDY_FIELD,
         initial="INFT"
     )
     ntstaff_country = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=CustomUser.CBESYNC_COUNTRIES,
         initial="KEN",
     )
@@ -99,14 +132,25 @@ class NtStaffRegistrationForm(forms.Form):
             attrs={
                 'min':0,
                 'max':70,
+                "class":INPUTCSS
             }
         )
     )
     ntstaff_j_title = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=NtStaffProfile.JOB_TITLE,
         initial="SLBT",
     )
     ntstaff_e_notes = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         max_length=200,
         required=False
     )
@@ -117,6 +161,11 @@ class NtStaffRegistrationForm(forms.Form):
     )
 
     ntstaff_pic = forms.ImageField(
+        widget=FileInput(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         required=False
     )
 

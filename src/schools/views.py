@@ -81,12 +81,6 @@ def get_teacher_choice_tuple2(passed_school):
 def get_ntstaff_objects(passed_school):
     return NtStaffProfile.objects.filter(ntstaff_school=passed_school)
 
-def get_filtered_ntstaff(passed_ntstaff, passed_option):
-    filtered_nstaffs = passed_ntstaff.filter(
-            ntstaff_j_title__in = passed_option
-    )
-    return filtered_nstaffs
-
 def set_filtered_ntstaff(passed_ntstaff):
     return passed_ntstaff if passed_ntstaff.exists() else None
 
@@ -971,14 +965,6 @@ def ntstaff_ledger_view(request):
     template_name = "schools/dashl1/school_index_ntstaff.html"
     page_title = "NT-LedgerView"
     school_ntstaffs = get_ntstaff_objects(current_school)
-    school_scadmin_ntstaffs = get_filtered_ntstaff(school_ntstaffs,["SSCR","SBSR"])
-    school_scsupport_ntstaffs = get_filtered_ntstaff(school_ntstaffs, ["SSOF","SOJT","SNSR"])
-    school_stsupport_ntstaffs = get_filtered_ntstaff(school_ntstaffs, ["SLBT","SGOF"])
-    school_ntstaffs_dict = {
-        "scadmin_ntstaffs":set_filtered_ntstaff(school_scadmin_ntstaffs),
-        "scsupport_ntstaffs":set_filtered_ntstaff(school_scsupport_ntstaffs),
-        "scstsupport_ntstaffs":set_filtered_ntstaff(school_stsupport_ntstaffs)
-    }
     form = NtStaffSearchForm()
     if request.method == "POST":
         form = NtStaffSearchForm(request.POST)
@@ -990,7 +976,7 @@ def ntstaff_ledger_view(request):
                 "page_title":page_title,
                 "form":form,
                 "search_results":ntstaff_search_results if ntstaff_search_results.exists() else "empty",
-                "school_ntstaff_dict":school_ntstaffs_dict
+                "school_ntstaffs":school_ntstaffs
             }
         else:
             context = {
@@ -998,7 +984,7 @@ def ntstaff_ledger_view(request):
                 "page_title":page_title,
                 "form":form,
                 "search_results":None,
-                "school_ntstaff_dict":school_ntstaffs_dict
+                "school_ntstaffs":school_ntstaffs
             }
     else:
         context = {
@@ -1006,7 +992,7 @@ def ntstaff_ledger_view(request):
             "page_title":page_title,
             "form":form,
             "search_results":None,
-            "school_ntstaff_dict":school_ntstaffs_dict
+            "school_ntstaffs":school_ntstaffs
         }
 
     return render(request, template_name, context)

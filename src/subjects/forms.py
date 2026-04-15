@@ -4,8 +4,9 @@ from .models import SubjectProfile
 from better_profanity import profanity
 from teachers.models import TeacherProfile
 from django.utils.translation import gettext_lazy as _
+from django.forms.widgets import Select
 
-
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
 
 class SubjectCreationForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -79,9 +80,19 @@ class SubjectTeacherAllocationForm(forms.Form):
         self.fields["teachers_objs"].choices = teachers_tuple_choices
 
     subjects_objs = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=()
     )
     teachers_objs = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=()
     )
 

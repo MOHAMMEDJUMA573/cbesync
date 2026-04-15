@@ -281,6 +281,9 @@
   .col-span-3 {
     grid-column: span 3 / span 3;
   }
+  .col-span-6 {
+    grid-column: span 6 / span 6;
+  }
   .m-0 {
     margin: calc(var(--spacing) * 0);
   }
@@ -909,6 +912,11 @@
       display: block;
     }
   }
+  .sm\:flex {
+    @media (width >= 40rem) {
+      display: flex;
+    }
+  }
   .sm\:inline {
     @media (width >= 40rem) {
       display: inline;
@@ -927,6 +935,11 @@
   .sm\:grid-cols-3 {
     @media (width >= 40rem) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .sm\:grid-cols-8 {
+    @media (width >= 40rem) {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
     }
   }
   .sm\:flex-row {
@@ -1219,6 +1232,11 @@
   .lg\:grid-cols-8 {
     @media (width >= 64rem) {
       grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+  }
+  .lg\:grid-cols-10 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(10, minmax(0, 1fr));
     }
   }
   .lg\:grid-cols-13 {

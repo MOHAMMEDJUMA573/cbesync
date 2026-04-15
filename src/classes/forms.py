@@ -245,9 +245,19 @@ class ClassTeacherAssignmentForm(forms.Form):
         self.fields["teachers_objs"].choices = teachers_tuple_choices
 
     classes_objs = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=()
     )
     teachers_objs = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
         choices=()
     )
 

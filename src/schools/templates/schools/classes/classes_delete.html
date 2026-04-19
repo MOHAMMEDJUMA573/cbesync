@@ -13,11 +13,11 @@
         {% endblock sidemenu%}  
         <!--main body-->
         <main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-            <p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">Class Addition</p>
+            <p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">Class Deletion</p>
             <div class="relative top-12">
                 <div class="flex flex-col justify-between">
                     <div class="mb-4">
-                        <form action="{% url 'schools:school_class_management' %}" method="post" class="flex flex-col" id="classDeleteForm">
+                        <form action="{% url 'schools:school_class_deletion' %}" method="post" class="flex flex-col" id="classDeleteForm">
 							{% csrf_token %}
 							<div class="flex flex-col mb-4 bg-headers rounded-md p-4">
 								<div class="form-guide-text"> 

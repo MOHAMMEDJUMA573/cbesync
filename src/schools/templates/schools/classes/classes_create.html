@@ -17,12 +17,21 @@
             <div class="relative top-12">
                 <div class="flex flex-col justify-between">
                     <div class="mb-4">
-                        <form action="{%  url 'schools:school_class_management' %}" method="post" class="flex flex-col" id="classRegForm">
+                        <form action="{%  url 'schools:school_class_addition' %}" method="post" class="flex flex-col" id="classRegForm">
                             {% csrf_token %}
                             <div class="flex flex-col mb-4 bg-headers rounded-md p-4">
                                 <div class="flex flex-col">
                                     <p>Fill the form below to add a class</p>
-                                    <p class="error-message"></p>
+                                    {% if messages %}
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    <p class="error-message">
+                                        {{ form.non_field_errors }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 rounded-md bg-white">

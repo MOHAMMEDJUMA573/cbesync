@@ -15,6 +15,15 @@
 	<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
 		<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">Class Management</p>
 		<div class="relative top-12">
+            <div>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
             <div class="flex flex-col justify-between">
                 <div class="mb-4">
                     <div class="flex items-center justify-center underline font-bold">
@@ -23,19 +32,19 @@
                     <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
                         <div class="p-4">
                             <div class="flex flex-col">
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="{% url 'schools:school_class_addition' %}">
                                     ADD A CLASS
                                     <i class="ri-add-line text-xl"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="{% url 'schools:school_class_deletion' %}">
                                     DELETE A CLASS
                                     <i class="ri-delete-bin-line text-xl"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     ADD SUBJECTS
                                     <i class="ri-add-box-line"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     DELETE SUBJECTS
                                     <i class="ri-delete-bin-3-line text-xl"></i>
                                 </div>
@@ -43,19 +52,19 @@
                         </div>
                         <div class="p-4">
                             <div class="flex flex-col">
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     PROMOTE A CLASS
                                     <i class="ri-arrow-up-box-line"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     DEMOTE A CLASS
                                     <i class="ri-arrow-down-box-line"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     ARCHIVE A CLASS
                                     <i class="ri-inbox-archive-line"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     SOON...
                                     <i class="ri-open-arm-line"></i>
                                 </div>
@@ -63,19 +72,19 @@
                         </div>
                         <div class="p-4 hidden xl:block">
                             <div class="flex flex-col">
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     SOON...
                                     <i class="ri-open-arm-line"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     SOON...
                                     <i class="ri-open-arm-line"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     SOON...
                                     <i class="ri-open-arm-line"></i>
                                 </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
                                     SOON...
                                     <i class="ri-open-arm-line"></i>
                                 </div>

@@ -1028,89 +1028,54 @@ def class_management(request):
     template_name = "schools/dashl0/school_classmng.html"
     page_title = "C-Management"
     school_classes = get_class_objects(current_school).order_by("-class_level", "class_title")
+    context = {
+        "school":current_school,
+        "page_title":page_title,
+        "school_classes":school_classes
+    }
+
+    return render(request, template_name, context)
+
+@verified_email_required
+def class_addition(request):
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    if school_uuid != valid_school_uuid:
+        return HttpResponse("Wrong school trying to access the page")
+    current_school = get_school_object(request.user)
+    template_name = "schools/classes/classes_create.html"
+    page_title = "C-Addition"
+    school_classes = get_class_objects(current_school).order_by("-class_level", "class_title")
     teachers_list = get_teacher_choice_tuple2(current_school)
     form = ClassRegistrationForm(teachers_list=teachers_list)
-    form2 = ClassDeletionForm()
     if teachers_list:
         if request.method == "POST":
-            if  "class_registration" in request.POST:
-                form = ClassRegistrationForm(request.POST, teachers_list=teachers_list)
-                if form.is_valid():
-                    response = form.save(current_school)
-                    if response == 0 :
-                        messages.success(
-                            request,
-                            f"The class was created successfully! 🥳"
-                        )  
-                    else:
-                        messages.warning(
-                            request,
-                            f"The class already exists!"
-                        )                    
+            form = ClassRegistrationForm(request.POST, teachers_list=teachers_list)
+            if form.is_valid():
+                response = form.save(current_school)
+                if response == 0 :
+                    messages.success(
+                        request,
+                        f"A new class was successfully added!🥳"
+                    )
                     return redirect(reverse("schools:school_class_management"))
                 else:
-                    context = {
-                        "school":current_school,
-                        "page_title":page_title,
-                        "form":form,
-                        "form2":form2,
-                        "school_classes":school_classes
-                    }
-            elif  "class_deletion" in request.POST:
-                form2 = ClassDeletionForm(request.POST)
-                if form2.is_valid():
-                    class_id = form2.cleaned_data["class_id"]
-                    try: 
-                        tobe_deleted_class = get_specific_class(class_id)
-                        if tobe_deleted_class.class_school == current_school:
-                            with transaction.atomic():
-                                tobe_deleted_class.delete()
-                                messages.success(
-                                    request,
-                                    _(f"Class {class_id} deleted successfully")
-                                )
-                                return redirect(reverse("schools:school_class_management"))
-                        else:
-                            messages.warning(
-                                request,
-                                (f"Can't delete a class you dont own")
-                            )
-                            context = {
-                                "school":current_school,
-                                "page_title":page_title,
-                                "form":form,
-                                "form2":form2,
-                                "school_classes":school_classes
-                            }
-                    except ClassProfile.DoesNotExist:
-                        messages.warning(
-                            request,
-                            (f"class {class_id} Does not exist!")
-                        )
-                        context = {
-                            "school":current_school,
-                            "page_title":page_title,
-                            "form":form,
-                            "form2":form2,
-                            "school_classes":school_classes
-                        }
-                else:
-                    context = {
-                        "school":current_school,
-                        "page_title":page_title,
-                        "form":form,
-                        "form2":form2,
-                        "school_classes":school_classes
-                    }
+                    messages.warning(
+                        request,
+                        f"The class already exists!"
+                    )                  
+                    return redirect(reverse("schools:school_class_addition"))
             else:
-                print("An unidentified form recieved")  
-                return redirect(reverse("schools:school_class_management"))          
+                context = {
+                    "school":current_school,
+                    "page_title":page_title,
+                    "form":form,
+                }
         else:
             context = {
                 "school":current_school,
                 "page_title":page_title,
                 "form":form,
-                "form2":form2,
                 "school_classes":school_classes
             }
     else:
@@ -1121,10 +1086,69 @@ def class_management(request):
         context = {
             "school":current_school,
             "page_title":page_title,
-            "form":form,
-            "form2":form2,
-            "school_classes":school_classes
+            "form":form
         }   
+    
+    return render(request, template_name, context)
+
+
+@verified_email_required
+def class_deletion(request):
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    if school_uuid != valid_school_uuid:
+        return HttpResponse("Wrong school trying to access the page")
+    current_school = get_school_object(request.user)
+    template_name = "schools/classes/classes_delete.html"
+    page_title = "C-Deletion"
+    form2 = ClassDeletionForm()
+    if request.method == "POST":
+        form2 = ClassDeletionForm(request.POST)
+        if form2.is_valid():
+            class_id = form2.cleaned_data["class_id"]
+            try: 
+                tobe_deleted_class = get_specific_class(class_id)
+                if tobe_deleted_class.class_school == current_school:
+                    with transaction.atomic():
+                        tobe_deleted_class.delete()
+                        messages.success(
+                            request,
+                            _(f"{tobe_deleted_class.class_full_str} was successfully deleted!🙂")
+                        )
+                        return redirect(reverse("schools:school_class_management"))
+                else:
+                    messages.warning(
+                        request,
+                        (f"~class {class_id} Does not exist!") #cant disclose other schools info
+                    )
+                    context = {
+                        "school":current_school,
+                        "page_title":page_title,
+                        "form2":form2,
+                    }
+            except ClassProfile.DoesNotExist:
+                messages.warning(
+                    request,
+                    (f"class {class_id} Does not exist!")
+                )
+                context = {
+                    "school":current_school,
+                    "page_title":page_title,
+                    "form2":form2,
+                }
+        else:
+            context = {
+                "school":current_school,
+                "page_title":page_title,
+                "form2":form2,
+            }
+    else:
+        context = {
+            "school":current_school,
+            "page_title":page_title,
+            "form2":form2,
+        }
+
     return render(request, template_name, context)
 
 #***--------------------***#***--------------------***

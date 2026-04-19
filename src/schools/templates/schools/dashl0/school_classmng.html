@@ -17,131 +17,103 @@
 		<div class="relative top-12">
             <div class="flex flex-col justify-between">
                 <div class="mb-4">
-                    <form action="{%  url 'schools:school_class_management' %}" method="post" class="flex flex-col" id="classRegForm">
-						{% csrf_token %}
-                        <div class="flex flex-col mb-4 bg-headers rounded-md p-4">
+                    <div class="flex items-center justify-center underline font-bold">
+                        MANAGEMENT OPTIONS
+                    </div> 
+                    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        <div class="p-4">
                             <div class="flex flex-col">
-                                <p>Please fill the form below to create a class</p>
-								{% if messages %}
-									<ul class="messages">
-										{% for message in messages %}
-										<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-										{% endfor %}
-									</ul>
-								{% endif %}
-								<p class="error-message">
-									{{ form.non_field_errors }}
-								</p>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    ADD A CLASS
+                                    <i class="ri-add-line text-xl"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    DELETE A CLASS
+                                    <i class="ri-delete-bin-line text-xl"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    ADD SUBJECTS
+                                    <i class="ri-add-box-line"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    DELETE SUBJECTS
+                                    <i class="ri-delete-bin-3-line text-xl"></i>
+                                </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 rounded-md bg-white">
-                            <div class="flex flex-col m-2 p-2 overflow-hidden">
-                                <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_title">
-									Class title:
-								<p>{{form.class_title.errors}}</p>
-								</label>
-                                {{form.class_title}}
-                            </div>
-                            <div class="flex flex-col m-2 p-2 overflow-hidden">
-                                <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_level">
-									Class level:
-									<p>{{form.class_level.errors}}</p>
-								</label>
-                                {{form.class_level}}
-                            </div>
-                            <div class="flex flex-col m-2 p-2 overflow-hidden">
-                                <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_capacity">
-									Class capacity:
-									<p>{{form.class_capacity.errors}}</p>
-								</label>
-								{{form.class_capacity}}
-                            </div>
-                            <div class="flex flex-col m-2 p-2 overflow-hidden">
-                                <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_teacher">
-									Class Teacher:
-									<p>{{form.class_teacher.errors}}</p>
-								</label>
-                                {{form.class_teacher}}
-                            </div>
-                            <div class="flex flex-col m-2 p-2 overflow-hidden">
-                                <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_program">
-									Program:
-									<p>{{form.class_program.errors}}</p>
-								</label>
-                                {{form.class_program}}
-                            </div>
-							<div class="flex flex-col m-2 p-2 overflow-hidden">
-								<label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_description">
-									Description (if other):
-									<p>{{form.class_description.errors}}</p>
-								</label>
-								{{form.class_description}}
-							</div>
-                            <div class="flex items-center justify-between md:justify-start">
-                                <button type="submit" name="class_registration" class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 ">Submit</button> 
+                        <div class="p-4">
+                            <div class="flex flex-col">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    PROMOTE A CLASS
+                                    <i class="ri-arrow-up-box-line"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    DEMOTE A CLASS
+                                    <i class="ri-arrow-down-box-line"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    ARCHIVE A CLASS
+                                    <i class="ri-inbox-archive-line"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    SOON...
+                                    <i class="ri-open-arm-line"></i>
+                                </div>
                             </div>
                         </div>
-                    </form>
-                </div>
-                <div class="mb-4">
-                    <form action="{% url 'schools:school_class_management' %}" method="post" class="flex flex-col" id="classDeleteForm">
-						{% csrf_token %}
-                        <div class="flex flex-col mb-4 bg-headers rounded-md p-4">
-                            <div class="form-guide-text"> 
-                                <p>Please fill the form below to delete a class</p>
-								{% if messages %}
-									<ul class="messages">
-										{% for message in messages %}
-										<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-										{% endfor %}
-									</ul>
-								{% endif %}
-                                <p class="error-message">
-									{{ form.non_field_errors }}
-								</p>
+                        <div class="p-4 hidden xl:block">
+                            <div class="flex flex-col">
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    SOON...
+                                    <i class="ri-open-arm-line"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    SOON...
+                                    <i class="ri-open-arm-line"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    SOON...
+                                    <i class="ri-open-arm-line"></i>
+                                </div>
+                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts">
+                                    SOON...
+                                    <i class="ri-open-arm-line"></i>
+                                </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 rounded-md bg-white">
-                            <div class="flex flex-col m-2 p-2 overflow-hidden">
-                                <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_id">
-									Class ID:
-									<p>{{form2.class_id.errors}}</p>
-								</label>
-								{{form2.class_id}}
-                            </div>
-                            <div class="flex items-center justify-between md:justify-start">
-                                <button type="submit" name="class_deletion" class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 ">Delete</button>
-                            </div>
-                        </div>
-                    </form>
+                    </div>                    
                 </div>
                 <!--Classes table-->
-                <div class="mt-12 hidden sm:block overflow-scroll max-h-72 cursor-pointer">
-                    <p class="text-2xl font-bold mb-8">Active classes <span class="text-sm text-gray-500">(scroll to see more)</span> </p>
-                    <table class="bg-white rounded-md shadow-2xl hover:shadow-none w-full p-8 duration-300 border-separate">
-                        <thead>
-                            <tr>
-                                <th class="">Status</th>
-                                <th class="hidden lg:block">Class ID</th>
-                                <th>Class Title</th>
-                                <th class="">Census</th>
-                                <th class="">Data</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-							{% for class in school_classes %}
-                            <tr>
-                                <td class="primary ">{{class.class_status_str}}</td>
-                                <td class="text-gray-500 hidden lg:block">{{class.class_id}}</td>
-                                <td class="text-gray-500">{{class.class_level_str}} ({{class.class_title}}) -{{class.class_program.program_name}}</td>
-                                <td class="text-gray-500">{{class.class_student_count}}</td>
-                                <td class="info cursor-pointer">Details</td>
-                            </tr>
-							{% endfor %}
-                        </tbody>
-                    </table>
-                    <a href="#" class="primary text-center hidden sm:block m-4">show all</a>
-                </div>
+                <div class="mb-4">
+                    <div class="flex items-center justify-center underline font-bold">
+                        CLASSES-LEDGER
+                    </div>
+                    <div class="flex flex-col">
+                        <!-- ledger header  -->
+                        <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
+                            <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 font-bold text-xl p-2">ID</div>
+                            <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 lg:col-span-3 font-bold text-xl p-2">TITLE</div>
+                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">PROGRAM</div>
+                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden xl:flex">STREAM</div>
+                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden md:flex">CENSUS</div>
+                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">DATA</div>
+                        </div>
+                        <div class="max-h-144 overflow-auto cursor-text" id="clstblbody">
+                            {% for class in school_classes %}
+                            <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
+                                <div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{class.class_id}}</div>
+                                <div class="border border-primary col-span-2 lg:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
+                                    {{class.class_level_str}}
+                                </div>
+                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{class.class_program.program_name}}</div>
+                                <div class="border border-primary justify-start p-2 pb-0 hidden md:flex">{{class.class_title}}</div>
+                                <div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">{{class.class_student_count}}</div>
+                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex text-srezs hover:underline hover:cursor-pointer">Details</div>
+                            </div>
+                             {% endfor %}                           
+                        </div>
+                    </div>
+                </div>                
 			</div>
 		</div>
 	</main>

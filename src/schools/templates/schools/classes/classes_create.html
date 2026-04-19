@@ -1,0 +1,86 @@
+{% extends 'schools/base/base.html' %}
+
+{% load static%}
+{% block head_css %}
+    <!-- no custom css  -->
+{% endblock head_css %}
+{% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
+{% block content %}
+    <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
+        <!--Side bar menu-->
+        {% block sidemenu%}
+            {% include 'schools/base/navbar.html' %}
+        {% endblock sidemenu%}  
+        <!--main body-->
+        <main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
+            <p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">Class Addition</p>
+            <div class="relative top-12">
+                <div class="flex flex-col justify-between">
+                    <div class="mb-4">
+                        <form action="{%  url 'schools:school_class_management' %}" method="post" class="flex flex-col" id="classRegForm">
+                            {% csrf_token %}
+                            <div class="flex flex-col mb-4 bg-headers rounded-md p-4">
+                                <div class="flex flex-col">
+                                    <p>Fill the form below to add a class</p>
+                                    <p class="error-message"></p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 rounded-md bg-white">
+                                <div class="flex flex-col m-2 p-2 overflow-hidden">
+                                    <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_title">
+                                        Class title:
+                                    <p>{{form.class_title.errors}}</p>
+                                    </label>
+                                    {{form.class_title}}
+                                </div>
+                                <div class="flex flex-col m-2 p-2 overflow-hidden">
+                                    <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_level">
+                                        Class level:
+                                        <p>{{form.class_level.errors}}</p>
+                                    </label>
+                                    {{form.class_level}}
+                                </div>
+                                <div class="flex flex-col m-2 p-2 overflow-hidden">
+                                    <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_capacity">
+                                        Class capacity:
+                                        <p>{{form.class_capacity.errors}}</p>
+                                    </label>
+                                    {{form.class_capacity}}
+                                </div>
+                                <div class="flex flex-col m-2 p-2 overflow-hidden">
+                                    <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_teacher">
+                                        Class Teacher:
+                                        <p>{{form.class_teacher.errors}}</p>
+                                    </label>
+                                    {{form.class_teacher}}
+                                </div>
+                                <div class="flex flex-col m-2 p-2 overflow-hidden">
+                                    <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_program">
+                                        Program:
+                                        <p>{{form.class_program.errors}}</p>
+                                    </label>
+                                    {{form.class_program}}
+                                </div>
+                                <div class="flex flex-col m-2 p-2 overflow-hidden">
+                                    <label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_description">
+                                        Description (if other):
+                                        <p>{{form.class_description.errors}}</p>
+                                    </label>
+                                    {{form.class_description}}
+                                </div>
+                                <div class="flex items-center justify-between md:justify-start">
+                                    <button type="submit" name="class_registration" class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 ">Submit</button> 
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!-- 3rd -->    
+        {% include 'schools/base/1divuserp.html' %}
+    </div> 
+{% endblock content %}
+{% block head_js %}
+  	<script src="{% static 'schools/js/classes/class_create.js'%}"></script>
+{% endblock head_js %}

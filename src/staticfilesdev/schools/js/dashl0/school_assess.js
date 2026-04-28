@@ -1,6 +1,9 @@
 const stdTbl = document.getElementById("stdtblbody");
 const mainBody = document.querySelector("body");
 const toggleButtons = document.querySelectorAll(".toggles");
+const rViewDiv = document.getElementById("rclassinfo");
+const rConfigForm = document.getElementById("rconfigForm");
+
 //link active toggle
 function T2(){
     /*activate the classlist*/
@@ -46,8 +49,6 @@ toggleButtons.forEach((toggleb, index) => {
     })
 })
 //hide management on results view
-const rViewDiv = document.getElementById("rclassinfo");
 if (rViewDiv != null) {
-    const rConfigForm = document.getElementById("rconfigForm");
     rConfigForm.classList.add("hidden")
 }

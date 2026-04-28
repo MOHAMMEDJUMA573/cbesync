@@ -6,181 +6,188 @@
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-  <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-	<!--Side bar menu-->
-    {% block sidemenu%}
-		{% include 'schools/base/navbar.html' %}
-    {% endblock sidemenu%} 
-	<!--main body--> 
-	<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-		<p class="text-2xl font-bold font-sgothic">Dashboard</p>
-		<div class="relative top-12">
-			<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
-				<div class="flex flex-col gap-4">
-					<p class="flex items-center justify-center font-bold bg-gray-600 rounded-md p-4">School Profile</p>
-					<table class="xl:w-[90%]">
-						<tbody class="">
-							<tr class="p-2">
-								<th>NAME:</th>
-								<td class="pl-2">{{ school.school_name }}</td>
-							</tr>
-							<tr class="p-2">
-								<th>COUNTRY:</th>
-								<td class="pl-2">{{school.user.get_user_country_display}}</td>
-							</tr>
-							<tr class="p-2">
-								<th>COUNTY:</th>
-								<td class="pl-2">{{school.get_school_admin_level_2_display}}</td>
-							</tr>
-							<tr class="p-2">
-								<th>SCHOOL-ID:</th>
-								<td class="pl-2">{{school.school_id}}</td>
-							</tr>
-							<tr class="p-2">
-								<th>EMAIL:</th>
-								<td class="pl-2">{{school.user.email}}</td>
-							</tr>
-							<tr class="p-2">
-								<th>RANK:</th>
-								<td class="pl-2">001</td>
-							</tr>
-							<tr class="p-2">
-								<th>VERIFICATION:</th>
-								<td class="pl-2">
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+		<!-- aside bar -->
+		{% block sidemenu%}
+			{% include 'schools/base/asidebar.html' %}
+		{% endblock sidemenu%}
+		<!-- top bar-->
+		{% block topbar%}
+			{% include 'schools/base/topbar.html' %}
+		{% endblock topbar%}
+		<!--main body-->
+		<main class="p-4 md:ml-32 xl:ml-60 md:mt-12">
+			<div class="relative top-12">
+				<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
+					<div class="flex flex-col gap-2 bg-background2 shadow-md p-4 rounded-md md:rounded-xl">
+						<p class="flex rounded-md text-activeb text-2xl font-bold">School Profile</p>
+						<div class="grid">
+							<div class="p-2 flex items-center overflow-auto">
+								<div class="font-semibold">School Name:</div>
+								<div class="ml-2">{{ school.school_name }}</div>
+							</div>
+							<div class="p-2 flex items-center overflow-auto">
+								<div class="font-semibold">Country:</div>
+								<div class="ml-2">{{school.user.get_user_country_display}}</div>
+							</div>
+							<div class="p-2 flex items-center overflow-auto">
+								<div class="font-semibold">County:</div>
+								<div class="ml-2">{{school.get_school_admin_level_2_display}}</div>
+							</div>
+							<div class="p-2 flex items-center overflow-auto">
+								<div class="font-semibold">School ID:</div>
+								<div class="ml-2">{{school.school_id}}</div>
+							</div>
+							<div class="p-2 flex items-center overflow-auto">
+								<div class="font-semibold">EMAIL:</div>
+								<div class="ml-2">{{school.user.email}}</div>
+							</div>
+							<div class="p-2 flex items-center overflow-auto">
+								<div class="font-semibold">RANK:</div>
+								<div class="ml-2">001</div>
+							</div>
+							<div class="p-2 flex items-center overflow-auto">
+								<div class="font-semibold">VERIFICATION:</div>
+								<div class="ml-2">
 									{{school.get_school_status_display}}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="flex flex-col justify-between gap-4">
-					<p class="flex items-center justify-center font-bold bg-gray-600 rounded-md p-4">School ledgers</p>
-					<div class="p-8 mb-2 hover:shadow-none cursor-pointer border border-black flex justify-between items-center bg-white shadow-xl rounded-md school-l-div"  id="studentblob" data-url="{% url 'schools:school_student_ledgerview' %}">
-						<div>
-							<div class="">
-								Students
-								<i class="ri-numbers-line"></i>
+									<i class="ri-verified-badge-line text-green-700"></i>
+								</div>
 							</div>
-						</div>
-						<div class="info">
-							{{ school.school_students_population|stringformat:"04d" }}
 						</div>
 					</div>
-					<div class="p-8 mb-2 hover:shadow-none cursor-pointer border border-black flex justify-between items-center bg-white shadow-xl rounded-md school-l-div"  id="teacherblob"  data-url="{% url 'schools:school_teacher_ledgerview' %}">
-						<div>
-							<div class="school-l-div">
-								Teachers
-								<i class="ri-numbers-line"></i>
+					<div class="flex flex-col justify-between gap-4">
+						<div class="p-8 hover:shadow-none cursor-pointer border border-activeb flex justify-between items-center bg-background2 shadow-xl rounded-md school-l-div" id="studentblob" data-url="{% url 'schools:school_student_ledgerview' %}">
+							<div>
+								<div class="flex gap-2">
+									<i class="ri-numbers-line text-activeb text-4xl"></i>
+									Students
+								</div>
+							</div>
+							<div class="text-activeb">
+								{{ school.school_students_population|stringformat:"04d" }}
 							</div>
 						</div>
-						<div class="info">
-							{{ school.school_teachers_population|stringformat:"04d" }}
+						<div class="p-8 hover:shadow-none cursor-pointer border border-activeb flex justify-between items-center bg-background2 shadow-xl rounded-md school-l-div" id="teacherblob"  data-url="{% url 'schools:school_teacher_ledgerview' %}">
+							<div>
+								<div class="">
+									<i class="ri-numbers-line text-activeb text-4xl"></i>
+									Teachers
+								</div>
+							</div>
+							<div class="text-activeb">
+								{{ school.school_teachers_population|stringformat:"04d" }}
+							</div>
+						</div>
+						<div class="p-8 hover:shadow-none cursor-pointer border border-activeb flex justify-between items-center bg-background2 shadow-xl rounded-md school-l-div" id="ntsblob" data-url="{% url 'schools:school_ntstaff_ledgerview' %}">
+							<div>
+								<div class="">
+									<i class="ri-numbers-line text-activeb text-4xl"></i>
+									Nt-Staffs
+								</div>
+							</div>
+							<div class="text-activeb">
+								{{ school.school_ntstaffs_population|stringformat:"04d" }}
+							</div>
 						</div>
 					</div>
-					<div class="p-8 mb-2 hover:shadow-none cursor-pointer border border-black flex justify-between items-center bg-white shadow-xl rounded-md school-l-div" id="ntsblob" data-url="{% url 'schools:school_ntstaff_ledgerview' %}">
-						<div>
-							<div class="school-l-div">
-								Nt-Staffs
-								<i class="ri-numbers-line"></i>
+					<div class="flex flex-col justify-between gap-4 lg:col-span-3 xl:col-span-1 lg:flex-row xl:flex-col">
+						<div class="flex justify-between items-center bg-background2 rounded-md p-2 duration-300 lg:flex-1">
+							<div class="flex items-center justify-center gap-2">
+								<div class="text-activeb text-2xl items-center justify-center">
+									<i class="ri-cloud-line"></i>
+								</div>
+								<div class="font-bold">
+									Joined
+								</div>
+							</div>
+							<div class="flex flex-col">
+								<div class="font-bold">
+									{{ school.school_creation_date.date }}
+								</div>
+								<div>
+									{{ school.school_online_days|stringformat:"04d" }} Days
+								</div>
 							</div>
 						</div>
-						<div class="info">
-							{{ school.school_ntstaffs_population|stringformat:"04d" }}
-						</div>
-					</div>
-				</div>
-				<div class="flex flex-col justify-between gap-4">
-					<div class="flex justify-between items-center bg-white rounded-md p-6 duration-300">
-						<div class="flex items-center justify-center">
-							<div class="p-2 text-green-700 text-2xl items-center justify-center">
-								<i class="ri-cloud-line"></i>
+						<div class="flex justify-between items-center bg-background2 rounded-md p-2 duration-300 lg:flex-1">
+							<div class="flex items-center justify-center gap-2">
+								<div class="text-activeb text-2xl items-center justify-center">
+									<i class="ri-school-line"></i>
+								</div>
+								<div class="font-bold">
+									Account:
+								</div>
 							</div>
-							<div class="info font-bold ">
-								Joined
-							</div>
-						</div>
-						<div class="success font-bold">
-							{{ school.school_creation_date.date }}
-						</div>
-						<div>
-							{{ school.school_online_days|stringformat:"04d" }} Days
-						</div>
-					</div>
-					<div class="flex justify-between items-center bg-white rounded-md p-6 duration-300">
-						<div class="flex items-center justify-center">
-							<div class="p-2 text-green-700 text-2xl items-center justify-center">
-								<i class="ri-school-line"></i>
-							</div>
-							<div class="info font-bold ">
-								Account:
+							<div class="flex flex-col">
+								<div class="font-bold">
+									Premium
+								</div>
+								<div>
+									700/1000
+								</div>
 							</div>
 						</div>
-						<div class="success font-bold">
-							Premium
-						</div>
-						<div>
-							700/1000
-						</div>
-					</div>
-					<div class="flex justify-between items-center bg-white rounded-md p-6 duration-300">
-						<div class="flex items-center justify-center">
-							<div class="p-2 text-green-700 text-2xl items-center justify-center">
-								<i class="ri-user-community-line"></i>
+						<div class="flex justify-between items-center bg-background2 rounded-md p-2 duration-300 lg:flex-1">
+							<div class="flex items-center justify-center gap-2">
+								<div class="text-activeb text-2xl items-center justify-center">
+									<i class="ri-user-community-line"></i>
+								</div>
+								<div class="font-bold">
+									Users
+								</div>
 							</div>
-							<div class="info font-bold ">
-								Users
+							<div class="flex flex-col">
+								<div class="font-bold">
+									{{ school.school_population|stringformat:"04d" }}
+								</div>
+								<div>
+									___
+								</div>
 							</div>
-						</div>
-						<div class="success font-bold">
-							{{ school.school_population|stringformat:"04d" }}
-						</div>
-						<div>
-							___
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>	
-		<p>
-			{% if messages %}
-				<ul class="messages">
-					{% for message in messages %}
-					<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-					{% endfor %}
-				</ul>
-			{% endif %}
-		</p>
-		<!--Recent activities table-->
-		<div class="mt-12 hidden sm:block">
-			<p class="text-2xl font-bold mb-8">Current Programmes</p>
-			<table class="bg-white rounded-md shadow-2xl hover:shadow-none cursor-pointer w-full p-8 duration-300 border-separate">
-				<thead>
-					<tr>
-						<th class="">Programme Name</th>
-						<th>Programme ID</th>
-						<th class="hidden lg:block">Supervisor</th>
-						<th class="">Status</th>
-						<th class="">Data</th>
-					</tr>
-				</thead>
-				<tbody>
+			<p>
+				{% if messages %}
+					<ul class="messages">
+						{% for message in messages %}
+						<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+						{% endfor %}
+					</ul>
+				{% endif %}
+			</p>
+			<!--Available Programmes table-->
+			<div class="mt-20  sm:block bg-background2 p-4 rounded-xl">
+				<p class="text-2xl text-activeb font-bold">Current Programmes</p>
+				<div class="flex flex-col rounded-md hover:shadow-none cursor-text w-full p-4 duration-300">
+					<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 text-left font-semibold">
+						<div class="">Programme Name</div>
+						<div class="hidden md:block">Programme ID</div>
+						<div class="hidden lg:block">Supervisor</div>
+						<div class="">Status</div>
+						<div class="hidden md:block">Data</div>
+					</div>
 					{% for program in programmes %}
-						<tr>
-							<td class="text-gray-500">{{program.get_program_name_display}}</td>
-							<td class="text-gray-500">{{program.program_id}}</td>
-							<td class="text-gray-500 hidden lg:block">Government of Kenya</td>
-							<td class="primary ">Active</td>
-							<td class="info">Details</td>
-						</tr>
+					<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1">
+						<div class="border-b border-bordercl">{{program.get_program_name_display}}</div>
+						<div class="border-b border-bordercl hidden md:block">{{program.program_id}}</div>
+						<div class="hidden lg:block border-b border-bordercl">Government of Kenya</div>
+						<div class="border-b border-bordercl p-1">
+							<p class="bg-activeb text-white rounded-md w-fit pl-2 pr-2">.Active</p>
+						</div>
+						<div class="text-activeb border-b border-bordercl hidden md:block">
+							<p class="underline">Details</p>
+						</div>
+					</div>
 					{% endfor %}
-				</tbody>
-			</table>
-			<a href="#" class="primary text-center hidden sm:block m-4">show all</a>
-		</div>
-	</main>
-	<!--3rd-->
-	{% include 'schools/base/1divuserp.html' %}
-  </div>
+				</div>
+				<div class="flex justify-end text-activeb">
+					<a href="#" class="text-center hidden sm:block m-4">show all</a>
+				</div>
+			</div>
+		</main>
+	</div>
 {% endblock content %}
 
 {% block head_js %}

@@ -1,0 +1,61 @@
+{% load static %}
+<aside class="-left-full bg-background2 z-50 transform ease-in-out duration-300 h-screen fixed overflow-auto w-fit
+    md:left-[0%] md:w-32 xl:w-60 md:block md:z-0">
+    <div class="flex flex-row items-center justify-between md:h-18 md:border-b border-bordercl mb-4 md:mb-0">
+        <div class="flex flex-row gap-4">
+            <img src="{% static 'project/images/logo.png' %}" class="w-8 h-8 ml-4" alt="LLC-LOGO">
+            <p class="font-sgothic font-semibold text-2xl md:hidden xl:block">
+                <span class="text-yellow-500">CBE</span><span class="text-green-700">SYNC</span>
+            </p>
+        </div>
+        <div class="md:hidden p-1 m-2 rounded-md cursor-pointer" id="close-btn">
+            <i class="ri-close-line text-2xl" id="hamburger"></i>
+        </div>
+    </div>
+    <div class="relative p-1 flex flex-col duration-300" id="sidebar">
+        <a href="{% url 'schools:school_app_dashboard'%}" class="mb-navlinks">
+            <i class="ri-dashboard-fill"></i>
+            <p class="md:hidden xl:block">Dashboard</p>
+        </a>
+        <a href="{% url 'schools:school_usr_management'%}" class="mb-navlinks">
+            <i class="ri-group-fill"></i>
+            <p class="md:hidden xl:block">Users</p>
+        </a>
+        <a href="{%url 'schools:school_class_management'%}" class="mb-navlinks">
+            <i class="ri-shadow-line"></i>
+            <p class="md:hidden xl:block">Classes</p>
+        </a>
+        <a href="{% url 'schools:school_assessment_management' %}" class="mb-navlinks">
+            <i class="ri-a-b"></i>
+            <p class="md:hidden xl:block">Assessments</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-tools-line"></i>
+            <p class="md:hidden xl:block">Tools</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-mail-fill"></i>
+            <p class="md:hidden xl:block">Messages</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-book-shelf-line"></i>
+            <p class="md:hidden xl:block">Library</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-file-chart-line"></i>
+            <p class="md:hidden xl:block">Reports</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-line-chart-line"></i>
+            <p class="md:hidden xl:block" >Analytics</p>
+        </a>
+        <a href="#" class="mb-navlinks">
+            <i class="ri-settings-line"></i>
+            <p class="md:hidden xl:block">settings</p>
+        </a>
+        <a href="{% url 'account_logout'%}" class="mb-navlinks relative top-6">
+            <i class="ri-logout-box-r-line"></i>
+            <p class="md:hidden xl:block">logout</p>
+        </a>
+    </div>
+</aside>

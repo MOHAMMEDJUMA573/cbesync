@@ -6,129 +6,133 @@
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-  <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-	<!--Side bar menu-->
-    {% block sidemenu%}
-		{% include 'schools/base/navbar.html' %}
-    {% endblock sidemenu%}  
-	<!--main body-->
-	<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-		<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">Class Management</p>
-		<div class="relative top-12">
-            <div>
-                {% if messages %}
-                    <ul class="messages">
-                        {% for message in messages %}
-                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
-            <div class="flex flex-col justify-between">
-                <div class="mb-4">
-                    <div class="flex items-center justify-center underline font-bold">
-                        MANAGEMENT OPTIONS
-                    </div> 
-                    <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-                        <div class="p-4">
-                            <div class="flex flex-col">
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="{% url 'schools:school_class_addition' %}">
-                                    ADD A CLASS
-                                    <i class="ri-add-line text-xl"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="{% url 'schools:school_class_deletion' %}">
-                                    DELETE A CLASS
-                                    <i class="ri-delete-bin-line text-xl"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    ADD SUBJECTS
-                                    <i class="ri-add-box-line"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    DELETE SUBJECTS
-                                    <i class="ri-delete-bin-3-line text-xl"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <div class="flex flex-col">
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    PROMOTE A CLASS
-                                    <i class="ri-arrow-up-box-line"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    DEMOTE A CLASS
-                                    <i class="ri-arrow-down-box-line"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    ARCHIVE A CLASS
-                                    <i class="ri-inbox-archive-line"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    SOON...
-                                    <i class="ri-open-arm-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4 hidden xl:block">
-                            <div class="flex flex-col">
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    SOON...
-                                    <i class="ri-open-arm-line"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    SOON...
-                                    <i class="ri-open-arm-line"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    SOON...
-                                    <i class="ri-open-arm-line"></i>
-                                </div>
-                                <div class="p-6 mb-2 justify-center bg-white cursor-pointer rounded-md flex gap-4 flex-1 shadow-md hover:border hover:border-primary hover:shadow-none duration-300 classes_opts" data-url="">
-                                    SOON...
-                                    <i class="ri-open-arm-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+		<!-- aside bar -->
+		{% block sidemenu%}
+			{% include 'schools/base/asidebar.html' %}
+		{% endblock sidemenu%}
+		<!-- top bar-->
+		{% block topbar%}
+			{% include 'schools/base/topbar.html' %}
+		{% endblock topbar%}
+		<!--main body-->
+        <main class="p-4 md:ml-32 xl:ml-60 md:mt-12">
+            <div class="relative top-12">
+                <div>
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
                 </div>
-                <!--Classes table-->
-                <div class="mb-4">
-                    <div class="flex items-center justify-center underline font-bold">
-                        CLASSES-LEDGER
-                    </div>
-                    <div class="flex flex-col">
-                        <!-- ledger header  -->
-                        <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
-                            <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 font-bold text-xl p-2">ID</div>
-                            <div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 lg:col-span-3 font-bold text-xl p-2">TITLE</div>
-                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">PROGRAM</div>
-                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden xl:flex">STREAM</div>
-                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden md:flex">CENSUS</div>
-                            <div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">DATA</div>
-                        </div>
-                        <div class="max-h-144 overflow-auto cursor-text" id="clstblbody">
-                            {% for class in school_classes %}
-                            <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
-                                <div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{class.class_id}}</div>
-                                <div class="border border-primary col-span-2 lg:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
-                                    {{class.class_level_str}}
-                                </div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{class.class_program.program_name}}</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden md:flex">{{class.class_title}}</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">{{class.class_student_count}}</div>
-                                <div class="border border-primary justify-start p-2 pb-0 hidden lg:flex text-srezs hover:underline hover:cursor-pointer">Details</div>
+                <div class="flex flex-col justify-between">
+                    <div class="mb-4">
+                        <div class="p-2 border border-bordercl rounded-xl mb-4">
+                            <div class="p-4 justify-center items-center flex w-fit rounded-md font-bold text-activeb bg-background2">
+                                Quick Actions
                             </div>
-                             {% endfor %}                           
+                            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 p-4 justify-between gap-4">
+                                <div class="flex flex-col border border-bordercl bg-background2 hover:bg-activeb duration-300 rounded-md justify-center items-center cursor-pointer classes_opts" data-url="{% url 'schools:school_class_addition' %}">
+                                    <div class="md-2 p-2  md:mb-4 md:p-4">
+                                        <i class="ri-add-line text-6xl font-bold"></i>
+                                    </div>
+                                    <div class="font-bold text-2xl mb-2">
+                                        Add A Class
+                                    </div>
+                                    <div class="mb-2 md:mb-4">
+                                        #ACL
+                                    </div>
+                                </div>
+                                <div class="flex flex-col border border-bordercl bg-background2 hover:bg-activeb duration-300 rounded-md justify-center items-center cursor-pointer classes_opts" data-url="{% url 'schools:school_class_deletion' %}">
+                                    <div class="md-2 p-2  md:mb-4 md:p-4">
+                                        <i class="ri-delete-bin-line text-6xl font-bold"></i>
+                                    </div>
+                                    <div class="font-bold text-2xl mb-2">
+                                        DEL A Class
+                                    </div>
+                                    <div class="mb-2 md:mb-4">
+                                        #DCL
+                                    </div>
+                                </div>
+                                <div class="flex flex-col border border-bordercl bg-background2 hover:bg-activeb duration-300 rounded-md justify-center items-center cursor-pointer classes_opts" data-url="">
+                                    <div class="md-2 p-2  md:mb-4 md:p-4">
+                                        <i class="ri-add-box-line text-6xl font-bold"></i>
+                                    </div>
+                                    <div class="font-bold text-2xl mb-2">
+                                        Add A Subject
+                                    </div>
+                                    <div class="mb-2 md:mb-4">
+                                        #ASB
+                                    </div>
+                                </div>
+                                <div class="flex flex-col border border-bordercl bg-background2 hover:bg-activeb duration-300 rounded-md justify-center items-center cursor-pointer classes_opts" data-url="">
+                                    <div class="md-2 p-2  md:mb-4 md:p-4">
+                                        <i class="ri-delete-bin-3-line text-6xl font-bold"></i>
+                                    </div>
+                                    <div class="font-bold text-2xl mb-2">
+                                        DEL A Subject
+                                    </div>
+                                    <div class="mb-2 md:mb-4">
+                                        #DSB
+                                    </div>
+                                </div>
+                                <div class="col-span-1 md:col-span-2 xl:col-span-4 flex mt-4 justify-center items-center">
+                                    <div class="flex flex-col flex-1 justify-center items-center xl:flex-row xl:flex-[0.8] xl:gap-4">
+                                        <div class="p-6 mb-2 justify-center bg-background2 hover:bg-activeb cursor-pointer rounded-md flex gap-4 shadow-md hover:shadow-none duration-300 w-[80%] border border-bordercl classes_opts" data-url="">
+                                            PROMOTE A CLASS
+                                            <i class="ri-arrow-up-box-line"></i>
+                                        </div>
+                                        <div class="p-6 mb-2 justify-center bg-background2 hover:bg-activeb cursor-pointer rounded-md flex gap-4 shadow-md hover:shadow-none duration-300 w-[80%] border border-bordercl classes_opts" data-url="">
+                                            DEMOTE A CLASS
+                                            <i class="ri-arrow-down-box-line"></i>
+                                        </div>
+                                        <div class="p-6 mb-2 justify-center bg-background2 hover:bg-activeb cursor-pointer rounded-md flex gap-4 shadow-md hover:shadow-none duration-300 w-[80%] border border-bordercl classes_opts" data-url="">
+                                            ARCHIVE A CLASS
+                                            <i class="ri-inbox-archive-line"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                    <div class="mb-4">
+                        <div class="items-center justify-center w-full flex">
+                            <div class="flex items-center justify-center font-bold text-activeb bg-background2 w-fit mb-2 p-4 rounded-md">
+                                CLASSES-LEDGER
+                            </div>
+                        </div>
+                        <div class="flex flex-col overflow-hidden rounded-t-md">
+                            <!-- ledger header  -->
+                            <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-tablebg">
+                                <div class="text-cbep1 col-span-2 font-bold text-xl p-2">ID</div>
+                                <div class="text-cbep1 col-span-2 lg:col-span-3 font-bold text-xl p-2">TITLE</div>
+                                <div class="text-cbep1 font-bold text-xl p-2 hidden lg:flex">PRG</div>
+                                <div class="text-cbep1 font-bold text-xl p-2 hidden xl:flex">STREAM</div>
+                                <div class="text-cbep1 font-bold text-xl p-2 hidden md:flex">CENSUS</div>
+                                <div class="text-cbep1 font-bold text-xl p-2 hidden lg:flex">DATA</div>
+                            </div>
+                            <div class="max-h-144 overflow-auto cursor-text" id="clstblbody">
+                                {% for class in school_classes %}
+                                <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-background2 gap-2">
+                                    <div class="border-b border-bordercl flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{class.class_id}}</div>
+                                    <div class="border-b border-bordercl col-span-2 lg:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
+                                        {{class.class_level_str}}
+                                    </div>
+                                    <div class="border-b border-bordercl justify-start p-2 pb-0 hidden lg:flex">{{class.class_program.program_name}}</div>
+                                    <div class="border-b border-bordercl justify-start p-2 pb-0 hidden md:flex">{{class.class_title}}</div>
+                                    <div class="border-b border-bordercl justify-start p-2 pb-0 hidden xl:flex">{{class.class_student_count}}</div>
+                                    <div class="border-b border-bordercl justify-start p-2 pb-0 hidden lg:flex text-srezs hover:underline hover:cursor-pointer">Details</div>
+                                </div>
+                                {% endfor %}                               
+                            </div>
                         </div>
                     </div>
-                </div>                
-			</div>
-		</div>
-	</main>
-	<!-- 3rd -->
-	{% include 'schools/base/1divuserp.html' %}
-  </div> 
+                </div>
+            </div>
+        </main>
+    </div>
 {% endblock content %}
 {% block head_js %}
   	<script src="{% static 'schools/js/dashl0/school_classmng.js'%}"></script>

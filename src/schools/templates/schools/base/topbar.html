@@ -5,7 +5,7 @@
         Dashboard
     </div>
     <div class="flex w-full justify-between items-center gap-4 md:justify-end md:p-3">
-        <button id="menu-btn" class="md:hidden">
+        <button id="menu-btn" class="ml-4 md:hidden">
             <i class="ri-menu-line text-2xl" id="hamburger"></i>
         </button>
         <div class="bg-background flex justify-between items-center h-6 w-16 cursor-pointer rounded-md p-2" id="#theme-toggle-btn">
@@ -17,7 +17,7 @@
                 <p class="font-sgothic font-bold">Hey, System Admin</b></p>
                 <p class="font-sgothic">{{school.school_name.title}}</p>
             </div>
-            <div class="overflow-hidden w-11 h-11 rounded-md border border-activeb">
+            <div class="mr-4 md:mr-0 overflow-hidden w-11 h-11 rounded-md border border-activeb">
                 <img src="{% static 'project/images/logo.png' %}" alt="Profile pic" class="object-center object-cover">
             </div>
         </div>

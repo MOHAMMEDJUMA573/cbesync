@@ -45,3 +45,9 @@ toggleButtons.forEach((toggleb, index) => {
         }
     })
 })
+//hide management on results view
+const rViewDiv = document.getElementById("rclassinfo");
+if (rViewDiv != null) {
+    const rConfigForm = document.getElementById("rconfigForm");
+    rConfigForm.classList.add("hidden")
+}

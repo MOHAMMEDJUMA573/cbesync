@@ -173,7 +173,7 @@ class SchoolLocksForm(forms.Form):
     school_rupload_lock = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": INPUTCSS
+                "class": "hidden"
             }
         ),
         choices=LOCKS_CHOICES,
@@ -182,7 +182,7 @@ class SchoolLocksForm(forms.Form):
     school_reportgen_lock = forms.ChoiceField(
         widget=Select(
             attrs={
-                "class": INPUTCSS
+                "class": "hidden"
             }
         ),
         choices=LOCKS_CHOICES,

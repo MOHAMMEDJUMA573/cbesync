@@ -6,21 +6,23 @@
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-  <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-	<!--Side bar menu-->
-    {% block sidemenu%}
-		{% include 'schools/base/navbar.html' %}
-    {% endblock sidemenu%} 
-	<!--main body-->
-	<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-		<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">User Management</p>
-        <div class="">
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
+        {% block sidemenu%}
+            {% include 'schools/base/asidebar.html' %}
+        {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
+        <!--main body-->
+        <main class="p-4 md:ml-32 xl:ml-60 md:mt-12">
             <div class="relative top-12 grid grid-cols-3 xl:grid-cols-4 gap-4">
                 <div class="col-span-3">
                     <fieldset class="rounded-md mb-4">
-                        <legend class="font-sgothic font-bold">Teacher Management</legend>
+                        <legend class="font-sgothic font-bold text-xl text-activeb bg-background2 p-2 rounded-md flex justify-center items-center">Teacher Management</legend>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="teacherReg" data-url="{% url 'schools:school_teacher_registration' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="teacherReg" data-url="{% url 'schools:school_teacher_registration' %}">
                                 <div class="flex font-bold text-success">Teacher <br> Registration</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -31,7 +33,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="teacherEnroll" data-url="{% url 'schools:school_teacher_enrollment' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="teacherEnroll" data-url="{% url 'schools:school_teacher_enrollment' %}">
                                 <div class="flex font-bold text-primary">Teacher <br> Enrollment</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -42,7 +44,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="teacherMng" data-url="{% url 'schools:school_teacher_management' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="teacherMng" data-url="{% url 'schools:school_teacher_management' %}">
                                 <div class="flex font-bold">Teacher <br> Management</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -56,9 +58,9 @@
                         </div>
                     </fieldset>
                     <fieldset class="rounded-md mb-4">
-                        <legend class="font-sgothic font-bold">Student Management</legend>
+                        <legend class="font-sgothic font-bold text-xl text-activeb bg-background2 p-2 rounded-md flex justify-center items-center">Student Management</legend>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="studentReg" data-url="{% url 'schools:school_student_registration' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="studentReg" data-url="{% url 'schools:school_student_registration' %}">
                                 <div class="flex font-bold text-success">Student <br> Registration</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -69,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="studentEnroll" data-url="{% url 'schools:school_student_enrollment' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="studentEnroll" data-url="{% url 'schools:school_student_enrollment' %}">
                                 <div class="flex font-bold text-primary">Student <br> Enrollment</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -80,7 +82,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="studentMng" data-url="{% url 'schools:school_student_management' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="studentMng" data-url="{% url 'schools:school_student_management' %}">
                                 <div class="flex font-bold">Student <br> Management</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -94,9 +96,9 @@
                         </div>
                     </fieldset>
                     <fieldset class="rounded-md mb-4">
-                        <legend class="font-sgothic font-bold">Parents Management</legend>
+                        <legend class="font-sgothic font-bold text-xl text-activeb bg-background2 p-2 rounded-md flex justify-center items-center">Parents Management</legend>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="parentReg" data-url="{% url 'schools:school_parent_registration' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="parentReg" data-url="{% url 'schools:school_parent_registration' %}">
                                 <div class="flex font-bold text-success">Parent <br> Registration</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -107,7 +109,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="parentEnroll" data-url="{% url 'schools:school_parent_enrollment' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="parentEnroll" data-url="{% url 'schools:school_parent_enrollment' %}">
                                 <div class="flex font-bold text-primary">Parent <br> Enrollment</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -118,7 +120,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="parentMng" data-url="{% url 'schools:school_parent_management' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="parentMng" data-url="{% url 'schools:school_parent_management' %}">
                                 <div class="flex font-bold">Parent <br> Management</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -132,9 +134,9 @@
                         </div>
                     </fieldset>
                     <fieldset class="rounded-md mb-4">
-                        <legend class="font-sgothic font-bold">NT-Staff Management</legend>
+                        <legend class="font-sgothic font-bold text-xl text-activeb bg-background2 p-2 rounded-md flex justify-center items-center">NT-Staff Management</legend>
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-4">
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="ntstaffReg" data-url="{% url 'schools:school_ntstaff_registration' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="ntstaffReg" data-url="{% url 'schools:school_ntstaff_registration' %}">
                                 <div class="flex font-bold text-success">NT-Staff <br> Registration</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -145,7 +147,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="ntstaffEnroll" data-url="{% url 'schools:school_ntstaff_enrollment' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="ntstaffEnroll" data-url="{% url 'schools:school_ntstaff_enrollment' %}">
                                 <div class="flex font-bold text-primary" >NT-Staff <br> Enrollment</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -156,7 +158,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="link-cards m-2 items-center justify-center text-center rounded-md p-7 bg-white shadow-md hover:shadow-none hover:border hover:border-primary duration-300 flex cursor-pointer" id="ntstaffMng" data-url="{% url 'schools:school_ntstaff_management' %}">
+                            <div class="m-2 items-center justify-center text-center rounded-md p-7 bg-background2 shadow-md hover:shadow-none hover:border hover:border-activeb duration-300 flex cursor-pointer link-cards" id="ntstaffMng" data-url="{% url 'schools:school_ntstaff_management' %}">
                                 <div class="flex font-bold">NT-Staff <br> Management</div>
                                 <div class="flex font-bold">
                                     <div class="flex h-12 w-12">
@@ -171,30 +173,67 @@
                     </fieldset>
                 </div>
                 <!-- last div  -->
-                <div class="border rounded-md border-black bg-light flex-col p-4 hidden xl:block">
-                    <p class="text-success mb-4 underline text-center font-bold">Coming soon...</p>
-                    <div class="mb-2 bg-white border border-primary">
-                        <p class="p-2 text-center">---Class CLS-232334344545 Removed---</p>
+                <div class="col-span-3 xl:col-span-1">
+                    <div class="flex items-center justify-center mb-4">
+                        <input type="text" placeholder="Search" class="flex flex-1 p-2 bg-background2 rounded-md outline-none text-inputtxt">
                     </div>
-                    <div class="mb-2 bg-white border border-primary">
-                        <p class="p-2 text-center">---Student STD-232334344545 Added---</p>
-                    </div>
-                    <div class="mb-2 bg-white border border-primary">
-                        <p class="p-2 text-center">---Class CLS-232334344545 Removed---</p>
-                    </div>
-                    <div class="mb-2 bg-white border border-primary">
-                        <p class="p-2 text-center">---Student STD-232334344545 Added---</p>
-                    </div>
-                    <div class="mb-2 bg-white border border-primary">
-                        <p class="p-2 text-center">---Class CLS-232334344545 Removed---</p>
+                    <div class="bg-background2 rounded-md">
+                        <p class="mb-4 flex justify-center items-center text-center text-xl">
+                            <div class="flex justify-center items-center mb-2 font-semibold border-b border-activeb ml-4 mr-4">Coming soon...</div>
+                        </p>
+                        <div class="mb-2 p-2">
+                            <div class="font-semibold">
+                                Teacher ****** TCH-*********** Added
+                            </div>
+                            <div class="text-smalltxt">
+                                Just now
+                            </div>
+                        </div>
+                        <div class="mb-2 p-2">
+                            <div class="font-semibold">
+                                Student ***** STD-************** Enrolled in Grade ***
+                            </div>
+                            <div class="text-smalltxt">
+                                2 hours ago
+                            </div>
+                        </div>
+                        <div class="mb-2 p-2">
+                            <div class="font-semibold">
+                                Grade *** CLS-********** Added 
+                            </div>
+                            <div class="text-smalltxt">
+                                2 days Ago
+                            </div>
+                        </div>
+                        <div class="mb-2 p-2">
+                            <div class="font-semibold">
+                                Student ***** STD-**************** Added
+                            </div>
+                            <div class="text-smalltxt">
+                                September 2, 2025
+                            </div>
+                        </div>
+                        <div class="mb-2 p-2">
+                            <div class="font-semibold">
+                                Student ***** STD-**************** Added
+                            </div>
+                            <div class="text-smalltxt">
+                                September 2, 2025
+                            </div>
+                        </div>
+                        <div class="mb-2 p-2">
+                            <div class="font-semibold">
+                                Student ***** STD-**************** Added
+                            </div>
+                            <div class="text-smalltxt">
+                                September 2, 2025
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-	</main>
-	<!--3rd-->
-	{% include 'schools/base/1divuserp.html' %}
-  </div>  
+        </main>
+    </div>  
 {% endblock content %}
 
 {% block head_js %}

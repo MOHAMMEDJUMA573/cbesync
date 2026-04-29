@@ -1,131 +1,101 @@
 {% extends 'schools/base/base.html' %}
+
 {% load static%}
 {% block head_css %}
-	<!-- no custom css  -->
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-    <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-			<!--Side bar menu-->
-			{% block sidemenu%}
-					{% include 'schools/base/navbar.html'%}
-			{% endblock sidemenu%}
-			<!--main body-->
-			<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-				<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">Students</p>
-				<div class="relative top-12">
-					<!-- main top utils  -->
-					<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-4">
-						<div class="flex items-center col-span-2 lg:col-span-3">
-							<form action="{% url 'schools:school_student_ledgerview' %}" class="flex items-center" method="post">
-								{% csrf_token %}
-									<label for="id_student_data">
-										Search:
-										<!--  <p>{{form.student_data.errors}}</p>  -->
-									</label>
-									{{form.student_data}}
-									<button type="submit" name="st_ledger_search" class="p-2 flex rounded-md border cursor-pointer">
-											<i class="ri-search-line"></i>
-									</button>
-							</form>
-						</div>
-						<form action="{% url 'schools:school_student_ledgerview' %}" method="post" class="flex items-center">
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+		<!-- aside bar -->
+		{% block sidemenu%}
+			{% include 'schools/base/asidebar.html' %}
+		{% endblock sidemenu%}
+		<!-- top bar-->
+		{% block topbar%}
+			{% include 'schools/base/topbar.html' %}
+		{% endblock topbar%}
+		<!--main body-->
+		<main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+            <div class="relative top-12 md:top-8">
+                <!-- main top utils  -->
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-4">
+                    <div class="flex items-center col-span-2 lg:col-span-3">
+                        <form action="{% url 'schools:school_student_ledgerview' %}" class="flex items-center bg-background2 rounded-md p-2" method="post">
 							{% csrf_token %}
-							<button type="submit" class="flex items-center" name="st_ledger_print">
-								<div class="text-xl cursor-pointer">Print</div>
-								<div class="text-xl cursor-pointer">
-										<i class="ri-printer-line"></i>
-								</div>
-							</button>
-						</form>
-						<form class="items-center hidden lg:flex">
-							<button class="flex items-center">
-								<div class="text-xl cursor-pointer">Export</div>
-								<div class="text-xl cursor-pointer">
-										<i class="ri-export-line"></i>
-								</div>
-							</button>
-						</form>
-						<form class="items-center hidden lg:flex">
-							<button class="flex items-center">
-								<div class="text-xl cursor-pointer">Download</div>
-								<div class="text-xl cursor-pointer">
-									<i class="ri-download-line"></i>
-								</div>
-							</button>
-						</form>
+							<!--  <p>{{form.student_data.errors}}</p>  -->
+                            {{form.student_data}}
+                            <button type="submit" name="st_ledger_search" class="flex rounded-md cursor-pointer">
+                                <i class="ri-search-line"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="flex p-1">
+                        <form action="{% url 'schools:school_student_ledgerview' %}" method="post" class="flex bg-background2 rounded-md">
+							{% csrf_token %}
+                            <button type="submit" class="flex items-center" name="st_ledger_print">
+                                <div class="text-xl cursor-pointer">Print</div>
+                                <div class="text-xl cursor-pointer">
+                                    <i class="ri-printer-line"></i>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="hidden lg:flex">
+                        <form class="flex bg-background2 rounded-md">
+                            <button class="flex items-center" type="submit">
+                                <div class="text-xl cursor-pointer">Export</div>
+                                <div class="text-xl cursor-pointer">
+                                    <i class="ri-export-line"></i>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                    <div class="hidden lg:flex">
+                        <form class="flex bg-background2 rounded-md">
+                            <button class="flex items-center" type="submit">
+                                <div class="text-xl cursor-pointer">Download</div>
+                                <div class="text-xl cursor-pointer">
+                                    <i class="ri-download-line"></i>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <!-- search results -->
+				{% if search_results is None %}
+					<!--Not a post request-->
+				{% elif search_results == "empty" %}
+					<div class="mb-4">
+						<ul class="errorlist">
+							<li>No such user</li>
+						</ul>
 					</div>
-					<!-- search results -->
-					{% if search_results is None %}
-							<!--Not a post request-->
-					{% elif search_results == "empty" %}
-						<div class="mb-4">
-								<ul class="errorlist">
-										<li>No such user</li>
-								</ul>
-						</div>
-					{% else %}
-						<div class="mb-4">
-							<div class="flex items-center justify-center underline font-bold text-srezs">
-									Search Results
-							</div>
-							<div class="flex flex-col">
-								{% for student in search_results %}
-									{% if forloop.first %}
-									<!-- ledger header  -->
-									<div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
-											<div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 font-bold text-xl p-2">ID</div>
-											<div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 lg:col-span-3 font-bold text-xl p-2">Full Name</div>
-											<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Level</div>
-											<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden md:flex">Grade</div>
-											<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden xl:flex" title="Date of birth">DOB</div>
-											<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Gender</div>
-									</div>
-									{% endif %}
-								{% endfor %}
-								<div class="max-h-144 overflow-auto cursor-pointer" id="stdtblbody">
-									{% for student in search_results %}
-										<div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white text-srezs">
-											<div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{student.student_id}}</div>
-											<div class="border border-primary col-span-2 lg:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
-													<span class="mr-2">{{ student.student_first_name }}</span>
-													<span class="mr-2">{{ student.student_middle_name }}</span>
-													<span class="mr-2">{{ student.student_last_name }}</span>
-											</div>
-											<div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{student.student_class.class_program.program_name}}</div>
-											<div class="border border-primary justify-start p-2 pb-0 hidden md:flex">{{student.student_class.class_level_str}}</div>
-											<div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">---</div>
-											<div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{student.student_gender}}</div>
-										</div>
-									{% endfor %}
-								</div>
+				{% else %}
+					<div class="mb-4">
+						<div class="items-center  w-full flex">
+							<div class="flex items-center justify-center font-bold text-activeb bg-tablebg w-fit p-2 rounded-t-md">
+								Search Results
 							</div>
 						</div>
-					{% endif %}
-					<!-- Student Ledger -->
-					<div class="">
-						<div class="flex items-center justify-center underline font-bold">
-								Students Ledger
-						</div>
-						<div class="flex flex-col shadow-xl">
+						<div class="flex flex-col">
 							<!-- ledger header  -->
-							<div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
-									<div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 font-bold text-xl p-2">ID</div>
-									<div class="bg-tablebg text-cbep1 border-l border-primary col-span-2 lg:col-span-3 font-bold text-xl p-2">Full Name</div>
-									<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Level</div>
-									<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden md:flex">Grade</div>
-									<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden xl:flex" title="Date of birth">DOB</div>
-									<div class="bg-tablebg text-cbep1 border-l border-primary font-bold text-xl p-2 hidden lg:flex">Gender</div>
+							<div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-tablebg text-cbep1 rounded-tr-md">
+								<div class="col-span-2 font-bold text-xl p-2">ID</div>
+								<div class="col-span-2 lg:col-span-3 font-bold text-xl p-2">Full Name</div>
+								<div class="font-bold text-xl p-2 hidden lg:flex">Level</div>
+								<div class="font-bold text-xl p-2 hidden md:flex">Grade</div>
+								<div class="font-bold text-xl p-2 hidden xl:flex" title="Date of birth">DOB</div>
+								<div class="font-bold text-xl p-2 hidden lg:flex">Gender</div>
 							</div>
-							<!-- ledger body  -->
-							<div class="max-h-144 overflow-auto cursor-pointer" id="stdtblbody">
-								{% for student in school_students%}
-									<div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-white">
+							<div class="max-h-144 overflow-auto cursor-pointer bg-background2 text-srezs" id="stdSearchTbl">
+								{% for student in search_results %}
+									<div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9">
 										<div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{student.student_id}}</div>
 										<div class="border border-primary col-span-2 lg:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
-											<span class="mr-2">{{student.student_first_name}}</span>
-											<span class="mr-2">{{student.student_middle_name}}</span>
-											<span class="mr-2">{{student.student_last_name}}</span>
+											<span class="mr-2">{{ student.student_first_name }}</span>
+											<span class="mr-2">{{ student.student_middle_name }}</span>
+											<span class="mr-2">{{ student.student_last_name }}</span>
 										</div>
 										<div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{student.student_class.class_program.program_name}}</div>
 										<div class="border border-primary justify-start p-2 pb-0 hidden md:flex">{{student.student_class.class_level_str}}</div>
@@ -136,10 +106,40 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</main>
-			<!-- 3rd -->
-			{% include 'schools/base/1divuserp.html' %}
+				{% endif %}
+                <!-- Student Ledger -->
+                <div class="" id="studentLedger">
+                    <div class="flex flex-col shadow-xl">
+                        <!-- ledger header  -->
+                        <div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9 bg-tablebg text-cbep1 rounded-t-md">
+                            <div class="col-span-2 font-bold text-xl p-2">ID</div>
+                            <div class="col-span-2 lg:col-span-3 font-bold text-xl p-2">Full Name</div>
+                            <div class="font-bold text-xl p-2 hidden lg:flex">Level</div>
+                            <div class="font-bold text-xl p-2 hidden md:flex">Grade</div>
+                            <div class="font-bold text-xl p-2 hidden xl:flex" title="Date of birth">DOB</div>
+                            <div class="font-bold text-xl p-2 hidden lg:flex">Gender</div>
+                        </div>
+                        <!-- ledger body  -->
+                        <div class="max-h-144 overflow-auto cursor-pointer bg-background2" id="stdtblbody">
+							{% for student in school_students%}
+								<div class="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-8 xl:grid-cols-9">
+									<div class="border border-primary flex col-span-2 justify-center p-2 pb-0 max-h-9 overflow-auto">{{student.student_id}}</div>
+									<div class="border border-primary col-span-2 lg:col-span-3 flex p-2 pb-0 max-h-9 overflow-auto">
+										<span class="mr-2">{{student.student_first_name}}</span>
+										<span class="mr-2">{{student.student_middle_name}}</span>
+										<span class="mr-2">{{student.student_last_name}}</span>
+									</div>
+									<div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{student.student_class.class_program.program_name}}</div>
+									<div class="border border-primary justify-start p-2 pb-0 hidden md:flex">{{student.student_class.class_level_str}}</div>
+									<div class="border border-primary justify-start p-2 pb-0 hidden xl:flex">---</div>
+									<div class="border border-primary justify-start p-2 pb-0 hidden lg:flex">{{student.student_gender}}</div>
+								</div>
+							{% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 {% endblock content %}
 {% block head_js %}

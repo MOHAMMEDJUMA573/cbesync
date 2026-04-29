@@ -260,7 +260,7 @@ class NtStaffSearchForm(forms.Form):
             attrs={
                 "autocomplete":"off",
                 "placeholder":"Name or NTID",
-                "class":"flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg ml-4 mr-4 text-inputtxt"
+                "class":"flex flex-1 outline-0 rounded-md max-w-auto md:max-w-[30ch] ml-4 mr-4 text-inputtxt"
             }
         )
     )

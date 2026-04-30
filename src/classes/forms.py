@@ -32,7 +32,9 @@ RESULT_TERM_CHOICES = [
     ('T 2', 'Term 2'),
     ('T 3', 'Term 3'),
 ]
-INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt border border-bordercl"
+
 class ClassRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):
         programs_list = [
@@ -280,3 +282,5 @@ class ClassTeacherAssignmentForm(forms.Form):
             class_passed = self.cleaned_data["classes_objs"]
             class_passed.class_teacher = self.cleaned_data["teacher_objs"]
             class_passed.save(update_fields=["class_teacher"])
+
+            return class_passed

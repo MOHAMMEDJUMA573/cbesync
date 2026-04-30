@@ -375,10 +375,10 @@ def teacher_management_class_assignment(request):
         form = ClassTeacherAssignmentForm(request.POST,classes_tuple_list=classes_list,teachers_tuple_list=teachers_list)
         if form.is_valid():
             ct_assinged = form.cleaned_data["teacher_objs"]
-            form.save()
+            class_assigned = form.save()
             messages.success(
                 request,
-                _(f" {'Mr.' if ct_assinged.teacher_gender == 'M' else 'Ms.' } {ct_assinged.teacher_last_name} is now a class teacher🥳")
+                _(f" {'Mr.' if ct_assinged.teacher_gender == 'M' else 'Ms.' } {ct_assinged.teacher_last_name} is the new {class_assigned.class_level_str} class_teacher🥳!")
             )
             return redirect("schools:school_teacher_management_class_assignment")
         else: 

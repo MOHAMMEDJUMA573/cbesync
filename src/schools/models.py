@@ -232,8 +232,9 @@ class SchoolProfile(models.Model):
     def school_online_days(self):
         today = date.today()
         school_doc = self.school_creation_date.date()
+        months_age = relativedelta(today, school_doc).months
         days_age = relativedelta(today, school_doc).days
-        return  days_age
+        return  f"M's:{months_age},Dy's:{days_age}"
 
     @property
     def school_classes_list(self):

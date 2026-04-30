@@ -227,28 +227,31 @@ def teacher_enrollment(request):
                     else:
                         #transfer the teacher to the new school
                         with transaction.atomic():
+                            toupdate_fields_list = [
+                                "teacher_school","teacher_status","teacher_phone","teacher_role","teacher_t_subjects",
+                                "teacher_e_level","teacher_h_qualification"
+                            ]
                             enrolled_teacher.teacher_school = current_school
                             enrolled_teacher.teacher_status = "E"
-                            enrolled_teacher.teacher_email = passed_teacher_email
                             enrolled_teacher.teacher_phone = passed_teacher_phone
                             enrolled_teacher.teacher_role = passed_teacher_role
                             enrolled_teacher.teacher_t_subjects = passed_t_subjects
                             enrolled_teacher.teacher_e_level = passed_e_level
                             enrolled_teacher.teacher_h_qualification = passed_t_hqualification
-                            #change teacher user email too
-                            user = enrolled_teacher.user
-                            user.email = passed_teacher_email
-                            # update the fields
-                            user.save(
-                                update_fields=[
-                                    "email"
-                                ]
-                            )
+                            if passed_teacher_email:
+                                enrolled_teacher.teacher_email = passed_teacher_email
+                                toupdate_fields_list.append("teacher_email")
+                                #change teacher user email too
+                                user = enrolled_teacher.user
+                                user.email = passed_teacher_email
+                                # update the fields
+                                user.save(
+                                    update_fields=[
+                                        "email"
+                                    ]
+                                )                        
                             enrolled_teacher.save(
-                                update_fields=[
-                                    "teacher_school","teacher_status","teacher_email","teacher_phone","teacher_role","teacher_t_subjects",
-                                    "teacher_e_level","teacher_h_qualification"
-                                ]
+                                update_fields=toupdate_fields_list
                             )
                             messages.success(
                                 request,

@@ -324,6 +324,7 @@ class TeacherEnrollmentForm(forms.Form):
             }
         ),
         max_length=100,
+        required=False
     )
     teacher_id = forms.CharField(
         max_length=35,

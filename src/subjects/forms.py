@@ -6,7 +6,7 @@ from teachers.models import TeacherProfile
 from django.utils.translation import gettext_lazy as _
 from django.forms.widgets import Select
 
-INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt border border-bordercl"
 
 class SubjectCreationForm(forms.Form):
     def __init__(self, *args, **kwargs):

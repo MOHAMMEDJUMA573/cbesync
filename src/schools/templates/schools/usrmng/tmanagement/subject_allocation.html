@@ -1,28 +1,30 @@
-
 {% extends 'schools/base/base.html' %}
 
 {% load static%}
 {% block head_css %}
-	<!-- no custom css  -->
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-		<!--Side bar menu-->
-		{% block sidemenu%}
-			{% include 'schools/base/navbar.html' %}
-		{% endblock sidemenu%}
-		<!--main body-->
-		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">SBJ-Allocation</p>
-			<div class="relative top-12">
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
+        {% block sidemenu%}
+            {% include 'schools/base/asidebar.html' %}
+        {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
+        <!--main body-->
+		<main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+			<div class="relative top-12 md:top-8">
 				<div class="flex flex-col justify-between">
 					<div class="mb-4">
 						<form action="{% url 'schools:school_teacher_management_subject_allocation' %}" method="post" class="flex flex-col">
 							{% csrf_token %}
-							<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
-								<div class="flex flex-col"> 
-									<p>Please select the teacher and the subject </p>
+							<div class="flex-col mb-4 p-4 bg-background2 rounded-md">
+								<div class="flex flex-col">
+									<p class="font-bold text-activeb font-sgothic">Please select the teacher and the subject</p>
 									{% if messages %}
 										<ul class="messages">
 											{% for message in messages %}
@@ -35,16 +37,16 @@
 									</p>
 								</div>
 							</div>
-							<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
+							<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 p-2 bg-white rounded-xl">
 								<div class="flex flex-col p-2 overflow-hidden">
-									<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teachers_objs">
+									<label class="p-2 pl-0 font-bold text-left" for="id_teachers_objs">
 										Teacher:
 										<p>{{form.teachers_objs.errors}}</p>
 									</label>
 									{{form.teachers_objs}}
 								</div>
 								<div class="flex flex-col p-2 overflow-hidden">
-									<label class="p-2 pl-0 font-bold text-left text-primary " for="id_subjects_objs">
+									<label class="p-2 pl-0 font-bold text-left" for="id_subjects_objs">
 										Subject:
 										<p>{{form.subjects_objs.errors}}</p>
 									</label>
@@ -61,39 +63,32 @@
 					</div>
 					<!-- class-> Teacher grid  -->
 					<div class="hidden sm:block">
-						<div class="flex items-center justify-center underline font-bold">
-							(Teacher -> Subject) Ledger
-						</div>
 						<div class="flex flex-col shadow-xl">
-							<div class="flex flex-col bg-white pt-4 pb-4 pl-2 pr-2 rounded-md">
-								<!-- table header  -->
-								<div class="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-10 bg-white">
-									<div class="bg-tablebg text-cbep1 col-span-2 flex font-bold text-left text-xl p-2">Name</div>
-									<div class="bg-tablebg text-cbep1 col-span-2 border-l border-primary font-bold text-xl p-2 hidden lg:flex">TID</div>
-									<div class="bg-tablebg text-cbep1 col-span-6 border-l border-primary font-bold text-xl p-2 hidden sm:flex">Subjects</div>
-								</div>
-								<!-- table body  -->
-								<div class="max-h-144 overflow-auto cursor-pointer" id="stdtblbody">
-									{% for teacher in teachers %}
-									<div class="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-10 bg-white">
-										<div class="border border-primary col-span-2 flex p-2 pb-0 overflow-auto ">{{ teacher.teacher_first_name }} {{ teacher.teacher_middle_name }} {{ teacher.teacher_last_name }}</div>
-										<div class="border border-primary col-span-2 justify-center p-2 pb-0 hidden lg:flex overflow-auto">{{teacher.teacher_id}}</div>
-										<div class="border border-primary col-span-6 justify-center p-2 pb-0 hidden sm:flex overflow-auto">
-											{% for subject in teacher.teacher_teaching_subjects %}
-												{{subject.subject_name}} {{subject.subject_class.class_level_str}} ({{subject.subject_class.class_title}}) {%if not forloop.last%} , {% endif %} &nbsp;												
-											{% endfor %}
-										</div>
+							<!-- table header  -->
+							<div class="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-10 bg-tablebg text-cbep1 rounded-t-md">
+								<div class="col-span-2 flex font-bold text-left text-xl p-2">Name</div>
+								<div class="col-span-2 font-bold text-xl p-2 hidden lg:flex">TID</div>
+								<div class="col-span-6 font-bold text-xl p-2 hidden sm:flex">Subjects</div>
+							</div>
+							<!-- table body  -->
+							<div class="max-h-144 overflow-auto cursor-text bg-background2" id="tchsbjtblbdy">
+								{% for teacher in teachers %}
+								<div class="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-10">
+									<div class="border border-primary col-span-2 flex p-2 pb-0 overflow-auto ">{{ teacher.teacher_first_name }} {{ teacher.teacher_middle_name }} {{ teacher.teacher_last_name }}</div>
+									<div class="border border-primary col-span-2 justify-center p-2 pb-0 hidden lg:flex overflow-auto">{{teacher.teacher_id}}</div>
+									<div class="border border-primary col-span-6 justify-center p-2 pb-0 hidden sm:flex overflow-auto">
+										{% for subject in teacher.teacher_teaching_subjects %}
+											{{subject.subject_name}} {{subject.subject_class.class_level_str}} ({{subject.subject_class.class_title}}) {%if not forloop.last%} , {% endif %} &nbsp;												
+										{% endfor %}
 									</div>
-									{% endfor %}									
 								</div>
+								{% endfor %}								
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
-		<!-- 3rd -->
-		{% include 'schools/base/1divuserp.html' %}
 	</div> 
 {% endblock content %}
 {% block head_js %}

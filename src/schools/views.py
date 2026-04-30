@@ -425,7 +425,8 @@ def teacher_management_subject_allocation(request):
           context = {
             "form":form,
             "school":current_school,
-            "page_title":page_title
+            "page_title":page_title,
+            "teachers":school_teachers
           } 
     else:
         context = {

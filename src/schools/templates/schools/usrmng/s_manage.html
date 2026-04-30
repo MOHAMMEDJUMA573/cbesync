@@ -1,65 +1,65 @@
-
 {% extends 'schools/base/base.html' %}
 
 {% load static%}
 {% block head_css %}
-	<!-- no custom css  -->
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-		<!--Side bar menu-->
-		{% block sidemenu%}
-			{% include 'schools/base/navbar.html' %}
-		{% endblock sidemenu%}
-		<!--main body-->
-		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">S-Management</p>
-			<div class="relative top-12">
-				<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
-					<div class="flex flex-col font-bold">
-						<p>Select from the options below</p>
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
+        {% block sidemenu%}
+            {% include 'schools/base/asidebar.html' %}
+        {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
+		<main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+			<div class="relative top-12 md:top-8">
+				<div class="flex-col mb-4 p-4 bg-background2 rounded-md">
+					<div class="flex flex-col">
+						<p class="font-bold text-activeb font-sgothic">Select from the options below</p>
+						<p class="error-message"></p>
 					</div>
 				</div> 
 				<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
-					<div class="rounded-md p-4 border border-gray-600">
+					<div class="rounded-md p-4 bg-background2">
 						<div class="font-bold mb-2 text-xl">
 							Academic Management Options
 						</div>
 						<div class="flex flex-col">
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Manual Promotion</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Assign leadership</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">View Report</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Sign Report</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Manual Promotion</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Assign leadership</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">View Report</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Sign Report</div>
 						</div>
 					</div>
-					<div class="rounded-md p-4 border border-gray-600">
+					<div class="rounded-md p-4 bg-background2">
 						<div class="font-bold mb-2 text-xl">
 							Internal Management Options
 						</div>
 						<div class="flex flex-col">
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Data Modification</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Block a Student</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Suspend a Student</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Destitute a Student</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Data Modification</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Block a Student</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Suspend a Student</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Destitute a Student</div>
 						</div>
 					</div>
-					<div class="rounded-md p-4 border border-gray-600">
+					<div class="rounded-md p-4 bg-background2">
 						<div class="font-bold mb-2 text-xl">
 							External Management Options
 						</div>
 						<div class="flex flex-col">
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Transfer a Student</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Advertise for vacancy</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">View Applications</div>
-							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md border border-constbl">Accept application</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Transfer a Student</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Advertise for vacancy</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">View Applications</div>
+							<div class="p-6 mb-2 bg-[#4e7c5d] cursor-pointer rounded-md flex flex-1 shadow-md">Accept application</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</main>
-		<!-- 3rd -->
-		{% include 'schools/base/1divuserp.html' %}
 	</div> 
 {% endblock content %}
 {% block head_js %}

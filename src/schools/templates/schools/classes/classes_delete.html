@@ -6,22 +6,25 @@
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-    <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-        <!--Side bar menu-->
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
         {% block sidemenu%}
-            {% include 'schools/base/navbar.html' %}
-        {% endblock sidemenu%}  
+            {% include 'schools/base/asidebar.html' %}
+        {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
         <!--main body-->
-        <main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-            <p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">Class Deletion</p>
-            <div class="relative top-12">
-                <div class="flex flex-col justify-between">
-                    <div class="mb-4">
-                        <form action="{% url 'schools:school_class_deletion' %}" method="post" class="flex flex-col" id="classDeleteForm">
+        <main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+			<div class="relative top-12 md:top-8">
+				<div class="flex flex-col justify-between">
+					<div class="mb-4">
+						<form action="{% url 'schools:school_class_deletion' %}" method="post" class="flex flex-col">
 							{% csrf_token %}
-							<div class="flex flex-col mb-4 bg-headers rounded-md p-4">
-								<div class="form-guide-text"> 
-									<p>Please fill the form below to delete a class</p>
+							<div class="flex-col mb-4 p-4 bg-background2 rounded-md">
+                                <div class="flex flex-col">
+                                    <p class="font-bold text-activeb font-sgothic">Fill in the form to delete a class</p>
 									{% if messages %}
 										<ul class="messages">
 											{% for message in messages %}
@@ -32,27 +35,25 @@
 									<p class="error-message">
 										{{ form.non_field_errors }}
 									</p>
-								</div>
-							</div>
-							<div class="grid grid-cols-1 md:grid-cols-2 rounded-md bg-white">
+                                </div>
+                            </div>
+							<div class="grid grid-cols-1 sm:grid-cols-2 p-2 bg-white rounded-xl">
 								<div class="flex flex-col m-2 p-2 overflow-hidden">
-									<label class="p-2 pl-0 font-bold text-left text-primary " for="id_class_id">
+									<label class="p-2 pl-0 font-bold text-left" for="id_class_id">
 										Class ID:
 										<p>{{form2.class_id.errors}}</p>
 									</label>
 									{{form2.class_id}}
 								</div>
 								<div class="flex items-center justify-between md:justify-start">
-									<button type="submit" name="class_deletion" class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 ">Delete</button>
+									<button type="submit" name="class_deletion" class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1">Delete</button> 
 								</div>
 							</div>
 						</form>
-                    </div>
-                </div>
-            </div>
-        </main>
-        <!-- 3rd -->    
-        {% include 'schools/base/1divuserp.html' %}
+					</div>
+				</div>
+			</div>
+		</main>
     </div> 
 {% endblock content %}
 {% block head_js %}

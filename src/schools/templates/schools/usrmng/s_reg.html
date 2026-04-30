@@ -2,24 +2,27 @@
 
 {% load static%}
 {% block head_css %}
-	<!-- no custom css  -->
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-    <div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-        <!--Side bar menu-->
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
         {% block sidemenu%}
-            {% include 'schools/base/navbar.html'%}
+            {% include 'schools/base/asidebar.html' %}
         {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
         <!--main body-->
-        <main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-            <p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">S-Registration</p>
-            <div class="relative top-12">
-                <form action="{% url 'schools:school_student_registration' %}" enctype="multipart/form-data" method="post"  class="flex flex-col">
+        <main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+            <div class="relative top-12 md:top-8">
+                <form action="{% url 'schools:school_student_registration' %}" enctype="multipart/form-data" method="post" class="flex flex-col">
                     {% csrf_token %}
-                    <div class="flex flex-col mb-4 bg-headers rounded-md p-2">
+                    <div class="flex-col mb-4 p-4 bg-background2 rounded-md">
                         <div class="flex flex-col">
-                            <p>Please fill the form below to register a student</p>
+                            <p class="font-bold text-activeb font-sgothic">To register a student, fill in appropriately</p>
                             {% if messages %}
                                 <ul class="messages">
                                     {% for message in messages %}
@@ -32,36 +35,36 @@
                             </p>
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 p-2 bg-white rounded-xl">
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_first_name">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_first_name">
                                 First-Name:
                                 <p>{{ form.student_first_name.errors }}</p>
                             </label>
                             {{form.student_first_name}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_middle_name">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_middle_name">
                                 Middle-Name:
                                 <p>{{ form.student_middle_name.errors }}</p>
                             </label>
                             {{form.student_middle_name}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_last_name">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_last_name">
                                 Last-Name:
-                                <p>{{ form.student_last_name.errors }}</p> 
+                                <p>{{ form.student_last_name.errors }}</p>
                             </label>
                             {{form.student_last_name}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="gender_M">
+                            <label class="p-2 pl-0 font-bold text-left" for="gender_M">
                                 Gender:
                                 <p>{{ form.student_gender.errors }}</p>
                             </label>
-                            <div>
+                            <div class="text-inputtxt">
                                 {% for value, label in form.student_gender.field.choices %}
-                                <label class="p-2 pl-0 font-bold text-left text-primary " for="gender_{{ value }}">
+                                <label class="p-2 pl-0 font-bold text-left" for="gender_{{ value }}">
                                     {{value}}:
                                 </label>
                                 <input
@@ -75,116 +78,118 @@
                             </div>
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_dob">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_dob">
                                 Date of Birth:
                                 <p>{{ form.student_dob.errors }}</p>
                             </label>
                             {{form.student_dob}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_e_contact">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_e_contact">
                                 Emergency Contact:
                                 <p>{{ form.student_e_contact.errors }}</p>
                             </label>
                             {{form.student_e_contact}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_email">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_email">
                                 Email:
                                 <p>{{ form.student_email.errors }}</p>
                             </label>
                             {{form.student_email}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_home_address">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_home_address">
                                 Home address:
                                 <p>{{ form.student_home_address.errors }}</p>
                             </label>
                             {{form.student_home_address}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_assessment_number">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_assessment_number">
                                 Assessment Number:
                                 <p>{{ form.student_assessment_number.errors }}</p>
                             </label>
                             {{form.student_assessment_number}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_class">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_class">
                                 Student class:
                                 <p>{{ form.student_class.errors }}</p>
                             </label>
                             {{form.student_class}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_country">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_country">
                                 Nationality:
                                 <p>{{ form.student_country.errors }}</p>
                             </label>
                             {{form.student_country}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_admission_date">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_admission_date">
                                 Date of Admission:
                                 <p>{{ form.student_admission_date.errors }}</p>
-                            </label>
-                            {{form.student_admission_date}}
+                             </label>
+                             {{form.student_admission_date}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="T">
+                            <label class="p-2 pl-0 font-bold text-left" for="T">
                                 Special Needs:
                                 <p>{{ form.student_s_needs.errors }}</p>
                             </label>
-                            <div>
+                            <div class="text-inputtxt">
                                 {% for value, label in form.student_s_needs.field.choices %}
-                                    <label class="p-2 pl-0 font-bold text-left" for={{value}}>
-                                        {{label}}:
-                                    </label>
-                                    <input
-                                        type="radio"
-                                        id="{{value}}"
-                                        value="{{value}}"
-                                        name="student_s_needs"
-                                        {% if form.student_s_needs.value == value %}checked{% endif %}
-                                    >
+                                <label class="p-2 pl-0 font-bold text-left" for={{value}}>
+                                    {{label}}:
+                                </label>
+                                <input
+                                    type="radio"
+                                    id="{{value}}"
+                                    value="{{value}}"
+                                    name="student_s_needs"
+                                    {% if form.student_s_needs.value == value %}checked{% endif %}
+                                >
                                 {% endfor %}
                             </div>
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_blood_group">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_blood_group">
                                 Blood-group:
                                 <p>{{ form.student_blood_group.errors }}</p>
                             </label>
                             {{form.student_blood_group}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_e_notes">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_e_notes">
                                 Emergency Notes:
                                 <p>{{ form.student_e_notes.errors }}</p>
                             </label>
                             {{form.student_e_notes}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="ENV">
+                            <label class="p-2 pl-0 font-bold text-left" for="ENV">
                                 Allergies:
                                 <p>{{ form.student_allergies.errors }}</p>
                             </label>
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr);">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr);" class="text-inputtxt">
                                 {% for value, label in form.student_allergies.field.choices %}
-                                    <div>
-                                        <input
-                                            type="checkbox"
-                                            id="{{value}}"
-                                            name="student_allergies"
-                                            value="{{value}}"
-                                        >
-                                        <label for="{{value}}">{{label}}</label><br>
-                                    </div>
-                                {% endfor %}                                									
+                                <div>
+                                    <input
+                                        type="checkbox"
+                                        id="{{value}}"
+                                        name="student_allergies"
+                                        value="{{value}}"
+                                    >
+                                    <label class="p-2 pl-0 font-bold text-left" for="{{value}}">
+                                        {{label}}
+                                    </label><br> 
+                                </div>
+                                {% endfor%}                                										
                             </div>
                         </div> 
                         <div class="flex flex-col p-2 overflow-hidden">
-                            <label class="p-2 pl-0 font-bold text-left text-primary " for="id_student_pic">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_student_pic">
                                 Upload a passport photo:
                                 <p>{{ form.student_pic.errors }}</p>
                             </label>
@@ -194,12 +199,10 @@
                             <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
                             <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
                         </div>
-                    </div>     
+                    </div>
                 </form> 
             </div>
         </main>
-        <!-- 3rd -->
-        {% include 'schools/base/1divuserp.html' %}
     </div> 
 {% endblock content %}
 {% block head_js %}

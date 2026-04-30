@@ -20,7 +20,7 @@ def generate_unique_student_id():
         if not StudentProfile.objects.filter(student_id=new_id).exists():
             return new_id
 
-INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt border border-bordercl"
 
 class StudentRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):

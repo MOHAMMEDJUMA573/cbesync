@@ -205,6 +205,7 @@ def teacher_enrollment(request):
             passed_teacher_phone = form.cleaned_data["teacher_phone"]
             passed_e_level = form.cleaned_data["teacher_e_level"]
             passed_t_subjects = form.cleaned_data["teacher_t_subjects"]
+            passed_t_hqualification = form.cleaned_data["teacher_h_qualification"]
             try:
                 enrolled_teacher = TeacherProfile.objects.get(teacher_id=passed_teacher_id)
                 teacher_first_name = enrolled_teacher.teacher_first_name
@@ -233,6 +234,7 @@ def teacher_enrollment(request):
                             enrolled_teacher.teacher_role = passed_teacher_role
                             enrolled_teacher.teacher_t_subjects = passed_t_subjects
                             enrolled_teacher.teacher_e_level = passed_e_level
+                            enrolled_teacher.teacher_h_qualification = passed_t_hqualification
                             #change teacher user email too
                             user = enrolled_teacher.user
                             user.email = passed_teacher_email
@@ -245,7 +247,7 @@ def teacher_enrollment(request):
                             enrolled_teacher.save(
                                 update_fields=[
                                     "teacher_school","teacher_status","teacher_email","teacher_phone","teacher_role","teacher_t_subjects",
-                                    "teacher_e_level"
+                                    "teacher_e_level","teacher_h_qualification"
                                 ]
                             )
                             messages.success(

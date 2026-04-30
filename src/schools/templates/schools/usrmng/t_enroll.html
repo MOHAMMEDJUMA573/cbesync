@@ -1,26 +1,28 @@
-
 {% extends 'schools/base/base.html' %}
 
 {% load static%}
 {% block head_css %}
-	<!-- no custom css  -->
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-		<!--Side bar menu-->
-		{% block sidemenu%}
-			{% include 'schools/base/navbar.html' %}
-		{% endblock sidemenu%}
-		<!--main body-->
-		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">T-Enrollment</p>
-			<div class="relative top-12">
-				<form action="{% url 'schools:school_teacher_enrollment' %}" method="post" class="flex flex-col">
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
+        {% block sidemenu%}
+            {% include 'schools/base/asidebar.html' %}
+        {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
+        <!--main body-->
+		<main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+            <div class="relative top-12 md:top-8">
+                <form action="{% url 'schools:school_teacher_enrollment' %}" method="post" class="flex flex-col">
 					{% csrf_token %}
-					<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
-						<div class="flex flex-col">
-							<p>Please enter teacher's (1<sup>st</sup> & Last Name + TID   ) to (transfer/update)</p>
+                    <div class="flex-col mb-4 p-4 bg-background2 rounded-md">
+                        <div class="flex flex-col">
+                            <p class="font-bold text-activeb font-sgothic">Please enter teacher's (1<sup>st</sup> & Last Name + TID   ) to (transfer/update)</p>
 							{% if messages %}
 								<ul class="messages">
 									{% for message in messages %}
@@ -31,97 +33,95 @@
 							<p class="error-message">
 								{{ form.non_field_errors }}
 							</p>
-						</div>
-					</div>
-					<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_first_name">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_first_name">
 								First-Name:
 								<p>{{form.teacher_first_name.errors}}</p>
 							</label>
 							{{form.teacher_first_name}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_last_name">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" or="id_teacher_last_name">
 								Last-Name:
 								<p>{{form.teacher_last_name.errors}}</p>
 							</label>
 							{{form.teacher_last_name}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_email">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_email">
 								New email:
 								<p>{{ form.teacher_email.errors }}</p>
 							</label>
 							{{form.teacher_email}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_id">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_id">
 								Teacher ID:
 								<p>{{form.teacher_id.errors}}</p>
 							</label>
 							{{form.teacher_id}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_phone">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_phone">
 								New (Tel No):
 								<p>{{form.teacher_phone.errors}}</p>
 							</label>
 							{{form.teacher_phone}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_role">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_role">
 								New Role:
 								<p>{{form.teacher_role.errors}}</p>
 							</label>
 							{{form.teacher_role}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_e_level">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_e_level">
 								Educational Level:
 								<p>{{form.teacher_e_level.errors}}</p>
 							</label>
-							{{form.teacher_e_level}}							
-						</div>
-						<div class="flex flex-col col-span-1 sm:col-span-2 lg:col-span-1 p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="ENGL">
-								Teaching Subjects:
-								<p>{{ form.teacher_t_subjects.errors }}</p>
-							</label>
-							<div class="grid grid-cols-2 sm:grid-cols-3">
-								{% for value, label in form.teacher_t_subjects.field.choices %}
-								<div>
-									<input
-										type="checkbox"
-										id="{{value}}"
-										name="{{form.teacher_t_subjects.name}}"
-										value="{{value}}"
-										{% if value in teacher_t_subjects.value %}checked{% endif %}
-									>
-									<label class="p-2 pl-0 font-bold text-left " for="{{value}}">
-										{{label}}
-									</label><br> 
-								</div>	
-								{% endfor %}		
-							</div>
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_teacher_h_qualification">
+							{{form.teacher_e_level}}
+                        </div>
+                        <div class="flex flex-col col-span-1 sm:col-span-2 lg:col-span-1 p-2 overflow-hidden">
+                                <label class="p-2 pl-0 font-bold text-left" for="ENGL">
+									Teaching Subjects:
+									<p>{{ form.teacher_t_subjects.errors }}</p>
+								</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 text-inputtxt">
+									{% for value, label in form.teacher_t_subjects.field.choices %}
+                                    <div>
+                                        <input
+											type="checkbox"
+											id="{{value}}"
+											name="{{form.teacher_t_subjects.name}}"
+											value="{{value}}"
+											{% if value in teacher_t_subjects.value %}checked{% endif %}
+										>
+                                        <label class="p-2 pl-0 font-bold text-left " for="{{value}}">
+											{{label}}
+										</label><br> 
+                                    </div>
+									{% endfor %}
+                                </div>
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_h_qualification">
 								Latest Qualification:
 								<p>{{form.teacher_h_qualification.errors}}</p>
 							</label>
 							{{form.teacher_h_qualification}}
-						</div>
-						<div class="flex items-center justify-between sm:justify-end lg:justify-start">
-							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
-							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
-						</div>
-					</div>                
-				</form>
-			</div>
-		</main>
-		<!-- 3rd -->
-		{% include 'schools/base/1divuserp.html' %}
+                        </div>
+                        <div class="flex items-center justify-between sm:justify-end lg:justify-start">
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
+                        </div>
+                    </div>                
+                </form>
+            </div>
+        </main>
 	</div> 
 {% endblock content %}
 {% block head_js %}

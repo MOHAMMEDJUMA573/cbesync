@@ -102,7 +102,7 @@ class ClassRegistrationForm(forms.Form):
         widget=forms.Textarea(
             attrs={
                 'autocomplete':'off',
-                "rows":2,
+                "rows":1,
                 "columns":4,
                 "class": INPUTCSS
             }

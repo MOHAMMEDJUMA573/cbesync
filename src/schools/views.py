@@ -523,7 +523,6 @@ def student_enrollment(request):
                         "form":form
                     }
                 else:
-                    #transfer the teacher to the new school
                     with transaction.atomic():
                         #internal update or external transfer
                         if student_old_school == current_school:
@@ -594,17 +593,49 @@ def student_enrollment(request):
                                     "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
                                 }
                         else:
-                            enrolled_student.student_school = current_school
-                            enrolled_student.student_status = "A"
+                            #transfer to a new school
+                            #delete all past exams,reports for the student in previous class and create the new ones
+                            ResultsProfile.objects.filter(
+                                result_student=enrolled_student,
+                                result_class=enrolled_student.student_class
+                            ).delete()
+                            StudentEReportProfile.objects.filter(
+                                streport_student=enrolled_student,
+                                streport_class=enrolled_student.student_class
+                            ).delete()
+                            student_class_subjects = passed_student_class.subject_profiles.all()
+                            student_class_examinations = passed_student_class.examination_profiles.all()
+                            for examination in student_class_examinations:
+                                for subject in student_class_subjects:
+                                    ResultsProfile.objects.create(
+                                        result_student = enrolled_student,
+                                        result_class = passed_student_class,
+                                        result_school = passed_student_class.class_school,
+                                        result_subject = subject,
+                                        result_examination = examination
+                                    )
+                                StudentEReportProfile.objects.create(
+                                    streport_examination = examination,
+                                    streport_class = passed_student_class,
+                                    streport_student = enrolled_student,
+                                )   
                             # update the fields
+                            enrolled_student.student_school = current_school
+                            enrolled_student.student_first_name = passed_first_name
+                            enrolled_student.student_middle_name = passed_middle_name
+                            enrolled_student.student_last_name = passed_last_name
+                            enrolled_student.student_dob = passed_student_dob
+                            enrolled_student.student_class = passed_student_class
+                            enrolled_student.student_status = "A"
                             enrolled_student.save(
                                 update_fields=[
-                                    "student_school","student_status"
+                                    "student_school","student_first_name","student_middle_name","student_last_name","student_dob",
+                                    "student_class","student_status"
                                 ]
                             )
                             messages.success(
                                 request,
-                                (f"Student {passed_last_name} : {passed_student_id} enrolled successfully")
+                                (f"Student {passed_last_name} : {passed_student_id} transfer was successfully!😎")
                             )
                             context = {
                                 "school":current_school,

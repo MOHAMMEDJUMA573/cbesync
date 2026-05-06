@@ -2,24 +2,27 @@
 
 {% load static%}
 {% block head_css %}
-	<!-- no custom css  -->
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-		<!--Side bar menu-->
-		{% block sidemenu%}
-			{% include 'schools/base/navbar.html' %}
-		{% endblock sidemenu%}
-		<!--main body-->
-		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">P-Enrollment</p>
-			<div class="relative top-12">
-				<form action="{% url 'schools:school_parent_enrollment' %}" method="post" class="flex flex-col">
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
+        {% block sidemenu%}
+            {% include 'schools/base/asidebar.html' %}
+        {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
+        <!--main body-->
+		<main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+            <div class="relative top-12 md:top-8">
+                <form action="{% url 'schools:school_parent_enrollment' %}" method="post" class="flex flex-col">
 					{% csrf_token %}
-					<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
-						<div class="flex flex-col"> 
-							<p>Please enter the required parent data (transfer/update)</p>
+                    <div class="flex-col mb-4 p-4 bg-background2 rounded-md">
+                        <div class="flex flex-col">
+                            <p class="font-bold text-activeb font-sgothic">Please enter the required parent data (update)</p>
 							{% if messages %}
 								<ul class="messages">
 									{% for message in messages %}
@@ -30,60 +33,58 @@
 							<p class="error-message">
 								{{ form.non_field_errors }}
 							</p>
-						</div>
-					</div>
-					<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_first_name">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_parent_first_name">
 								First-Name:
 								<p>{{form.parent_first_name.errors}}</p>
 							</label>
 							{{form.parent_first_name}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_last_name">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_parent_last_name">
 								Last-Name:
 								<p>{{form.parent_last_name.errors}}</p>
 							</label>
 							{{form.parent_last_name}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_M">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="gender_M">
 								Gender:
 								<p>{{ form.parent_gender.errors }}</p>
 							</label>
-							<div>
+                            <div class="text-inputtxt">
 								{% for value, label in form.parent_gender.field.choices %}
-								<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_{{ value }}">
+                                <label class="p-2 pl-0 font-bold text-left" for="gender_{{ value }}">
 									{{ value }}:
 								</label>
-								<input
+                                <input
 									type="radio"
 									id="gender_{{ value }}"
 									name="{{ form.parent_gender.name }}"
 									value="{{ value }}"
 									{% if form.parent_gender.value == value %}checked{% endif %}
 								>
-								{% endfor %}								
-							</div>
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_parent_id">
+								{% endfor %}
+                            </div>
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_parent_id">
 								Parent ID:
 								<p>{{form.parent_id.errors}}</p>
 							</label>
 							{{form.parent_id}}
-						</div>
-						<div class="flex items-center justify-between md:justify-start">
-							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
-							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
-						</div>
-					</div>               
-				</form>
-			</div>
-		</main>
-		<!-- 3rd -->
-		{% include 'schools/base/1divuserp.html' %}
+                        </div>
+                        <div class="flex items-center justify-between md:justify-start">
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
+                        </div>
+                    </div>               
+                </form>
+            </div>
+        </main>
 	</div>
 {% endblock content %}
 {% block head_js %}

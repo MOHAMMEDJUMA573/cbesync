@@ -120,7 +120,8 @@ class TeacherRegistrationForm(forms.Form):
         initial=date.today().strftime('%Y-%m-%d'),
         widget=forms.DateInput(
             attrs={
-                "class": INPUTCSS
+                "class": INPUTCSS,
+                "type":"date"
             }
         )
     )

@@ -64,7 +64,8 @@ class StudentRegistrationForm(forms.Form):
     student_dob = forms.DateField(
         widget=forms.DateInput(
             attrs={
-                "class":INPUTCSS
+                "class":INPUTCSS,
+                "type":"date"
             }
         ),
         initial=date(2010, 1, 1).strftime('%Y-%m-%d'),
@@ -365,7 +366,8 @@ class StudentEnrollmentForm(forms.Form):
     student_dob = forms.DateField(
         widget=forms.DateInput(
             attrs={
-                "class":INPUTCSS
+                "class":INPUTCSS,
+                "type": "date"
             }
         ),
         initial=date(2010, 1, 1).strftime('%Y-%m-%d'),

@@ -2,24 +2,27 @@
 
 {% load static%}
 {% block head_css %}
-	<!-- no custom css  -->
+    <!-- no custom css  -->
 {% endblock head_css %}
 {% block head_title %} {{block.super}}-{{page_title}}  {% endblock head_title %}
 {% block content %}
-	<div class="grid grid-cols-1 w-full md:w-[97%] mt-0 mb-0 gap-5">
-		<!--Side bar menu-->
-		{% block sidemenu%}
-			{% include 'schools/base/navbar.html'%}
-		{% endblock sidemenu%}
-		<!--main body-->
-		<main class="p-4 md:p-0 md:ml-32 lg:ml-60 mt-4 ">
-			<p class="text-2xl font-bold font-sgothic relative -top-4 md:top-0">NT-Registration</p>
-			<div class="relative top-12">
-				<form action="{% url 'schools:school_ntstaff_registration' %}" enctype="multipart/form-data" method="post" class="flex flex-col">
+	<div class="grid grid-cols-1 w-full mt-0 mb-0 gap-5">
+        <!-- aside bar -->
+        {% block sidemenu%}
+            {% include 'schools/base/asidebar.html' %}
+        {% endblock sidemenu%}
+        <!-- top bar-->
+        {% block topbar%}
+            {% include 'schools/base/topbar.html' %}
+        {% endblock topbar%}
+        <!--main body-->
+		<main class="p-4 md:ml-32 xl:ml-53 md:mt-12">
+            <div class="relative top-12 md:top-8">
+                <form action="{% url 'schools:school_ntstaff_registration' %}" enctype="multipart/form-data" method="post" class="flex flex-col">
 					{% csrf_token %}
-					<div class="flex flex-col mb-4 bg-headers rounded-md p-2">
-						<div class="flex flex-col">
-							<p>Please fill the form below to register a non-teaching staff</p>
+                    <div class="flex-col mb-4 p-4 bg-background2 rounded-md">
+                        <div class="flex flex-col">
+                            <p class="font-bold text-activeb font-sgothic">To register a staff, fill in appropriately</p>
 							{% if messages %}
 								<ul class="messages">
 									{% for message in messages %}
@@ -30,41 +33,41 @@
 							<p class="error-message">
 								{{ form.non_field_errors }}
 							</p>
-						</div>
-					</div>
-					<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 rounded-md bg-white p-2">
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_middle_name">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 p-2 bg-white rounded-xl">
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_first_name">
 								First-Name:
 								<p>{{form.ntstaff_first_name.errors}}</p>
-							 </label>
-							 {{form.ntstaff_first_name}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_middle_name">
+							</label>
+							{{form.ntstaff_first_name}}
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_middle_name">
 								Middle-Name:
-								{{form.ntstaff_middle_name.errors}}
+								<p>{{form.ntstaff_middle_name.errors}}</p>
 							</label>
 							{{form.ntstaff_middle_name}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_last_name">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_last_name">
 								Last-Name:
-								{{form.ntstaff_last_name.errors}}
+								<p>{{form.ntstaff_last_name.errors}}</p>
 							</label>
 							{{form.ntstaff_last_name}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_M">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="gender_M">
 								Gender:
 								<p>{{ form.ntstaff_gender.errors }}</p>
 							</label>
-							<div>
+                            <div class="text-inputtxt">
 								{% for value, label in form.ntstaff_gender.field.choices %}
-								<label class="p-2 pl-0 font-bold text-left text-primary " for="gender_{{ value }}">
+                                <label class="p-2 pl-0 font-bold text-left" for="gender_{{ value }}">
 									{{ value }}:
 								</label>
-								<input
+                                <input
 									type="radio"
 									id="gender_{{ value }}"
 									name="{{ form.ntstaff_gender.name }}"
@@ -72,123 +75,121 @@
 									{% if form.ntstaff_gender.value == value %}checked{% endif %}
 								>
 								{% endfor %}
-							</div>
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_dob">
+                            </div>
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_dob">
 								Date of Birth:
 								<p>{{form.ntstaff_dob.errors}}</p>
 							</label>
 							{{form.ntstaff_dob}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_phone">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_phone">
 								Phone Number:
 								<p>{{form.ntstaff_phone.errors}}</p>
 							</label>
-							{{form.ntstaff_phone}}							
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_e_contact">
+							{{form.ntstaff_phone}}                            
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_e_contact">
 								Emergency Contact:
 								<p>{{form.ntstaff_e_contact.errors}}</p>
 							</label>
-							{{form.ntstaff_e_contact}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_email">
+                            {{form.ntstaff_e_contact}}
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_email">
 								Email:
 								<p>{{form.ntstaff_email.errors}}</p>
 							</label>
 							{{form.ntstaff_email}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_home_address">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_home_address">
 								Home address:
 								<p>{{form.ntstaff_home_address.errors}}</p>
 							</label>
 							{{form.ntstaff_home_address}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_h_qualification">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_h_qualification">
 								Highest Qualification:
-								{{form.ntstaff_h_qualification.errors}}
+								<p>{{form.ntstaff_h_qualification.errors}}</p>
 							</label>
-							{{form.ntstaff_h_qualification}}
-						</div> 
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_s_field">
+                            {{form.ntstaff_h_qualification}}
+                        </div> 
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_s_field">
 								Field of Study:
 								<p>{{form.ntstaff_s_field.errors}}</p>
 							</label>
-							{{form.ntstaff_s_field}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_country">
+                            {{form.ntstaff_s_field}}
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_country">
 								Nationality:
 								<p>{{form.ntstaff_country.errors}}</p>
 							</label>
-							{{form.ntstaff_country}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_y_experience">
+                            {{form.ntstaff_country}}
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_y_experience">
 								Y of experience:
-								{{form.ntstaff_y_experience.errors}}
+								<p>{{form.ntstaff_y_experience.errors}}</p>
 							</label>
 							{{form.ntstaff_y_experience}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_j_title">
-								Job-title: 
-								{{form.ntstaff_j_title.errors}}
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_j_title">
+								Job-title:
+								<p>{{form.ntstaff_j_title.errors}}</p>
 							</label>
-							{{form.ntstaff_j_title}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_e_notes">
+                            {{form.ntstaff_j_title}}
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_e_notes">
 								Emergency Notes:
 								<p>{{form.ntstaff_e_notes.errors}}</p>
 							</label>
 							{{form.ntstaff_e_notes}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="ENV">
+                        </div>
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="ENV">
 								Allergies:
 								<p>{{ form.ntstaff_allergies.errors }}</p>
 							</label>
-							<div style="display: grid; grid-template-columns: repeat(2, 1fr);">
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr);" class="text-inputtxt">
 								{% for value, label in form.ntstaff_allergies.field.choices %}
-								<div>
-									<input
+                                <div>
+                                    <input
 										type="checkbox"
 										id="{{value}}"
 										name="ntstaff_allergies"
 										value="{{value}}"
 									>
-									<label class="p-2 pl-0 font-bold text-left" for="{{value}}">
+                                    <label class="p-2 pl-0 font-bold text-left" for="{{value}}">
 										{{label}}
-									</label><br>
-								</div>
-								{% endfor %}																	
-							</div>
-						</div> 
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left text-primary " for="id_ntstaff_pic">
+									</label><br> 
+                                </div>
+								{% endfor %}                                									
+                            </div>
+                        </div> 
+                        <div class="flex flex-col p-2 overflow-hidden">
+                            <label class="p-2 pl-0 font-bold text-left" for="id_ntstaff_pic">
 								Upload a passport photo:
 								<p>{{form.ntstaff_pic.errors}}</p>
 							</label>
 							{{form.ntstaff_pic}}
-						</div>						
-						<div class="flex items-center justify-between md:justify-start">
-							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
-							<button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
-						</div>
-					</div>            
-				</form>  
-			</div>
-		</main>
-		<!-- 3rd -->
-		{% include 'schools/base/1divuserp.html' %}
+                        </div>
+                        <div class="flex items-center justify-between md:justify-start">
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
+                        </div>
+                    </div>                
+                </form>  
+            </div>
+        </main>
 	</div> 
 {% endblock content %}
 {% block head_js %}

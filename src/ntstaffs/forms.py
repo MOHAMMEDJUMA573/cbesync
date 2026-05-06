@@ -16,7 +16,7 @@ def generate_unique_ntstaff_id():
         if not NtStaffProfile.objects.filter(ntstaff_id=new_id).exists():
             return new_id
 
-INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt"
+INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-inputbg text-inputtxt border border-bordercl"
 
 class NtStaffRegistrationForm(forms.Form):
     ntstaff_first_name = forms.CharField(
@@ -55,7 +55,8 @@ class NtStaffRegistrationForm(forms.Form):
     ntstaff_dob = forms.DateField(
         widget=forms.DateInput(
             attrs={
-                "class":INPUTCSS
+                "class":INPUTCSS,
+                "type":"date"
             }
         ),
         initial=date(2001, 1, 1).strftime('%Y-%m-%d'),

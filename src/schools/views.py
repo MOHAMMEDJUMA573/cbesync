@@ -121,13 +121,15 @@ def dashboard(request):
     programs = ProgramProfile.objects.all()
     template_name = "schools/dashl0/school_index.html"
     page_title = "S-Dashboard"
+    topbar_title = "Dashboard"
     context = {
         "school":current_school,
         "page_title":page_title,
+        "topbar_title":topbar_title,
         "school_country":school_country,
         "school_county":school_county,
         "school_type":school_type,
-        "programmes":programs
+        "programmes":programs,
     }       
     return render(request, template_name, context)
 
@@ -143,9 +145,11 @@ def user_management(request):
     current_school =  get_school_object(request.user)
     template_name = "schools/dashl0/school_usermng.html"
     page_title = "U-Management"
+    topbar_title = "Users"
     context = {
         "school":current_school,
-        "page_title":page_title
+        "page_title":page_title,
+        "topbar_title":topbar_title
     }    
     return render(request, template_name, context)
 #***--------------------***
@@ -160,6 +164,7 @@ def teacher_registration(request):
     current_school =  get_school_object(request.user)
     template_name = "schools/usrmng/t_reg.html"
     page_title = "T-Registration"
+    topbar_title = "T:Registration"
     form = TeacherRegistrationForm()
     if request.method == "POST":
         form = TeacherRegistrationForm(request.POST, request.FILES)
@@ -174,12 +179,14 @@ def teacher_registration(request):
             context = {
                 "school":current_school,
                 "page_title":page_title,
+                "topbar_title":topbar_title,
                 "form":form
             }
     else:
         context = {
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "form":form
         }
     return render(request, template_name, context)
@@ -193,6 +200,7 @@ def teacher_enrollment(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/t_enroll.html"
     page_title = "T-Enrollment"
+    topbar_title = "T:Enrollment"
     form = TeacherEnrollmentForm()
     if request.method == "POST":
         form = TeacherEnrollmentForm(request.POST)
@@ -222,6 +230,7 @@ def teacher_enrollment(request):
                         context = {
                             "school":current_school,
                             "page_title":page_title,
+                            "topbar_title":topbar_title,
                             "form":form
                         }
                     else:
@@ -260,6 +269,7 @@ def teacher_enrollment(request):
                             context = {
                                 "school":current_school,
                                 "page_title":page_title,
+                                "topbar_title":topbar_title,
                                 "form":TeacherEnrollmentForm()
                             }
                 else:
@@ -270,6 +280,7 @@ def teacher_enrollment(request):
                     context = {
                         "school":current_school,
                         "page_title":page_title,
+                        "topbar_title":topbar_title,
                         "form":form
                     }
             except TeacherProfile.DoesNotExist:
@@ -280,18 +291,21 @@ def teacher_enrollment(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form":form
                 }
         else:
             context = {
                 "school":current_school,
                 "page_title":page_title,
+                "topbar_title":topbar_title,
                 "form":form
             }
     else:
         context = {
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "form":form
         }
     return render(request, template_name, context)
@@ -349,12 +363,14 @@ def teacher_management(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/t_manage.html"
     page_title = "T-Management"
+    topbar_title = "T:Management"
     if request.method == "POST":
         pass
     else:
         context = {
             "school":current_school,
-            "page_title":page_title
+            "page_title":page_title,
+            "topbar_title":topbar_title
         }
     return render(request, template_name, context)
 
@@ -367,6 +383,7 @@ def teacher_management_class_assignment(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/tmanagement/class_assignment.html"
     page_title = "T-Management"
+    topbar_title = "C:Assignment"
     classes_list = current_school.school_classes_list
     teachers_list = get_teacher_choice_tuple2(current_school)
     school_teachers = get_teacher_objects(current_school)
@@ -386,6 +403,7 @@ def teacher_management_class_assignment(request):
             "form":form,
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "teachers": school_teachers 
           }
     else:
@@ -393,6 +411,7 @@ def teacher_management_class_assignment(request):
             "form":form,
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "teachers": school_teachers
         }
     return render(request, template_name, context)
@@ -406,6 +425,7 @@ def teacher_management_subject_allocation(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/tmanagement/subject_allocation.html"
     page_title = "T-Management"
+    topbar_title = "S:Allocation"
     teachers_list = get_teacher_choice_tuple2(current_school)
     subject_list = get_subject_choice_tuple(current_school)
     school_teachers = get_teacher_objects(current_school)
@@ -426,6 +446,7 @@ def teacher_management_subject_allocation(request):
             "form":form,
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "teachers":school_teachers
           } 
     else:
@@ -433,6 +454,7 @@ def teacher_management_subject_allocation(request):
             "form":form,
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "teachers":school_teachers
         }
     return render(request, template_name, context)
@@ -450,6 +472,7 @@ def student_registration(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/s_reg.html"
     page_title = "S-Registration"
+    topbar_title = "S:Registration"
     classes_list = current_school.school_classes_list
     form = StudentRegistrationForm(classes_tuple_list=classes_list)
     if classes_list:
@@ -466,12 +489,14 @@ def student_registration(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form":form
                 }
         else:
             context = {
                 "school":current_school,
                 "page_title":page_title,
+                "topbar_title":topbar_title,
                 "form": form
             }
             return render(request, template_name, context)
@@ -483,6 +508,7 @@ def student_registration(request):
         context = {
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "form": form
         }
         return render(request, template_name, context)
@@ -497,6 +523,7 @@ def student_enrollment(request):
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/s_enroll.html"
     page_title = "S-Enrollment"
+    topbar_title = "S:Enrollment"
     classes_list = current_school.school_classes_list
     form = StudentEnrollmentForm(classes_tuple_list=classes_list)
     if request.method == "POST":
@@ -520,6 +547,7 @@ def student_enrollment(request):
                     context = {
                         "school":current_school,
                         "page_title":page_title,
+                        "topbar_title":topbar_title,
                         "form":form
                     }
                 else:
@@ -544,6 +572,7 @@ def student_enrollment(request):
                                 context = {
                                     "school":current_school,
                                     "page_title":page_title,
+                                    "topbar_title":topbar_title,
                                     "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
                                 }
                             else:
@@ -590,6 +619,7 @@ def student_enrollment(request):
                                 context = {
                                     "school":current_school,
                                     "page_title":page_title,
+                                    "topbar_title":topbar_title,
                                     "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
                                 }
                         else:
@@ -640,6 +670,7 @@ def student_enrollment(request):
                             context = {
                                 "school":current_school,
                                 "page_title":page_title,
+                                "topbar_title":topbar_title,
                                 "form":StudentEnrollmentForm(classes_tuple_list=classes_list)
                             }
             except StudentProfile.DoesNotExist:
@@ -650,18 +681,21 @@ def student_enrollment(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form":form
                 }
         else:
             context = {
                 "school":current_school,
                 "page_title":page_title,
+                "topbar_title":topbar_title,
                 "form":form
             }
     else:
         context = {
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "form":form
         }
     return render(request, template_name, context)
@@ -720,6 +754,7 @@ def student_management(request):
     school_name = current_school.school_name
     template_name = "schools/usrmng/s_manage.html"
     page_title = "S-Management"
+    topbar_title = "S:Management"
     if request.method == "POST":
         pass
     else:
@@ -727,6 +762,7 @@ def student_management(request):
             "school":current_school,
             "school_name":school_name,
             "page_title":page_title,
+            "topbar_title":topbar_title
         }
     return render(request, template_name, context)
 #***--------------------***
@@ -1064,10 +1100,12 @@ def class_management(request):
     current_school = get_school_object(request.user)
     template_name = "schools/dashl0/school_classmng.html"
     page_title = "C-Management"
+    topbar_title = "C:Management"
     school_classes = get_class_objects(current_school).order_by("-class_level", "class_title")
     context = {
         "school":current_school,
         "page_title":page_title,
+        "topbar_title":topbar_title,
         "school_classes":school_classes
     }
 
@@ -1082,6 +1120,7 @@ def class_addition(request):
     current_school = get_school_object(request.user)
     template_name = "schools/classes/classes_create.html"
     page_title = "C-Addition"
+    topbar_title = "C:Addition"
     school_classes = get_class_objects(current_school).order_by("-class_level", "class_title")
     teachers_list = get_teacher_choice_tuple2(current_school)
     form = ClassRegistrationForm(teachers_list=teachers_list)
@@ -1106,12 +1145,14 @@ def class_addition(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form":form,
                 }
         else:
             context = {
                 "school":current_school,
                 "page_title":page_title,
+                "topbar_title":topbar_title,
                 "form":form,
                 "school_classes":school_classes
             }
@@ -1123,6 +1164,7 @@ def class_addition(request):
         context = {
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "form":form
         }   
     
@@ -1138,6 +1180,7 @@ def class_deletion(request):
     current_school = get_school_object(request.user)
     template_name = "schools/classes/classes_delete.html"
     page_title = "C-Deletion"
+    topbar_title = "C:Deletion"
     form2 = ClassDeletionForm()
     if request.method == "POST":
         form2 = ClassDeletionForm(request.POST)
@@ -1161,6 +1204,7 @@ def class_deletion(request):
                     context = {
                         "school":current_school,
                         "page_title":page_title,
+                        "topbar_title":topbar_title,
                         "form2":form2,
                     }
             except ClassProfile.DoesNotExist:
@@ -1171,18 +1215,21 @@ def class_deletion(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form2":form2,
                 }
         else:
             context = {
                 "school":current_school,
                 "page_title":page_title,
+                "topbar_title":topbar_title,
                 "form2":form2,
             }
     else:
         context = {
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "form2":form2,
         }
 
@@ -1200,6 +1247,7 @@ def assessment_management(request):
     current_school = get_school_object(request.user)
     template_name = "schools/dashl0/school_assess.html"
     page_title = "A-Management"
+    topbar_title = "Assessments"
     classes_list = current_school.school_classes_list
     school_results = current_school.school_result_objects
     form = SchoolLocksForm()
@@ -1225,6 +1273,7 @@ def assessment_management(request):
                     context = {
                         "school":current_school,
                         "page_title":page_title,
+                        "topbar_title":topbar_title,
                         "form":form,
                         "form2":form2
                     }
@@ -1237,6 +1286,7 @@ def assessment_management(request):
                     context = {
                         "school":current_school,
                         "page_title":page_title,
+                        "topbar_title":topbar_title,
                         "form":form,
                         "form2":form2
                     }
@@ -1254,6 +1304,7 @@ def assessment_management(request):
                     context = {
                         "school":current_school,
                         "page_title":page_title,
+                        "topbar_title":topbar_title,
                         "form":form,
                         "form2":form2
                     }
@@ -1300,6 +1351,7 @@ def assessment_management(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form":form,
                     "form2":form2,
                     "class_fetched":formdata["result_class"],
@@ -1310,6 +1362,7 @@ def assessment_management(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form":form,
                     "form2":form2
                 }
@@ -1326,6 +1379,7 @@ def assessment_management(request):
                 context = {
                     "school":current_school,
                     "page_title":page_title,
+                    "topbar_title":topbar_title,
                     "form":form,
                     "form2":ResultsFilterForm(classes_tuple_list=classes_list)
                 }
@@ -1333,6 +1387,7 @@ def assessment_management(request):
         context = {
             "school":current_school,
             "page_title":page_title,
+            "topbar_title":topbar_title,
             "form":form,
             "form2":form2
         }

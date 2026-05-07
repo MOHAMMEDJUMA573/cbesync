@@ -73,6 +73,9 @@ def generate_program_subjects(level):
 def gen_initial():
     generate_program_subjects(1)
 
+def get_default_school():
+    return SchoolProfile.objects.first().pk if SchoolProfile.objects.exists() else None
+
 class ProgramProfile(models.Model):
     id = models.UUIDField(
         primary_key=True,
@@ -96,7 +99,7 @@ class ProgramProfile(models.Model):
         SchoolProfile,
         on_delete=models.CASCADE,
         related_name="school_programs",
-        null=True
+        default=get_default_school
     )
     program_name = models.CharField(
         choices=STARTING_PROGRAMS

@@ -3,6 +3,7 @@ from django.db import transaction
 from django import forms
 import uuid
 from accounts.models import CustomUser
+from classes.models import ProgramProfile
 from .models import SchoolProfile
 from phonenumber_field.formfields import PhoneNumberField
 from django.core.exceptions import ValidationError
@@ -162,6 +163,23 @@ class SchoolSignupForm(SignupForm):
             )
             user.username = school.school_id
             user.save(update_fields=['username'])
+            #create default programmes for the school
+            for prog_tuple in ProgramProfile.STARTING_PROGRAMS:
+                if prog_tuple[0] == 'PPE':
+                    levels = list([1,2])
+                elif prog_tuple[0] == 'LPE':
+                    levels = list([1,2,3])
+                elif prog_tuple[0] == 'UPE':
+                    levels = list([4,5,6])
+                elif prog_tuple[0] == 'JSS':
+                    levels = list([7,8,9])
+                else:
+                    levels = list([1,2,3,4,5,6,7,8,9,10,11,12])
+                ProgramProfile.objects.create(
+                    program_school = school,
+                    program_name = prog_tuple[0],
+                    program_levels = levels
+                )
 
             return user
 

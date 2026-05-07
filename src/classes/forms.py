@@ -37,10 +37,7 @@ INPUTCSS = "flex flex-1 outline-0 p-2 rounded-md max-w-auto md:max-w-[30ch] bg-i
 
 class ClassRegistrationForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        programs_list = [
-            (str(p.program_id), str(p.get_program_name_display()))
-            for p in ProgramProfile.objects.all()
-        ]
+        programs_list = kwargs.pop("programs_list")
         teachers_list = kwargs.pop("teachers_list")
 
         super(ClassRegistrationForm,self).__init__(*args,**kwargs)

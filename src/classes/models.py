@@ -92,6 +92,12 @@ class ProgramProfile(models.Model):
         ('PPE', 'Pre Primary'),
         ('OTH', 'Other')
     ]
+    program_school = models.ForeignKey(
+        SchoolProfile,
+        on_delete=models.CASCADE,
+        related_name="school_programs",
+        null=True
+    )
     program_name = models.CharField(
         choices=STARTING_PROGRAMS
     )
@@ -100,13 +106,8 @@ class ProgramProfile(models.Model):
         blank=True,
         default=list
     )
-    program_subjects = ArrayField(
-        models.CharField(max_length=35),
-        blank=True,
-        default=gen_initial
-    )
     def __str__(self):
-        return f"{self.program_id} --- {self.program_name} --- {self.program_levels}"
+        return f"{self.program_id} --- {self.program_name} --- {self.program_school}"
 
 class ClassProfile(models.Model):
     id = models.UUIDField(

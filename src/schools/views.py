@@ -1123,10 +1123,14 @@ def class_addition(request):
     topbar_title = "C:Addition"
     school_classes = get_class_objects(current_school).order_by("-class_level", "class_title")
     teachers_list = get_teacher_choice_tuple2(current_school)
-    form = ClassRegistrationForm(teachers_list=teachers_list)
+    programs_list = [
+        (str(p.program_id), str(p.get_program_name_display()))
+        for p in current_school.school_programs_list
+    ]
+    form = ClassRegistrationForm(teachers_list=teachers_list,programs_list=programs_list)
     if teachers_list:
         if request.method == "POST":
-            form = ClassRegistrationForm(request.POST, teachers_list=teachers_list)
+            form = ClassRegistrationForm(request.POST, teachers_list=teachers_list,programs_list=programs_list)
             if form.is_valid():
                 response = form.save(current_school)
                 if response == 0 :

@@ -235,6 +235,10 @@ class SchoolProfile(models.Model):
         months_age = relativedelta(today, school_doc).months
         days_age = relativedelta(today, school_doc).days
         return  f"M's:{months_age},Dy's:{days_age}"
+    
+    @property
+    def school_programs_list(self):
+        return self.school_programs.all()
 
     @property
     def school_classes_list(self):

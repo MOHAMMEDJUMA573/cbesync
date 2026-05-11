@@ -22,7 +22,7 @@
 					{% csrf_token %}
                     <div class="flex-col mb-4 p-4 bg-background2 rounded-md">
                         <div class="flex flex-col">
-                            <p class="font-bold text-activeb font-sgothic">Please enter teacher's (1<sup>st</sup> & Last Name + TID   ) to (transfer/update)</p>
+                            <p class="font-bold text-activeb font-sgothic">Please enter instructor's (1<sup>st</sup> & Last Name + TID   ) to (transfer/update)</p>
 							{% if messages %}
 								<ul class="messages">
 									{% for message in messages %}
@@ -50,19 +50,19 @@
 							</label>
 							{{form.teacher_last_name}}
                         </div>
+						<div class="flex flex-col p-2 overflow-hidden">
+							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_id">
+								Teacher ID:
+								<p>{{form.teacher_id.errors}}</p>
+							</label>
+							{{form.teacher_id}}
+                        </div>
                         <div class="flex flex-col p-2 overflow-hidden">
 							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_email">
 								New email:
 								<p>{{ form.teacher_email.errors }}</p>
 							</label>
 							{{form.teacher_email}}
-                        </div>
-                        <div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_id">
-								Teacher ID:
-								<p>{{form.teacher_id.errors}}</p>
-							</label>
-							{{form.teacher_id}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
 							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_phone">
@@ -79,35 +79,6 @@
 							{{form.teacher_role}}
                         </div>
                         <div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_e_level">
-								Educational Level:
-								<p>{{form.teacher_e_level.errors}}</p>
-							</label>
-							{{form.teacher_e_level}}
-                        </div>
-                        <div class="flex flex-col col-span-1 sm:col-span-2 lg:col-span-1 p-2 overflow-hidden">
-                                <label class="p-2 pl-0 font-bold text-left" for="ENGL">
-									Teaching Subjects:
-									<p>{{ form.teacher_t_subjects.errors }}</p>
-								</label>
-                                <div class="grid grid-cols-2 sm:grid-cols-3 text-inputtxt">
-									{% for value, label in form.teacher_t_subjects.field.choices %}
-                                    <div>
-                                        <input
-											type="checkbox"
-											id="{{value}}"
-											name="{{form.teacher_t_subjects.name}}"
-											value="{{value}}"
-											{% if value in teacher_t_subjects.value %}checked{% endif %}
-										>
-                                        <label class="p-2 pl-0 font-bold text-left " for="{{value}}">
-											{{label}}
-										</label><br> 
-                                    </div>
-									{% endfor %}
-                                </div>
-                        </div>
-                        <div class="flex flex-col p-2 overflow-hidden">
 							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_h_qualification">
 								Latest Qualification:
 								<p>{{form.teacher_h_qualification.errors}}</p>
@@ -115,8 +86,8 @@
 							{{form.teacher_h_qualification}}
                         </div>
                         <div class="flex items-center justify-between sm:justify-end lg:justify-start">
-                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
-                            <button class="flex m-2 items-center justify-center rounded-md font-bold text-white bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold bg-primary max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="submit">Submit</button> 
+                            <button class="flex m-2 items-center justify-center rounded-md font-bold bg-red-700 max-w-28 p-3 h-12 duration-300 transform ease-in flex-1 " type="reset">Clear</button>
                         </div>
                     </div>                
                 </form>

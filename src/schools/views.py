@@ -199,8 +199,8 @@ def teacher_enrollment(request):
         return HttpResponse("Wrong school trying to access the page")
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/t_enroll.html"
-    page_title = "T-Enrollment"
-    topbar_title = "T:Enrollment"
+    page_title = "I-Enrollment"
+    topbar_title = "I:Enrollment"
     form = TeacherEnrollmentForm()
     if request.method == "POST":
         form = TeacherEnrollmentForm(request.POST)
@@ -211,8 +211,6 @@ def teacher_enrollment(request):
             passed_teacher_email =  form.cleaned_data["teacher_email"]
             passed_teacher_role = form.cleaned_data["teacher_role"]
             passed_teacher_phone = form.cleaned_data["teacher_phone"]
-            passed_e_level = form.cleaned_data["teacher_e_level"]
-            passed_t_subjects = form.cleaned_data["teacher_t_subjects"]
             passed_t_hqualification = form.cleaned_data["teacher_h_qualification"]
             try:
                 enrolled_teacher = TeacherProfile.objects.get(teacher_id=passed_teacher_id)
@@ -234,18 +232,15 @@ def teacher_enrollment(request):
                             "form":form
                         }
                     else:
-                        #transfer the teacher to the new school
+                        #transfer/update the teacher to the new school
                         with transaction.atomic():
                             toupdate_fields_list = [
-                                "teacher_school","teacher_status","teacher_phone","teacher_role","teacher_t_subjects",
-                                "teacher_e_level","teacher_h_qualification"
+                                "teacher_school","teacher_status","teacher_phone","teacher_role","teacher_h_qualification"
                             ]
                             enrolled_teacher.teacher_school = current_school
                             enrolled_teacher.teacher_status = "E"
                             enrolled_teacher.teacher_phone = passed_teacher_phone
                             enrolled_teacher.teacher_role = passed_teacher_role
-                            enrolled_teacher.teacher_t_subjects = passed_t_subjects
-                            enrolled_teacher.teacher_e_level = passed_e_level
                             enrolled_teacher.teacher_h_qualification = passed_t_hqualification
                             if passed_teacher_email:
                                 enrolled_teacher.teacher_email = passed_teacher_email
@@ -275,7 +270,7 @@ def teacher_enrollment(request):
                 else:
                     messages.warning(
                         request,
-                        (f"Teacher's data in inconsistent")
+                        (f"Instructor's data in inconsistent")
                     )
                     context = {
                         "school":current_school,

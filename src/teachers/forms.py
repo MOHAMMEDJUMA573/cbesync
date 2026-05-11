@@ -328,19 +328,6 @@ class TeacherEnrollmentForm(forms.Form):
         choices=TeacherProfile.TEACHER_ROLES,
         initial="CT",
     )
-    teacher_e_level = forms.ChoiceField(
-        widget=Select(
-            attrs={
-                "class": INPUTCSS
-            }
-        ),
-        choices=TeacherProfile.EDUCATION_LEVELS,
-        initial="JSS"
-    )
-    teacher_t_subjects = forms.MultipleChoiceField(
-        choices=TeacherProfile.TEACHING_SUBJECTS,
-        widget=forms.CheckboxSelectMultiple,
-    )
     teacher_h_qualification = forms.ChoiceField(
         widget=Select(
             attrs={

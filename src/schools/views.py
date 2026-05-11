@@ -163,8 +163,8 @@ def teacher_registration(request):
         return HttpResponse("Wrong school trying to access the page")
     current_school =  get_school_object(request.user)
     template_name = "schools/usrmng/t_reg.html"
-    page_title = "T-Registration"
-    topbar_title = "T:Registration"
+    page_title = "I-Registration"
+    topbar_title = "I:Registration"
     form = TeacherRegistrationForm()
     if request.method == "POST":
         form = TeacherRegistrationForm(request.POST, request.FILES)

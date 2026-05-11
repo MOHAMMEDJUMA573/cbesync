@@ -51,13 +51,6 @@ class TeacherProfile(models.Model):
         related_name="teacher_profiles",
         null=True
     )
-    teacher_tsc_number = models.CharField(
-        max_length=35,
-        null=True, 
-        blank=True, 
-        help_text="Teacher's tsc assigned number"
-    )
-
 
     teacher_first_name = models.CharField(
         max_length=35
@@ -133,8 +126,7 @@ class TeacherProfile(models.Model):
     TEACHER_EMPLOYERS = (
         ("GOVT", "Government"),
         ("INST", "Institution"),
-        ("TPPR", "T Practice"),
-        ("OTHR", "Other")
+        ("OTHR", "Others")
     )
     teacher_employer = models.CharField(
         choices=TEACHER_EMPLOYERS,
@@ -142,11 +134,7 @@ class TeacherProfile(models.Model):
         default="INST"
     )
     TEACHER_DEPARTMENTS = (
-        ("STDP", "Science & Technology"),
-        ("PSDP", "Science Department"),
-        ("HMDP", "Humanities Dept. "),
-        ("CAPE", "C.A & Physical Ed. "),
-        ("MTDP", "Mathematics Department")
+        ("GNRL", "General"),
     )
     teacher_department = models.CharField(
         choices=TEACHER_DEPARTMENTS,
@@ -154,14 +142,12 @@ class TeacherProfile(models.Model):
         help_text="Dept the teacher belongs to"
     )
     EDUCATION_LEVELS = (
-        ("PPR", "Pre-Primary"),
-        ("LPR", "Low-Primary"),
-        ("UPR", "Upper-Primary"),
-        ("JSS", "Junior-Secondary"),
+        ("UNK", "Unknown"),
     )
     teacher_e_level = models.CharField(
         choices=EDUCATION_LEVELS,
         max_length=3,
+        default="UNK",
         help_text="Level the teacher teaches"
     )
     TEACHING_SUBJECTS = (

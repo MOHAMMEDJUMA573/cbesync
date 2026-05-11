@@ -22,7 +22,7 @@
 					{% csrf_token %}
 					<div class="flex-col mb-4 p-4 bg-background2 rounded-md">
 						<div class="flex flex-col">
-							<p class="font-bold text-activeb font-sgothic">To register a teacher, fill in appropriately</p>
+							<p class="font-bold text-activeb font-sgothic">To register an instructor, fill in appropriately</p>
 							{% if messages %}
 								<ul class="messages">
 									{% for message in messages %}
@@ -106,13 +106,6 @@
 							{{form.teacher_home_address}}
 						</div>
 						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_tsc_number">
-								TSC-Number:
-								<p>{{ form.teacher_tsc_number.errors }}</p>
-							</label>
-							{{form.teacher_tsc_number}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
 							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_y_experience">
 								Y of experience:
 								<p>{{ form.teacher_y_experience.errors }}</p>
@@ -153,34 +146,6 @@
 								<p>{{ form.teacher_role.errors }}</p>
 							</label>
 							{{form.teacher_role}}
-						</div>
-						<div class="flex flex-col p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_e_level">
-								Educational Level:
-								<p>{{ form.teacher_e_level.errors }}</p>
-							</label>
-							{{form.teacher_e_level}}
-						</div>
-						<div class="flex flex-col col-span-1 sm:col-span-2 lg:col-span-1 p-2 overflow-hidden">
-							<label class="p-2 pl-0 font-bold text-left" for="ENGL">
-								Teaching Subjects:
-								<p>{{ form.teacher_t_subjects.errors }}</p>
-							</label>
-							<div class="grid grid-cols-2 sm:grid-cols-3 text-inputtxt">
-								{% for value, label in form.teacher_t_subjects.field.choices %}
-									<div>
-										<input
-											type="checkbox"
-											id="{{value}}"
-											name="{{form.teacher_t_subjects.name}}"
-											value="{{value}}"
-										>
-										<label class="p-2 pl-0 font-bold text-left " for="{{value}}">
-											{{label}}
-										</label><br> 
-									</div>
-								{% endfor %}									
-							</div>
 						</div>
 						<div class="flex flex-col p-2 overflow-hidden">
 							<label class="p-2 pl-0 font-bold text-left" for="id_teacher_h_qualification">

@@ -93,18 +93,6 @@ class TeacherRegistrationForm(forms.Form):
         ),
         max_length=50,
     )
-
-    teacher_tsc_number = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'autocomplete':"off",
-                "class": INPUTCSS
-            }
-        ),
-        required=False,
-        max_length=35,
-        help_text="Teacher's tsc assigned number"
-    )
     teacher_y_experience = forms.IntegerField(
         initial=0,
         widget=forms.NumberInput(
@@ -160,19 +148,6 @@ class TeacherRegistrationForm(forms.Form):
         ),
         choices=TeacherProfile.TEACHER_ROLES,
         initial="CT",
-    )
-    teacher_e_level = forms.ChoiceField(
-        widget=Select(
-            attrs={
-                "class": INPUTCSS
-            }
-        ),
-        choices=TeacherProfile.EDUCATION_LEVELS,
-        initial="JSS"
-    )
-    teacher_t_subjects = forms.MultipleChoiceField(
-        choices=TeacherProfile.TEACHING_SUBJECTS,
-        widget=forms.CheckboxSelectMultiple,
     )
     teacher_h_qualification = forms.ChoiceField(
         widget=Select(
@@ -242,7 +217,7 @@ class TeacherRegistrationForm(forms.Form):
                 user_type='teacher',
                 user_country = self.cleaned_data['teacher_country'],
             )
-            #create the student
+            #create the teacher
             TeacherProfile.objects.create(
                 user = user,
                 teacher_id = username,
@@ -255,14 +230,11 @@ class TeacherRegistrationForm(forms.Form):
                 teacher_e_contact = self.cleaned_data['teacher_e_contact'],
                 teacher_email = self.cleaned_data['teacher_email'],
                 teacher_home_address = self.cleaned_data['teacher_home_address'],
-                teacher_tsc_number = self.cleaned_data['teacher_tsc_number'],
                 teacher_y_experience = self.cleaned_data['teacher_y_experience'],
                 teacher_h_date = self.cleaned_data['teacher_h_date'],
                 teacher_employer = self.cleaned_data['teacher_employer'],
                 teacher_department = self.cleaned_data['teacher_department'],
                 teacher_role = self.cleaned_data['teacher_role'],
-                teacher_t_subjects = self.cleaned_data['teacher_t_subjects'],
-                teacher_e_level = self.cleaned_data['teacher_e_level'],
                 teacher_h_qualification = self.cleaned_data['teacher_h_qualification'],
                 teacher_pic = self.cleaned_data['teacher_pic'],
                 teacher_status = 'E' 

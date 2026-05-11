@@ -1158,7 +1158,7 @@ def class_addition(request):
     else:
         messages.warning(
             request,
-            f"please create a teacher first ⚠️"
+            f"Please start by adding an instructor ⚠️"
         ) 
         context = {
             "school":current_school,

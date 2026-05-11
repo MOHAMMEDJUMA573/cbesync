@@ -357,8 +357,8 @@ def teacher_management(request):
         return HttpResponse("Wrong school trying to access the page")
     current_school = get_school_object(request.user)
     template_name = "schools/usrmng/t_manage.html"
-    page_title = "T-Management"
-    topbar_title = "T:Management"
+    page_title = "I-Management"
+    topbar_title = "I:Management"
     if request.method == "POST":
         pass
     else:

@@ -655,23 +655,8 @@
   .bg-background {
     background-color: var(--color-background);
   }
-  .bg-background\/80 {
-    background-color: color-mix(in srgb, #a17e45 80%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-background) 80%, transparent);
-    }
-  }
   .bg-background2 {
     background-color: var(--color-background2);
-  }
-  .bg-black {
-    background-color: var(--color-black);
-  }
-  .bg-black\/80 {
-    background-color: color-mix(in srgb, rgb(0, 0, 0) 80%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-black) 80%, transparent);
-    }
   }
   .bg-green-700 {
     background-color: var(--color-green-700);
@@ -1387,6 +1372,11 @@
   .lg\:w-1\/2 {
     @media (width >= 64rem) {
       width: calc(1 / 2 * 100%);
+    }
+  }
+  .lg\:w-\[80\%\] {
+    @media (width >= 64rem) {
+      width: 80%;
     }
   }
   .lg\:max-w-1\/2 {

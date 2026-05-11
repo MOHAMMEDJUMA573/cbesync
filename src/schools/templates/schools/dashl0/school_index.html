@@ -20,10 +20,10 @@
 			<div class="relative top-12 md:top-8">
 				<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-3">
 					<div class="flex flex-col gap-2 bg-background2 shadow-md p-4 rounded-md md:rounded-xl">
-						<p class="flex rounded-md text-activeb text-2xl font-bold">School Profile</p>
+						<p class="flex rounded-md text-activeb text-2xl font-bold">Institution Profile</p>
 						<div class="grid">
 							<div class="p-2 flex items-center overflow-auto">
-								<div class="font-semibold">School Name:</div>
+								<div class="font-semibold">Name:</div>
 								<div class="ml-2">{{ school.school_name }}</div>
 							</div>
 							<div class="p-2 flex items-center overflow-auto">
@@ -35,7 +35,7 @@
 								<div class="ml-2">{{school.get_school_admin_level_2_display}}</div>
 							</div>
 							<div class="p-2 flex items-center overflow-auto">
-								<div class="font-semibold">School ID:</div>
+								<div class="font-semibold">ID:</div>
 								<div class="ml-2">{{school.school_id}}</div>
 							</div>
 							<div class="p-2 flex items-center overflow-auto">
@@ -71,7 +71,7 @@
 							<div>
 								<div class="">
 									<i class="ri-numbers-line text-activeb text-4xl"></i>
-									Teachers
+									Instructors
 								</div>
 							</div>
 							<div class="text-activeb">
@@ -165,18 +165,16 @@
 					</div>
 				</div>
 				<div class="flex flex-col rounded-md hover:shadow-none cursor-text w-full duration-300">
-					<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 text-left font-semibold bg-tablebg rounded-tr-md p-2">
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-1 text-left font-semibold bg-tablebg rounded-tr-md p-2">
 						<div class="text-cbep1">Programme Name</div> 
 						<div class="text-cbep1 hidden md:block">Programme ID</div>
-						<div class="text-cbep1 hidden lg:block">Supervisor</div>
 						<div class="text-cbep1">Status</div>
 						<div class="text-cbep1 hidden md:block">Data</div>
 					</div>
 					{% for program in school.school_programs_list %}
-						<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1 bg-background2 p-2 pb-0">
+						<div class="grid grid-cols-2 md:grid-cols-4 gap-1 bg-background2 p-2 pb-0">
 							<div class="border-b border-bordercl">{{program.get_program_name_display}}</div>
-							<div class="border-b border-bordercl hidden md:block">{{program.program_id|truncatechars:10}}</div>
-							<div class="hidden lg:block border-b border-bordercl">Government of Kenya</div>
+							<div class="border-b border-bordercl hidden md:block">{{program.program_id}}</div>
 							<div class="border-b border-bordercl p-1">
 								<p class="bg-activeb text-white rounded-md w-fit pl-2 pr-2">.Active</p>
 							</div>

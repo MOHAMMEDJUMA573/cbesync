@@ -172,7 +172,7 @@ def teacher_registration(request):
             form.save(teacher_school=request.user.school_profile)
             messages.success(
                 request,
-                f"Teacher: {form.cleaned_data['teacher_first_name']} {form.cleaned_data['teacher_last_name']} saved successfully! 🥳"
+                f"Instructor: {form.cleaned_data['teacher_first_name']} {form.cleaned_data['teacher_last_name']} saved successfully! 🥳"
             )
             return redirect(reverse("schools:school_teacher_registration"))
         else:

@@ -23,7 +23,7 @@ from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEn
 from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
 from classes.forms import ClassRegistrationForm, ClassDeletionForm, ClassTeacherAssignmentForm
 from results.forms import ResultsFilterForm
-from subjects.forms import SubjectTeacherAllocationForm
+from subjects.forms import SubjectTeacherAllocationForm, SubjectCreationForm
 from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
@@ -1169,7 +1169,6 @@ def class_addition(request):
     
     return render(request, template_name, context)
 
-
 @verified_email_required
 def class_deletion(request):
     if request.user.user_type != "school":
@@ -1230,6 +1229,45 @@ def class_deletion(request):
             "page_title":page_title,
             "topbar_title":topbar_title,
             "form2":form2,
+        }
+
+    return render(request, template_name, context)
+
+@verified_email_required
+def clsubjadd_addition(request):
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    if school_uuid != valid_school_uuid:
+        return HttpResponse("Wrong school trying to access the page")
+    current_school = get_school_object(request.user)
+    template_name = "schools/classes/classes_saddition.html"
+    page_title = "S-Addition"
+    topbar_title = "S:Addition"
+    classes_list = current_school.school_classes_list
+    teachers_list = get_teacher_choice_tuple2(current_school)
+    form = SubjectCreationForm(teachers_tuple_list=teachers_list,classes_tuple_list=classes_list)
+    if request.method == "POST":
+        form = SubjectCreationForm(request.POST,teachers_tuple_list=teachers_list,classes_tuple_list=classes_list)
+        if form.is_valid():
+            created_subject = form.save()
+            messages.success(
+                request,
+                _(f"{created_subject.subject_code} {created_subject.subject_name} created for {created_subject.subject_class.class_full_str} ")
+            )
+            return redirect(reverse("schools:school_clsubj_addition"))
+        else:
+          context={
+            "form":form,
+            "school":current_school,
+            "page_title":page_title,
+            "topbar_title":topbar_title,
+          }
+    else:
+        context = {
+            "school":current_school,
+            "page_title":page_title,
+            "topbar_title":topbar_title,
+            "form":form,
         }
 
     return render(request, template_name, context)

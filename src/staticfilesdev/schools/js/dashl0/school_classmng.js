@@ -11,7 +11,7 @@ mainBody.addEventListener("scroll", ()=> {
 })
 //select options urls
 classOpts.forEach( (partition, index) => {
-    if (index > -1 && index < 2) {
+    if (index > -1 && index < 3) {
         partition.addEventListener("click", ()=> {
             window.location.href = partition.dataset.url
         })

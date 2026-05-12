@@ -130,7 +130,8 @@ class ResultsProfile(models.Model):
     )
     result_subject = models.ForeignKey(
         SubjectProfile,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
+        related_name="result_profiles",
         null=True
     )
     result_score = models.IntegerField(

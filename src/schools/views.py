@@ -23,7 +23,7 @@ from ntstaffs.forms import NtStaffRegistrationForm, NtStaffSearchForm, NtStaffEn
 from parents.forms import ParentRegistrationForm, ParentEnrollmentForm
 from classes.forms import ClassRegistrationForm, ClassDeletionForm, ClassTeacherAssignmentForm
 from results.forms import ResultsFilterForm
-from subjects.forms import SubjectTeacherAllocationForm, SubjectCreationForm
+from subjects.forms import SubjectTeacherAllocationForm, SubjectCreationForm, SubjectDeletionForm
 from django.db.models import Q
 from django.db.models import F
 from django.utils.translation import gettext_lazy as _
@@ -1234,7 +1234,7 @@ def class_deletion(request):
     return render(request, template_name, context)
 
 @verified_email_required
-def clsubjadd_addition(request):
+def clsubj_addition(request):
     if request.user.user_type != "school":
         return HttpResponse("Only schools allowed bro!")
     if school_uuid != valid_school_uuid:
@@ -1272,6 +1272,53 @@ def clsubjadd_addition(request):
 
     return render(request, template_name, context)
 
+@verified_email_required
+def clsubj_deletion(request):
+    if request.user.user_type != "school":
+        return HttpResponse("Only schools allowed bro!")
+    if school_uuid != valid_school_uuid:
+        return HttpResponse("Wrong school trying to access the page")
+    current_school = get_school_object(request.user)
+    template_name = "schools/classes/classes_rmvsbj.html"
+    page_title = "S-Deletion"
+    topbar_title = "S:Deletion"
+    classes_list = current_school.school_classes_list
+    subjects_list = current_school.school_subjects_list
+    form = SubjectDeletionForm(classes_tuple=classes_list,subjects_tuple=subjects_list)
+    if request.method == "POST":
+        form = SubjectDeletionForm(request.POST,classes_tuple=classes_list,subjects_tuple=subjects_list)
+        if form.is_valid():
+            tobedeleted_subject = form.cleaned_data["subject_id"]
+            if tobedeleted_subject.subject_school == current_school:
+                    with transaction.atomic():
+                        tobedeleted_subject.delete()
+                        messages.success(
+                            request,
+                            _(f"{tobedeleted_subject.subject_str_full} was successfully deleted!🙂")
+                        )
+                        return redirect(reverse("schools:school_clsubj_deletion"))
+            else:
+                messages.warning(
+                    request,
+                    (f"~we encountered an unexpected error!") #cant disclose other schools info
+                )
+                return redirect(reverse("schools:school_clsubj_deletion"))
+        else:
+            context = {
+                "school":current_school,
+                "page_title":page_title,
+                "topbar_title":topbar_title,
+                "form":form,
+            }
+    else:
+        context = {
+            "school":current_school,
+            "page_title":page_title,
+            "topbar_title":topbar_title,
+            "form":form,
+        }
+
+    return render(request, template_name, context)
 #***--------------------***#***--------------------***
 #Assessments-school views
 #***--------------------***

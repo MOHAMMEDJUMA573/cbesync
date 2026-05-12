@@ -57,8 +57,9 @@ urlpatterns+=[
             [
                 path("", views.class_management, name="school_class_management"),
                 path("add_class", views.class_addition, name="school_class_addition"),
-                path("add_clsubj", views.clsubjadd_addition, name="school_clsubj_addition"),
-                path("del_class", views.class_deletion, name="school_class_deletion")
+                path("add_clsubj", views.clsubj_addition, name="school_clsubj_addition"),
+                path("del_class", views.class_deletion, name="school_class_deletion"),
+                path("del_clsubj", views.clsubj_deletion, name="school_clsubj_deletion")
             ]
         )
     ),

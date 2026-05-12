@@ -248,6 +248,13 @@ class SchoolProfile(models.Model):
         ]
    
     @property
+    def school_subjects_list(self):
+        return [
+            (s.subject_id, str(s.subject_str_full))
+            for s in self.subject_profiles.all()
+        ]
+
+    @property
     def school_classt_list(self):
         return [
             (str(t.teacher_id), str(t.teacher_full_name))

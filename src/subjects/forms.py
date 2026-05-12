@@ -79,10 +79,10 @@ class SubjectCreationForm(forms.Form):
             subject_teacher = cleaned_data.get('subject_teacher')
             if  subject_class and subject_teacher:
                 cleaned_data['subject_class'] = ClassProfile.objects.get(
-                    class_id = self.cleaned_data['subject_class']
+                    class_id = subject_class
                 )
                 cleaned_data['subject_teacher'] = TeacherProfile.objects.get(
-                    teacher_id = self.cleaned_data['subject_teacher']
+                    teacher_id = subject_teacher
                 )
                 #make sure subject are below 9
                 c_subject_count = cleaned_data["subject_class"].class_subjects_count
@@ -120,6 +120,87 @@ class SubjectCreationForm(forms.Form):
                     )
                     
             return created_subject
+
+class SubjectDeletionForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        subject_classes_choices = kwargs.pop("classes_tuple")
+        school_subjects_choices = kwargs.pop("subjects_tuple")
+        super(SubjectDeletionForm, self).__init__(*args, **kwargs)
+        self.fields["subject_class"].choices = subject_classes_choices
+        self.fields["subject_id"].choices = school_subjects_choices
+    subject_code = forms.CharField(
+        max_length=4,
+        min_length=4,
+        widget=forms.TextInput(
+            attrs={
+                'autocomplete':'off',
+                'class':INPUTCSS
+            }
+        )
+    )
+    subject_id = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
+        choices=()
+    )
+    subject_class = forms.ChoiceField(
+        widget=Select(
+            attrs={
+                "class":INPUTCSS
+            }
+        ),
+        choices=()
+    )
+
+    def clean(self):
+        check_flag1 = False
+        cleaned_data =  super().clean()
+        subject_fields = [
+            "subject_code"
+        ]
+        for subject_field in subject_fields:
+            value = cleaned_data.get(subject_field)
+            if value:
+                if subject_field == "subject_code":
+                    value = value.upper()
+                else:
+                    value = value.title()
+                cleaned_data[subject_field] = value
+                if profanity.contains_profanity(value):
+                    self.add_error(
+                        subject_field,
+                        _(f"{profanity.censor(value)} is unallowed!")
+                    )
+                    check_flag1 = True
+        #check for none fields 
+        if not check_flag1:
+            if cleaned_data.get("subject_id") and cleaned_data.get("subject_class") and cleaned_data.get("subject_code"):
+                subject = SubjectProfile.objects.get(
+                    subject_id=cleaned_data["subject_id"]
+                )
+                subject_class = ClassProfile.objects.get(
+                    class_id=cleaned_data["subject_class"]
+                )
+                cleaned_data["subject_id"] = subject
+                cleaned_data["subject_class"] = subject_class
+                class_subjects = subject_class.class_subjects
+                if subject in class_subjects:
+                    subject_code = subject.subject_code
+                    passed_s_code = cleaned_data["subject_code"]
+                    if subject_code != passed_s_code:
+                        raise forms.ValidationError(
+                            _("Wrong subject code + subject combination!")
+                        )
+                else:
+                    raise forms.ValidationError(
+                        _("Wrong subject + class combination!")
+                    )
+            
+        return cleaned_data
+
 
 
 class SubjectTeacherAllocationForm(forms.Form):
